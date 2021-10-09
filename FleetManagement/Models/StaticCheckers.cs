@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using FleetManagement.Exceptions;
 
 namespace FleetManagement.Models {
+
+    //Ik heb ClassNaam CheckFormat()
     public class StaticCheckers {
 
         public static bool IsPincodeGeldig(string pincode) {
