@@ -18,7 +18,7 @@ namespace.fleetmanagement.Models
         DateTime InBoekDatum { get; set; }
         int? AantalDeuren { get; set; } //int?=> nullable waarde
 
-
+        badmuts ali maes
 
         public Voertuig()
         {
