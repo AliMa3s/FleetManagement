@@ -7,10 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using FleetManagement.Exceptions;
 
-//bezig met de class, enums moeten ook nog aangemaakt worden
-namespace FleetManagement.Models
+//Ik zou persoonlijk niet "Models" nemen maar eerder business(laag). Models zijn volgens mij objecten in MVC presentatielaag. 
+//Nog bezig met het implenteren
+
+namespace FleetManagement.Models 
 {
-    class Bestuurder : IBestuurder
+    public class Bestuurder : IBestuurder
     {
         public int BestuurderId { get; } 
 
@@ -20,37 +22,39 @@ namespace FleetManagement.Models
 
         public DateTime GeboorteDatum { get; }
 
-        public Adres? Adres { get; set; } = null; 
+        public Adres Adres { get; set; } = null; 
 
+        //Besloten string te maken omwille van meerdere mogelijkheden voor één RijbewijsNummer: B, C, D1+E, enz. 
+        //Combinatie kan van bestuurder tot bestuurder variëren
         public string TypeRijbewijs { get; set; } 
 
-        public int StatusBestuurder { get; private set; } = 0; 
+        public StatusBestuurder StatusBestuurder { get; private set; } = StatusBestuurder.Beschikbaar;
 
         public string RijBewijsNummer { get; } 
 
         public string RijksRegisterNummer { get; } 
 
-        public Voertuig? Voertuig { get; private set; } = null;  
+        public Voertuig Voertuig { get; private set; }  
 
-        public TankKaart? TankKaart { get; private set; } = null;
+        public TankKaart TankKaart { get; private set; }
 
         public Bestuurder(string voornaam, string achternaam,  DateTime geboorteDatum, string typeRijbewijs,
             string rijBewijsNummer, string rijksRegisterNummer)
         {
-            if (!CheckFormat.IsRijksRegisterNumberGeldig(rijksRegisterNummer, geboorteDatum)) {
-                throw new BestuurderException("RijksregisterNummer voldoet niet aan het juiste formaat");
-            }
-            else
-            {
+            if (CheckFormat.IsRijksRegisterGeldig(rijksRegisterNummer, geboorteDatum)) {
+
+                GeboorteDatum = geboorteDatum;
                 RijksRegisterNummer = rijksRegisterNummer;
             }
 
-            //Rijbewijs nog checken
+            if (CheckFormat.IsRijbewijsNummerGeldig(rijBewijsNummer)) 
+            {
+                TypeRijbewijs = typeRijbewijs;
+                RijBewijsNummer = rijBewijsNummer;
+            }
 
             Voornaam = voornaam;
             Achternaam = achternaam;
-            GeboorteDatum = geboorteDatum;
-            TypeRijbewijs = typeRijbewijs;
         }
 
         public Bestuurder(int bestuurderId, string voornaam, string achternaam, DateTime geboorteDatum, string typeRijbewijs,
@@ -58,11 +62,6 @@ namespace FleetManagement.Models
                 typeRijbewijs, rijBewijsNummer, rijksRegisterNummer)
         {
             BestuurderId = bestuurderId;
-        }
-
-        public bool IsRijksRegisterGeldig(string rijksregister, DateTime geboorteDatum)
-        {
-            throw new BestuurderException("Moet nog worden geimplementeerd");  //weet nog niet. Kan doorgeven naar Checkformat
         }
 
         public void TankKaartToevoegen(TankKaart tankKaart)
@@ -75,14 +74,52 @@ namespace FleetManagement.Models
             throw new BestuurderException("Moet nog worden geimplementeerd");
         }
 
-        public void VoertuigToevoegen(Voertuig voertuig)
+        public void VoertuigToevoegen(Voertuig voertuig, StatusBestuurder statusBestuurder)
+        {
+            if(Voertuig == null 
+                && statusBestuurder != StatusBestuurder.Beschikbaar)
+            {
+                //Voertuig Toevoegen in Bestuurder
+                Voertuig = voertuig;
+                StatusBestuurder = statusBestuurder; //ingegeven arg van statusBestuurder mag nooit status beschikbaar zijn
+
+                //Bestuurder in voertuig toevoegen
+                voertuig.BestuurderToevoegen(this, StatusVoertuig.Bezet);
+            }
+
+            if(statusBestuurder == StatusBestuurder.Beschikbaar)
+            {
+                throw new BestuurderException($"Er wordt een {nameof(Voertuig)} toegevoegd en status wordt op beschikbaar ingesteld");
+            } 
+
+            throw new BestuurderException($"{nameof(Bestuurder)} heeft al een {nameof(Voertuig)}");
+        }
+
+        public void VoertuigVerwijderen(Voertuig voertuig, StatusBestuurder statusBestuurder)
         {
             throw new BestuurderException("Moet nog worden geimplementeerd");
         }
 
-        public void VoertuigVerwijderen(Voertuig voertuig)
+        //Vergelijk twee instanties van Bestuurder met: ID, Voornaam en Achternaam. 
+        //Id wel of niet? 
+        public override bool Equals(object obj)
         {
-            throw new BestuurderException("Moet nog worden geimplementeerd");
+            if (obj is Bestuurder)
+            {
+                Bestuurder ander = obj as Bestuurder;
+                return BestuurderId == ander.BestuurderId 
+                    && Voornaam == ander.Voornaam 
+                    && Achternaam == ander.Achternaam;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return BestuurderId.GetHashCode() ^ Voornaam.GetHashCode() + Achternaam.GetHashCode();
         }
     }
 }

@@ -9,52 +9,48 @@ namespace FleetManagement.CheckFormats
 {
     public static class CheckFormat
     {
-        public static bool IsPincodeGeldig(string pincode)
+        public static bool IsPincodeGeldig(string pincode = "")
         {
-            //Pincode mag in principe LEEG zijn in TankKaart, maar hier niet! 
-            //We mogen geen exception gooien voor iets wat is toegestaan.
+            //We mogen geen exception gooien voor iets wat toegestaan is.
+            if (pincode == string.Empty)
+                return true;
 
             int lengtePincode = pincode.Length;
 
             if(lengtePincode == 4 || lengtePincode == 5)
             {
-                if (Int32.TryParse(pincode, out int nr))
+                if (Int32.TryParse(pincode.TrimStart('0'), out int nr) 
+                    && nr >= 0 
+                    && nr < 100000)      
                 {
                     return true;
                 }
             }
 
-            throw new CheckFormatException("Pincode voeldoet niet aan het juiste formaat");
+            throw new PincodeException($"{nameof(pincode)} voeldoet niet aan het juiste formaat"); 
         }
 
-
-        public static bool IsRijbewijsGeldig(string rijbewijsType) {
-            throw new CheckFormatException("Controle nummer plaat nog te implementeren");
+        public static bool IsRijbewijsNummerGeldig(string rijBewijsNummer) {
+            throw new RijBewijsNummerException($"Controle {nameof(rijBewijsNummer)} nummer nog te implementeren");
         }
 
         public static bool IsChassisNummerGeldig(string chassisNummer) {
-            throw new CheckFormatException("Controle chassisnummer nog te implementeren");
+            throw new CheckFormatException($"Controle {nameof(chassisNummer)} nog te implementeren");
         }
 
-        public static bool IsNummerplaatGeldig()
+        public static bool IsNummerplaatGeldig(string nummerPlaat)
         {
-            throw new CheckFormatException("Controle nummer plaat nog te implementeren");
+            throw new CheckFormatException($"Controle {nameof(nummerPlaat)} nog te implementeren");
         }
 
-        internal static bool IsRijksRegisterNumberGeldig(string rijksregisternummer, DateTime date)
+        internal static bool IsRijksRegisterGeldig(string rijksRegisterNummer, DateTime date)
         {
-            throw new NotImplementedException();
+            throw new RijksRegisterNummerException($" {nameof(rijksRegisterNummer)} Not implemented");
         }
 
-        public static bool IsRijksRegisterGeldig(string rijksRegisterNummer)
+        public static bool IsTankKaartGeldig(string tankKaartNummer, string pincode = "")  
         {
-            int checksum = CheckSum(1672339, 97);  //59
-            throw new CheckFormatException("Controle rijksregister nog te implementeren");
-        }
-
-        public static bool IsTankKaartGeldig(string tankKaartNummer, int pincode)
-        {
-            throw new CheckFormatException("Controle TankKaart nog te implementeren");
+            throw new CheckFormatException($"Controle {nameof(tankKaartNummer)} nog te implementeren");
         }
 
         private static int CheckSum(int number, int modulo)

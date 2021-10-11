@@ -12,9 +12,9 @@ namespace FleetManagement.Models {
 
         public string BrandstofNaam { get; } 
 
-        public string BrandstofAfkorting { get; }
+        public string BrandstofAfkorting { get; set; }
 
-        //Uitbreiding mogelijk: etikettering, normen, beschrijving, enz.
+        //Properties uitbreiding mogelijk: etikettering, normen, beschrijving, enz.
 
         public BrandstofType(string brandstofNaam, string brandstofAfkorting) { 
             BrandstofNaam = brandstofNaam;

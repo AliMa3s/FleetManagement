@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Models
 {
-    class Adres
+    public class Adres
     {
         public int AdresId { get; }
         public string Straat { get; set; }

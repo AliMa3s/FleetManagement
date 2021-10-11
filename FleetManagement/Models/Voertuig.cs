@@ -12,15 +12,17 @@ namespace FleetManagement.Models
 {
     public class Voertuig : IVoertuig
     {
-        int VoertuigId { get; }
-        string ChassisNummer { get; private set; }
-        string NummerPlaat { get; private set; }
-        Kleur _kleur { get; set; }
-        BrandstofType Brandstof { get; set; }
-        DateTime InBoekDatum { get; set; }
-        int? AantalDeuren { get; set; } //int?=> nullable waarde
+        public int VoertuigId { get; }
+        public string ChassisNummer { get; private set; }
+        public string NummerPlaat { get; private set; }
+        public StatusVoertuig StatusVoertuig { get; private set; }
+        public Kleur _kleur { get; set; }
+        public BrandstofType Brandstof { get; set; }
+        public DateTime InBoekDatum { get; set; }
+        public AantalDeuren? AantalDeuren { get; set; } = null; //int?=> nullable waarde
+        public Bestuurder Bestuurder { get; private set; }
 
-        badmuts ali maes
+        //badmuts ali maes
 
         public Voertuig()
         {
@@ -44,6 +46,11 @@ namespace FleetManagement.Models
 
         }
 
+        public void BestuurderToevoegen(Bestuurder bestuurder, StatusVoertuig statusVoertuig)
+        {
+            throw new VoertuigException($"{nameof(BestuurderToevoegen)} is nog niet geïmplementeerd");
+        }
+
         public void GetChassisNummer(string chassisnummer)
         {
             return ChassisNummer = chassisnummer;
@@ -63,7 +70,7 @@ namespace FleetManagement.Models
             }
             _kleur = kleur;
         }
-        public void SetBrandstof(BrandStofType brandstof)
+        public void SetBrandstof(BrandstofType brandstof)
         {
             Brandstof = brandstof;
         }

@@ -10,11 +10,10 @@ namespace FleetManagement.Interfaces
 {
     //Implementatie Bestuurder om de businessroles af te dwingen
     interface IBestuurder
-    {
-        public void VoertuigToevoegen(Voertuig voertuig);
-        public void VoertuigVerwijderen(Voertuig voertuig);
+    { 
+        public void VoertuigToevoegen(Voertuig voertuig, StatusBestuurder statusBestuurder);
+        public void VoertuigVerwijderen(Voertuig voertuig, StatusBestuurder statusBestuurder);
 	    public void TankKaartToevoegen(TankKaart tankKaart);
 	    public bool TankKaartVerwijderen(TankKaart tankKaart);
-        public bool IsRijksRegisterGeldig(string rijksregister, DateTime geboorteDatum);
     }
 }

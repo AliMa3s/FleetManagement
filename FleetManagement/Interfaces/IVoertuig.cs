@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FleetManagement.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,19 +11,11 @@ namespace FleetManagement.Interfaces
     //Verander naam indien gewenst en vul aan met methods die de businessroles beschrijven
    public interface IVoertuig
     {
-        int VoertuigId { get;}
-        string ChassisNummer { get; private set; }
-        string NummerPlaat { get; private set; }
-        Kleur kleur { get; set; }
-        BrandstofType Brandstof { get; set; }
-        DateTime InBoekDatum { get; set; }
-        int AantalDeuren { get; set; }
-
         public void GetVoertuigID(Voertuig voertuigID);
         public void GetChassisNummer(string chassisnummer);
         public void UpdateNummerplaat(string nummerplaat);
         public void SetAutoKleur(Kleur kleur);
-        public void SetBrandStof(BrandStofType brandstof);
+        public void SetBrandStof(BrandstofType brandstof);
         public void Getinboekdatum(DateTime inboekdatum);
         public void SetAantalDeuren(int deurenaantal);
         public void GetAantalDeuren(int deurenaantal);
