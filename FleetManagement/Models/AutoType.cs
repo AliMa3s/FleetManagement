@@ -4,17 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fleetmanagement.Models
+namespace FleetManagement.Models
 {
-	public enum AutoType
+    //https://nl.wikipedia.org/wiki/Lijst_van_autotypen
+    public enum AutoType
     {
-		Persoonswagen = 0, vrachtwagen = 1
-	}
-	
-	
-	
-		
-	
+        Cabriolet, Coupé, GT, Limousine, Tererreinwagen, Sedan, Stationwagen, SUV
+    }
 }
-
-

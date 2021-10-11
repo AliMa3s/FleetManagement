@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using FleetManagement.Interfaces;
 using FleetManagement.Exceptions;
 using FleetManagement.Models;
-namespace.fleetmanagement.Models
+
+//fout gecorrigeerd in namespace
+namespace FleetManagement.Models
 {
-    public class Voertuig : IVoertuig, Bestuurder
+    public class Voertuig : IVoertuig
     {
         int VoertuigId { get; }
         string ChassisNummer { get; private set; }
