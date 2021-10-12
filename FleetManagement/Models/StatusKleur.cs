@@ -1,7 +1,7 @@
 ﻿using System;
 namespace FleetManagement.Models
 {
-	public enum Kleur
+	public enum StatusKleur
 	{
 		grijs, zwart, geel, rood , blauw
 	}
