@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Models
 {
-    //https://nl.wikipedia.org/wiki/Lijst_van_autotypen
-    public enum AutoType
+    public enum StatusTankKaart
     {
-        Cabriolet, Coupé, GT, Limousine, Tererreinwagen, Sedan, Stationwagen, SUV
+        Beschikbaar, Geldig, Geblokkeerd, Vervallen
     }
 }
