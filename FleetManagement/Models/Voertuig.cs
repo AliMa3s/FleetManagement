@@ -18,12 +18,11 @@ namespace.fleetmanagement.Models
         DateTime InBoekDatum { get; set; }
         int? AantalDeuren { get; set; } //int?=> nullable waarde
 
-        
-        
+        badmuts ali maes
 
         public Voertuig()
         {
-            
+
         }
         public Voertuig(int voertuigId, string chassisnummer, string nummerplaat, Kleur kleur, BrandstofType brandstof, DateTime inboekdatum, int aantaldeuren)
         {
@@ -40,6 +39,7 @@ namespace.fleetmanagement.Models
         {
             if (Voertuigid < 0) throw new VoertuigException("voertuig - VoertuigId niet  gevonden.");
             return voertuigID;
+
         }
 
         public void GetChassisNummer(string chassisnummer)
@@ -53,9 +53,12 @@ namespace.fleetmanagement.Models
             NummerPlaat = nummerplaat;
         }
 
-        public void SetAutoKleur(Voertuig kleur)
+        public void SetAutoKleur(Kleur kleur)
         {
-            if(kleur == null)throw new VoertuigException("voertuig - voertuig kleur is niet ingesteld.");
+            if (kleur is null)
+            {
+                throw new ArgumentNullException(nameof(kleur));
+            }
             _kleur = kleur;
         }
         public void SetBrandstof(BrandStofType brandstof)
@@ -81,7 +84,6 @@ namespace.fleetmanagement.Models
         public void GetBestuurder(Bestuurder bestuurder)
         {
             if (!bestuurder.BestuurderId) throw new VoertuigException("voertuig - geen bestuurder gevonden.");
-            return bestuurder.BestuurderId;
         }
     }
 }
