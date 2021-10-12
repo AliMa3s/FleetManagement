@@ -8,7 +8,7 @@ namespace FleetManagement.Models {
     public class TankKaart {
 
         //Zone Properties
-        public int TankKaartId { get; private set; }
+        public int TankKaartId { get; set; }
         public string KaartNummer { get; private set; }
         public DateTime VervalDatum { get; set; }
         public DateTime UitgeefDatum { get; set; }
