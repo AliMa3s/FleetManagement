@@ -9,7 +9,7 @@ namespace FleetManagement.CheckFormats
 {
     public static class CheckFormat
     {
-        public static bool IsPincodeGeldig(string pincode = "")
+        public static bool IsPincodeGeldig(string pincode)
         {
             //We mogen geen exception gooien voor iets wat toegestaan is.
             if (pincode == string.Empty)

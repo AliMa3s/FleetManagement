@@ -46,9 +46,32 @@ namespace FleetManagement.Models
 
         }
 
-        public void BestuurderToevoegen(Bestuurder bestuurder, StatusVoertuig statusVoertuig)
+        public void VoertuigIsBezet()
         {
-            throw new VoertuigException($"{nameof(BestuurderToevoegen)} is nog niet geïmplementeerd");
+            StatusVoertuig = StatusVoertuig.Bezet;
+        }
+
+        public void VoertuigKomtVrij()
+        {
+            //Mss refectoring met meegegeven voertuig om te vergelijken alvorens wordt verwijderd
+            Bestuurder = null;
+            StatusVoertuig = StatusVoertuig.Beschikbaar;
+        }
+
+        public void BestuurderToevoegen(Bestuurder bestuurder)
+        {
+            if(bestuurder == null)
+            {
+                throw new VoertuigException($"Ingegeven argument {nameof(Bestuurder)} mag niet null zijn");
+            }
+
+            if(Bestuurder == null)
+            {
+                Bestuurder = bestuurder;
+                Bestuurder.BestuurderIsBezet();
+            }
+
+            throw new BestuurderException($"{nameof(Voertuig)} heeft al een {nameof(Bestuurder)}");
         }
 
         public void GetChassisNummer(string chassisnummer)
