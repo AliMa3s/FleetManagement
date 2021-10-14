@@ -8,21 +8,13 @@ namespace FleetManagement.Models
 {
     public class AutoModel
     {
-        public AutoModel()
-        {
-    public int AutoModelId { get; set; }
+        public AutoModel() { }
+
+        public int AutoModelId { get; set; }
         public string Merk { get; set; }
         public string AutoModelNaam { get; set; }
-        public enum AutoType { get; set; }
-
+        public AutoType AutoType { get; set; }
 
     }
-
-
-
-
-
-
-}
 }
 

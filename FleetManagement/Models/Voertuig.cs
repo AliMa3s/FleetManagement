@@ -3,25 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FleetManagement.Interfaces;
 using FleetManagement.Exceptions;
 using FleetManagement.Models;
 
 //fout gecorrigeerd in namespace
 namespace FleetManagement.Models
 {
-    public class Voertuig : IVoertuig
+    public class Voertuig
     {
         public int VoertuigId { get; }
-        public string ChassisNummer { get; private set; }
+        public string ChassisNummer { get; } //voertuig kan niet veranderen tenzij je de nummer uitvijlt ;) 
         public string NummerPlaat { get; private set; }
-        public StatusVoertuig StatusVoertuig { get; private set; }
-        public StatusKleur Kleur { get; set; }
+        public StatusKleur? Kleur { get; set; } = null;
         public BrandstofType Brandstof { get; set; }
         public DateTime InBoekDatum { get; set; }
         public AantalDeuren? AantalDeuren { get; set; } = null; //int?=> nullable waarde
         public Bestuurder Bestuurder { get; private set; }
-
 
         public Voertuig()
         {
@@ -45,18 +42,6 @@ namespace FleetManagement.Models
             
         }
 
-        public void VoertuigIsBezet()
-        {
-            StatusVoertuig = StatusVoertuig.Bezet;
-        }
-
-        public void VoertuigKomtVrij()
-        {
-            //Mss refectoring met meegegeven voertuig om te vergelijken alvorens wordt verwijderd
-            Bestuurder = null;
-            StatusVoertuig = StatusVoertuig.Beschikbaar;
-        }
-
         public void BestuurderToevoegen(Bestuurder bestuurder)
         {
             if(bestuurder == null)
@@ -67,15 +52,11 @@ namespace FleetManagement.Models
             if(Bestuurder == null)
             {
                 Bestuurder = bestuurder;
-                Bestuurder.BestuurderIsBezet();
             }
-
-            throw new BestuurderException($"{nameof(Voertuig)} heeft al een {nameof(Bestuurder)}");
-        }
-
-        public void GetChassisNummer(string chassisnummer)
-        {
-            return ChassisNummer = chassisnummer;
+            else
+            {
+                throw new BestuurderException($"{nameof(Voertuig)} heeft al een {nameof(Bestuurder)}");
+            }
         }
 
         public void UpdateNummerplaat(string nummerplaat)
@@ -86,10 +67,6 @@ namespace FleetManagement.Models
 
         public void SetAutoKleur(StatusKleur kleur)
         {
-            if (kleur is null)
-            {
-                throw new ArgumentNullException(nameof(kleur));
-            }
             Kleur = kleur;
         }
         public void SetBrandstof(BrandstofType brandstof)
@@ -97,24 +74,9 @@ namespace FleetManagement.Models
             Brandstof = brandstof;
         }
 
-        public void Getinboekdatum(DateTime inboekdatum)
-        {
-            return inboekdatum;
-        }
-
-        public void SetAantalDeuren(int deurenaantal)
+        public void SetAantalDeuren(AantalDeuren deurenaantal)
         {
             AantalDeuren = deurenaantal;
-        }
-        public void GetAantalDeuren(int deurenaantal)
-        {
-            return deurenaantal;
-        }
-
-        //deze method is zeker fout moet nog aangepast worden.
-        public void GetBestuurder(Bestuurder bestuurder)
-        {
-            if (!bestuurder.BestuurderId) throw new VoertuigException("voertuig - geen bestuurder gevonden.");
         }
     }
 }
