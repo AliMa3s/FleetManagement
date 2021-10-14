@@ -13,5 +13,12 @@ namespace FleetManagement.Test.Interfaces
         public Array GeefAutoTypes();
 
         public Array GeefAantalDeuren();
+
+        public bool ControleerKleur(string kleur);
+
+        public bool ControleerDeuren(string aantal);
+
+        public bool ControleerAutoType(string autoType);
+
     }
 }

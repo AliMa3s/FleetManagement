@@ -16,6 +16,11 @@ namespace FleetManagement.Test.Respositories
         }
         //filip ik begrijp niet waarom jij hier "array" gebruikt hebt ipv void.
         //zo iets hebben wij niet geleerd zou je dit kunnen uitleggen wanner je tijd hebt volgende keer wanneer we vergaderen aub.
+        
+        /* 
+         * Antwoord: Het is een lijst met alle mogelijke AutoTypes
+         * Dit stelt de NepRepo voor die met dependency injection wordt geinjecteerd in de test
+        */
         public Array GeefAutoTypes()
         {
             return Enum.GetValues(new AutoType().GetType());
@@ -24,6 +29,21 @@ namespace FleetManagement.Test.Respositories
         public Array GeefKleuren()
         {
             return Enum.GetValues(new StatusKleur().GetType());
+        }
+
+        public bool ControleerDeuren(string aantal)
+        {
+            return Enum.IsDefined(typeof(AantalDeuren), aantal);
+        }
+
+        public bool ControleerAutoType(string autoType)
+        {
+            return Enum.IsDefined(typeof(AutoType), autoType);
+        }
+
+        public bool ControleerKleur(string kleur)
+        {
+            return Enum.IsDefined(typeof(StatusKleur), kleur);
         }
     }
 }

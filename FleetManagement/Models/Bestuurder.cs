@@ -28,16 +28,27 @@ namespace FleetManagement.Models
 
         public string RijBewijsNummer { get; } 
 
-        public string RijksRegisterNummer { get; } 
+        public string RijksRegisterNummer { get; }
 
-        //Vraag: Moeten we voertuig kunnen veranderen eenmaal een instantie is aangemaakt? Ja of neen, en kort waarom je dat vindt.
-        //Antw: Filip: 
-        //Antw Ali: 
-        //Antw Amhet: 
-        public Voertuig Voertuig { get; private set; }  
+        public Voertuig Voertuig { get; private set; } = null;
 
-        public TankKaart TankKaart { get; private set; }
+        public TankKaart TankKaart { get; private set; } = null;
 
+        public bool HeeftBestuurderVoertuig 
+        { 
+            get {
+                return Voertuig != null; 
+            } 
+        }
+
+        public bool HeeftBestuurderTankKaart
+        {
+            get {
+                return TankKaart != null;
+            }
+        }
+
+        //Nieuw Bestuurder: Enkel verplichte velden
         public Bestuurder(string voornaam, string achternaam, DateTime geboorteDatum, string typeRijbewijs,
             string rijBewijsNummer, string rijksRegisterNummer)
         {
@@ -57,6 +68,7 @@ namespace FleetManagement.Models
             Achternaam = achternaam;
         }
        
+        //Bestaande Bestuurder: ID met verplichte velden
         public Bestuurder(int bestuurderId, string voornaam, string achternaam, DateTime geboorteDatum, string typeRijbewijs,
             string rijBewijsNummer, string rijksRegisterNummer) : this(voornaam, achternaam, geboorteDatum, 
                 typeRijbewijs, rijBewijsNummer, rijksRegisterNummer)
@@ -64,6 +76,7 @@ namespace FleetManagement.Models
             BestuurderId = bestuurderId;
         }
 
+        //Nieuwe of bestaande voertuig toevoegen
         public virtual void VoertuigToevoegen(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -81,6 +94,7 @@ namespace FleetManagement.Models
             }
         }
 
+        //Voertuig verwijder maar ID & ChassisNummer moet overeenkomen
         public virtual void VoertuigVerwijderen(Voertuig ingegevenVoertuig)
         {
             if(ingegevenVoertuig == null)
@@ -88,14 +102,20 @@ namespace FleetManagement.Models
                 throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn.");
             }
 
-            if (Voertuig != null)
+            if (Voertuig == null)
             {
-
+                if(Voertuig.Equals(ingegevenVoertuig))
+                {
+                    Voertuig = ingegevenVoertuig; //Override Equals met ChassisNummer & VoertuigId
+                }
             }
-
-            throw new BestuurderException($"Er is geen {nameof(Voertuig)} om te verwijderen");
+            else
+            {
+                throw new BestuurderException($"Er is geen {nameof(Voertuig)} om te verwijderen");
+            }
         }
 
+        //Nieuwe of bestaande TankKaart toevoegen
         public virtual void TankKaartToevoegen(TankKaart ingegevenTankKaart)
         {
             if(ingegevenTankKaart == null)
@@ -106,7 +126,6 @@ namespace FleetManagement.Models
             if (TankKaart == null) 
             {
                 TankKaart = ingegevenTankKaart;
-
             }
             else
             {
@@ -114,6 +133,7 @@ namespace FleetManagement.Models
             }
         }
 
+        //TankKaart verwijderen maar BankKaartNummer & GeligheidsDatum moet overeenkomen
         public virtual bool TankKaartVerwijderen(TankKaart ingegevenTankKaart)
         {
             if(TankKaart != null)
@@ -128,7 +148,7 @@ namespace FleetManagement.Models
             throw new BestuurderException($"Er is geen {nameof(TankKaart)} om te verwijderen");
         }
 
-        //Vergelijk twee instanties van Bestuurder met: ID, rijksRegisterNummer
+        //Vergelijk twee instanties van Bestuurder met: ID & rijksRegisterNummer
         public override bool Equals(object obj)
         {
             if (obj is Bestuurder)

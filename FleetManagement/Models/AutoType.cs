@@ -9,6 +9,6 @@ namespace FleetManagement.Models
     //https://nl.wikipedia.org/wiki/Lijst_van_autotypen
     public enum AutoType
     {
-        Cabriolet, Coupé, GT, Limousine, Tererreinwagen, Sedan, Stationwagen, SUV
+        Cabriolet, Coupé, GT, Tererreinwagen, Sedan, Stationwagen, SUV
     }
 }

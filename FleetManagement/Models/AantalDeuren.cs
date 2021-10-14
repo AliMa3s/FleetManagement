@@ -8,6 +8,6 @@ namespace FleetManagement.Models
 {
     public enum AantalDeuren
     {
-        Drie = 3, Vijf = 5
+       Twee = 2, Drie = 3, Vier = 4, Vijf = 5, Zes = 6
     }
 }

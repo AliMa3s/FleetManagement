@@ -1,13 +1,10 @@
 ﻿using System;
 namespace FleetManagement.Models
 {
-	//Vraag: Waarom StatusKleur en niet gewoon Kleur? Antwoorden bij je naam. Op vergadering dan knoop doorhakken:
-	//Ali: ...
-	//Ahmet: ...
-	//Filip: Ik vind gewoon Kleur beter. Je vraagt welke kleur is jouw vest, en niet welke StatusKleur heeft jouw vest. 
+	//Populairste kleuren van wagens ingevoegd (van populairste naar minst populairste)
+	//https://www.hln.be/drive/dit-zijn-de-populairste-autokleuren-van-2020~a17d5c9c/ 
 	public enum StatusKleur
 	{
-		grijs, zwart, geel, rood , blauw
+		Wit, Zwart, Grijs, Zilver, Blauw, Rood, BruinBeige, GoudGeel, Groen
 	}
 }
-
