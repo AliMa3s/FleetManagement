@@ -31,19 +31,18 @@ namespace FleetManagement.Test
         [InlineData("GoudGeel")]
         public void KleurAanwezig(string kleur)
         {
-            bool isAutoTypeAanwezig = _repoEnums.ControleerKleur(kleur);
-            Assert.True(isAutoTypeAanwezig, $"De Kleur {kleur} moet in de lijst voorkomen");
+            bool isKleurAanwezig = _repoEnums.ControleerKleur(kleur);
+            Assert.True(isKleurAanwezig, $"De Kleur {kleur} moet in de lijst voorkomen");
         }
 
-         //Kleuren of tekst dat NIET in de lijst thuishoort
+        //Kleuren of tekst dat NIET in de lijst thuishoort
         [Theory]
         [InlineData("GeenKleur")]
         public void KleurNietAanwezig(string kleur)
         {
-            bool isKleurNietAanwezig = _repoEnums.ControleerKleur(kleur);
-            Assert.False(isKleurNietAanwezig, $"{kleur} mag niet in de lijst voorkomen");
+            bool isKleurAanwezig = _repoEnums.ControleerKleur(kleur);
+            Assert.False(isKleurAanwezig, $"{kleur} mag niet in de lijst voorkomen");
         }
-
 
         //Lijst met AutoTypes die aanwezig moeten zijn
         [Fact]
@@ -82,8 +81,8 @@ namespace FleetManagement.Test
         [Fact]
         public void AantalDeurenLijstGevuld()
         {
-            Array deuren = _repoEnums.GeefAantalDeuren();
-            Assert.True(deuren.Length > 0, $"Lijst {nameof(deuren)} mag niet leeg zijn");
+            Array aantalDeuren = _repoEnums.GeefAantalDeuren();
+            Assert.True(aantalDeuren.Length > 0, $"Lijst {nameof(aantalDeuren)} mag niet leeg zijn");
         }
 
         //Het aantal deuren dat in de lijst moet voorkomen; en niet mag verwijderd worden
@@ -95,8 +94,8 @@ namespace FleetManagement.Test
         [InlineData("Zes")]
         public void AantalDeurenAanwezig(string deuren) 
         {
-            bool isAutoTypeAanwezig = _repoEnums.ControleerDeuren(deuren);
-            Assert.True(isAutoTypeAanwezig, $"Het aantal deuren ({nameof(deuren)}) moeten in de lijst voorkomen");
+            bool deurenAanwezig = _repoEnums.ControleerDeuren(deuren);
+            Assert.True(deurenAanwezig, $"Het aantal deuren ({nameof(deuren)}) moeten in de lijst voorkomen");
         }
 
         //Aantal deuren dat NIET in de lijst thuishoort (test dat zoeken de juiste resulaten oplevert)
@@ -104,8 +103,8 @@ namespace FleetManagement.Test
         [InlineData("Een")]
         public void AantalDeurenNietAanwezig(string deuren)
         {
-            bool isAutoTypeAanwezig = _repoEnums.ControleerDeuren(deuren);
-            Assert.False(isAutoTypeAanwezig, $"Het aantal deuren ({deuren}) mag niet in de lijst voorkomen");
+            bool deurenAanwezig = _repoEnums.ControleerDeuren(deuren);
+            Assert.False(deurenAanwezig, $"Het aantal deuren ({deuren}) mag niet in de lijst voorkomen");
         }
     }
 }
