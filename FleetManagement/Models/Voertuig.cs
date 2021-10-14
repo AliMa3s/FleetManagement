@@ -16,34 +16,33 @@ namespace FleetManagement.Models
         public string ChassisNummer { get; private set; }
         public string NummerPlaat { get; private set; }
         public StatusVoertuig StatusVoertuig { get; private set; }
-        public Kleur _kleur { get; set; }
+        public StatusKleur Kleur { get; set; }
         public BrandstofType Brandstof { get; set; }
         public DateTime InBoekDatum { get; set; }
         public AantalDeuren? AantalDeuren { get; set; } = null; //int?=> nullable waarde
         public Bestuurder Bestuurder { get; private set; }
 
-        //badmuts ali maes
 
         public Voertuig()
         {
 
         }
-        public Voertuig(int voertuigId, string chassisnummer, string nummerplaat, Kleur kleur, BrandstofType brandstof, DateTime inboekdatum, int aantaldeuren)
+        public Voertuig(int voertuigId, string chassisnummer, string nummerplaat, StatusKleur kleur, BrandstofType brandstof, DateTime inboekdatum, AantalDeuren aantaldeuren)
         {
             this.VoertuigId = voertuigId;
             this.ChassisNummer = chassisnummer;
             this.NummerPlaat = nummerplaat;
-            this.kleur = kleur;
+            Kleur = kleur;
             this.Brandstof = brandstof;
             this.InBoekDatum = inboekdatum;
             this.AantalDeuren = aantaldeuren;
         }
 
-        public void GetVoertuigID(Voertuig voertuigID)
+        public void GetVoertuigID(Voertuig voertuig)
         {
-            if (Voertuigid < 0) throw new VoertuigException("voertuig - VoertuigId niet  gevonden.");
-            return voertuigID;
+            if (voertuig.VoertuigId < 0) throw new VoertuigException("voertuig - VoertuigId niet  gevonden.");
 
+            
         }
 
         public void VoertuigIsBezet()
@@ -85,13 +84,13 @@ namespace FleetManagement.Models
             NummerPlaat = nummerplaat;
         }
 
-        public void SetAutoKleur(Kleur kleur)
+        public void SetAutoKleur(StatusKleur kleur)
         {
             if (kleur is null)
             {
                 throw new ArgumentNullException(nameof(kleur));
             }
-            _kleur = kleur;
+            Kleur = kleur;
         }
         public void SetBrandstof(BrandstofType brandstof)
         {
