@@ -14,7 +14,8 @@ namespace FleetManagement.Test.Respositories
         {
             return Enum.GetValues(new AantalDeuren().GetType());
         }
-
+        //filip ik begrijp niet waarom jij hier "array" gebruikt hebt ipv void.
+        //zo iets hebben wij niet geleerd zou je dit kunnen uitleggen wanner je tijd hebt volgende keer wanneer we vergaderen aub.
         public Array GeefAutoTypes()
         {
             return Enum.GetValues(new AutoType().GetType());
