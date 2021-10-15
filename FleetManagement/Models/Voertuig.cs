@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FleetManagement.Exceptions;
-using FleetManagement.Models;
+using FleetManagement.Model;
 
 //fout gecorrigeerd in namespace
-namespace FleetManagement.Models
+namespace FleetManagement.Model
 {
     public class Voertuig
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FleetManagement.Models
+namespace FleetManagement.Model
 {
     //https://nl.wikipedia.org/wiki/Lijst_van_autotypen
     public enum AutoType

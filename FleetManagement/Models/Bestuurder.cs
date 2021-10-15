@@ -8,7 +8,7 @@ using FleetManagement.Exceptions;
 
 //Nog bezig met het implementeren
 
-namespace FleetManagement.Models 
+namespace FleetManagement.Model 
 {
     public class Bestuurder
     {

@@ -1,4 +1,4 @@
-﻿using FleetManagement.Models;
+﻿using FleetManagement.Model;
 using FleetManagement.Test.Interfaces;
 using System;
 using System.Collections.Generic;

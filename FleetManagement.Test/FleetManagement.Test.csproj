@@ -23,4 +23,8 @@
     <ProjectReference Include="..\FleetManagement\FleetManagement.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ModelTest\" />
+  </ItemGroup>
+
 </Project>
