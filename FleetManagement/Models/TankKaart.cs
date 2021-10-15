@@ -8,7 +8,7 @@ namespace FleetManagement.Models {
     public class TankKaart {
 
         //Zone Properties
-        public int TankKaartId { get; set; }
+        //Tankkaar id verwijderd omdat kaartnummer is uid
         public string KaartNummer { get; private set; }
         public DateTime VervalDatum { get; set; }
         public DateTime UitgeefDatum { get; set; }
@@ -19,8 +19,7 @@ namespace FleetManagement.Models {
         //Ctor 
         public TankKaart() {
         }
-        public TankKaart(int tankKaartId, string kaartNummer, DateTime vervalDatum, string pincode, DateTime uitgeefdatum, Bestuurder bestuurder) {
-            TankKaartId = tankKaartId;
+        public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, DateTime uitgeefdatum, Bestuurder bestuurder) {
             KaartNummer = kaartNummer;
             VervalDatum = vervalDatum;
             UitgeefDatum = uitgeefdatum;
@@ -39,23 +38,24 @@ namespace FleetManagement.Models {
             }
             return true;
         }
-        public void BlokkeerTankKaart(string kaartnummer) {
+        public bool BlokkeerTankKaart(string kaartnummer) {
             if (KaartNummer == kaartnummer) {
-                kaartnummer = null;
+                return true;
             }
+            return false;
         }
         public void UpdatePincode(string nummer) {
             VoegPincodeToe(nummer);
         }
 
         //Te vragen van Tom of goed is hier anders kan verwijderd wordern! <NO Stress> 
-        public void VoegKaartnummerIdToe(int id) {
-            if (id > 0) {
-                TankKaartId = id;
-            } else {
-                throw new TankKaartException("TankkaarId moet groter zijn dan 0");
-            }
-        }
+        //public void VoegKaartnummerIdToe(string kaartnummer) {
+        //    if (id > 0) {
+        //        TankKaartId = id;
+        //    } else {
+        //        throw new TankKaartException("TankkaarId moet groter zijn dan 0");
+        //    }
+        //}
 
         public void VoegKaartNummerToe(string kaartnummer) {
             if (!string.IsNullOrWhiteSpace(kaartnummer)) {
@@ -82,19 +82,50 @@ namespace FleetManagement.Models {
         //        throw new TankKaartException("Bestuurder mag niet null zijn.");
         //    }
         //}
-        public void VoegBrandstofTypeToe(string brandstoftype) {
+        public void BrandstofToevoegen(string brandstoftype) {
             brandstoftype = brandstoftype.ToLower().Trim();
             if (!BrandstofType.Contains(brandstoftype)) {
                 BrandstofType.Add(brandstoftype);
             }
         }
-        public void VerwijderBrandstofType(string brandstoftype) {
+        public void BrandstofVerwijderen(string brandstoftype) {
             brandstoftype = brandstoftype.ToLower().Trim();
             if (BrandstofType.Contains(brandstoftype)) {
                 BrandstofType.Remove(brandstoftype);
             } else {
                 throw new TankKaartException("Brandstof bestaat niet");
             }
+        }
+        public bool IsBrandstofTypeAanwezig(string brandstof) {
+            if (brandstof == null) throw new TankKaartException("Brandstof mag niet null zijn");
+
+            if (BrandstofType.Contains(brandstof)) {
+                return true; //omdat brandstof is string en method is bool dus kan geen string terug returnen
+            }
+            return false;
+        }
+        //Voeg bestuurder tankkaart
+        public void VoegBestuurderAanTankKaart(Bestuurder bestuurder) {
+            if (bestuurder != null) {
+                if (bestuurder.TankKaart == null) {
+                    Bestuurder = bestuurder;
+                    bestuurder.TankKaartToevoegen(this);
+                } else {
+                    throw new TankKaartException("Bestuurder heef tankkaart");
+                }
+            }
+            {
+                throw new TankKaartException("Bestuurder mag niet null zijn");
+            }
+        }
+
+        //Te bespreken tijdens team meeting
+        public void ActiveerTankKaart(string pincode) {
+
+        }
+        //Te bespreken tijdens team meeting
+        public bool IsBetalingToegestaan(string pincode) {
+            return true;
         }
     }
 }
