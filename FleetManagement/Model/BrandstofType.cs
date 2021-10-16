@@ -10,20 +10,26 @@ namespace FleetManagement.Model {
 
         public int BrandstofTypeId { get; }
 
-        public string BrandstofNaam { get; }
+        public string BrandstofNaam { get; private set; }
 
-        public string BrandstofAfkorting { get; set; }
+        //public string BrandstofAfkorting { get; set; }
 
         //Properties uitbreiding mogelijk: etikettering, normen, beschrijving, enz.
 
-        public BrandstofType(string brandstofNaam, string brandstofAfkorting) {
-            BrandstofNaam = brandstofNaam;
-            BrandstofAfkorting = brandstofAfkorting;
+        public BrandstofType(string brandstofNaam) {
+            VoegBrandstofToe(brandstofNaam);
         }
 
         public BrandstofType(int brandstofTypeId, string brandstofNaam, string brandstofAfkorting)
-            : this(brandstofNaam, brandstofAfkorting) {
+            : this(brandstofNaam) {
             BrandstofTypeId = brandstofTypeId;
+        }
+        public void VoegBrandstofToe(string naam) {
+            if (!string.IsNullOrWhiteSpace(naam)) {
+                BrandstofNaam = naam;
+            } else {
+                throw new BrandstofTypeException("Brandstof kan niet leeg zijn");
+            }
         }
     }
 }

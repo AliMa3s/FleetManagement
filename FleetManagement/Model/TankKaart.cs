@@ -14,11 +14,19 @@ namespace FleetManagement.Model {
         public DateTime UitgeefDatum { get; set; }
         public string Pincode { get; private set; } = string.Empty;
         public List<string> BrandstofType { get; private set; }
-        public Bestuurder? Bestuurder { get; set; } = null;
+        public Bestuurder Bestuurder { get; set; } = null;
 
         //Ctor 
-        public TankKaart() {
+        public TankKaart(string kaartnummer, DateTime vervaldatum) {
+            KaartNummer = kaartnummer;
+            VervalDatum = vervaldatum;
         }
+
+        public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, List<string> brandstofType) : this(kaartNummer, vervalDatum) {
+            Pincode = pincode;
+            BrandstofType = brandstofType;
+        }
+
         public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, DateTime uitgeefdatum, Bestuurder bestuurder) {
             KaartNummer = kaartNummer;
             VervalDatum = vervalDatum;
@@ -82,13 +90,13 @@ namespace FleetManagement.Model {
         //        throw new TankKaartException("Bestuurder mag niet null zijn.");
         //    }
         //}
-        public void BrandstofToevoegen(string brandstoftype) {
+        public void VoegBrandstofType(string brandstoftype) {
             brandstoftype = brandstoftype.ToLower().Trim();
             if (!BrandstofType.Contains(brandstoftype)) {
                 BrandstofType.Add(brandstoftype);
             }
         }
-        public void BrandstofVerwijderen(string brandstoftype) {
+        public void VerwijderBrandstofType(string brandstoftype) {
             brandstoftype = brandstoftype.ToLower().Trim();
             if (BrandstofType.Contains(brandstoftype)) {
                 BrandstofType.Remove(brandstoftype);
