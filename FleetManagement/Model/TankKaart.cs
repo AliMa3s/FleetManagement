@@ -13,7 +13,7 @@ namespace FleetManagement.Model {
         public DateTime VervalDatum { get; set; }
         public DateTime UitgeefDatum { get; set; }
         public string Pincode { get; private set; } = string.Empty;
-        public List<string> BrandstofType { get; private set; }
+        public List<BrandstofType> BrandstofType { get; private set; }
         public Bestuurder Bestuurder { get; set; } = null;
 
         //Ctor 
@@ -22,7 +22,7 @@ namespace FleetManagement.Model {
             VervalDatum = vervaldatum;
         }
 
-        public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, List<string> brandstofType) : this(kaartNummer, vervalDatum) {
+        public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, List<BrandstofType> brandstofType) : this(kaartNummer, vervalDatum) {
             Pincode = pincode;
             BrandstofType = brandstofType;
         }
@@ -36,12 +36,12 @@ namespace FleetManagement.Model {
             Bestuurder = bestuurder;
 
 
-            BrandstofType = new List<string>();
+            BrandstofType = new List<BrandstofType>();
         }
 
         //Zone Methodes
         public bool IsTankKaartVervallen() {
-            if (VervalDatum <= DateTime.Now) {
+            if (VervalDatum >= DateTime.Now) {
                 return false;
             }
             return true;
@@ -90,21 +90,20 @@ namespace FleetManagement.Model {
         //        throw new TankKaartException("Bestuurder mag niet null zijn.");
         //    }
         //}
-        public void VoegBrandstofType(string brandstoftype) {
-            brandstoftype = brandstoftype.ToLower().Trim();
+        public void VoegBrandstofType(BrandstofType brandstoftype) {
             if (!BrandstofType.Contains(brandstoftype)) {
                 BrandstofType.Add(brandstoftype);
             }
         }
-        public void VerwijderBrandstofType(string brandstoftype) {
-            brandstoftype = brandstoftype.ToLower().Trim();
+        public void VerwijderBrandstofType(BrandstofType brandstoftype) {
+
             if (BrandstofType.Contains(brandstoftype)) {
                 BrandstofType.Remove(brandstoftype);
             } else {
                 throw new TankKaartException("Brandstof bestaat niet");
             }
         }
-        public bool IsBrandstofTypeAanwezig(string brandstof) {
+        public bool IsBrandstofTypeAanwezig(BrandstofType brandstof) {
             if (brandstof == null) throw new TankKaartException("Brandstof mag niet null zijn");
 
             if (BrandstofType.Contains(brandstof)) {
