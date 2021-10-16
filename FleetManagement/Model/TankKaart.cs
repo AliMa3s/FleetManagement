@@ -119,13 +119,6 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Te bespreken tijdens team meeting
-        public void ActiveerTankKaart(string pincode) {
 
-        }
-        //Te bespreken tijdens team meeting
-        public bool IsBetalingToegestaan(string pincode) {
-            return true;
-        }
     }
 }
