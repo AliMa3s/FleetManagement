@@ -1,5 +1,7 @@
 ﻿using FleetManagement.Exceptions;
 using FleetManagement.Model;
+using FleetManagement.Test.Interfaces;
+using FleetManagement.Test.Respositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,39 @@ using Xunit;
 
 namespace FleetManagement.Test.ModelTest {
     public class TankKaartTest {
+
+        //Cadeau van Bestuurder voor TankKaart:
+        private readonly IBestuurderNepRepo _bestuurderRepo = new BestuurderNepManager();
+
+        [Fact]
+        public void VoorbeeldVoorAli()
+        {
+            //Vraag eerst correcte instantie van Bestuurder aan in Repo:
+            Bestuurder bestuurderZonderIetsTeDoen = _bestuurderRepo.GeefBestuurder("76033101986");
+
+            Assert.True(_bestuurderRepo.IsBestuurderAanwezig("76033101986"), "Bestuurder moet aanwezig zijn");
+
+            //Maak uw TankKaart aan, pincode moet kunnen leeg kunnen zijn
+            TankKaart tankKaart = new TankKaart("1234567890123456789", new DateTime(2022, 05, 22), "");
+
+            Assert.True(tankKaart.Pincode == string.Empty, "Pincode moet leeg kunnen zijn");
+
+            //Voeg nu bestuurder toe aan TankKaart
+            tankKaart.VoegBestuurderAanTankKaart(bestuurderZonderIetsTeDoen);
+
+            Assert.True(tankKaart.HeeftTankKaartEenBestuurder);
+
+            //Probeer nog eens bestuurder toe te voegen:
+
+            Assert.Throws<TankKaartException>(() => {
+                tankKaart.VoegBestuurderAanTankKaart(bestuurderZonderIetsTeDoen);
+                //relatie is één op één, je moet eerst huidige bestuurder verwijderen
+            });
+
+            //Vergeet niet dat jouw implementatie verkeerd was voor Bestuurder toe te voegen
+            //Ik heb deze gecorrigeerd anders faalt deze test hier! 
+        }
+
         [Fact]
         public void Test_NewTankkaart() {
             List<BrandstofType> l1 = new List<BrandstofType>();

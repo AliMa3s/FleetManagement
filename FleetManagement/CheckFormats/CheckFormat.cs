@@ -76,7 +76,7 @@ namespace FleetManagement.CheckFormats
             }
         }
 
-        public static bool IsTankKaartGeldig(string tankKaartNummer)  //Heeft TankKaart modulo 97?
+        public static bool IsTankKaartNummerGeldig(string tankKaartNummer)  //Heeft TankKaart modulo 97?
         {
             return Regex.IsMatch(tankKaartNummer.ToUpper(), @"^[0-9]{19}$")
                 ? true : throw new TankKaartException($" {nameof(tankKaartNummer)} is niet het juiste format");

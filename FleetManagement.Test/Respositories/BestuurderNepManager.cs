@@ -19,14 +19,14 @@ namespace FleetManagement.Test.Respositories
             //Selecteerlijst voor Voertuig & TankKaart
             //Persoon die Bestuurder test, configureert voor alle andere teamleden de juiste instanties 
 
-            //VoegBestuurderToe(Bestuurder);
+            VoegBestuurderToe(new Bestuurder("Filip","Rigoir", "1976-03-31", "B","0514081390", "76033101986") );
             //VoegBestuurderToe(Bestuurder);
             //VoegBestuurderToe(Bestuurder);
         }
 
         public Bestuurder GeefBestuurder(string rijksRegisterNummer)
         {
-            if (!IsBestuurderAanwezig(rijksRegisterNummer))
+            if (IsBestuurderAanwezig(rijksRegisterNummer))
             {
                 return _bestuurders[rijksRegisterNummer]; //return null of object
             }

@@ -14,21 +14,37 @@ namespace FleetManagement.Model {
         public DateTime VervalDatum { get; set; }
         public DateTime UitgeefDatum { get; set; }
         public string Pincode { get; private set; } = string.Empty;
+        public bool Geactiveerd { get; private set; } = true; //ingevoegd door Filip volgens instructies van Tom:
         public List<BrandstofType> BrandstofType { get; private set; }
         public Bestuurder Bestuurder { get; set; } = null;
+        public bool HeeftTankKaartEenBestuurder => Bestuurder != null;
 
         //Ctor 
-        public TankKaart(string kaartnummer, DateTime vervaldatum) {
+        public TankKaart(string kaartnummer, DateTime vervaldatum, string pincode = "") { //pincode mag leeg zijn, is niet verplicht
+
+            //Ingevoegd door Filip: Check pincode via class static. Er wordt exception opgegooid als het niet voldoet aan het format
+            if (CheckFormats.CheckFormat.IsTankKaartNummerGeldig(kaartnummer))
+            {
+                Pincode = pincode;
+            }
+
             KaartNummer = kaartnummer;
             VervalDatum = vervaldatum;
+
+            //Ingevoegd door Filip: Check pincode via class static. Er wordt exception opgegooid als het niet voldoet aan het format
+            if(CheckFormats.CheckFormat.IsPincodeGeldig(pincode))
+            {
+                Pincode = pincode;
+            }
         }
 
-        public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, List<BrandstofType> brandstofType) : this(kaartNummer, vervalDatum) {
-            Pincode = pincode;
+        public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, List<BrandstofType> brandstofType) 
+            : this(kaartNummer, vervalDatum, pincode) {
             BrandstofType = brandstofType;
         }
 
-        public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, DateTime uitgeefdatum, Bestuurder bestuurder) {
+        public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, DateTime uitgeefdatum, Bestuurder bestuurder)
+        {
             KaartNummer = kaartNummer;
             VervalDatum = vervalDatum;
             UitgeefDatum = uitgeefdatum;
@@ -52,6 +68,9 @@ namespace FleetManagement.Model {
                 return true;
             }
             return false;
+
+            //Wordt gewoon: zie property Geactiveerd
+            //Geactiveerd = false;
         }
         public void UpdatePincode(string nummer) {
             VoegPincodeToe(nummer);
@@ -75,12 +94,11 @@ namespace FleetManagement.Model {
         }
 
         public void VoegPincodeToe(string pincode) {
-            if (!string.IsNullOrWhiteSpace(pincode)) {
-                if (pincode.Length < 4) {
-                    throw new TankKaartException("Pincode moet 4 karakter zijn");
-                } else {
-                    Pincode = pincode;
-                }
+
+            //Ingevoegd door Filip: Check pincode via class static. Er wordt exception opgegooid als het niet voldoet aan het format
+            if (CheckFormats.CheckFormat.IsPincodeGeldig(pincode))
+            {
+                Pincode = pincode;
             }
         }
         //public void VoegBestuurderToe(Bestuurder bestuurder) {
@@ -91,6 +109,7 @@ namespace FleetManagement.Model {
         //        throw new TankKaartException("Bestuurder mag niet null zijn.");
         //    }
         //}
+
         public void VoegBrandstofType(BrandstofType brandstoftype) {
             if (!BrandstofType.Contains(brandstoftype)) {
                 BrandstofType.Add(brandstoftype);
@@ -115,13 +134,24 @@ namespace FleetManagement.Model {
         //Voeg bestuurder tankkaart
         public void VoegBestuurderAanTankKaart(Bestuurder bestuurder) {
             if (bestuurder != null) {
-                if (bestuurder.TankKaart == null) {
+
+                if(Bestuurder == null)
+                {
                     Bestuurder = bestuurder;
-                    bestuurder.TankKaartToevoegen(this);
-                } else {
-                    throw new TankKaartException("Bestuurder heef tankkaart");
                 }
+                else
+                {
+                    throw new TankKaartException("Er is al een bestuurder aan de TankKaart toegevoegd");
+                }
+
+                //if (bestuurder.TankKaart == null) { //Dat is niet de taak van tankkaart, maar wel van bestuurder zelf
+                //    Bestuurder = bestuurder;
+                //    bestuurder.TankKaartToevoegen(this);
+                //} else {
+                //    throw new TankKaartException("Bestuurder heef tankkaart");
+                //}
             }
+            else
             {
                 throw new TankKaartException("Bestuurder mag niet null zijn");
             }

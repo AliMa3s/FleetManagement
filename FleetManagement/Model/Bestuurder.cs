@@ -13,42 +13,18 @@ namespace FleetManagement.Model
     public class Bestuurder
     {
         public int BestuurderId { get; }
-
         public string Voornaam { get; set; }
-
         public string Achternaam { get; set; }
-
         public string GeboorteDatum { get; }
-
         public Adres Adres { get; set; } = null;
-
-        //Besloten string te maken omwille van meerdere mogelijkheden voor één RijbewijsNummer: B, C, D1+E, enz. 
-        //Combinatie kan van bestuurder tot bestuurder variëren
         public string TypeRijbewijs { get; set; }
-
         public string RijBewijsNummer { get; }
-
         public string RijksRegisterNummer { get; }
-
         public Voertuig Voertuig { get; private set; } = null;
-
         public TankKaart TankKaart { get; private set; } = null;
-
-        public bool HeeftBestuurderVoertuig
-        {
-            get
-            {
-                return Voertuig != null;
-            }
-        }
-
-        public bool HeeftBestuurderTankKaart
-        {
-            get
-            {
-                return TankKaart != null;
-            }
-        }
+        public DateTime AanMaakDatum { get; }
+        public bool HeeftBestuurderVoertuig => Voertuig != null;
+        public bool HeeftBestuurderTankKaart => TankKaart != null;
 
         //Nieuw Bestuurder: Enkel verplichte velden
         public Bestuurder(string voornaam, string achternaam, string geboorteDatum, string typeRijbewijs,

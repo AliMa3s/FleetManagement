@@ -20,10 +20,10 @@ namespace FleetManagement.Model {
             VoegBrandstofToe(brandstofNaam);
         }
 
-        public BrandstofType(int brandstofTypeId, string brandstofNaam, string brandstofAfkorting)
-            : this(brandstofNaam) {
+        public BrandstofType(int brandstofTypeId, string brandstofNaam) : this(brandstofNaam) {
             BrandstofTypeId = brandstofTypeId;
         }
+
         public void VoegBrandstofToe(string naam) {
             if (!string.IsNullOrWhiteSpace(naam)) {
                 BrandstofNaam = naam;
