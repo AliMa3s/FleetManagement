@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FleetManagement.Exceptions
 {
     [Serializable]
-    internal class PincodeException : Exception
+    public class PincodeException : Exception
     {
         public PincodeException() { }
 

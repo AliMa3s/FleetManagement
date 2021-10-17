@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FleetManagement.Exceptions
 {
     [Serializable]
-    internal class TankKaartException : Exception
+    public class TankKaartException : Exception
     {
         public TankKaartException() { }
 

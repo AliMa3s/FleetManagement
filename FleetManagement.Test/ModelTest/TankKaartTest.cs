@@ -1,4 +1,5 @@
-﻿using FleetManagement.Model;
+﻿using FleetManagement.Exceptions;
+using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
