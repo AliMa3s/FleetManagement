@@ -8,25 +8,25 @@ using FleetManagement.Exceptions;
 
 //Nog bezig met het implementeren
 
-namespace FleetManagement.Model 
+namespace FleetManagement.Model
 {
     public class Bestuurder
     {
-        public int BestuurderId { get; } 
+        public int BestuurderId { get; }
 
         public string Voornaam { get; set; }
 
-        public string Achternaam { get; set; } 
+        public string Achternaam { get; set; }
 
-        public DateTime GeboorteDatum { get; }
+        public string GeboorteDatum { get; }
 
-        public Adres Adres { get; set; } = null; 
+        public Adres Adres { get; set; } = null;
 
         //Besloten string te maken omwille van meerdere mogelijkheden voor één RijbewijsNummer: B, C, D1+E, enz. 
         //Combinatie kan van bestuurder tot bestuurder variëren
-        public string TypeRijbewijs { get; set; } 
+        public string TypeRijbewijs { get; set; }
 
-        public string RijBewijsNummer { get; } 
+        public string RijBewijsNummer { get; }
 
         public string RijksRegisterNummer { get; }
 
@@ -34,31 +34,34 @@ namespace FleetManagement.Model
 
         public TankKaart TankKaart { get; private set; } = null;
 
-        public bool HeeftBestuurderVoertuig 
-        { 
-            get {
-                return Voertuig != null; 
-            } 
+        public bool HeeftBestuurderVoertuig
+        {
+            get
+            {
+                return Voertuig != null;
+            }
         }
 
         public bool HeeftBestuurderTankKaart
         {
-            get {
+            get
+            {
                 return TankKaart != null;
             }
         }
 
         //Nieuw Bestuurder: Enkel verplichte velden
-        public Bestuurder(string voornaam, string achternaam, DateTime geboorteDatum, string typeRijbewijs,
+        public Bestuurder(string voornaam, string achternaam, string geboorteDatum, string typeRijbewijs,
             string rijBewijsNummer, string rijksRegisterNummer)
         {
-            if (CheckFormat.IsRijksRegisterGeldig(rijksRegisterNummer, geboorteDatum)) {
+            if (CheckFormat.IsRijksRegisterGeldig(rijksRegisterNummer, geboorteDatum))
+            {
 
                 GeboorteDatum = geboorteDatum;
                 RijksRegisterNummer = rijksRegisterNummer;
             }
 
-            if (CheckFormat.IsRijbewijsNummerGeldig(rijBewijsNummer)) 
+            if (CheckFormat.IsRijbewijsNummerGeldig(rijBewijsNummer))
             {
                 TypeRijbewijs = typeRijbewijs;
                 RijBewijsNummer = rijBewijsNummer;
@@ -67,10 +70,10 @@ namespace FleetManagement.Model
             Voornaam = voornaam;
             Achternaam = achternaam;
         }
-       
+
         //Bestaande Bestuurder: ID met verplichte velden
-        public Bestuurder(int bestuurderId, string voornaam, string achternaam, DateTime geboorteDatum, string typeRijbewijs,
-            string rijBewijsNummer, string rijksRegisterNummer) : this(voornaam, achternaam, geboorteDatum, 
+        public Bestuurder(int bestuurderId, string voornaam, string achternaam, string geboorteDatum, string typeRijbewijs,
+            string rijBewijsNummer, string rijksRegisterNummer) : this(voornaam, achternaam, geboorteDatum,
                 typeRijbewijs, rijBewijsNummer, rijksRegisterNummer)
         {
             BestuurderId = bestuurderId;
@@ -97,14 +100,14 @@ namespace FleetManagement.Model
         //Voertuig verwijder maar ID & ChassisNummer moet overeenkomen
         public virtual void VoertuigVerwijderen(Voertuig ingegevenVoertuig)
         {
-            if(ingegevenVoertuig == null)
+            if (ingegevenVoertuig == null)
             {
                 throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn.");
             }
 
             if (Voertuig == null)
             {
-                if(Voertuig.Equals(ingegevenVoertuig))
+                if (Voertuig.Equals(ingegevenVoertuig))
                 {
                     Voertuig = ingegevenVoertuig; //Override Equals met ChassisNummer & VoertuigId
                 }
@@ -118,12 +121,12 @@ namespace FleetManagement.Model
         //Nieuwe of bestaande TankKaart toevoegen
         public virtual void TankKaartToevoegen(TankKaart ingegevenTankKaart)
         {
-            if(ingegevenTankKaart == null)
+            if (ingegevenTankKaart == null)
             {
                 throw new BestuurderException($"Ingegeven {nameof(ingegevenTankKaart)} mag niet null zijn.");
             }
 
-            if (TankKaart == null) 
+            if (TankKaart == null)
             {
                 TankKaart = ingegevenTankKaart;
             }
@@ -136,9 +139,10 @@ namespace FleetManagement.Model
         //TankKaart verwijderen maar BankKaartNummer & GeligheidsDatum moet overeenkomen
         public virtual bool TankKaartVerwijderen(TankKaart ingegevenTankKaart)
         {
-            if(TankKaart != null)
+            if (TankKaart != null)
             {
-                if (TankKaart.Equals(ingegevenTankKaart)) { //Ali: overriden van Equals TankKaart met BankKaartNummer en GeldegheidsDatum, 
+                if (TankKaart.Equals(ingegevenTankKaart))
+                { //Ali: overriden van Equals TankKaart met BankKaartNummer en GeldegheidsDatum, 
                     TankKaart = null;
                 }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Test.Respositories
 {
-    class EnumRepository : IEnumRepo
+    class EnumNepManager : IEnumRepo
     {
         public Array GeefAantalDeuren()
         {

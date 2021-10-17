@@ -8,7 +8,7 @@ namespace FleetManagement.Test
     public class EnumTest
     {
         //Alle enums opvragen uit dezelfde locatie
-        private readonly IEnumRepo _repoEnums = new EnumRepository();
+        private readonly IEnumRepo _repoEnums = new EnumNepManager();
 
 
         //Lijst met kleuren moeten gevuld zijn
