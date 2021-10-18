@@ -23,10 +23,14 @@ namespace FleetManagement.Test.ModelTest {
 
             Assert.True(_bestuurderRepo.IsBestuurderAanwezig("76033101986"), "Bestuurder moet aanwezig zijn");
 
-            //Maak uw TankKaart aan, pincode moet kunnen leeg kunnen zijn
-            TankKaart tankKaart = new TankKaart("1234567890123456789", new DateTime(2022, 05, 22), "");
+            //Maak een vervaldatum aan in de toekomst van 365 dagen (vervaldatum zal dus nooit vervallen en test zal altijd slagen)
+            DateTime vervalDatum = DateTime.Now.AddDays(365);
 
-            Assert.True(tankKaart.Pincode == string.Empty, "Pincode moet leeg kunnen zijn");
+            //Maak uw TankKaart aan, pincode moet kunnen leeg kunnen zijn
+            TankKaart tankKaart = new("1234567890123456789", vervalDatum, "");
+
+            Assert.True(tankKaart.Pincode == string.Empty, "Pincode moet leeg kunnen zijn bij nieuwe instantie");
+            Assert.False(tankKaart.HeeftTankKaartEenBestuurder, "Bestuurder moet leeg kunnen zijn bij nieuwe instantie");
 
             //Voeg nu bestuurder toe aan TankKaart
             tankKaart.VoegBestuurderAanTankKaart(bestuurderZonderIetsTeDoen);
