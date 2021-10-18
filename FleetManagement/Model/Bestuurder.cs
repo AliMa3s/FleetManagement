@@ -56,7 +56,7 @@ namespace FleetManagement.Model
         }
 
         //Nieuwe of bestaande voertuig toevoegen
-        public virtual void VoertuigToevoegen(Voertuig ingegevenVoertuig)
+        public virtual void VoegVoertuigToe(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
             {
@@ -74,7 +74,7 @@ namespace FleetManagement.Model
         }
 
         //Voertuig verwijder maar ID & ChassisNummer moet overeenkomen
-        public virtual void VoertuigVerwijderen(Voertuig ingegevenVoertuig)
+        public virtual void VerwijderVoertuig(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
             {
@@ -95,7 +95,7 @@ namespace FleetManagement.Model
         }
 
         //Nieuwe of bestaande TankKaart toevoegen
-        public virtual void TankKaartToevoegen(TankKaart ingegevenTankKaart)
+        public virtual void VoegTankKaartToe(TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)
             {
@@ -113,7 +113,7 @@ namespace FleetManagement.Model
         }
 
         //TankKaart verwijderen maar BankKaartNummer & GeligheidsDatum moet overeenkomen
-        public virtual bool TankKaartVerwijderen(TankKaart ingegevenTankKaart)
+        public virtual bool VerwijderTankKaart(TankKaart ingegevenTankKaart)
         {
             if (TankKaart != null)
             {

@@ -27,8 +27,6 @@ namespace FleetManagement.Test
         [InlineData("Zilver")]
         [InlineData("Blauw")]
         [InlineData("Rood")]
-        [InlineData("BruinBeige")]
-        [InlineData("GoudGeel")]
         public void KleurAanwezig(string kleur)
         {
             bool isKleurAanwezig = _repoEnums.ControleerKleur(kleur);
@@ -54,10 +52,8 @@ namespace FleetManagement.Test
 
         //AutoTypes dat in de lijst moet voorkomen; en niet mag verwijderd worden
         [Theory]
-        [InlineData("Cabriolet")]
         [InlineData("Coupé")]
         [InlineData("GT")]
-        [InlineData("Tererreinwagen")]
         [InlineData("Sedan")]
         [InlineData("Stationwagen")]
         [InlineData("SUV")]
@@ -70,6 +66,7 @@ namespace FleetManagement.Test
         //Aantal AutoTypes dat NIET in de lijst thuishoort (test ook dat zoeken de juiste resulaten oplevert)
         [Theory]
         [InlineData("Fiets")]
+        [InlineData("Vrachtwagen")]
         public void AutoTypeIsNietAanwezig(string AutoType)
         {
             bool isAutoTypeAanwezig = _repoEnums.ControleerDeuren(AutoType);
@@ -99,12 +96,11 @@ namespace FleetManagement.Test
         }
 
         //Aantal deuren dat NIET in de lijst thuishoort (test dat zoeken de juiste resulaten oplevert)
-        [Theory]
-        [InlineData("Een")]
-        public void AantalDeurenNietAanwezig(string deuren)
+        [Fact]
+        public void AantalDeurenNietAanwezig()
         {
-            bool deurenAanwezig = _repoEnums.ControleerDeuren(deuren);
-            Assert.False(deurenAanwezig, $"Het aantal deuren ({deuren}) mag niet in de lijst voorkomen");
+            bool deurenAanwezig = _repoEnums.ControleerDeuren("Een");
+            Assert.False(deurenAanwezig, $"Het aantal deuren (Een) mag niet in de lijst voorkomen");
         }
     }
 }
