@@ -32,7 +32,6 @@ namespace FleetManagement.Model
         {
             if (CheckFormat.IsRijksRegisterGeldig(rijksRegisterNummer, geboorteDatum))
             {
-
                 GeboorteDatum = geboorteDatum;
                 RijksRegisterNummer = rijksRegisterNummer;
             }
@@ -55,7 +54,7 @@ namespace FleetManagement.Model
             BestuurderId = bestuurderId;
         }
 
-        //Nieuwe of bestaande voertuig toevoegen
+        //Voertuig toevoegen
         public virtual void VoegVoertuigToe(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -73,7 +72,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Voertuig verwijder maar ID & ChassisNummer moet overeenkomen
+        //Voertuig verwijder maar ID & ChassisNummer moeten overeenkomen
         public virtual void VerwijderVoertuig(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -94,7 +93,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Nieuwe of bestaande TankKaart toevoegen
+        //TankKaart toevoegen
         public virtual void VoegTankKaartToe(TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)
@@ -112,7 +111,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //TankKaart verwijderen maar BankKaartNummer & GeligheidsDatum moet overeenkomen
+        //TankKaart verwijderen maar BankKaartNummer & GeligheidsDatum moeten overeenkomen
         public virtual bool VerwijderTankKaart(TankKaart ingegevenTankKaart)
         {
             if (TankKaart != null)

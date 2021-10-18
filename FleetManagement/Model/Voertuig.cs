@@ -42,7 +42,7 @@ namespace FleetManagement.Model
             
         }
 
-        public void BestuurderToevoegen(Bestuurder bestuurder)
+        public void VoegBestuurderToe(Bestuurder bestuurder)
         {
             if(bestuurder == null)
             {

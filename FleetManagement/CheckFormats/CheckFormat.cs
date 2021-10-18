@@ -22,14 +22,12 @@ namespace FleetManagement.CheckFormats
 
         public static bool IsRijbewijsNummerGeldig(string rijBewijsNummer)
         {
-
             return Regex.IsMatch(rijBewijsNummer, @"^[0-9]{10}$")
                 ? true : throw new RijBewijsNummerException($"{nameof(rijBewijsNummer)} moet een string zijn van 10 cijfers");
         }
 
         public static bool IsChassisNummerGeldig(string chassisNummer)
         {
-
             return Regex.IsMatch(chassisNummer.ToUpper(), @"^[0-9A-HJ-NPR-Z]{17}$")
                 ? true : throw new ChassisNummerException($"{nameof(chassisNummer)} moet string zijn van 17 cijfers/letters" +
                 $" maar letter I/i, O/o en Q/q mag niet voorkomen");
@@ -46,24 +44,27 @@ namespace FleetManagement.CheckFormats
             //Controleer eerst het format
             if (Regex.IsMatch(rijksRegisterNummer.ToUpper(), @"^[0-9]{11}$"))
             {
-                string laatsteTweeCijfersGeboorteDatum = geboorteDatum.Substring(2, 2);
+                string geboorteDatumInDigits = DatumInDigits(geboorteDatum);
+
                 string jaar = rijksRegisterNummer.Substring(0, 2);
                 string maand = rijksRegisterNummer.Substring(2, 2);
                 string dag = rijksRegisterNummer.Substring(4, 2);
                 string getallenreeks = rijksRegisterNummer.Substring(6, 3);
 
                 //Controleer of Bestuurder is geboren in of na 2000
-                if (Int32.Parse(laatsteTweeCijfersGeboorteDatum) >= 2000)
+                string nummer = rijksRegisterNummer.Substring(0, 9);
+                if (Int32.Parse(geboorteDatumInDigits.Substring(0, 4)) >= 2000)
                 {
-                    jaar = "2" + jaar;
+                    nummer = "2" + nummer;
                 }
 
                 //Controleer de inhoud van het format
-                if (jaar == laatsteTweeCijfersGeboorteDatum
+                if (jaar == geboorteDatum.Substring(2, 2)
                     && IsRangeGeldig(dag, 0, 31)
-                    && (IsRangeGeldig(maand, 0, 12) || IsRangeGeldig(maand, 20, 32) | IsRangeGeldig(maand, 40, 52))
+                    && (IsRangeGeldig(maand, 0, 12) || IsRangeGeldig(maand, 20, 32) || IsRangeGeldig(maand, 40, 52))
+                    && geboorteDatumInDigits.Substring(4, 4) == maand + dag
                     && IsRangeGeldig(getallenreeks, 0, 998)
-                    && CheckSum(jaar + maand + dag + getallenreeks, rijksRegisterNummer.Substring(9, 2)))
+                    && CheckSum(nummer, rijksRegisterNummer.Substring(9, 2)))
                 {
                     return true;
                 }
@@ -76,10 +77,27 @@ namespace FleetManagement.CheckFormats
             }
         }
 
-        public static bool IsTankKaartNummerGeldig(string tankKaartNummer)  //Heeft TankKaart modulo 97?
+        public static bool IsTankKaartNummerGeldig(string tankKaartNummer)
         {
             return Regex.IsMatch(tankKaartNummer.ToUpper(), @"^[0-9]{19}$")
                 ? true : throw new TankKaartException($" {nameof(tankKaartNummer)} is niet het juiste format");
+        }
+
+        private static string DatumInDigits(string geboorteDatum)
+        {
+            string datumInDigits = geboorteDatum.Replace("-", "").Replace("/", "");
+
+            if (Regex.IsMatch(datumInDigits, @"^[0-9]{4}$"))
+            {
+                datumInDigits += "0000";
+            }
+            else if (!Regex.IsMatch(datumInDigits, @"^[0-9]{8}$"))
+            {
+                throw new TankKaartException(" GeboorteDatum kan alleen bestaan uit: 'jaartal', 'jaartal-maand-dag' " +
+                    "of 'jaartal/maand/dag'");
+            }
+
+            return datumInDigits;
         }
 
         private static bool IsRangeGeldig(string nummer, int min, int max)
@@ -90,7 +108,7 @@ namespace FleetManagement.CheckFormats
 
         private static bool CheckSum(string nummer, string controleGetal)
         {
-            return (97 - (Int32.Parse(nummer) % 97)).ToString("D2") == controleGetal;
+            return (97 - (long.Parse(nummer) % 97)).ToString("D2") == controleGetal;
         }
     }
 }

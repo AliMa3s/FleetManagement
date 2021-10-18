@@ -18,26 +18,26 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VoorbeeldVoorAli()
         {
+            Assert.True(_bestuurderRepo.IsBestuurderAanwezig("76033101986"), "Bestuurder moet aanwezig zijn");
+
             //Vraag eerst correcte instantie van Bestuurder aan in Repo:
             Bestuurder bestuurderZonderIetsTeDoen = _bestuurderRepo.GeefBestuurder("76033101986");
-
-            Assert.True(_bestuurderRepo.IsBestuurderAanwezig("76033101986"), "Bestuurder moet aanwezig zijn");
 
             //Maak een vervaldatum aan in de toekomst van 365 dagen (vervaldatum zal dus nooit vervallen en test zal altijd slagen)
             DateTime vervalDatum = DateTime.Now.AddDays(365);
 
-            //Maak uw TankKaart aan, pincode moet kunnen leeg kunnen zijn
+            //Maak TankKaart aan, pincode moet kunnen leeg zijn
             TankKaart tankKaart = new("1234567890123456789", vervalDatum, "");
 
             Assert.True(tankKaart.Pincode == string.Empty, "Pincode moet leeg kunnen zijn bij nieuwe instantie");
-            Assert.False(tankKaart.HeeftTankKaartEenBestuurder, "Bestuurder moet leeg kunnen zijn bij nieuwe instantie");
+            Assert.False(tankKaart.HeeftTankKaartBestuurder, "Bestuurder moet leeg kunnen zijn bij nieuwe instantie");
 
             //Voeg nu bestuurder toe aan TankKaart
             tankKaart.VoegBestuurderAanTankKaart(bestuurderZonderIetsTeDoen);
 
-            Assert.True(tankKaart.HeeftTankKaartEenBestuurder);
+            Assert.True(tankKaart.HeeftTankKaartBestuurder);
 
-            //Probeer nog eens bestuurder toe te voegen:
+            //Probeer nog eens bestuurder toe te voegen alvorens eerst te controleren:
 
             Assert.Throws<TankKaartException>(() => {
                 tankKaart.VoegBestuurderAanTankKaart(bestuurderZonderIetsTeDoen);

@@ -14,10 +14,10 @@ namespace FleetManagement.Model {
         public DateTime VervalDatum { get; set; }
         public DateTime UitgeefDatum { get; set; }
         public string Pincode { get; private set; } = string.Empty;
-        public bool Geactiveerd { get; private set; } = true; //ingevoegd door Filip volgens instructies van Tom:
+        public bool Actief { get; private set; } = true; //ingevoegd door Filip volgens instructies van Tom:
         public List<BrandstofType> BrandstofType { get; private set; }
         public Bestuurder Bestuurder { get; set; } = null;
-        public bool HeeftTankKaartEenBestuurder => Bestuurder != null;
+        public bool HeeftTankKaartBestuurder => Bestuurder != null;
 
         //Ctor 
         public TankKaart(string kaartnummer, DateTime vervaldatum, string pincode = "") { //pincode mag leeg zijn, is niet verplicht
@@ -69,8 +69,8 @@ namespace FleetManagement.Model {
             }
             return false;
 
-            //Wordt gewoon: zie property Geactiveerd
-            //Geactiveerd = false;
+            //Wordt gewoon: zie property Actief
+            //Actief = false;
         }
         public void UpdatePincode(string nummer) {
             VoegPincodeToe(nummer);
