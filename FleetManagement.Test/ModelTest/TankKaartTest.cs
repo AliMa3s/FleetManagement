@@ -14,9 +14,10 @@ namespace FleetManagement.Test.ModelTest {
 
         //Cadeau van Bestuurder voor TankKaart:
         private readonly IBestuurderNepRepo _bestuurderRepo = new BestuurderNepManager();
+        private readonly IVoertuigNepRepo _voertuigRepo = new VoertuigNepManager();
 
         [Fact]
-        public void VoorbeeldVoorAli()
+        public void VoorbeeldVoorAli() //toont gebruik van NepManager, 
         {
             Assert.True(_bestuurderRepo.IsBestuurderAanwezig("76033101986"), "Bestuurder moet aanwezig zijn");
 
@@ -53,10 +54,43 @@ namespace FleetManagement.Test.ModelTest {
             List<BrandstofType> l1 = new List<BrandstofType>();
             l1.Add(new BrandstofType("gas"));
             TankKaart t = new TankKaart("123", new DateTime(2000, 01, 02), "1234", l1);
+            Assert.False(t.Actief);  //ingevoegd Filip : Datum is reeds vervallen, dus is de kaart niet actief meer
             Assert.Equal("123", t.KaartNummer);
             Assert.Equal(new DateTime(2000, 01, 02), t.VervalDatum);
             Assert.Equal("1234", t.Pincode);
             Assert.Equal(l1, t.BrandstofType);
+        }
+
+        //Ingevoegd Filip: Test nieuwe instantie TankKaart met Actief (true)
+        [Fact]
+        public void InstantieTankKaartActief()
+        {
+            //Maak een vervaldatum aan in de toekomst van 365 dagen
+            DateTime vervalDatum = DateTime.Now.AddDays(365);
+
+            //Test Instantie, verplichte velden, datum in de toekomst
+            TankKaart tankKaart = new TankKaart("1234567890123456789", vervalDatum, "");
+            Assert.Equal("1234567890123456789", tankKaart.KaartNummer);
+            Assert.True(tankKaart.Actief);
+            Assert.Empty(tankKaart.Pincode);
+            Assert.Equal(vervalDatum, tankKaart.VervalDatum);
+            Assert.Null(tankKaart.Bestuurder);
+        }
+
+        //Ingevoegd Filip: Test nieuwe instantie TankKaart met Inactief (false)
+        [Fact]
+        public void InstantieTankKaartNietActief()
+        {
+            //Maak een vervaldatum aan in het verleden van -365 dagen
+            DateTime vervalDatum = DateTime.Now.AddDays(-365);
+
+            //Test Instantie, verplichte velden, datum in het verleden
+            TankKaart tankKaart = new TankKaart("1234567890123456789", vervalDatum);
+            Assert.Equal("1234567890123456789", tankKaart.KaartNummer);
+            Assert.False(tankKaart.Actief);
+            Assert.Empty(tankKaart.Pincode);
+            Assert.Equal(vervalDatum, tankKaart.VervalDatum);
+            Assert.Null(tankKaart.Bestuurder);
         }
 
         [Fact]
@@ -76,6 +110,7 @@ namespace FleetManagement.Test.ModelTest {
         public void Test_BlokeerTankKaart_Valid() {
             TankKaart t = new TankKaart("abc", new DateTime(2000, 01, 02));
             Assert.True(t.BlokkeerTankKaart("abc"));
+            Assert.False(t.Actief);  //ingevoegd Filip
         }
 
         [Fact]
@@ -83,6 +118,7 @@ namespace FleetManagement.Test.ModelTest {
             TankKaart t = new TankKaart("abc", new DateTime(2000, 01, 02));
 
             Assert.False(t.BlokkeerTankKaart(""));
+            Assert.False(t.Actief);  //ingevoegd Filip
         }
 
         [Fact]
@@ -108,9 +144,20 @@ namespace FleetManagement.Test.ModelTest {
         public void Test_UpdatePintcode_InValid() {
             TankKaart t = new TankKaart("abc", new DateTime(2025, 01, 02));
             t.VoegPincodeToe("1456");
-            t.UpdatePincode("1234");
+            t.UpdatePincode("1234"); 
             Assert.Equal("1234", t.Pincode);
         }
+
+        //Hier een mogelijk scenario:
+
+        //Haal bestuurder op (repo)
+        //Voeg bestuurder toe aan tankkaart
+        //Haal voertuig op (repo)
+        //Voeg voertuig toe via tankKaart.bestuurder
+        //Controleer dat voertuig aanwezig is
+        //Ga de brandstof halen van het voertuig (tankKaart.Bestuurder.Voertuig.Brandstof)
+        //Controleer de brandstof in de lijst
+        //Als brandstof niet aanwezig is, brandstof toevoegen
 
         //Meeting moet besproken worden over de list of string of brandstoftype
         //[Fact]

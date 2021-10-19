@@ -1,10 +1,7 @@
 ﻿using FleetManagement.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+
 
 namespace FleetManagement.Helpers
 {
@@ -34,7 +31,7 @@ namespace FleetManagement.Helpers
             }
             else
             {
-                throw new TankKaartException(" GeboorteDatum kan alleen bestaan uit cijfers: 'jaartal', 'jaartal-maand-dag' " +
+                throw new RijksRegisterNummerException(" GeboorteDatum kan alleen bestaan uit cijfers: 'jaartal', 'jaartal-maand-dag' " +
                     "of 'jaartal/maand/dag'");
             }
         }

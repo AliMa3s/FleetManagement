@@ -20,8 +20,8 @@ namespace FleetManagement.Model {
         public bool HeeftTankKaartBestuurder => Bestuurder != null;
 
         //Ctor 
-        public TankKaart(string kaartnummer, DateTime vervaldatum, string pincode = "") { //pincode mag leeg zijn, is niet verplicht
-
+        public TankKaart(string kaartnummer, bool actief, DateTime vervalDatum, string pincode = "")
+        {
             //Ingevoegd door Filip: Check pincode via class static. Er wordt exception opgegooid als het niet voldoet aan het format
             if (CheckFormats.CheckFormat.IsTankKaartNummerGeldig(kaartnummer))
             {
@@ -29,14 +29,24 @@ namespace FleetManagement.Model {
             }
 
             KaartNummer = kaartnummer;
-            VervalDatum = vervaldatum;
+            Actief = actief;
+            VervalDatum = vervalDatum;
+
+            //Ingevoegd door Filip: test slaagt anders niet als ingegeven datum is vervallen
+            if (IsTankKaartVervallen())
+            {
+                Actief = false;
+            }
 
             //Ingevoegd door Filip: Check pincode via class static. Er wordt exception opgegooid als het niet voldoet aan het format
-            if(CheckFormats.CheckFormat.IsPincodeGeldig(pincode))
+            if (CheckFormats.CheckFormat.IsPincodeGeldig(pincode))
             {
                 Pincode = pincode;
             }
         }
+
+        public TankKaart(string kaartnummer, DateTime vervaldatum, string pincode = "")
+            : this(kaartnummer, true, vervaldatum, pincode) { }  //Mogelijkheid zonder Status mee te geven
 
         public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, List<BrandstofType> brandstofType) 
             : this(kaartNummer, vervalDatum, pincode) {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FleetManagement.Exceptions
 {
     [Serializable]
-    internal class RijksRegisterNummerException : Exception
+    public class RijksRegisterNummerException : Exception
     {
         public RijksRegisterNummerException() { }
 
