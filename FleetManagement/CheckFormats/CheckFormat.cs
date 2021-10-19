@@ -41,8 +41,8 @@ namespace FleetManagement.CheckFormats
             //Controleer eerst het format
             if (Regex.IsMatch(rijksRegisterNummer.ToUpper(), @"^[0-9]{11}$"))
             {
-                BouwRijksRegister rijksRegister = new(rijksRegisterNummer);
-                BouwGeboorteDatum geboortedatum = new(ingegevenGeboorteDatum);
+                SplitRijksRegister rijksRegister = new(rijksRegisterNummer);
+                SplitGeboorteDatum geboortedatum = new(ingegevenGeboorteDatum);
 
                 //Controleer of Bestuurder is geboren in of na 2000
                 if (geboortedatum.Jaartal >= 2000)

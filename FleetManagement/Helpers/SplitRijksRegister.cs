@@ -2,7 +2,7 @@
 
 namespace FleetManagement.Helpers
 {
-    internal class BouwRijksRegister
+    internal class SplitRijksRegister
     {
         public string Maand { get;}
         public string Dag { get; }
@@ -11,7 +11,7 @@ namespace FleetManagement.Helpers
         public long CheckGetal { get; set; }
         public string ControleSom { get; }
 
-        public BouwRijksRegister(string rijksRegisterNummer)
+        public SplitRijksRegister(string rijksRegisterNummer)
         {
             Maand = rijksRegisterNummer.Substring(2, 2);
             Dag = rijksRegisterNummer.Substring(4, 2);

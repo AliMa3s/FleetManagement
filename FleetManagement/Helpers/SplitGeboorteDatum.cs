@@ -2,15 +2,14 @@
 using System;
 using System.Text.RegularExpressions;
 
-
 namespace FleetManagement.Helpers
 {
-    internal class BouwGeboorteDatum
+    internal class SplitGeboorteDatum
     {
         public int Jaartal { get; }
         public string ControleDatum { get; }
 
-        public BouwGeboorteDatum(string geboorteDatum)
+        public SplitGeboorteDatum(string geboorteDatum)
         {
             string datumInDigits = geboorteDatum.Replace("-", "").Replace("/", "");
 

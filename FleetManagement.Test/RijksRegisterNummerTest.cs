@@ -8,6 +8,7 @@ using Xunit;
 
 namespace FleetManagement.Test
 {
+    //moet nog worden geordend in meedere methods
     public class RijksRegisterNummerTest
     {
         [Theory]
@@ -20,6 +21,8 @@ namespace FleetManagement.Test
         [InlineData("76000001925", "1976")]
         [InlineData("00033100090", "2000-03-31")]
         [InlineData("18120553401", "2018-12-05")]
+        [InlineData("18250553492", "2018-25-05")]
+        [InlineData("18450553438", "2018-45-05")]
         public void RijksRegisterNummerIsGeldig(string rijksRegisterNummer, string geboorteDatum) 
         {
             Assert.True(CheckFormats.CheckFormat.IsRijksRegisterGeldig(rijksRegisterNummer, geboorteDatum));
