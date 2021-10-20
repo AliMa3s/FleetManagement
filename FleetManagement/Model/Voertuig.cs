@@ -12,34 +12,36 @@ namespace FleetManagement.Model
     public class Voertuig
     {
         public int VoertuigId { get; }
-        public string ChassisNummer { get; } //voertuig kan niet veranderen tenzij je de nummer uitvijlt ;) 
+        public AutoModel AutoModel { get; set; }  //Ingevoegd Filip, dit ontbreekte
+        public string ChassisNummer { get; }
         public string NummerPlaat { get; private set; }
         public StatusKleur? Kleur { get; set; } = null;
         public BrandstofType Brandstof { get; set; }
         public DateTime InBoekDatum { get; set; }
-        public AantalDeuren? AantalDeuren { get; set; } = null; //int?=> nullable waarde
+        public AantalDeuren? AantalDeuren { get; set; } = null;
         public Bestuurder Bestuurder { get; private set; }
 
-        public Voertuig()
+        //Static checks ingevoegd
+        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof)
         {
+            if(CheckFormats.CheckFormat.IsChassisNummerGeldig(chassisnummer))
+            {
+                this.ChassisNummer = chassisnummer;
+            }
 
+            if (CheckFormats.CheckFormat.IsNummerplaatGeldig(nummerplaat))
+            {
+                this.NummerPlaat = nummerplaat;
+            }
+
+            this.AutoModel = autoModel;
+            this.Brandstof = brandstof;
         }
-        public Voertuig(int voertuigId, string chassisnummer, string nummerplaat, StatusKleur kleur, BrandstofType brandstof, DateTime inboekdatum, AantalDeuren aantaldeuren)
+
+        public Voertuig(int voertuigId, AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof) 
+            : this(autoModel, chassisnummer, nummerplaat, brandstof)
         {
             this.VoertuigId = voertuigId;
-            this.ChassisNummer = chassisnummer;
-            this.NummerPlaat = nummerplaat;
-            Kleur = kleur;
-            this.Brandstof = brandstof;
-            this.InBoekDatum = inboekdatum;
-            this.AantalDeuren = aantaldeuren;
-        }
-
-        public void GetVoertuigID(Voertuig voertuig)
-        {
-            if (voertuig.VoertuigId < 0) throw new VoertuigException("voertuig - VoertuigId niet  gevonden.");
-
-            
         }
 
         public void VoegBestuurderToe(Bestuurder bestuurder)
@@ -59,10 +61,15 @@ namespace FleetManagement.Model
             }
         }
 
+        //VerwijderBestuurder nog invoegen
+
+        //Static check ingevoegd
         public void UpdateNummerplaat(string nummerplaat)
         {
-            if (nummerplaat.Length < 0) throw new VoertuigException("voertuig - nummerplaat niet gevonden.");
-            NummerPlaat = nummerplaat;
+           if(CheckFormats.CheckFormat.IsNummerplaatGeldig(nummerplaat))
+            {
+                NummerPlaat = nummerplaat;
+            }
         }
 
         public void SetAutoKleur(StatusKleur kleur)

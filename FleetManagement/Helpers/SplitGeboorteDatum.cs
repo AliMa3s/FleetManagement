@@ -30,8 +30,8 @@ namespace FleetManagement.Helpers
             }
             else
             {
-                throw new RijksRegisterNummerException(" GeboorteDatum kan alleen bestaan uit cijfers: 'jaartal', 'jaartal-maand-dag' " +
-                    "of 'jaartal/maand/dag'");
+                throw new RijksRegisterNummerException(" GeboorteDatum kan alleen bestaan uit cijfers: " +
+                    "'jaartal', 'jaartal-maand', 'jaartal/maand', 'jaartal-maand-dag', 'jaartal/maand/dag'");
             }
         }
     }
