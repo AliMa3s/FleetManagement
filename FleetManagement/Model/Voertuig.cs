@@ -62,7 +62,12 @@ namespace FleetManagement.Model
         }
 
         //VerwijderBestuurder nog invoegen
-
+        public void VerwijderBestuurder(Bestuurder bestuurder)
+        {
+            List<Bestuurder> bestuurders = new List<Bestuurder>();
+            if (bestuurders.Contains(bestuurder)) bestuurders.Remove(bestuurder);
+            throw new BestuurderException("Geen bestuuder gevonden");
+        }
         //Static check ingevoegd
         public void UpdateNummerplaat(string nummerplaat)
         {

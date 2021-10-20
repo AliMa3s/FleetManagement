@@ -2,8 +2,7 @@
 
 namespace FleetManagement.Exceptions
 {
-    [Serializable]
-    internal class NummerPlaatException : Exception
+    public class NummerPlaatException : Exception
     {
         public NummerPlaatException()
         {
