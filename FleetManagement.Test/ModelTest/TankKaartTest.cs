@@ -149,7 +149,7 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void VulTankKaart()
+        public void VulTankKaartMetBrandstof()
         {
             //Selecteer bestuurder in de NepRepo
             Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
