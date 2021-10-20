@@ -52,10 +52,10 @@ namespace FleetManagement.CheckFormats
 
                 //Controleer de inhoud van het format
                 if (rijksRegister.ControleDatum == geboortedatum.ControleDatum
-                    && IsRangeGeldig(rijksRegister.Dag, 0, 31)
-                    && (IsRangeGeldig(rijksRegister.Maand, 0, 12) 
-                        || IsRangeGeldig(rijksRegister.Maand, 20, 32) || IsRangeGeldig(rijksRegister.Maand, 40, 52))
-                    && IsRangeGeldig(rijksRegister.Geslacht, 0, 998)
+                    && IsBinnenBereik(rijksRegister.Dag, 0, 31)
+                    && (IsBinnenBereik(rijksRegister.Maand, 0, 12) 
+                        || IsBinnenBereik(rijksRegister.Maand, 20, 32) || IsBinnenBereik(rijksRegister.Maand, 40, 52))
+                    && IsBinnenBereik(rijksRegister.Geslacht, 0, 998)
                     && CheckSum(rijksRegister.CheckGetal, rijksRegister.ControleSom))
                 {
                     return true;
@@ -75,7 +75,7 @@ namespace FleetManagement.CheckFormats
                 ? true : throw new TankKaartException($" {nameof(tankKaartNummer)} is niet het juiste format");
         }
 
-        private static bool IsRangeGeldig(string nummer, int min, int max)
+        private static bool IsBinnenBereik(string nummer, int min, int max)
         {
             int getal = Int32.Parse(nummer);
             return getal >= min && getal <= max;
