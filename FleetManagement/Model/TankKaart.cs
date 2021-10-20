@@ -15,7 +15,7 @@ namespace FleetManagement.Model {
         public DateTime UitgeefDatum { get; set; }
         public string Pincode { get; private set; } = string.Empty;
         public bool Actief { get; private set; } = true; //ingevoegd door Filip volgens instructies van Tom:
-        public List<BrandstofType> BrandstofType { get; private set; }
+        public List<BrandstofType> BrandstofType { get; private set; } = new List<BrandstofType>();
         public Bestuurder Bestuurder { get; set; } = null;
         public bool HeeftTankKaartBestuurder => Bestuurder != null;
 
@@ -120,27 +120,32 @@ namespace FleetManagement.Model {
         //    }
         //}
 
-        public void VoegBrandstofType(BrandstofType brandstoftype) {
-            if (!BrandstofType.Contains(brandstoftype)) {
-                BrandstofType.Add(brandstoftype);
+        public bool BestaatBrandstof(BrandstofType brandstofType)
+        {
+            if (brandstofType == null) throw new TankKaartException("Brandstof mag niet null zijn");
+
+            if (BrandstofType.Contains(brandstofType))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void VoegBrandstofTypeToe(BrandstofType brandstofType) {
+            if (!BestaatBrandstof(brandstofType)) {
+                BrandstofType.Add(brandstofType);
             }
         }
-        public void VerwijderBrandstofType(BrandstofType brandstoftype) {
+        public void VerwijderBrandstofType(BrandstofType brandstofType) {
 
-            if (BrandstofType.Contains(brandstoftype)) {
-                BrandstofType.Remove(brandstoftype);
+            if (BestaatBrandstof(brandstofType)) {
+                BrandstofType.Remove(brandstofType);
             } else {
                 throw new TankKaartException("Brandstof bestaat niet");
             }
         }
-        public bool IsBrandstofTypeAanwezig(BrandstofType brandstof) {
-            if (brandstof == null) throw new TankKaartException("Brandstof mag niet null zijn");
 
-            if (BrandstofType.Contains(brandstof)) {
-                return true; //omdat brandstof is string en method is bool dus kan geen string terug returnen
-            }
-            return false;
-        }
         //Voeg bestuurder tankkaart
         public void VoegBestuurderAanTankKaart(Bestuurder bestuurder) {
             if (bestuurder != null) {

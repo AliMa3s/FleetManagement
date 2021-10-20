@@ -148,16 +148,53 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal("1234", t.Pincode);
         }
 
-        //Hier een mogelijk scenario:
+        [Fact]
+        public void VulTankKaart()
+        {
+            //Selecteer bestuurder in de NepRepo
+            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
+            Assert.NotNull(bestuurder);
+            
+            //Selecteer voor test een voertuig
+            Voertuig voertuig = _voertuigRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
+            Assert.NotNull(voertuig);
 
-        //Haal bestuurder op (repo)
-        //Voeg bestuurder toe aan tankkaart
-        //Haal voertuig op (repo)
-        //Voeg voertuig toe via tankKaart.bestuurder
-        //Controleer dat voertuig aanwezig is
-        //Ga de brandstof halen van het voertuig (tankKaart.Bestuurder.Voertuig.Brandstof)
-        //Controleer de brandstof in de lijst
-        //Als brandstof niet aanwezig is, brandstof toevoegen
+            //Maak vervaldatum in de toekomst van 365 dagen
+            DateTime vervalDatum = DateTime.Now.AddDays(365);
+
+            //Maak een TankKaart aan
+            TankKaart tankKaart = new("1234567890123456789", vervalDatum);
+
+            //Controleer of Tankkaart een bestuurder heeft
+            Assert.False(tankKaart.HeeftTankKaartBestuurder);
+
+            //Voeg bestuurder toe aan tankkaart
+            tankKaart.VoegBestuurderAanTankKaart(bestuurder);
+
+            //Controleer of bestuurder (via tankkaart) Voertuig heeft
+            Assert.True(tankKaart.HeeftTankKaartBestuurder);
+
+            //Controleer of bestuurder Voertuig heeft
+            Assert.False(tankKaart.Bestuurder.HeeftBestuurderVoertuig);
+
+            //Geef bestuurder een voertuig (via tankkaart)
+            tankKaart.Bestuurder.VoegVoertuigToe(voertuig);
+
+            //Controleer of bestuurder een voertuig heeft
+            Assert.True(tankKaart.Bestuurder.HeeftBestuurderVoertuig);
+
+            //Haal de brandstof van voertuig
+            BrandstofType brandstofType = tankKaart.Bestuurder.Voertuig.Brandstof;
+
+            //Controleer de brandstof in de lijst brandstoffen van Tankkaart
+            Assert.False(tankKaart.BestaatBrandstof(brandstofType));
+
+            //Voeg brandstof toe aan de TankKaart
+            tankKaart.VoegBrandstofTypeToe(brandstofType);
+
+            //Controleer dat brandstof aanwezig is
+            Assert.True(tankKaart.BestaatBrandstof(brandstofType));
+        }
 
         //Meeting moet besproken worden over de list of string of brandstoftype
         //[Fact]

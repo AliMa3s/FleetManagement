@@ -19,16 +19,19 @@ namespace FleetManagement.Test.Respositories
             //Selecteerlijst voor Bestuurder
             //Persoon die Voeertuig test, configureert voor alle andere teamleden de juiste instanties 
 
-            //VoegVoertuigToe(Voertuig);
+            AutoModel model = new("Toyota","Celica", AutoType.GT);
+            BrandstofType brandstof = new("Hybride met Benzine");
+
+            VoegVoertuigToe( new( model, "ABCDEFGHJKLMN1234", "1FEG830", brandstof)); //Key = ABCDEFGHJKLMN1234
             //VoegVoertuigToe(Voertuig);
             //VoegVoertuigToe(Voertuig);
         }
 
         public Voertuig GeefVoertuig(string chassisNummer)
         {
-            if (!IsVoertuigAanwezig(chassisNummer))
+            if (IsVoertuigAanwezig(chassisNummer))
             {
-                return _voertuigen[chassisNummer]; //return null of object
+                return _voertuigen[chassisNummer];
             }
 
             return null;

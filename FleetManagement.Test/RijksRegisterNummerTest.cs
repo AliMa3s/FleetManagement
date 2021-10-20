@@ -19,7 +19,6 @@ namespace FleetManagement.Test
         [InlineData("76003101965", "1976-00-31")]
         [InlineData("76000001925", "1976-00-00")]
         [InlineData("76000001925", "1976")]
-        [InlineData("00033100090", "2000-03-31")]
         [InlineData("18120553401", "2018-12-05")]
         [InlineData("18250553492", "2018-25-05")]
         [InlineData("18450553438", "2018-45-05")]
