@@ -120,7 +120,7 @@ namespace FleetManagement.Model {
         //    }
         //}
 
-        public bool BestaatBrandstof(BrandstofType brandstofType)
+        public bool IsBrandstofAanwezig(BrandstofType brandstofType)
         {
             if (brandstofType == null) throw new TankKaartException("Brandstof mag niet null zijn");
 
@@ -133,13 +133,13 @@ namespace FleetManagement.Model {
         }
 
         public void VoegBrandstofTypeToe(BrandstofType brandstofType) {
-            if (!BestaatBrandstof(brandstofType)) {
+            if (!IsBrandstofAanwezig(brandstofType)) {
                 BrandstofType.Add(brandstofType);
             }
         }
         public void VerwijderBrandstofType(BrandstofType brandstofType) {
 
-            if (BestaatBrandstof(brandstofType)) {
+            if (IsBrandstofAanwezig(brandstofType)) {
                 BrandstofType.Remove(brandstofType);
             } else {
                 throw new TankKaartException("Brandstof bestaat niet");

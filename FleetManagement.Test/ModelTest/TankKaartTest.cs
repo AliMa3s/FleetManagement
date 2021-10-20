@@ -187,13 +187,13 @@ namespace FleetManagement.Test.ModelTest {
             BrandstofType brandstofType = tankKaart.Bestuurder.Voertuig.Brandstof;
 
             //Controleer de brandstof in de lijst brandstoffen van Tankkaart
-            Assert.False(tankKaart.BestaatBrandstof(brandstofType));
+            Assert.False(tankKaart.IsBrandstofAanwezig(brandstofType));
 
             //Voeg brandstof toe aan de TankKaart
             tankKaart.VoegBrandstofTypeToe(brandstofType);
 
             //Controleer dat brandstof aanwezig is
-            Assert.True(tankKaart.BestaatBrandstof(brandstofType));
+            Assert.True(tankKaart.IsBrandstofAanwezig(brandstofType));
         }
 
         //Meeting moet besproken worden over de list of string of brandstoftype
