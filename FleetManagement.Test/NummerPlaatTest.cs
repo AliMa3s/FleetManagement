@@ -1,4 +1,5 @@
 ﻿using FleetManagement.CheckFormats;
+using FleetManagement.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,25 @@ namespace FleetManagement.Test
 {
     public class NummerPlaatTest
     {
-        [Fact]
-        public void IsNummerPlaatGeldig()
+        [Theory]
+        [InlineData("1feg830")]
+        public void IsNummerPlaatGeldig(string nummerplaat)
         {
-            bool check = CheckFormat.IsNummerplaatGeldig("1feg830");
+            bool check = CheckFormat.IsNummerplaatGeldig(nummerplaat);
             Assert.True(check);
+        }
+
+        [Theory]
+        [InlineData("1-AB-C495")]
+        [InlineData("1aBC-495")]
+        [InlineData("1AbC49-551")]
+        [InlineData("ABC495-54")]
+        [InlineData("1-AB-158")]
+        public void NummerPlaatIsGeldig(string nummerplaat)
+        {
+            Assert.Throws<NummerPlaatException>(() => {
+                CheckFormat.IsNummerplaatGeldig(nummerplaat);
+            });
         }
     }
 }
