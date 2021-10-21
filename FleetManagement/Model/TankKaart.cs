@@ -41,7 +41,10 @@ namespace FleetManagement.Model {
             //Ingevoegd door Filip: Naar VoegPincodeToe
             if (pincode != string.Empty)
             {
-                VoegPincodeToe(pincode);
+                if (CheckFormats.CheckFormat.IsPincodeGeldig(pincode))
+                {
+                    Pincode = pincode;
+                }
             }
         }
 
@@ -69,6 +72,7 @@ namespace FleetManagement.Model {
         //Ik heb het juiste uitgeschreven, met elk hun eigen exception
         public void UpdatePincode(string ingegevenPincode)
         {
+            if (!Actief) throw new TankKaartException($"kan {Pincode} niet updaten want de TankKaart is niet (meer) actief");  
 
             if (Pincode != string.Empty)
             {
@@ -111,7 +115,10 @@ namespace FleetManagement.Model {
         //    }
         //}
 
+        //Bestaande vervallen TankKaarten met pincode gaan via constructor 
         public void VoegPincodeToe(string ingegevenPincode) {
+
+            if (!Actief) throw new TankKaartException($"kan {Pincode} niet toevoegen want de TankKaart is niet (meer) actief");
 
             if (Pincode == string.Empty)
             {
