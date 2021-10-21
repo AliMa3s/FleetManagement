@@ -37,6 +37,11 @@ namespace FleetManagement.Model
             this.AutoModel = autoModel;
             this.Brandstof = brandstof;
         }
+        //ok?
+        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof, StatusKleur statusKleur):this(autoModel, chassisnummer, nummerplaat, brandstof)
+        {
+            Kleur = statusKleur;
+        }
 
         public Voertuig(int voertuigId, AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof) 
             : this(autoModel, chassisnummer, nummerplaat, brandstof)
@@ -48,7 +53,7 @@ namespace FleetManagement.Model
         {
             if(bestuurder == null)
             {
-                throw new VoertuigException($"Ingegeven argument {nameof(Bestuurder)} mag niet null zijn");
+                throw new VoertuigException($"Ingegeven argument Bestuurder mag niet null zijn");
             }
 
             if(Bestuurder == null)
@@ -57,7 +62,7 @@ namespace FleetManagement.Model
             }
             else
             {
-                throw new BestuurderException($"{nameof(Voertuig)} heeft al een {nameof(Bestuurder)}");
+                throw new BestuurderException($"voertuig heeft al een bestuurder");
             }
         }
 

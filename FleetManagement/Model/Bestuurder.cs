@@ -77,7 +77,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenVoertuig == null)
             {
-                throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn.");
+                throw new BestuurderException($"Ingegeven  mag niet null zijn.");
             }
 
             if (Voertuig == null)
@@ -89,7 +89,7 @@ namespace FleetManagement.Model
             }
             else
             {
-                throw new BestuurderException($"Er is geen {nameof(Voertuig)} om te verwijderen");
+                throw new BestuurderException($"Er is geen  om te verwijderen");
             }
         }
 
@@ -98,7 +98,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenTankKaart == null)
             {
-                throw new BestuurderException($"Ingegeven {nameof(ingegevenTankKaart)} mag niet null zijn.");
+                throw new BestuurderException($"Ingegeven  mag niet null zijn.");
             }
 
             if (TankKaart == null)
@@ -107,7 +107,7 @@ namespace FleetManagement.Model
             }
             else
             {
-                throw new BestuurderException($"{nameof(Bestuurder)} heeft al een {nameof(TankKaart)}");
+                throw new BestuurderException($"Bestuurder heeft al een Tankkaart");
             }
         }
 

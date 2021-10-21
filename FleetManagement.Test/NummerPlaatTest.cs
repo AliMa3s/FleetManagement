@@ -12,8 +12,8 @@ namespace FleetManagement.Test
     public class NummerPlaatTest
     {
         [Theory]
-        [InlineData("1feg830")]
-        public void IsNummerPlaatGeldig(string nummerplaat)
+        [InlineData("1FEG830")]
+        public void Nummerplaat_Valid(string nummerplaat)
         {
             bool check = CheckFormat.IsNummerplaatGeldig(nummerplaat);
             Assert.True(check);
@@ -25,7 +25,7 @@ namespace FleetManagement.Test
         [InlineData("1AbC49-551")]
         [InlineData("ABC495-54")]
         [InlineData("1-AB-158")]
-        public void NummerPlaatIsGeldig(string nummerplaat)
+        public void NummerplaatInvalid(string nummerplaat)
         {
             Assert.Throws<NummerPlaatException>(() => {
                 CheckFormat.IsNummerplaatGeldig(nummerplaat);
