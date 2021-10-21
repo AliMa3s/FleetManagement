@@ -94,10 +94,10 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VoegTankKaart_Valid() {
             DateTime vervalDatum = DateTime.Now.AddDays(365);
-            TankKaart t = new TankKaart("", vervalDatum, "1234");
+            Bestuurder b = new Bestuurder("Filip", "Rigoir", "1976-03-31", "B", "0514081390", "76033101986");
 
-            t.VoegKaartNummerToe("1234567890123456789");
-            Assert.Equal("1234567890123456789", t.KaartNummer);
+            b.TankKaart.VoegKaartNummerToe("1234567890123456789");
+            Assert.Equal("1234567890123456789", b.TankKaart.KaartNummer);
         }
         [Fact]
         public void VoegTankKaart_Invalid() {
@@ -199,25 +199,42 @@ namespace FleetManagement.Test.ModelTest {
             Assert.True(tankKaart.IsBrandstofAanwezig(brandstofType));
         }
 
-        //Meeting moet besproken worden over de list of string of brandstoftype
-        //[Fact]
-        //public void Test_VoegBrandStofTypeToe_Valid() {
-        //    TankKaart t = new TankKaart("abc", new DateTime(2000, 01, 02));
-        //    BrandstofType bs = new BrandstofType("Gas");
-        //    List<BrandstofType> l1 = new List<BrandstofType>();
-        //    l1.Add(bs);
-        //    t.VoegBrandstofType(bs);
-        //    Assert.Equal("Gas", bs.BrandstofNaam);
-        //}
+        [Fact]
+        public void VoegBrandsotfType() {
+            BrandstofType bs = new BrandstofType("Gas");
+            TankKaart t = new TankKaart("1234567890123456789", new DateTime(2025, 01, 02));
+            t.VoegBrandstofTypeToe(bs);
+            Assert.Equal("Gas", bs.BrandstofNaam);
+        }
 
+        [Fact]
+        public void VerwijderBrandsotfType_Valid() {
+            BrandstofType bs = new BrandstofType("Gas");
+            TankKaart t = new TankKaart("1234567890123456789", new DateTime(2025, 01, 02));
+            t.VoegBrandstofTypeToe(bs);
+            t.VerwijderBrandstofType(bs);
+        }
 
-        //rijksregister moet nog gemaakt worden in bestuurder klas
-        //[Fact]
-        //public void Test_VoegBestuurder_Valid() {
-        //    TankKaart t = new TankKaart("abc", new DateTime(2000, 01, 02));
-        //    Bestuurder b = new Bestuurder("a", "b", new DateTime(2000, 01, 02), "b", "123", "12-12-21-123-21");
-        //    t.VoegBestuurderAanTankKaart(b);
-        //}
+        [Fact]
+        public void VerwijderBrandsotfType_Invalid() {
+            BrandstofType bs = new BrandstofType("Gas");
+            TankKaart t = new TankKaart("1234567890123456789", new DateTime(2025, 01, 02));
+            var ex = Assert.Throws<TankKaartException>(() => t.VerwijderBrandstofType(bs));
+            Assert.Equal("Brandstof bestaat niet", ex.Message);
+        }
+        [Fact]
+        public void IsBrandstofAanwezig() {
+            BrandstofType bs = new BrandstofType("Gas");
+            TankKaart t = new TankKaart("1234567890123456789", new DateTime(2025, 01, 02));
+            t.VoegBrandstofTypeToe(bs);
+            t.IsBrandstofAanwezig(bs);
+        }
+        [Fact]
+        public void IsBrandstofAanwezigInvalid() {
+            TankKaart t = new TankKaart("1234567890123456789", new DateTime(2025, 01, 02));
+            var ex = Assert.Throws<TankKaartException>(() => t.IsBrandstofAanwezig(null));
+            Assert.Equal("Brandstof mag niet null zijn", ex.Message);
+        }
 
     }
 }
