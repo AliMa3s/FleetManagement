@@ -11,12 +11,12 @@ namespace FleetManagement.Model {
         //Zone Properties
         //Tankkaar id verwijderd omdat kaartnummer is uid
         public string KaartNummer { get; private set; }
-        public DateTime VervalDatum { get; set; }
+        public DateTime VervalDatum { get; }
         public DateTime UitgeefDatum { get; set; }
         public string Pincode { get; private set; } = string.Empty;
         public bool Actief { get; private set; } = true; //ingevoegd door Filip volgens instructies van Tom:
         public List<BrandstofType> BrandstofType { get; private set; } = new List<BrandstofType>();
-        public Bestuurder Bestuurder { get; set; } = null;
+        public Bestuurder Bestuurder { get; private set; } = null;
         public bool HeeftTankKaartBestuurder => Bestuurder != null;
 
         //Ctor 
@@ -38,10 +38,10 @@ namespace FleetManagement.Model {
                 Actief = false;
             }
 
-            //Ingevoegd door Filip: Check pincode via class static. Er wordt exception opgegooid als het niet voldoet aan het format
-            if (CheckFormats.CheckFormat.IsPincodeGeldig(pincode))
+            //Ingevoegd door Filip: Naar VoegPincodeToe
+            if (pincode != string.Empty)
             {
-                Pincode = pincode;
+                VoegPincodeToe(pincode);
             }
         }
 
@@ -53,19 +53,6 @@ namespace FleetManagement.Model {
             BrandstofType = brandstofType;
         }
 
-        public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, DateTime uitgeefdatum, Bestuurder bestuurder)
-        {
-            KaartNummer = kaartNummer;
-            VervalDatum = vervalDatum;
-            UitgeefDatum = uitgeefdatum;
-            Pincode = pincode;
-            //BrandstofType = brandstofType;
-            Bestuurder = bestuurder;
-
-
-            BrandstofType = new List<BrandstofType>();
-        }
-
         //Zone Methodes
         public bool IsTankKaartVervallen() {
             if (VervalDatum >= DateTime.Now) {
@@ -73,17 +60,35 @@ namespace FleetManagement.Model {
             }
             return true;
         }
-        public bool BlokkeerTankKaart(string kaartnummer) {
-            if (KaartNummer == kaartnummer) {
-                return true;
-            }
-            return false;
-
-            //Wordt gewoon: zie property Actief
-            //Actief = false;
+        public void BlokkeerTankKaart(string kaartnummer) {
+            Actief = false;
         }
-        public void UpdatePincode(string nummer) {
-            VoegPincodeToe(nummer);
+
+        //UpdatePincode kan niet verwijzen naar VoegPincodeToe
+        //Dat is de reden waarom ik zei bij Tom: dat doet hetzelfde; dus dit mag weg
+        //Ik heb het juiste uitgeschreven, met elk hun eigen exception
+        public void UpdatePincode(string ingegevenPincode)
+        {
+
+            if (Pincode != string.Empty)
+            {
+                //Ingevoegd door Filip: Check pincode via class static.
+                if (ingegevenPincode == string.Empty)
+                {
+                    Pincode = ingegevenPincode;
+                }
+                else
+                {
+                    if (CheckFormats.CheckFormat.IsPincodeGeldig(ingegevenPincode))
+                    {
+                        Pincode = ingegevenPincode;
+                    }
+                }
+            }
+            else
+            {
+                throw new PincodeException($"Een lege {nameof(Pincode)} kan niet worden geüpdatet");
+            }
         }
 
         //Te vragen van Tom of goed is hier anders kan verwijderd wordern! <NO Stress> 
@@ -95,20 +100,30 @@ namespace FleetManagement.Model {
         //    }
         //}
 
-        public void VoegKaartNummerToe(string kaartnummer) {
-            if (!string.IsNullOrWhiteSpace(kaartnummer)) {
-                KaartNummer = kaartnummer;
-            } else {
-                throw new TankKaartException("Kaart nummer kan niet leeg zijn");
-            }
-        }
+        //Dat mag niet mogelijk zijn. KaartNummer is geen ID uit onze DB maar wel van de bank.
+        //Een kaart met een andere KaartNummer moet een nieuwe aangemaakt worden.
 
-        public void VoegPincodeToe(string pincode) {
+        //public void VoegKaartNummerToe(string kaartnummer) {
+        //    if (!string.IsNullOrWhiteSpace(kaartnummer)) {
+        //        KaartNummer = kaartnummer;
+        //    } else {
+        //        throw new TankKaartException("Kaart nummer kan niet leeg zijn"); //KaartNummer kan nooit leeg zijn! Static CheckFormat!!
+        //    }
+        //}
 
-            //Ingevoegd door Filip: Check pincode via class static. Er wordt exception opgegooid als het niet voldoet aan het format
-            if (CheckFormats.CheckFormat.IsPincodeGeldig(pincode))
+        public void VoegPincodeToe(string ingegevenPincode) {
+
+            if (Pincode == string.Empty)
             {
-                Pincode = pincode;
+                //Ingevoegd door Filip: Check pincode via class static.
+                if (CheckFormats.CheckFormat.IsPincodeGeldig(ingegevenPincode))
+                {
+                    Pincode = ingegevenPincode;
+                }
+            }
+            else
+            {
+                throw new PincodeException($"Er is al een {nameof(Pincode)} toegevoegd");
             }
         }
         //public void VoegBestuurderToe(Bestuurder bestuurder) {
