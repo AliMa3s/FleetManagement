@@ -54,7 +54,7 @@ namespace FleetManagement.Model
             BestuurderId = bestuurderId;
         }
 
-        //Voertuig toevoegen
+        //bellen
         public void VoegVoertuigToe(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -65,7 +65,7 @@ namespace FleetManagement.Model
             if (Voertuig == null)
             {
                 Voertuig = ingegevenVoertuig;
-                Voertuig.GeefBestuurder(this);
+                Voertuig.KrijgBestuurder(this);
             }
             else
             {
@@ -73,7 +73,8 @@ namespace FleetManagement.Model
             }
         }
 
-        public void GeefVoertuig(Voertuig ingegevenVoertuig)
+        //opnemen
+        public void KrijgVoertuig(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
             {
@@ -90,7 +91,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Voertuig verwijder maar ID & ChassisNummer moeten overeenkomen
+        //bellen
         public virtual void VerwijderVoertuig(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -116,6 +117,31 @@ namespace FleetManagement.Model
             }
         }
 
+        //opnemen
+        public void WisVoertuig(Voertuig ingegevenVoertuig)
+        {
+            if (ingegevenVoertuig == null)
+            {
+                throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn.");
+            }
+
+            if (HeeftBestuurderVoertuig)
+            {
+                if (Voertuig.Equals(ingegevenVoertuig))
+                {
+                    Voertuig = null;
+                }
+                else
+                {
+                    throw new BestuurderException($"{nameof(Voertuig)} kan niet verwijderd worden");
+                }
+            }
+            else
+            {
+                throw new BestuurderException($"Er is geen {nameof(Voertuig)} om te verwijderen"); //nog invoegen bij Tank & Voertuig
+            }
+        }
+
         //Voegt TankKaart toe naar relatie
         public virtual void VoegTankKaartToe(TankKaart ingegevenTankKaart)
         {
@@ -127,7 +153,7 @@ namespace FleetManagement.Model
             if (!HeeftBestuurderTankKaart)
             {
                 TankKaart = ingegevenTankKaart;
-                TankKaart.GeefBestuurder(this); //Plaatst Bestuurder
+                TankKaart.KrijgBestuurder(this); //Plaatst Bestuurder
             }
             else
             {
@@ -136,7 +162,7 @@ namespace FleetManagement.Model
         }
 
         //Krijgt TankKaart van relatie (Geen verwijzing terug)
-        public void GeefTankKaart(TankKaart ingegevenTankKaart)
+        public void KrijgTankKaart(TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)
             {
@@ -154,9 +180,15 @@ namespace FleetManagement.Model
         }
 
         //TankKaart verwijderen maar BankKaartNummer & GeligheidsDatum moeten overeenkomen
+        //bellen
         public virtual void VerwijderTankKaart(TankKaart ingegevenTankKaart)
         {
-            if (TankKaart != null)
+            if (ingegevenTankKaart == null)
+            {
+                throw new BestuurderException($"{nameof(TankKaart)} mag niet null zijn");
+            }
+
+            if (HeeftBestuurderTankKaart)
             {
                 if (TankKaart.Equals(ingegevenTankKaart))
                 { //Ali: overriden van Equals TankKaart met BankKaartNummer en GeldegheidsDatum, 
@@ -171,6 +203,31 @@ namespace FleetManagement.Model
             else
             {
                 throw new BestuurderException($"Er is geen {nameof(TankKaart)} om te verwijderen");
+            }
+        }
+
+        //opnemen
+        public virtual void WisTankKaart(TankKaart ingegevenTankKaart)
+        {
+            if (ingegevenTankKaart == null)
+            {
+                throw new BestuurderException($"{nameof(TankKaart)} mag niet null zijn");
+            }
+
+            if (HeeftBestuurderTankKaart)
+            {
+                if (TankKaart.Equals(ingegevenTankKaart))
+                {
+                    TankKaart = null;
+                }
+                else
+                {
+                    throw new BestuurderException($"{nameof(TankKaart)} kan niet gewist worden");
+                }
+            }
+            else
+            {
+                throw new BestuurderException($"Er is geen {nameof(TankKaart)} om te wissen");
             }
         }
 

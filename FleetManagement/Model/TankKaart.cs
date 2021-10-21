@@ -161,15 +161,15 @@ namespace FleetManagement.Model {
         }
 
         //Voeg bestuurder toe aan tankkaart
-        public void VoegBestuurderToe(Bestuurder bestuurder) {
-            if (bestuurder == null) {
+        public void VoegBestuurderToe(Bestuurder ingegevenVoertuig) {
+            if (ingegevenVoertuig == null) {
                 throw new TankKaartException("Bestuurder mag niet null zijn");
             }
 
             if (!HeeftTankKaartBestuurder)
             {
-                Bestuurder = bestuurder;
-                Bestuurder.GeefTankKaart(this);
+                Bestuurder = ingegevenVoertuig;
+                Bestuurder.KrijgTankKaart(this);
             }
             else
             {
@@ -177,8 +177,8 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Geef Bestuurder een tankkaart
-        public void GeefBestuurder(Bestuurder ingegevenBestuurder)
+        //Krijg Bestuurder een tankkaart
+        public void KrijgBestuurder(Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
             {
@@ -195,23 +195,40 @@ namespace FleetManagement.Model {
             }
         }
 
+        //Bellen
         public void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder != null)
             {
-                if (Bestuurder.Equals(ingegevenBestuurder))
-                {
-                    Bestuurder.VerwijderTankKaart(this);
-                    Bestuurder = null;
-                }
-                else
-                {
-                    throw new BestuurderException($"{nameof(Bestuurder)} kan niet verwijderd worden");
-                }
+                throw new BestuurderException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+            }
+
+            if (Bestuurder.Equals(ingegevenBestuurder))
+            {
+                Bestuurder.WisTankKaart(this);
+                Bestuurder = null;
             }
             else
             {
+                throw new BestuurderException($"{nameof(Bestuurder)} kan niet verwijderd worden");
+            }
+        }
+
+        //Opnemen
+        public void WisBestuurder(Bestuurder ingegevenBestuurder)
+        {
+            if (ingegevenBestuurder != null)
+            {
                 throw new BestuurderException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+            }
+
+            if (Bestuurder.Equals(ingegevenBestuurder))
+            {
+                Bestuurder = null;
+            }
+            else
+            {
+                throw new BestuurderException($"{nameof(Bestuurder)} kan niet verwijderd worden");
             }
         }
     }

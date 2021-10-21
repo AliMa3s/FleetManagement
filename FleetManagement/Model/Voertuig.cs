@@ -61,7 +61,7 @@ namespace FleetManagement.Model
             if (!HeeftVoertuigBestuurder)
             {
                 Bestuurder = ingegevenBestuurder;
-                Bestuurder.GeefVoertuig(this);
+                Bestuurder.KrijgVoertuig(this);
             }
             else
             {
@@ -70,7 +70,7 @@ namespace FleetManagement.Model
         }
 
         //Geef Voertuig een bestuurder
-        public void GeefBestuurder(Bestuurder ingegevenBestuurder)
+        public void KrijgBestuurder(Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
             {
@@ -87,26 +87,43 @@ namespace FleetManagement.Model
             }
         }
 
-        //VerwijderBestuurder nog invoegen
+        //Verwijder Bestuurder met relatie
         public void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
         {
-            if (ingegevenBestuurder != null)
-            {
-                if (Bestuurder.Equals(ingegevenBestuurder))
-                {
-                    Bestuurder.VerwijderVoertuig(this);
-                    Bestuurder = null;
-                }
-                else
-                {
-                    throw new BestuurderException($"{nameof(Bestuurder)} kan niet verwijderd worden");
-                }
-            }
-            else
+            if (ingegevenBestuurder == null)
             {
                 throw new BestuurderException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
+
+            if (Bestuurder.Equals(ingegevenBestuurder))
+            {
+                Bestuurder.WisVoertuig(this);
+                Bestuurder = null;
+            }
+            else
+            {
+                throw new BestuurderException($"{nameof(Bestuurder)} kan niet worden verwijderd");
+            }
         }
+
+        //Wis een bestuurder door een relatie
+        public void WisBestuurder(Bestuurder ingegevenBestuurder)
+        {
+            if (ingegevenBestuurder == null)
+            {
+                throw new BestuurderException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+            }
+
+            if (Bestuurder.Equals(ingegevenBestuurder))
+            {
+                Bestuurder = null;
+            }
+            else
+            {
+                throw new BestuurderException($"{nameof(Bestuurder)} kan niet worden verwijderd");
+            }
+        }
+
         //Static check ingevoegd
         public void UpdateNummerplaat(string nummerplaat)
         {
