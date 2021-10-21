@@ -20,7 +20,7 @@ namespace FleetManagement.CheckFormats
         public static bool IsRijbewijsNummerGeldig(string rijBewijsNummer)
         {
             return Regex.IsMatch(rijBewijsNummer, @"^[0-9]{10}$")
-                ? true : throw new RijBewijsNummerException($"{nameof(rijBewijsNummer)} moet een string zijn van 10 cijfers");
+                ? true : throw new RijBewijsNummerException($"rijBewijsNummer moet een string zijn van 10 cijfers");
         }
 
         public static bool IsChassisNummerGeldig(string chassisNummer)

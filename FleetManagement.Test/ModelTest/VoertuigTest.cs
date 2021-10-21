@@ -16,33 +16,31 @@ namespace FleetManagement.Test.ModelTest {
        private readonly IBestuurderNepRepo _bestuurderRepo = new BestuurderNepManager();
 
         [Fact]
-        public void Test_VoegVoertuigToe_Valid()
+        public void Test_VoegVoertuigToeMetKleur_Valid()
         {
-            //Vraag eerst correcte instantie van Bestuurder aan in Repo: (zoals je selecteert in de lijst)
-            //Bestuurder bestuurderZonderIetsTeDoen = _bestuurderRepo.GeefBestuurder("76033101986");
+            BrandstofType brandstof = new("diesel");
 
-            ////Geeft zekerheid dat repo een instantie van bestuurder afleverd
-            //Assert.True(_bestuurderRepo.IsBestuurderAanwezig("76033101986"), "Bestuurder moet aanwezig zijn");
+            AutoModel autoModel = new("mercedes", "c-klasse", AutoType.GT);
+            Voertuig voertuig = new Voertuig(autoModel, "WAUZZZ8V5KA106598", "1AYB020", brandstof);
 
-            ////Maak uw Voertuig aan
-            //BrandstofType brandstofType = new BrandstofType("benzine");
+            Assert.Equal("mercedes", voertuig.AutoModel.Merk);
+            Assert.Equal("c-klasse", voertuig.AutoModel.AutoModelNaam);
+            Assert.Equal(AutoType.GT, AutoType.GT);
+            Assert.Equal("WAUZZZ8V5KA106598", voertuig.ChassisNummer);
+            Assert.Equal("1AYB020", voertuig.NummerPlaat);
+            Assert.Equal("diesel", voertuig.Brandstof.BrandstofNaam);
 
-            //AutoModel autoModel = new AutoModel("ferrari", "ferrari enzo", AutoType.GT);
-            //Voertuig voertuig = new Voertuig(autoModel, "WAUZZZ8V5KA106598", "1ABC234", brandstofType);
-
-            ////Voeg nu bestuurder toe aan uw Voertuig
-            //Bestuurder bestuurder = new Bestuurder("ahmet", "yilmaz", "07/12-1998", "B", "flip flap flop", "12345678912");
-            //bestuurder.VoegVoertuigToe(voertuig);
-            
-
-
-
-            //Zo, hoef je je niet bezig te houden met een geldige bestuurder aan te maken
-            //De bedoeling is dat je ook bij VoertuigNepManager geldige instantie aanmaakt van Voertuig,
-            //meer hoef je niet te doen, zo ben ik ook in staat een geldig voertuig op te vragen
         }
         [Fact]
-        public void Test_Ctor_VoertuigValid()
+        public void VoegBestuurderToe_Valid()
+        {
+            Bestuurder bestuurder = new Bestuurder("ahmet", "yilmaz", "1976-03-31", "B","1234567891" , "76033101986");
+            Voertuig voertuig = new Voertuig(new AutoModel("ferrari", "ferrari enzo", AutoType.GT), "WAUZZZ8V5KA106598", "1ABC495", new("benzine"));
+            voertuig.VoegBestuurderToe(bestuurder);
+        }
+        
+        [Fact]
+        public void Test_CtorZonderKleur_VoertuigValid()
         {
             //er is iets mis met nummerplaat. 1abc495 => exception("1-abc-495") maar werkt niet.
             Voertuig voertuig = new Voertuig(new AutoModel("ferrari", "ferrari enzo", AutoType.GT), "WAUZZZ8V5KA106598","1ABC495",new("benzine"));

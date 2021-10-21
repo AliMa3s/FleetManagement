@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FleetManagement.Exceptions
 {
     [Serializable]
-    internal class BestuurderException : Exception
+    public class BestuurderException : Exception //deze klasse was internal heb veranderd naar public 'ahmet'
     {
         public BestuurderException() { }
 
