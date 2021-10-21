@@ -39,7 +39,8 @@ namespace FleetManagement.Model
             this.Brandstof = brandstof;
         }
         //ok?
-        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof, StatusKleur statusKleur):this(autoModel, chassisnummer, nummerplaat, brandstof)
+        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof, StatusKleur statusKleur)
+            :this(autoModel, chassisnummer, nummerplaat, brandstof)
         {
             Kleur = statusKleur;
         }
@@ -47,7 +48,14 @@ namespace FleetManagement.Model
         public Voertuig(int voertuigId, AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof) 
             : this(autoModel, chassisnummer, nummerplaat, brandstof)
         {
-            this.VoertuigId = voertuigId;
+            if(voertuigId > 0)
+            {
+                this.VoertuigId = voertuigId;
+            }
+            else
+            {
+                throw new VoertuigException($"{nameof(VoertuigId)} moet meer zijn dan 0");
+            }
         }
 
         //Voeg Bestuurder toe aan Voertuig
@@ -65,7 +73,7 @@ namespace FleetManagement.Model
             }
             else
             {
-                throw new BestuurderException($"voertuig heeft al een bestuurder");
+                throw new VoertuigException($"{nameof(Voertuig)} heeft al een {nameof(Bestuurder)}");
             }
         }
 
@@ -83,7 +91,7 @@ namespace FleetManagement.Model
             }
             else
             {
-                throw new BestuurderException($"{nameof(Voertuig)} heeft al een {nameof(Bestuurder)}");
+                throw new VoertuigException($"{nameof(Voertuig)} heeft al een {nameof(Bestuurder)}");
             }
         }
 
@@ -92,7 +100,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenBestuurder == null)
             {
-                throw new BestuurderException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+                throw new VoertuigException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
 
             if (Bestuurder.Equals(ingegevenBestuurder))
@@ -102,7 +110,7 @@ namespace FleetManagement.Model
             }
             else
             {
-                throw new BestuurderException($"{nameof(Bestuurder)} kan niet worden verwijderd");
+                throw new VoertuigException($"{nameof(Bestuurder)} kan niet worden verwijderd");
             }
         }
 
@@ -111,7 +119,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenBestuurder == null)
             {
-                throw new BestuurderException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+                throw new VoertuigException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
 
             if (Bestuurder.Equals(ingegevenBestuurder))
@@ -120,7 +128,7 @@ namespace FleetManagement.Model
             }
             else
             {
-                throw new BestuurderException($"{nameof(Bestuurder)} kan niet worden verwijderd");
+                throw new VoertuigException($"{nameof(Bestuurder)} kan niet worden verwijderd");
             }
         }
 

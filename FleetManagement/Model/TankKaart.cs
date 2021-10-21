@@ -49,7 +49,7 @@ namespace FleetManagement.Model {
         }
 
         public TankKaart(string kaartnummer, DateTime vervaldatum, string pincode = "")
-            : this(kaartnummer, true, vervaldatum, pincode) { }  //Mogelijkheid zonder Status mee te geven
+            : this(kaartnummer, true, vervaldatum, pincode) { }  //Mogelijkheid zonder Actief mee te geven
 
         public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, List<BrandstofType> brandstofType) 
             : this(kaartNummer, vervalDatum, pincode) {
@@ -200,7 +200,7 @@ namespace FleetManagement.Model {
         {
             if (ingegevenBestuurder != null)
             {
-                throw new BestuurderException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+                throw new TankKaartException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
 
             if (Bestuurder.Equals(ingegevenBestuurder))
@@ -210,7 +210,7 @@ namespace FleetManagement.Model {
             }
             else
             {
-                throw new BestuurderException($"{nameof(Bestuurder)} kan niet verwijderd worden");
+                throw new TankKaartException($"{nameof(Bestuurder)} kan niet verwijderd worden");
             }
         }
 
@@ -219,7 +219,7 @@ namespace FleetManagement.Model {
         {
             if (ingegevenBestuurder != null)
             {
-                throw new BestuurderException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+                throw new TankKaartException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
 
             if (Bestuurder.Equals(ingegevenBestuurder))
@@ -228,7 +228,7 @@ namespace FleetManagement.Model {
             }
             else
             {
-                throw new BestuurderException($"{nameof(Bestuurder)} kan niet verwijderd worden");
+                throw new TankKaartException($"{nameof(Bestuurder)} kan niet verwijderd worden");
             }
         }
     }

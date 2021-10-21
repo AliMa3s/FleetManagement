@@ -20,7 +20,7 @@ namespace FleetManagement.Test.Respositories
             //Persoon die Bestuurder test, configureert voor alle andere teamleden de juiste instanties 
 
             VoegBestuurderToe(new Bestuurder("Filip","Rigoir", "1976-03-31", "B","0514081390", "76033101986")); //key = 76033101986
-            //VoegBestuurderToe(Bestuurder);
+            VoegBestuurderToe(new Bestuurder("Dirk", "Frimout", "1976-00-31", "C", "0514081390", "76003101965")); //key = 76003101965
             //VoegBestuurderToe(Bestuurder);
         }
 

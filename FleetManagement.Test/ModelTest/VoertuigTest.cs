@@ -34,11 +34,64 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VoegBestuurderToe_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder("ahmet", "yilmaz", "1976-03-31", "B","1234567891" , "76033101986");
-            Voertuig voertuig = new Voertuig(new AutoModel("ferrari", "ferrari enzo", AutoType.GT), "WAUZZZ8V5KA106598", "1ABC495", new("benzine"));
+            //Selecteer een bestuurder uit de lijst
+            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
+
+            //Maak een autoType & Benzine
+            BrandstofType bezine = new("benzine");
+            AutoModel automodel = new ("ferrari", "ferrari enzo", AutoType.GT);
+
+            //Maak een voertuig aan
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1-ABC-495", bezine);
+
+            //Controleer dat TankKaart nog geen Bestuurder heeft
+            Assert.False(voertuig.HeeftVoertuigBestuurder);
+
+            //Voeg de bestuurder toe
             voertuig.VoegBestuurderToe(bestuurder);
+
+            //controleer nu dat bestuurder aanwezig is
+            Assert.True(voertuig.HeeftVoertuigBestuurder);
+
+            //Controleer de relatie: Bestuurder moet nu ook het voertuig hebben
+            Assert.True(voertuig.Bestuurder.HeeftBestuurderVoertuig);
+
+            //Controleer dat alle chassisNummers gelijk zijn
+            Assert.Equal(voertuig.ChassisNummer, voertuig.Bestuurder.Voertuig.ChassisNummer);
+            Assert.Equal("WAUZZZ8V5KA106598", voertuig.ChassisNummer);
+            Assert.Equal("WAUZZZ8V5KA106598", voertuig.Bestuurder.Voertuig.ChassisNummer);
+
+            //Controleer de Nummerplaten
+            Assert.Equal(voertuig.NummerPlaat, voertuig.Bestuurder.Voertuig.NummerPlaat);
+            Assert.Equal("1-ABC-495", voertuig.NummerPlaat);
+            Assert.Equal("1-ABC-495", voertuig.Bestuurder.Voertuig.NummerPlaat);
+
+            //Voeg een andere Bestuurder toe via Voertuig (selecteer ander Bestuurder in repo)
+            Bestuurder anderBestuurder = _bestuurderRepo.GeefBestuurder("76003101965");
+
+            var ex = Assert.Throws<VoertuigException>(() => { 
+                 voertuig.VoegBestuurderToe(anderBestuurder);
+            });
+
+            Assert.Equal($"{nameof(Voertuig)} heeft al een {nameof(Bestuurder)}", ex.Message);
+
+            //Voeg nu een ander bestuurder toe via de relatie
+            ex = Assert.Throws<VoertuigException>(() => {
+                voertuig.Bestuurder.Voertuig.VoegBestuurderToe(anderBestuurder);
+            });
+
+            Assert.Equal($"{nameof(Voertuig)} heeft al een {nameof(Bestuurder)}", ex.Message);
+
+            //Voeg een Voertuig toe via de relatie
+            var ex2 = Assert.Throws<BestuurderException>(() => {
+                voertuig.Bestuurder.VoegVoertuigToe( 
+                        new Voertuig(automodel, "GDTKBSD1256YFES56", "2BDO563", bezine)
+                    );
+            });
+
+            Assert.Equal($"{nameof(Bestuurder)} heeft al een {nameof(Voertuig)}", ex2.Message);
         }
-        
+
         [Fact]
         public void Test_CtorZonderKleur_VoertuigValid()
         {
