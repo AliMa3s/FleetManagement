@@ -146,6 +146,8 @@ namespace FleetManagement.Test.ModelTest {
             Assert.False(t.IsTankKaartVervallen());
         }
 
+        //Test wordt afgekeurd omdat de vervaldatum alang is gepasseerd (jaar 2000) 
+        //Pincode toevoegen bij vervallen of geblokkeerde TankKaart is niet mogelijk
         [Fact]
         public void VoegPincodeToe_Valid() {
             TankKaart t = new TankKaart("1234567890123456789", new DateTime(2000, 01, 02));

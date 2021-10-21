@@ -42,7 +42,7 @@ namespace FleetManagement.Test.ModelTest {
             AutoModel automodel = new ("ferrari", "ferrari enzo", AutoType.GT);
 
             //Maak een voertuig aan
-            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1-ABC-495", bezine);
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
 
             //Controleer dat TankKaart nog geen Bestuurder heeft
             Assert.False(voertuig.HeeftVoertuigBestuurder);
@@ -63,8 +63,8 @@ namespace FleetManagement.Test.ModelTest {
 
             //Controleer de Nummerplaten
             Assert.Equal(voertuig.NummerPlaat, voertuig.Bestuurder.Voertuig.NummerPlaat);
-            Assert.Equal("1-ABC-495", voertuig.NummerPlaat);
-            Assert.Equal("1-ABC-495", voertuig.Bestuurder.Voertuig.NummerPlaat);
+            Assert.Equal("1ABC495", voertuig.NummerPlaat);
+            Assert.Equal("1ABC495", voertuig.Bestuurder.Voertuig.NummerPlaat);
 
             //Voeg een andere Bestuurder toe via Voertuig (selecteer ander Bestuurder in repo)
             Bestuurder anderBestuurder = _bestuurderRepo.GeefBestuurder("76003101965");
