@@ -34,14 +34,14 @@ namespace FleetManagement.Test.ModelTest {
             Assert.False(tankKaart.HeeftTankKaartBestuurder, "Bestuurder moet leeg kunnen zijn bij nieuwe instantie");
 
             //Voeg nu bestuurder toe aan TankKaart
-            tankKaart.VoegBestuurderAanTankKaart(bestuurderZonderIetsTeDoen);
+            tankKaart.VoegBestuurderToe(bestuurderZonderIetsTeDoen);
 
             Assert.True(tankKaart.HeeftTankKaartBestuurder);
 
             //Probeer nog eens bestuurder toe te voegen alvorens eerst te controleren:
 
             Assert.Throws<TankKaartException>(() => {
-                tankKaart.VoegBestuurderAanTankKaart(bestuurderZonderIetsTeDoen);
+                tankKaart.VoegBestuurderToe(bestuurderZonderIetsTeDoen);
                 //relatie is één op één, je moet eerst huidige bestuurder verwijderen
             });
 
@@ -181,7 +181,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.False(tankKaart.HeeftTankKaartBestuurder);
 
             //Voeg bestuurder toe aan tankkaart
-            tankKaart.VoegBestuurderAanTankKaart(bestuurder);
+            tankKaart.VoegBestuurderToe(bestuurder);
 
             //Controleer of bestuurder (via tankkaart) Voertuig heeft
             Assert.True(tankKaart.HeeftTankKaartBestuurder);

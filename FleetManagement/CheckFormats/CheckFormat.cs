@@ -9,10 +9,6 @@ namespace FleetManagement.CheckFormats
     {
         public static bool IsPincodeGeldig(string pincode)
         {
-            //We mogen geen exception gooien voor iets wat toegestaan is.
-            if (pincode == string.Empty)
-                return true;
-
             return Regex.IsMatch(pincode, @"^[0-9]{4,5}$")
                 ? true : throw new PincodeException($"{nameof(pincode)} moet een string zijn met 4 of 5 cijfers");
         }
@@ -51,10 +47,10 @@ namespace FleetManagement.CheckFormats
 
                 //Controleer de inhoud van het format
                 if (rijksRegister.ControleDatum == geboortedatum.ControleDatum
-                    && IsBinnenBereik(rijksRegister.Dag, 0, 31)
-                    && (IsBinnenBereik(rijksRegister.Maand, 0, 12) 
-                        || IsBinnenBereik(rijksRegister.Maand, 20, 32) || IsBinnenBereik(rijksRegister.Maand, 40, 52))
-                    && IsBinnenBereik(rijksRegister.Geslacht, 1, 998)
+                    && IsNummerBinnenBereik(rijksRegister.Dag, 0, 31)
+                    && (IsNummerBinnenBereik(rijksRegister.Maand, 0, 12) 
+                        || IsNummerBinnenBereik(rijksRegister.Maand, 20, 32) || IsNummerBinnenBereik(rijksRegister.Maand, 40, 52))
+                    && IsNummerBinnenBereik(rijksRegister.Geslacht, 1, 998)
                     && CheckSum(rijksRegister.CheckGetal, rijksRegister.ControleSom))
                 {
                     return true;
@@ -74,7 +70,7 @@ namespace FleetManagement.CheckFormats
                 ? true : throw new TankKaartException($" {nameof(tankKaartNummer)} is niet het juiste format");
         }
 
-        private static bool IsBinnenBereik(string nummer, int min, int max)
+        private static bool IsNummerBinnenBereik(string nummer, int min, int max)
         {
             int getal = Int32.Parse(nummer);
             return getal >= min && getal <= max;

@@ -55,7 +55,25 @@ namespace FleetManagement.Model
         }
 
         //Voertuig toevoegen
-        public virtual void VoegVoertuigToe(Voertuig ingegevenVoertuig)
+        public void VoegVoertuigToe(Voertuig ingegevenVoertuig)
+        {
+            if (ingegevenVoertuig == null)
+            {
+                throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn");
+            }
+
+            if (Voertuig == null)
+            {
+                Voertuig = ingegevenVoertuig;
+                Voertuig.GeefBestuurder(this);
+            }
+            else
+            {
+                throw new BestuurderException($"{nameof(Bestuurder)} heeft al een {nameof(Voertuig)}");
+            }
+        }
+
+        public void GeefVoertuig(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
             {
@@ -77,54 +95,83 @@ namespace FleetManagement.Model
         {
             if (ingegevenVoertuig == null)
             {
-                throw new BestuurderException($"Ingegeven  mag niet null zijn.");
+                throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn.");
             }
 
-            if (Voertuig == null)
+            if (HeeftBestuurderVoertuig)
             {
                 if (Voertuig.Equals(ingegevenVoertuig))
                 {
-                    Voertuig = ingegevenVoertuig; //Override Equals met ChassisNummer & VoertuigId
+                    Voertuig.VerwijderBestuurder(this);
+                    Voertuig = null; //Override Equals met ChassisNummer & VoertuigId
+                }
+                else
+                {
+                    throw new BestuurderException($"{nameof(Voertuig)} kan niet verwijderd worden");
                 }
             }
             else
             {
-                throw new BestuurderException($"Er is geen  om te verwijderen");
+                throw new BestuurderException($"Er is geen {nameof(Voertuig)} om te verwijderen");
             }
         }
 
-        //TankKaart toevoegen
+        //Voegt TankKaart toe naar relatie
         public virtual void VoegTankKaartToe(TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)
             {
-                throw new BestuurderException($"Ingegeven  mag niet null zijn.");
+                throw new BestuurderException($"Ingegeven {nameof(TankKaart)} mag niet null zijn.");
             }
 
-            if (TankKaart == null)
+            if (!HeeftBestuurderTankKaart)
+            {
+                TankKaart = ingegevenTankKaart;
+                TankKaart.GeefBestuurder(this); //Plaatst Bestuurder
+            }
+            else
+            {
+                throw new BestuurderException($"{nameof(Bestuurder)} heeft al een {nameof(TankKaart)}");
+            }
+        }
+
+        //Krijgt TankKaart van relatie (Geen verwijzing terug)
+        public void GeefTankKaart(TankKaart ingegevenTankKaart)
+        {
+            if (ingegevenTankKaart == null)
+            {
+                throw new BestuurderException($"Ingegeven {nameof(TankKaart)} mag niet null zijn");
+            }
+
+            if (!HeeftBestuurderTankKaart)
             {
                 TankKaart = ingegevenTankKaart;
             }
             else
             {
-                throw new BestuurderException($"Bestuurder heeft al een Tankkaart");
+                throw new BestuurderException($"{nameof(Bestuurder)} heeft al een {nameof(TankKaart)}");
             }
         }
 
         //TankKaart verwijderen maar BankKaartNummer & GeligheidsDatum moeten overeenkomen
-        public virtual bool VerwijderTankKaart(TankKaart ingegevenTankKaart)
+        public virtual void VerwijderTankKaart(TankKaart ingegevenTankKaart)
         {
             if (TankKaart != null)
             {
                 if (TankKaart.Equals(ingegevenTankKaart))
                 { //Ali: overriden van Equals TankKaart met BankKaartNummer en GeldegheidsDatum, 
+                    TankKaart.VerwijderBestuurder(this);
                     TankKaart = null;
                 }
-
-                throw new BestuurderException($"{nameof(TankKaart)} verwijderen is mislukt omdat TankKaartnummer niet overeenkomt");
+                else
+                {
+                    throw new BestuurderException($"{nameof(TankKaart)} kan niet verwijderd worden");
+                }
             }
-
-            throw new BestuurderException($"Er is geen {nameof(TankKaart)} om te verwijderen");
+            else
+            {
+                throw new BestuurderException($"Er is geen {nameof(TankKaart)} om te verwijderen");
+            }
         }
 
         //Vergelijk twee instanties van Bestuurder met: ID & rijksRegisterNummer

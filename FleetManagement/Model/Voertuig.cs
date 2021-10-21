@@ -20,6 +20,7 @@ namespace FleetManagement.Model
         public DateTime InBoekDatum { get; set; }
         public AantalDeuren? AantalDeuren { get; set; } = null;
         public Bestuurder Bestuurder { get; private set; }
+        public bool HeeftVoertuigBestuurder => Bestuurder != null;
 
         //Static checks ingevoegd
         public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof)
@@ -49,16 +50,18 @@ namespace FleetManagement.Model
             this.VoertuigId = voertuigId;
         }
 
-        public void VoegBestuurderToe(Bestuurder bestuurder)
+        //Voeg Bestuurder toe aan Voertuig
+        public void VoegBestuurderToe(Bestuurder ingegevenBestuurder)
         {
-            if(bestuurder == null)
+            if(ingegevenBestuurder == null)
             {
-                throw new VoertuigException($"Ingegeven argument Bestuurder mag niet null zijn");
+                throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if(Bestuurder == null)
+            if (!HeeftVoertuigBestuurder)
             {
-                Bestuurder = bestuurder;
+                Bestuurder = ingegevenBestuurder;
+                Bestuurder.GeefVoertuig(this);
             }
             else
             {
@@ -66,12 +69,43 @@ namespace FleetManagement.Model
             }
         }
 
-        //VerwijderBestuurder nog invoegen
-        public void VerwijderBestuurder(Bestuurder bestuurder)
+        //Geef Voertuig een bestuurder
+        public void GeefBestuurder(Bestuurder ingegevenBestuurder)
         {
-            List<Bestuurder> bestuurders = new List<Bestuurder>();
-            if (bestuurders.Contains(bestuurder)) bestuurders.Remove(bestuurder);
-            throw new BestuurderException("Geen bestuuder gevonden");
+            if (ingegevenBestuurder == null)
+            {
+                throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
+            }
+
+            if (!HeeftVoertuigBestuurder)
+            {
+                Bestuurder = ingegevenBestuurder;
+            }
+            else
+            {
+                throw new BestuurderException($"{nameof(Voertuig)} heeft al een {nameof(Bestuurder)}");
+            }
+        }
+
+        //VerwijderBestuurder nog invoegen
+        public void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
+        {
+            if (ingegevenBestuurder != null)
+            {
+                if (Bestuurder.Equals(ingegevenBestuurder))
+                {
+                    Bestuurder.VerwijderVoertuig(this);
+                    Bestuurder = null;
+                }
+                else
+                {
+                    throw new BestuurderException($"{nameof(Bestuurder)} kan niet verwijderd worden");
+                }
+            }
+            else
+            {
+                throw new BestuurderException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+            }
         }
         //Static check ingevoegd
         public void UpdateNummerplaat(string nummerplaat)

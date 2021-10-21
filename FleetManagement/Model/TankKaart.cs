@@ -76,16 +76,16 @@ namespace FleetManagement.Model {
 
             if (Pincode != string.Empty)
             {
-                //Ingevoegd door Filip: Check pincode via class static.
                 if (ingegevenPincode == string.Empty)
                 {
-                    Pincode = ingegevenPincode;
+                    Pincode = ingegevenPincode; //Pincode mag leeg zijn
                 }
                 else
                 {
+                    //Ingevoegd door Filip: Check pincode via class static.
                     if (CheckFormats.CheckFormat.IsPincodeGeldig(ingegevenPincode))
                     {
-                        Pincode = ingegevenPincode;
+                        Pincode = ingegevenPincode;  //Wanneer pincode is ingevuld moet het  aan de eisen voldoen
                     }
                 }
             }
@@ -115,7 +115,7 @@ namespace FleetManagement.Model {
         //    }
         //}
 
-        //Bestaande vervallen TankKaarten met pincode gaan via constructor 
+        //Bestaande vervallen TankKaarten met pincode gaan via constructor
         public void VoegPincodeToe(string ingegevenPincode) {
 
             if (!Actief) throw new TankKaartException($"kan {Pincode} niet toevoegen want de TankKaart is niet (meer) actief");
@@ -133,14 +133,6 @@ namespace FleetManagement.Model {
                 throw new PincodeException($"Er is al een {nameof(Pincode)} toegevoegd");
             }
         }
-        //public void VoegBestuurderToe(Bestuurder bestuurder) {
-        //    if (bestuurder != null) {
-        //        Bestuurder = bestuurder;
-        //        bestuurder.SetTankKaart(this);
-        //    } else {
-        //        throw new TankKaartException("Bestuurder mag niet null zijn.");
-        //    }
-        //}
 
         public bool IsBrandstofAanwezig(BrandstofType brandstofType)
         {
@@ -168,32 +160,59 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Voeg bestuurder tankkaart
-        public void VoegBestuurderAanTankKaart(Bestuurder bestuurder) {
-            if (bestuurder != null) {
+        //Voeg bestuurder toe aan tankkaart
+        public void VoegBestuurderToe(Bestuurder bestuurder) {
+            if (bestuurder == null) {
+                throw new TankKaartException("Bestuurder mag niet null zijn");
+            }
 
-                if(Bestuurder == null)
-                {
-                    Bestuurder = bestuurder;
-                }
-                else
-                {
-                    throw new TankKaartException("Er is al een bestuurder aan de TankKaart toegevoegd");
-                }
-
-                //if (bestuurder.TankKaart == null) { //Dat is niet de taak van tankkaart, maar wel van bestuurder zelf
-                //    Bestuurder = bestuurder;
-                //    bestuurder.TankKaartToevoegen(this);
-                //} else {
-                //    throw new TankKaartException("Bestuurder heef tankkaart");
-                //}
+            if (!HeeftTankKaartBestuurder)
+            {
+                Bestuurder = bestuurder;
+                Bestuurder.GeefTankKaart(this);
             }
             else
             {
-                throw new TankKaartException("Bestuurder mag niet null zijn");
+                throw new TankKaartException("Er is al een bestuurder aan de TankKaart toegevoegd");
             }
         }
 
+        //Geef Bestuurder een tankkaart
+        public void GeefBestuurder(Bestuurder ingegevenBestuurder)
+        {
+            if (ingegevenBestuurder == null)
+            {
+                throw new TankKaartException("Bestuurder mag niet null zijn");
+            }
 
+            if (!HeeftTankKaartBestuurder)
+            {
+                Bestuurder = ingegevenBestuurder;
+            }
+            else
+            {
+                throw new TankKaartException("Er is al een bestuurder aan de TankKaart toegevoegd");
+            }
+        }
+
+        public void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
+        {
+            if (ingegevenBestuurder != null)
+            {
+                if (Bestuurder.Equals(ingegevenBestuurder))
+                {
+                    Bestuurder.VerwijderTankKaart(this);
+                    Bestuurder = null;
+                }
+                else
+                {
+                    throw new BestuurderException($"{nameof(Bestuurder)} kan niet verwijderd worden");
+                }
+            }
+            else
+            {
+                throw new BestuurderException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+            }
+        }
     }
 }
