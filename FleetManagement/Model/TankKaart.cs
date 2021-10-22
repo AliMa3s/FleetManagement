@@ -9,7 +9,6 @@ namespace FleetManagement.Model {
     public class TankKaart {
 
         //Zone Properties
-        //Tankkaar id verwijderd omdat kaartnummer is uid
         public string TankKaartNummer { get; private set; }
         public DateTime GeldigheidsDatum { get; }
         public DateTime UitgeefDatum { get; set; }
@@ -56,8 +55,23 @@ namespace FleetManagement.Model {
         //Ctor met Brandstof verwijderd. Je kan een lijst met dubbels ingeven dat niet gecontroleerd wordt.
         //We passeren de method zodat het altijd juist moet zijn (default is altijd lege lijst)
 
-        public void BlokkeerTankKaart(string kaartnummer) {
-            Actief = false;
+        public void BlokkeerTankKaart() {
+
+            if(Actief)
+            {
+                Actief = false;
+            }
+            else
+            {
+                if(!IsGeldigheidsDatumVervallen)
+                {
+                     throw new TankKaartException($"{nameof(TankKaart)} is al geblokkeerd");
+                }
+                else
+                {
+                    throw new TankKaartException($"{nameof(TankKaart)} is reeds vervallen");
+                }
+            }
         }
 
         //UpdatePincode kan niet verwijzen naar VoegPincodeToe
