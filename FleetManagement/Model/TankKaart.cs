@@ -4,6 +4,7 @@ using FleetManagement.Exceptions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FleetManagement.CheckFormats;
 
 namespace FleetManagement.Model {
     public class TankKaart {
@@ -22,8 +23,13 @@ namespace FleetManagement.Model {
         //Ctor 
         public TankKaart(string kaartnummer, bool actief, DateTime vervalDatum, string pincode = "")
         {
+            if(string.IsNullOrEmpty(kaartnummer))
+            {
+                throw new TankKaartException($"{nameof(TankKaart)} Kan niet null of leeg zijn");
+            }
+
             //Ingevoegd door Filip: Check KaartNummer
-            if (CheckFormats.CheckFormat.IsTankKaartNummerGeldig(kaartnummer))
+            if (CheckFormat.IsTankKaartNummerGeldig(kaartnummer))
             {
                 TankKaartNummer = kaartnummer;
             }
@@ -40,7 +46,7 @@ namespace FleetManagement.Model {
             if (pincode != string.Empty)
             {
                 //Ingevoegd door Filip: Naar static CheckFormat
-                if (CheckFormats.CheckFormat.IsPincodeGeldig(pincode))
+                if (CheckFormat.IsPincodeGeldig(pincode))
                 {
                     Pincode = pincode;
                 }
@@ -95,7 +101,7 @@ namespace FleetManagement.Model {
                 else
                 {
                     //Ingevoegd door Filip: Check pincode via class static.
-                    if (CheckFormats.CheckFormat.IsPincodeGeldig(ingegevenPincode))
+                    if (CheckFormat.IsPincodeGeldig(ingegevenPincode))
                     {
                         Pincode = ingegevenPincode;  //Wanneer pincode is ingevuld moet het  aan de eisen voldoen
                     }
@@ -111,23 +117,23 @@ namespace FleetManagement.Model {
         public void VoegPincodeToe(string ingegevenPincode) {
 
             if(String.IsNullOrEmpty(ingegevenPincode)) {
-                throw new TankKaartException($"Ingegeven Pincode mag niet null zijn");
+                throw new TankKaartException("Ingegeven Pincode mag niet null zijn");
             }
 
             if (!Actief) 
-                throw new TankKaartException($"Kan Pincode niet toevoegen want de TankKaart is niet (meer) actief");
+                throw new TankKaartException("Kan Pincode niet toevoegen want de TankKaart is niet (meer) actief");
 
             if (Pincode == string.Empty)
             {
                 //Ingevoegd door Filip: Check pincode via class static.
-                if (CheckFormats.CheckFormat.IsPincodeGeldig(ingegevenPincode))
+                if (CheckFormat.IsPincodeGeldig(ingegevenPincode))
                 {
                     Pincode = ingegevenPincode;
                 }
             }
             else
             {
-                throw new TankKaartException($"Er is al een {nameof(Pincode)} toegevoegd");
+                throw new TankKaartException("Er is al een Pincode toegevoegd");
             }
         }
 
@@ -148,9 +154,6 @@ namespace FleetManagement.Model {
             if (!IsBrandstofAanwezig(brandstofType)) {
                 Brandstoffen.Add(brandstofType);
             }
-            else {
-                throw new TankKaartException($"Kan geen {nameof(BrandstofType)} toevoegen die al in de lijst voorkomt");
-            }
         }
         public void VerwijderBrandstof(BrandstofType brandstofType) {
 
@@ -162,14 +165,14 @@ namespace FleetManagement.Model {
         }
 
         //Voeg bestuurder toe aan tankkaart
-        public void VoegBestuurderToe(Bestuurder ingegevenVoertuig) {
-            if (ingegevenVoertuig == null) {
-                throw new TankKaartException("Bestuurder mag niet null zijn");
+        public void VoegBestuurderToe(Bestuurder ingegevenBestuurder) {
+            if (ingegevenBestuurder == null) {
+                throw new TankKaartException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
             if (!HeeftTankKaartBestuurder)
             {
-                Bestuurder = ingegevenVoertuig;
+                Bestuurder = ingegevenBestuurder;
                 Bestuurder.KrijgTankKaart(this);
             }
             else
@@ -183,7 +186,7 @@ namespace FleetManagement.Model {
         {
             if (ingegevenBestuurder == null)
             {
-                throw new TankKaartException("Bestuurder mag niet null zijn");
+                throw new TankKaartException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
             if (!HeeftTankKaartBestuurder)
@@ -192,7 +195,7 @@ namespace FleetManagement.Model {
             }
             else
             {
-                throw new TankKaartException("Er is al een bestuurder aan de TankKaart toegevoegd");
+                throw new TankKaartException($"Er is al een {nameof(Bestuurder)} aan de TankKaart toegevoegd");
             }
         }
 
@@ -239,7 +242,8 @@ namespace FleetManagement.Model {
             if (obj is TankKaart)
             {
                 TankKaart ander = obj as TankKaart;
-                return TankKaartNummer == ander.TankKaartNummer;
+                return TankKaartNummer == ander.TankKaartNummer 
+                    && GeldigheidsDatum == ander.GeldigheidsDatum;
             }
             else
             {
@@ -249,7 +253,7 @@ namespace FleetManagement.Model {
 
         public override int GetHashCode()
         {
-            return TankKaartNummer.GetHashCode();
+            return TankKaartNummer.GetHashCode() ^ GeldigheidsDatum.GetHashCode();
         }
     }
 }

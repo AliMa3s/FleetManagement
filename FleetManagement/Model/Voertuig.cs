@@ -100,7 +100,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenBestuurder == null)
             {
-                throw new VoertuigException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+                throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
             }
 
             if (Bestuurder.Equals(ingegevenBestuurder))
@@ -119,7 +119,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenBestuurder == null)
             {
-                throw new VoertuigException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+                throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
             }
 
             if (Bestuurder.Equals(ingegevenBestuurder))

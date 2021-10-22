@@ -14,7 +14,6 @@ namespace FleetManagement.Test.ModelTest {
 
         
        private readonly IBestuurderNepRepo _bestuurderRepo = new BestuurderNepManager();
-
         [Fact]
         public void Test_VoegVoertuigToeMetKleur_Valid()
         {
@@ -91,9 +90,31 @@ namespace FleetManagement.Test.ModelTest {
 
             Assert.Equal($"{nameof(Bestuurder)} heeft al een {nameof(Voertuig)}", ex2.Message);
 
-            //Controleer eerste Bestuurder uit repo die we hebben toegevoegd
+            //Controleer de eerste Bestuurder uit repo die we hebben toegevoegd
             //Via Rreference Type moet dat gekoppeld zijn aan het Voertuig
             Assert.True(bestuurder.HeeftBestuurderVoertuig);
+
+
+            //Probeer eerst anderBestuurder mee te geven om te verwijderen      
+             var ex3 = Assert.Throws<VoertuigException>(() => {
+                 voertuig.VerwijderBestuurder(anderBestuurder);
+             });
+
+            Assert.Equal($"{nameof(Bestuurder)} kan niet worden verwijderd", ex3.Message);
+
+            //Probeer nog eens null mee te geven om te verwijderen  
+            var ex4 = Assert.Throws<VoertuigException>(() => {
+                voertuig.VerwijderBestuurder(null);
+            });
+
+            Assert.Equal($"Ingegeven {nameof(Bestuurder)} mag niet null zijn", ex4.Message);
+
+            //Verwijder nu de juiste Bestuurder
+            voertuig.VerwijderBestuurder(bestuurder);
+
+            //Controleer voertuig & bestuurder, beide moeten losgekoppeld zijn
+            Assert.False(voertuig.HeeftVoertuigBestuurder);
+            Assert.False(bestuurder.HeeftBestuurderVoertuig); //Reference Type is ook null
         }
 
         [Fact]
