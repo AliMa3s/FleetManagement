@@ -85,11 +85,15 @@ namespace FleetManagement.Test.ModelTest {
             //Voeg een Voertuig toe via de relatie
             var ex2 = Assert.Throws<BestuurderException>(() => {
                 voertuig.Bestuurder.VoegVoertuigToe( 
-                        new Voertuig(automodel, "GDTKBSD1256YFES56", "2BDO563", bezine)
+                        new Voertuig(5, automodel, "GDTKBSD1256YFES56", "2BDO563", bezine)
                     );
             });
 
             Assert.Equal($"{nameof(Bestuurder)} heeft al een {nameof(Voertuig)}", ex2.Message);
+
+            //Controleer eerste Bestuurder uit repo die we hebben toegevoegd
+            //Via Rreference Type moet dat gekoppeld zijn aan het Voertuig
+            Assert.True(bestuurder.HeeftBestuurderVoertuig);
         }
 
         [Fact]

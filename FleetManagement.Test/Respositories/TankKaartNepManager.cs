@@ -46,9 +46,9 @@ namespace FleetManagement.Test.Respositories
 
         private void VoegTankKaartToe(TankKaart tankKaart)
         {
-            if (!IsTankKaartAanwezig(tankKaart.KaartNummer))
+            if (!IsTankKaartAanwezig(tankKaart.TankKaartNummer))
             {
-                _tankKaarten.Add(tankKaart.KaartNummer, tankKaart);
+                _tankKaarten.Add(tankKaart.TankKaartNummer, tankKaart);
             }
             else
             {

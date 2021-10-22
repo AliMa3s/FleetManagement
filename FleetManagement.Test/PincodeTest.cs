@@ -26,13 +26,6 @@ namespace FleetManagement.Test
             Assert.True(check);
         }
 
-        [Fact]
-        public void PincodeMagLeegZijn()
-        {
-            bool check = CheckFormat.IsPincodeGeldig("");
-            Assert.True(check);
-        }
-
         [Theory]
         [InlineData("000000")]
         [InlineData("M001")]

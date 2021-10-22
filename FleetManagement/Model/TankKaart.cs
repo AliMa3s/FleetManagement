@@ -10,37 +10,37 @@ namespace FleetManagement.Model {
 
         //Zone Properties
         //Tankkaar id verwijderd omdat kaartnummer is uid
-        public string KaartNummer { get; private set; }
-        public DateTime VervalDatum { get; }
+        public string TankKaartNummer { get; private set; }
+        public DateTime GeldigheidsDatum { get; }
         public DateTime UitgeefDatum { get; set; }
         public string Pincode { get; private set; } = string.Empty;
         public bool Actief { get; private set; } = true; //ingevoegd door Filip volgens instructies van Tom:
-        public List<BrandstofType> BrandstofType { get; private set; } = new List<BrandstofType>();
+        public List<BrandstofType> Brandstoffen { get; private set; } = new List<BrandstofType>();
         public Bestuurder Bestuurder { get; private set; } = null;
         public bool HeeftTankKaartBestuurder => Bestuurder != null;
+        public bool IsGeldigheidsDatumVervallen => GeldigheidsDatum.Date <= DateTime.Today;
 
         //Ctor 
         public TankKaart(string kaartnummer, bool actief, DateTime vervalDatum, string pincode = "")
         {
-            //Ingevoegd door Filip: Check pincode via class static. Er wordt exception opgegooid als het niet voldoet aan het format
+            //Ingevoegd door Filip: Check KaartNummer
             if (CheckFormats.CheckFormat.IsTankKaartNummerGeldig(kaartnummer))
             {
-                Pincode = pincode;
+                TankKaartNummer = kaartnummer;
             }
 
-            KaartNummer = kaartnummer;
             Actief = actief;
-            VervalDatum = vervalDatum;
+            GeldigheidsDatum = vervalDatum;
 
             //Ingevoegd door Filip: test slaagt anders niet als ingegeven datum is vervallen
-            if (IsTankKaartVervallen())
+            if (IsGeldigheidsDatumVervallen)
             {
                 Actief = false;
             }
 
-            //Ingevoegd door Filip: Naar VoegPincodeToe
             if (pincode != string.Empty)
             {
+                //Ingevoegd door Filip: Naar static CheckFormat
                 if (CheckFormats.CheckFormat.IsPincodeGeldig(pincode))
                 {
                     Pincode = pincode;
@@ -48,21 +48,14 @@ namespace FleetManagement.Model {
             }
         }
 
+        //Nieuw kaartnummer aanmaken = Actief op true. 
+        //GeldigeheidsDatum wordt wel gecontroleerd of dat niet op false moet komen te staan
         public TankKaart(string kaartnummer, DateTime vervaldatum, string pincode = "")
-            : this(kaartnummer, true, vervaldatum, pincode) { }  //Mogelijkheid zonder Actief mee te geven
+            : this(kaartnummer, true, vervaldatum, pincode) { }
 
-        public TankKaart(string kaartNummer, DateTime vervalDatum, string pincode, List<BrandstofType> brandstofType) 
-            : this(kaartNummer, vervalDatum, pincode) {
-            BrandstofType = brandstofType;
-        }
+        //Ctor met Brandstof verwijderd. Je kan een lijst met dubbels ingeven dat niet gecontroleerd wordt.
+        //We passeren de method zodat het altijd juist moet zijn (default is altijd lege lijst)
 
-        //Zone Methodes
-        public bool IsTankKaartVervallen() {
-            if (VervalDatum >= DateTime.Now) {
-                return false;
-            }
-            return true;
-        }
         public void BlokkeerTankKaart(string kaartnummer) {
             Actief = false;
         }
@@ -72,11 +65,16 @@ namespace FleetManagement.Model {
         //Ik heb het juiste uitgeschreven, met elk hun eigen exception
         public void UpdatePincode(string ingegevenPincode)
         {
-            if (!Actief) throw new TankKaartException($"kan {Pincode} niet updaten want de TankKaart is niet (meer) actief");  
+            if (String.IsNullOrEmpty(ingegevenPincode)) {
+                throw new TankKaartException($"Ingegeven Pincode mag niet null zijn");
+            }
+
+            if (!Actief) 
+                throw new TankKaartException($"Kan Pincode niet updaten want de TankKaart is niet (meer) actief");  
 
             if (Pincode != string.Empty)
             {
-                if (ingegevenPincode == string.Empty)
+                if (String.IsNullOrEmpty(ingegevenPincode))
                 {
                     Pincode = ingegevenPincode; //Pincode mag leeg zijn
                 }
@@ -91,34 +89,19 @@ namespace FleetManagement.Model {
             }
             else
             {
-                throw new PincodeException($"Een lege {nameof(Pincode)} kan niet worden geüpdatet");
+                throw new TankKaartException($"Een lege {nameof(Pincode)} kan niet worden geüpdatet");
             }
         }
-
-        //Te vragen van Tom of goed is hier anders kan verwijderd wordern! <NO Stress> 
-        //public void VoegKaartnummerIdToe(string kaartnummer) {
-        //    if (id > 0) {
-        //        TankKaartId = id;
-        //    } else {
-        //        throw new TankKaartException("TankkaarId moet groter zijn dan 0");
-        //    }
-        //}
-
-        //Dat mag niet mogelijk zijn. KaartNummer is geen ID uit onze DB maar wel van de bank.
-        //Een kaart met een andere KaartNummer moet een nieuwe aangemaakt worden.
-
-        //public void VoegKaartNummerToe(string kaartnummer) {
-        //    if (!string.IsNullOrWhiteSpace(kaartnummer)) {
-        //        KaartNummer = kaartnummer;
-        //    } else {
-        //        throw new TankKaartException("Kaart nummer kan niet leeg zijn"); //KaartNummer kan nooit leeg zijn! Static CheckFormat!!
-        //    }
-        //}
 
         //Bestaande vervallen TankKaarten met pincode gaan via constructor
         public void VoegPincodeToe(string ingegevenPincode) {
 
-            if (!Actief) throw new TankKaartException($"kan {Pincode} niet toevoegen want de TankKaart is niet (meer) actief");
+            if(String.IsNullOrEmpty(ingegevenPincode)) {
+                throw new TankKaartException($"Ingegeven Pincode mag niet null zijn");
+            }
+
+            if (!Actief) 
+                throw new TankKaartException($"Kan Pincode niet toevoegen want de TankKaart is niet (meer) actief");
 
             if (Pincode == string.Empty)
             {
@@ -130,7 +113,7 @@ namespace FleetManagement.Model {
             }
             else
             {
-                throw new PincodeException($"Er is al een {nameof(Pincode)} toegevoegd");
+                throw new TankKaartException($"Er is al een {nameof(Pincode)} toegevoegd");
             }
         }
 
@@ -138,7 +121,7 @@ namespace FleetManagement.Model {
         {
             if (brandstofType == null) throw new TankKaartException("Brandstof mag niet null zijn");
 
-            if (BrandstofType.Contains(brandstofType))
+            if (Brandstoffen.Contains(brandstofType))
             {
                 return true;
             }
@@ -146,15 +129,19 @@ namespace FleetManagement.Model {
             return false;
         }
 
-        public void VoegBrandstofTypeToe(BrandstofType brandstofType) {
+        public void VoegBrandstofToe(BrandstofType brandstofType) {
+
             if (!IsBrandstofAanwezig(brandstofType)) {
-                BrandstofType.Add(brandstofType);
+                Brandstoffen.Add(brandstofType);
+            }
+            else {
+                throw new TankKaartException($"Kan geen {nameof(BrandstofType)} toevoegen die al in de lijst voorkomt");
             }
         }
-        public void VerwijderBrandstofType(BrandstofType brandstofType) {
+        public void VerwijderBrandstof(BrandstofType brandstofType) {
 
             if (IsBrandstofAanwezig(brandstofType)) {
-                BrandstofType.Remove(brandstofType);
+                Brandstoffen.Remove(brandstofType);
             } else {
                 throw new TankKaartException("Brandstof bestaat niet");
             }
@@ -230,6 +217,25 @@ namespace FleetManagement.Model {
             {
                 throw new TankKaartException($"{nameof(Bestuurder)} kan niet verwijderd worden");
             }
+        }
+
+        //Vergelijk twee instanties van TankKaart met: TankKaartNummer
+        public override bool Equals(object obj)
+        {
+            if (obj is TankKaart)
+            {
+                TankKaart ander = obj as TankKaart;
+                return TankKaartNummer == ander.TankKaartNummer;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return TankKaartNummer.GetHashCode();
         }
     }
 }

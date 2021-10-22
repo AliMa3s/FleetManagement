@@ -154,6 +154,25 @@ namespace FleetManagement.Model
         {
             AantalDeuren = deurenaantal;
         }
+
+        //Vergelijk twee instanties van Voertuig met: ChassisNummer
+        public override bool Equals(object obj)
+        {
+            if (obj is Voertuig)
+            {
+                Voertuig ander = obj as Voertuig;
+                return ChassisNummer == ander.ChassisNummer;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return ChassisNummer.GetHashCode();
+        }
     }
 }
 

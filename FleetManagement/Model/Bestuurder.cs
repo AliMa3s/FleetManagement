@@ -231,13 +231,13 @@ namespace FleetManagement.Model
             }
         }
 
-        //Vergelijk twee instanties van Bestuurder met: ID & rijksRegisterNummer
+        //Vergelijk twee instanties van Bestuurder met: rijksRegisterNummer
         public override bool Equals(object obj)
         {
             if (obj is Bestuurder)
             {
                 Bestuurder ander = obj as Bestuurder;
-                return BestuurderId == ander.BestuurderId && RijksRegisterNummer == ander.RijksRegisterNummer;
+                return RijksRegisterNummer == ander.RijksRegisterNummer;
             }
             else
             {
@@ -247,7 +247,7 @@ namespace FleetManagement.Model
 
         public override int GetHashCode()
         {
-            return BestuurderId.GetHashCode() ^ RijksRegisterNummer.GetHashCode();
+            return RijksRegisterNummer.GetHashCode();
         }
     }
 }
