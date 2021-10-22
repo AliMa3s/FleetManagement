@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Exceptions
 {
-    
+    [Serializable]
     public class ChassisNummerException : Exception
     {
         public ChassisNummerException() { }

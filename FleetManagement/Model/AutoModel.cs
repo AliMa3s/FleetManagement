@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FleetManagement.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,14 @@ namespace FleetManagement.Model
         public AutoModel(int autoModelId, string merk, string autoModelNaam, AutoType autoType) 
             : this(merk, autoModelNaam, autoType)
         {
-            AutoModelId = autoModelId;
+            if (autoModelId > 0)
+            {
+                AutoModelId = autoModelId;
+            }
+            else
+            {
+                throw new AutoModelException($"{nameof(AutoModelId)} moet meer zijn dan 0");
+            }
         } 
     }
 }

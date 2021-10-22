@@ -31,7 +31,7 @@ namespace FleetManagement.Test.ModelTest {
 
         }
         [Fact]
-        public void VoegBestuurderToe_Valid()
+        public void VoegBestuurderToe_EnVerwijder()
         {
             //Selecteer een bestuurder uit de lijst
             Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
@@ -52,7 +52,7 @@ namespace FleetManagement.Test.ModelTest {
             //controleer nu dat bestuurder aanwezig is
             Assert.True(voertuig.HeeftVoertuigBestuurder);
 
-            //Controleer de relatie: Bestuurder moet nu ook het voertuig hebben
+            //Controleer de relatie: Bestuurder moet nu ook het voertuig kennen
             Assert.True(voertuig.Bestuurder.HeeftBestuurderVoertuig);
 
             //Controleer dat alle chassisNummers gelijk zijn

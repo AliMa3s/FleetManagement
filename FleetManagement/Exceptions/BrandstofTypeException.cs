@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace FleetManagement.Model {
+namespace FleetManagement.Exceptions
+{
+
     [Serializable]
     public class BrandstofTypeException : Exception {
         public BrandstofTypeException() {

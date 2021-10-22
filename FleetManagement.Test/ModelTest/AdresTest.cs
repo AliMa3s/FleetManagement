@@ -23,9 +23,10 @@ namespace FleetManagement.Test.ModelTest
         }
         public void Adres_Ctor_WithId()
         {
-            Adres adres = new Adres(1);
+            Adres adres = new Adres(1, "", "", "", ""); //adres mag lege strings hebben
             Assert.Equal(1, adres.AdresId);
         }
 
+        //Check ook exception van AdresId
     }
 }

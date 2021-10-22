@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FleetManagement.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,14 +15,6 @@ namespace FleetManagement.Model
         public string Postcode { get; set; }
         public string Stad { get; set; }
 
-        
-
-        public Adres(int adresId) 
-        {
-            AdresId = adresId;
-        }
-
-
         public Adres(string straat, string nr, string postcode, string stad)
         {
             Straat = straat;
@@ -30,13 +23,24 @@ namespace FleetManagement.Model
             Stad = stad;
         }
 
-        public override string ToString()
+        public Adres(int adresId, string straat, string nr, string postcode, string stad)
+            : this(straat, nr, postcode, stad)
         {
-            return $"[STRAAT]:{Straat}" +
-                $"[NUMMER]:{Nr}" +
-                $"[POSTCODE]:{Postcode}" +
-                $"[STAD]:{Stad}";
+            if (adresId > 0)
+            {
+                AdresId = adresId;
+            }
+            else
+            {
+                throw new AdresException($"{nameof(AdresId)} moet meer zijn dan 0");
+            }
+        }
 
+        public override string ToString()
+        { 
+            StringBuilder build = new($"{Straat} {Nr}");
+            build.Append("{Postcode} {Stad}");
+            return build.ToString();
         }
     }
 }

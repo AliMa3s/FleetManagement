@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-public class VoertuigException : Exception
+
+namespace FleetManagement.Exceptions
 {
-	public VoertuigException(string message) : base(message)
+    [Serializable]
+    public class VoertuigException : Exception
     {
+        public VoertuigException() { }
 
-    }
-    public VoertuigException(string message , Exception innerException) : base(message, innerException)
-    {
+        public VoertuigException(string message) : base(message) { }
 
+        public VoertuigException(string message, Exception innerException) : base(message, innerException) { }
     }
 }
