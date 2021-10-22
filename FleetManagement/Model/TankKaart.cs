@@ -173,7 +173,7 @@ namespace FleetManagement.Model {
             if (!HeeftTankKaartBestuurder)
             {
                 Bestuurder = ingegevenBestuurder;
-                Bestuurder.KrijgTankKaart(this);
+                Bestuurder.VoegTankKaartToe("connecteren", this);
             }
             else
             {
@@ -181,21 +181,21 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Krijg Bestuurder een tankkaart
-        public void KrijgBestuurder(Bestuurder ingegevenBestuurder)
+        //Voeg bestuurder toe aan tankkaart
+        public void VoegBestuurderToe(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
             {
                 throw new TankKaartException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if (!HeeftTankKaartBestuurder)
+            if (!HeeftTankKaartBestuurder && actie == "connecteren")
             {
                 Bestuurder = ingegevenBestuurder;
             }
             else
             {
-                throw new TankKaartException($"Er is al een {nameof(Bestuurder)} aan de TankKaart toegevoegd");
+                throw new TankKaartException("Er is al een bestuurder aan de TankKaart toegevoegd");
             }
         }
 
@@ -209,7 +209,7 @@ namespace FleetManagement.Model {
 
             if (Bestuurder.Equals(ingegevenBestuurder))
             {
-                Bestuurder.WisTankKaart(this);
+                Bestuurder.VerwijderTankKaart("deconnecteren", this);
                 Bestuurder = null;
             }
             else
@@ -219,14 +219,14 @@ namespace FleetManagement.Model {
         }
 
         //Opnemen
-        public void WisBestuurder(Bestuurder ingegevenBestuurder)
+        public void VerwijderBestuurder(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder != null)
             {
                 throw new TankKaartException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
 
-            if (Bestuurder.Equals(ingegevenBestuurder))
+            if (Bestuurder.Equals(ingegevenBestuurder) && actie == "deconnecteren")
             {
                 Bestuurder = null;
             }

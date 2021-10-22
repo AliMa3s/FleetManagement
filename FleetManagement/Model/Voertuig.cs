@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FleetManagement.Exceptions;
-using FleetManagement.Model;
 
 //fout gecorrigeerd in namespace
 namespace FleetManagement.Model
@@ -12,11 +11,11 @@ namespace FleetManagement.Model
     public class Voertuig
     {
         public int VoertuigId { get; }
-        public AutoModel AutoModel { get; set; }  //Ingevoegd Filip, dit ontbreekte
+        public AutoModel AutoModel { get; }  //Ingevoegd Filip, dit ontbreekte
         public string ChassisNummer { get; }
         public string NummerPlaat { get; private set; }
         public StatusKleur? Kleur { get; set; } = null;
-        public BrandstofType Brandstof { get; set; }
+        public BrandstofType Brandstof { get; }
         public DateTime InBoekDatum { get; set; }
         public AantalDeuren? AantalDeuren { get; set; } = null;
         public Bestuurder Bestuurder { get; private set; }
@@ -34,7 +33,7 @@ namespace FleetManagement.Model
             {
                 this.NummerPlaat = nummerplaat;
             }
-
+            
             this.AutoModel = autoModel;
             this.Brandstof = brandstof;
         }
@@ -69,7 +68,7 @@ namespace FleetManagement.Model
             if (!HeeftVoertuigBestuurder)
             {
                 Bestuurder = ingegevenBestuurder;
-                Bestuurder.KrijgVoertuig(this);
+                Bestuurder.VoegVoertuigToe("connecteren", this);
             }
             else
             {
@@ -77,15 +76,15 @@ namespace FleetManagement.Model
             }
         }
 
-        //Geef Voertuig een bestuurder
-        public void KrijgBestuurder(Bestuurder ingegevenBestuurder)
+        //Voeg Bestuurder toe aan Voertuig
+        public void VoegBestuurderToe(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
             {
                 throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if (!HeeftVoertuigBestuurder)
+            if (!HeeftVoertuigBestuurder && actie == "connecteren")
             {
                 Bestuurder = ingegevenBestuurder;
             }
@@ -105,7 +104,7 @@ namespace FleetManagement.Model
 
             if (Bestuurder.Equals(ingegevenBestuurder))
             {
-                Bestuurder.WisVoertuig(this);
+                Bestuurder.VerwijderVoertuig("deconnecteren", this);
                 Bestuurder = null;
             }
             else
@@ -114,15 +113,15 @@ namespace FleetManagement.Model
             }
         }
 
-        //Wis een bestuurder door een relatie
-        public void WisBestuurder(Bestuurder ingegevenBestuurder)
+        //Verwijder Bestuurder met relatie
+        public void VerwijderBestuurder(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
             {
                 throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if (Bestuurder.Equals(ingegevenBestuurder))
+            if (Bestuurder.Equals(ingegevenBestuurder) && actie == "deconnecteren")
             {
                 Bestuurder = null;
             }
@@ -141,19 +140,24 @@ namespace FleetManagement.Model
             }
         }
 
-        public void SetAutoKleur(StatusKleur kleur)
-        {
-            Kleur = kleur;
-        }
-        public void SetBrandstof(BrandstofType brandstof)
-        {
-            Brandstof = brandstof;
-        }
+        //Dat heeft property access: ik heb dat ook in de test aangepast
+        //=> Dit wordt dan gewoon: Kleur = Kleur.Blauw
+        //public void SetAutoKleur(StatusKleur kleur)
+        //{
+        //    Kleur = kleur;
+        //}
 
-        public void SetAantalDeuren(AantalDeuren deurenaantal)
-        {
-            AantalDeuren = deurenaantal;
-        }
+        //De vraag is moet een Voertuig zomaar van Brandstof kunnen veranderen? Ik kan dat in ieder geval niet met mijn auto
+        //public void SetBrandstof(BrandstofType brandstof)
+        //{
+        //    Brandstof = brandstof;
+        //}
+
+        //Dat heeft property access: ik heb dat ook in de testen aangepast
+        //public void SetAantalDeuren(AantalDeuren deurenaantal)
+        //{
+        //    AantalDeuren = deurenaantal;
+        //}
 
         //Vergelijk twee instanties van Voertuig met: ChassisNummer
         public override bool Equals(object obj)
@@ -161,7 +165,7 @@ namespace FleetManagement.Model
             if (obj is Voertuig)
             {
                 Voertuig ander = obj as Voertuig;
-                return ChassisNummer == ander.ChassisNummer;
+                return ChassisNummer == ander.ChassisNummer && NummerPlaat == ander.NummerPlaat;
             }
             else
             {
@@ -171,7 +175,7 @@ namespace FleetManagement.Model
 
         public override int GetHashCode()
         {
-            return ChassisNummer.GetHashCode();
+            return ChassisNummer.GetHashCode() ^ NummerPlaat.GetHashCode();
         }
     }
 }

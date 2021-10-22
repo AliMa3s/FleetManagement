@@ -51,7 +51,14 @@ namespace FleetManagement.Model
             string rijBewijsNummer, string rijksRegisterNummer) : this(voornaam, achternaam, geboorteDatum,
                 typeRijbewijs, rijBewijsNummer, rijksRegisterNummer)
         {
-            BestuurderId = bestuurderId;
+            if (bestuurderId > 0)
+            {
+                BestuurderId = bestuurderId;
+            }
+            else
+            {
+                throw new BestuurderException($"{nameof(BestuurderId)} moet meer zijn dan 0");
+            }
         }
 
         //bellen
@@ -65,7 +72,7 @@ namespace FleetManagement.Model
             if (Voertuig == null)
             {
                 Voertuig = ingegevenVoertuig;
-                Voertuig.KrijgBestuurder(this);
+                Voertuig.VoegBestuurderToe("connecteren", this);
             }
             else
             {
@@ -74,14 +81,14 @@ namespace FleetManagement.Model
         }
 
         //opnemen
-        public void KrijgVoertuig(Voertuig ingegevenVoertuig)
+        public void VoegVoertuigToe(string actie, Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
             {
                 throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn");
             }
 
-            if (Voertuig == null)
+            if (Voertuig == null && actie.ToLower() == "connecteren")
             {
                 Voertuig = ingegevenVoertuig;
             }
@@ -103,8 +110,8 @@ namespace FleetManagement.Model
             {
                 if (Voertuig.Equals(ingegevenVoertuig))
                 {
-                    Voertuig.VerwijderBestuurder(this);
-                    Voertuig = null; //Override Equals met ChassisNummer & VoertuigId
+                    Voertuig.VerwijderBestuurder("deconnecteren", this);
+                    Voertuig = null; 
                 }
                 else
                 {
@@ -118,7 +125,7 @@ namespace FleetManagement.Model
         }
 
         //opnemen
-        public void WisVoertuig(Voertuig ingegevenVoertuig)
+        public virtual void VerwijderVoertuig(string actie, Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
             {
@@ -127,7 +134,7 @@ namespace FleetManagement.Model
 
             if (HeeftBestuurderVoertuig)
             {
-                if (Voertuig.Equals(ingegevenVoertuig))
+                if (Voertuig.Equals(ingegevenVoertuig) && actie == "deconnecteren")
                 {
                     Voertuig = null;
                 }
@@ -138,7 +145,7 @@ namespace FleetManagement.Model
             }
             else
             {
-                throw new BestuurderException($"Er is geen {nameof(Voertuig)} om te verwijderen"); //nog invoegen bij Tank & Voertuig
+                throw new BestuurderException($"Er is geen {nameof(Voertuig)} om te verwijderen");
             }
         }
 
@@ -153,7 +160,7 @@ namespace FleetManagement.Model
             if (!HeeftBestuurderTankKaart)
             {
                 TankKaart = ingegevenTankKaart;
-                TankKaart.KrijgBestuurder(this); //Plaatst Bestuurder
+                TankKaart.VoegBestuurderToe("connecteren", this); //Plaatst Bestuurder
             }
             else
             {
@@ -161,15 +168,14 @@ namespace FleetManagement.Model
             }
         }
 
-        //Krijgt TankKaart van relatie (Geen verwijzing terug)
-        public void KrijgTankKaart(TankKaart ingegevenTankKaart)
+        public virtual void VoegTankKaartToe(string actie,TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)
             {
-                throw new BestuurderException($"Ingegeven {nameof(TankKaart)} mag niet null zijn");
+                throw new BestuurderException($"Ingegeven {nameof(TankKaart)} mag niet null zijn.");
             }
 
-            if (!HeeftBestuurderTankKaart)
+            if (!HeeftBestuurderTankKaart && actie == "connecteren")
             {
                 TankKaart = ingegevenTankKaart;
             }
@@ -192,7 +198,7 @@ namespace FleetManagement.Model
             {
                 if (TankKaart.Equals(ingegevenTankKaart))
                 { //Ali: overriden van Equals TankKaart met BankKaartNummer en GeldegheidsDatum, 
-                    TankKaart.VerwijderBestuurder(this);
+                    TankKaart.VerwijderBestuurder("deconnecteren", this);
                     TankKaart = null;
                 }
                 else
@@ -206,8 +212,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //opnemen
-        public virtual void WisTankKaart(TankKaart ingegevenTankKaart)
+        public virtual void VerwijderTankKaart(string actie, TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)
             {
@@ -216,18 +221,18 @@ namespace FleetManagement.Model
 
             if (HeeftBestuurderTankKaart)
             {
-                if (TankKaart.Equals(ingegevenTankKaart))
-                {
+                if (TankKaart.Equals(ingegevenTankKaart) && actie == "deconnecteren")
+                { 
                     TankKaart = null;
                 }
                 else
                 {
-                    throw new BestuurderException($"{nameof(TankKaart)} kan niet gewist worden");
+                    throw new BestuurderException($"{nameof(TankKaart)} kan niet verwijderd worden");
                 }
             }
             else
             {
-                throw new BestuurderException($"Er is geen {nameof(TankKaart)} om te wissen");
+                throw new BestuurderException($"Er is geen {nameof(TankKaart)} om te verwijderen");
             }
         }
 
@@ -237,7 +242,8 @@ namespace FleetManagement.Model
             if (obj is Bestuurder)
             {
                 Bestuurder ander = obj as Bestuurder;
-                return RijksRegisterNummer == ander.RijksRegisterNummer;
+                return RijksRegisterNummer == ander.RijksRegisterNummer
+                    && GeboorteDatum == ander.GeboorteDatum;
             }
             else
             {
@@ -247,7 +253,7 @@ namespace FleetManagement.Model
 
         public override int GetHashCode()
         {
-            return RijksRegisterNummer.GetHashCode();
+            return RijksRegisterNummer.GetHashCode() ^ GeboorteDatum.GetHashCode();
         }
     }
 }

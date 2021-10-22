@@ -18,7 +18,7 @@ namespace FleetManagement.Test.ModelTest {
         public void Test_VoegVoertuigToeMetKleur_Valid()
         {
             BrandstofType brandstof = new("diesel");
-
+            
             AutoModel autoModel = new("mercedes", "c-klasse", AutoType.GT);
             Voertuig voertuig = new Voertuig(autoModel, "WAUZZZ8V5KA106598", "1AYB020", brandstof);
 
@@ -31,7 +31,7 @@ namespace FleetManagement.Test.ModelTest {
 
         }
         [Fact]
-        public void VoegBestuurderToe_EnVerwijder()
+        public void VoegBestuurderToe_En_Verwijder()
         {
             //Selecteer een bestuurder uit de lijst
             Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
@@ -121,7 +121,9 @@ namespace FleetManagement.Test.ModelTest {
         public void Test_CtorZonderKleur_VoertuigValid()
         {
             //er is iets mis met nummerplaat. 1abc495 => exception("1-abc-495") maar werkt niet.
-            Voertuig voertuig = new Voertuig(new AutoModel("ferrari", "ferrari enzo", AutoType.GT), "WAUZZZ8V5KA106598","1ABC495",new("benzine"));
+            Voertuig voertuig = new Voertuig(
+                new AutoModel("ferrari", "ferrari enzo", AutoType.GT), "WAUZZZ8V5KA106598","1ABC495",new("benzine")
+            );
             Assert.Equal("ferrari", voertuig.AutoModel.Merk);
             Assert.Equal("ferrari enzo", voertuig.AutoModel.AutoModelNaam);
             Assert.Equal(AutoType.GT,AutoType.GT);
@@ -139,7 +141,9 @@ namespace FleetManagement.Test.ModelTest {
         public void Test_Ctor_InvalidNummerplaat(string nummerPlaat)
         {
             Voertuig voertuig;
-            var ex=  Assert.Throws<NummerPlaatException>(() => voertuig = new(new AutoModel("ferrari","ferrari enzo",AutoType.GT),"WAUZZZ8V5KA106598",nummerPlaat,new("benzine")));
+            var ex=  Assert.Throws<NummerPlaatException>(() => voertuig = new(
+                new AutoModel("ferrari","ferrari enzo",AutoType.GT),"WAUZZZ8V5KA106598",nummerPlaat,new("benzine"))
+            );
             Assert.Equal($"{nameof(nummerPlaat)} moet format [1-9][a-z][0-9] zijn", ex.Message);
         }
 
@@ -149,7 +153,9 @@ namespace FleetManagement.Test.ModelTest {
         [InlineData("1ABC014")]
         public void Test_Ctor_ValidNummerPlaat(string nummerplaat)
         {
-            Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo", AutoType.GT), "WAUZZZ8V5KA106598", nummerplaat, new("benzine"));
+            Voertuig voertuig = new(
+                new AutoModel("ferrari", "ferrari enzo", AutoType.GT), "WAUZZZ8V5KA106598", nummerplaat, new("benzine")
+            );
             Assert.Equal(nummerplaat, voertuig.NummerPlaat);
 
         }
@@ -166,7 +172,9 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void Test_Valid_ChassisNummer()
         {
-            Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo",AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine"));
+            Voertuig voertuig = new(
+                new AutoModel("ferrari", "ferrari enzo",AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine")
+            );
             Assert.Equal("WAUZZZ8V5KA106598", voertuig.ChassisNummer);
         }
         [Theory]
@@ -174,44 +182,37 @@ namespace FleetManagement.Test.ModelTest {
         public void Test_Invalid_Chassisnummer(string chassisnummer)
         {
             Voertuig voertuig;
-            var ex = Assert.Throws<ChassisNummerException>(() => voertuig = new(new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), chassisnummer, "1ABC599", new("benzine")));
-            Assert.Equal($"{nameof(chassisnummer)} moet string zijn van 17 cijfers/letters maar letter I/i, O/o en Q/q mag niet voorkomen",ex.Message);
+            var ex = Assert.Throws<ChassisNummerException>(() => voertuig = new(
+                new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), chassisnummer, "1ABC599", new("benzine"))
+            );
+            Assert.Equal($"{nameof(chassisnummer)} moet string zijn van 17 cijfers/letters maar letter I/i, O/o en Q/q " +
+                $"mag niet voorkomen",ex.Message);
         }
 
         [Fact]
         public void Test_SetAutoKleur_Valid()
         {
-            Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine"),StatusKleur.Blauw);
+            Voertuig voertuig = new(
+                new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine"),StatusKleur.Blauw
+            );
             Assert.Equal(StatusKleur.Blauw, voertuig.Kleur);
         }
-        [Fact]
-        public void Test_SetBrandStofType()
-        {
-            BrandstofType brandstof = new BrandstofType("diesel");
-            Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine"));
-            voertuig.SetBrandstof(brandstof);
-            Assert.Equal(brandstof, voertuig.Brandstof);
-        }
-        [Fact]
-        public void Test_SetAantalDeuren()
-        {
+        //[Fact]
+        //public void Test_SetBrandStofType()
+        //{
+        //    BrandstofType brandstof = new BrandstofType("diesel");
+        //    Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine"));
+        //    voertuig.SetBrandstof(brandstof);
+        //    Assert.Equal(brandstof, voertuig.Brandstof);
+        //}
+        //[Fact]
+        //public void Test_SetAantalDeuren()
+        //{
             
-            Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine"));
-            voertuig.SetAantalDeuren(AantalDeuren.Zes);
-            Assert.Equal(AantalDeuren.Zes, voertuig.AantalDeuren);
+        //    Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine"));
+        //    voertuig.SetAantalDeuren(AantalDeuren.Zes);
+        //    Assert.Equal(AantalDeuren.Zes, voertuig.AantalDeuren);
 
-        }
-        
-
-
-
-        
-
-
-
-
-
-
-
+        //}
     }
 }
