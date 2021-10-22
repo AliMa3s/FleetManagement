@@ -21,7 +21,7 @@ namespace FleetManagement.Model {
         public bool IsGeldigheidsDatumVervallen => GeldigheidsDatum.Date <= DateTime.Today;
 
         //Ctor 
-        public TankKaart(string kaartnummer, bool actief, DateTime vervalDatum, string pincode = "")
+        public TankKaart(string kaartnummer, bool actief, DateTime geldigheidsDatum, string pincode = "")
         {
             if(string.IsNullOrEmpty(kaartnummer))
             {
@@ -35,7 +35,7 @@ namespace FleetManagement.Model {
             }
 
             Actief = actief;
-            GeldigheidsDatum = vervalDatum;
+            GeldigheidsDatum = geldigheidsDatum;
 
             //Ingevoegd door Filip: test slaagt anders niet als ingegeven datum is vervallen
             if (IsGeldigheidsDatumVervallen)
@@ -189,7 +189,7 @@ namespace FleetManagement.Model {
                 throw new TankKaartException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if (!HeeftTankKaartBestuurder && actie == "connecteren")
+            if (!HeeftTankKaartBestuurder && actie.ToLower() == "connecteren")
             {
                 Bestuurder = ingegevenBestuurder;
             }
@@ -226,7 +226,7 @@ namespace FleetManagement.Model {
                 throw new TankKaartException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
 
-            if (Bestuurder.Equals(ingegevenBestuurder) && actie == "deconnecteren")
+            if (Bestuurder.Equals(ingegevenBestuurder) && actie.ToLower() == "deconnecteren")
             {
                 Bestuurder = null;
             }

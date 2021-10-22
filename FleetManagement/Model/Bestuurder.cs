@@ -134,7 +134,7 @@ namespace FleetManagement.Model
 
             if (HeeftBestuurderVoertuig)
             {
-                if (Voertuig.Equals(ingegevenVoertuig) && actie == "deconnecteren")
+                if (Voertuig.Equals(ingegevenVoertuig) && actie.ToLower() == "deconnecteren")
                 {
                     Voertuig = null;
                 }
@@ -175,7 +175,7 @@ namespace FleetManagement.Model
                 throw new BestuurderException($"Ingegeven {nameof(TankKaart)} mag niet null zijn.");
             }
 
-            if (!HeeftBestuurderTankKaart && actie == "connecteren")
+            if (!HeeftBestuurderTankKaart && actie.ToLower() == "connecteren")
             {
                 TankKaart = ingegevenTankKaart;
             }
@@ -221,7 +221,7 @@ namespace FleetManagement.Model
 
             if (HeeftBestuurderTankKaart)
             {
-                if (TankKaart.Equals(ingegevenTankKaart) && actie == "deconnecteren")
+                if (TankKaart.Equals(ingegevenTankKaart) && actie.ToLower() == "deconnecteren")
                 { 
                     TankKaart = null;
                 }

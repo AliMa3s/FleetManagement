@@ -202,17 +202,19 @@ namespace FleetManagement.Test.ModelTest {
         //{
         //    BrandstofType brandstof = new BrandstofType("diesel");
         //    Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine"));
-        //    voertuig.SetBrandstof(brandstof);
+            
+
+        //    //voertuig.SetBrandstof(brandstof);
         //    Assert.Equal(brandstof, voertuig.Brandstof);
         //}
-        //[Fact]
-        //public void Test_SetAantalDeuren()
-        //{
-            
-        //    Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine"));
-        //    voertuig.SetAantalDeuren(AantalDeuren.Zes);
-        //    Assert.Equal(AantalDeuren.Zes, voertuig.AantalDeuren);
+        [Fact]
+        public void Test_SetAantalDeuren()
+        {
+            Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine"));
+            voertuig.AantalDeuren = AantalDeuren.Zes;
+            //voertuig.SetAantalDeuren(AantalDeuren.Zes);
+            Assert.Equal(AantalDeuren.Zes, voertuig.AantalDeuren);
 
-        //}
+        }
     }
 }

@@ -84,7 +84,7 @@ namespace FleetManagement.Model
                 throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if (!HeeftVoertuigBestuurder && actie == "connecteren")
+            if (!HeeftVoertuigBestuurder && actie.ToLower() == "connecteren")
             {
                 Bestuurder = ingegevenBestuurder;
             }
@@ -121,7 +121,7 @@ namespace FleetManagement.Model
                 throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if (Bestuurder.Equals(ingegevenBestuurder) && actie == "deconnecteren")
+            if (Bestuurder.Equals(ingegevenBestuurder) && actie.ToLower() == "deconnecteren")
             {
                 Bestuurder = null;
             }
@@ -141,7 +141,7 @@ namespace FleetManagement.Model
         }
 
         //Dat heeft property access: ik heb dat ook in de test aangepast
-        //=> Dit wordt dan gewoon: Kleur = Kleur.Blauw
+        //=> Dit wordt dan gewoon: Kleur = VoertuigKleur.Blauw
         //public void SetAutoKleur(StatusKleur kleur)
         //{
         //    Kleur = kleur;
