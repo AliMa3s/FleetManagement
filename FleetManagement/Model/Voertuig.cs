@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FleetManagement.CheckFormats;
 using FleetManagement.Exceptions;
 
 //fout gecorrigeerd in namespace
@@ -11,7 +12,7 @@ namespace FleetManagement.Model
     public class Voertuig
     {
         public int VoertuigId { get; }
-        public AutoModel AutoModel { get; }  //Ingevoegd Filip, dit ontbreekte
+        public AutoModel AutoModel { get; }  //Ingevoegd Filip, dit ontbreekte set? 
         public string ChassisNummer { get; }
         public string NummerPlaat { get; private set; }
         public StatusKleur? Kleur { get; set; } = null;
@@ -24,12 +25,12 @@ namespace FleetManagement.Model
         //Static checks ingevoegd
         public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof)
         {
-            if(CheckFormats.CheckFormat.IsChassisNummerGeldig(chassisnummer))
+            if(CheckFormat.IsChassisNummerGeldig(chassisnummer))
             {
                 this.ChassisNummer = chassisnummer;
             }
 
-            if (CheckFormats.CheckFormat.IsNummerplaatGeldig(nummerplaat))
+            if (CheckFormat.IsNummerplaatGeldig(nummerplaat))
             {
                 this.NummerPlaat = nummerplaat;
             }

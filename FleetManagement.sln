@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetManagement", "FleetManagement\FleetManagement.csproj", "{22081D84-4798-48FD-A300-ED9C71E88B6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleetManagement.Test", "FleetManagement.Test\FleetManagement.Test.csproj", "{5794252A-0E77-401C-A246-4F63E5FCE603}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetManagement.Test", "FleetManagement.Test\FleetManagement.Test.csproj", "{5794252A-0E77-401C-A246-4F63E5FCE603}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleetManagement.ADO", "FleetManagement.ADO\FleetManagement.ADO.csproj", "{20F69C62-2374-463D-9186-45EBF1588C38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5794252A-0E77-401C-A246-4F63E5FCE603}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5794252A-0E77-401C-A246-4F63E5FCE603}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5794252A-0E77-401C-A246-4F63E5FCE603}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20F69C62-2374-463D-9186-45EBF1588C38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20F69C62-2374-463D-9186-45EBF1588C38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20F69C62-2374-463D-9186-45EBF1588C38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20F69C62-2374-463D-9186-45EBF1588C38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

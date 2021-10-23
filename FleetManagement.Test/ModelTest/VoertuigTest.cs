@@ -22,6 +22,8 @@ namespace FleetManagement.Test.ModelTest {
             AutoModel autoModel = new("mercedes", "c-klasse", AutoType.GT);
             Voertuig voertuig = new Voertuig(autoModel, "WAUZZZ8V5KA106598", "1AYB020", brandstof);
 
+            voertuig.Kleur = StatusKleur.Blauw;
+
             Assert.Equal("mercedes", voertuig.AutoModel.Merk);
             Assert.Equal("c-klasse", voertuig.AutoModel.AutoModelNaam);
             Assert.Equal(AutoType.GT, AutoType.GT);
@@ -91,7 +93,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal($"{nameof(Bestuurder)} heeft al een {nameof(Voertuig)}", ex2.Message);
 
             //Controleer de eerste Bestuurder uit repo die we hebben toegevoegd
-            //Via Rreference Type moet dat gekoppeld zijn aan het Voertuig
+            //Via Reference Type moet dat gekoppeld zijn aan het Voertuig
             Assert.True(bestuurder.HeeftBestuurderVoertuig);
 
 
