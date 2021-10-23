@@ -177,7 +177,7 @@ namespace FleetManagement.Model {
             }
             else
             {
-                throw new TankKaartException("Er is al een bestuurder aan de TankKaart toegevoegd");
+                throw new TankKaartException($"Er is al een {nameof(Bestuurder)} aan de TankKaart toegevoegd");
             }
         }
 
@@ -202,9 +202,9 @@ namespace FleetManagement.Model {
         //Bellen
         public void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
         {
-            if (ingegevenBestuurder != null)
+            if (ingegevenBestuurder == null)
             {
-                throw new TankKaartException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
+                throw new TankKaartException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
             }
 
             if (Bestuurder.Equals(ingegevenBestuurder))
@@ -214,7 +214,7 @@ namespace FleetManagement.Model {
             }
             else
             {
-                throw new TankKaartException($"{nameof(Bestuurder)} kan niet verwijderd worden");
+                throw new TankKaartException($"{nameof(Bestuurder)} kan niet worden verwijderd");
             }
         }
 

@@ -127,48 +127,136 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal($"{nameof(TankKaart)} Kan niet null of leeg zijn", e.Message);
         }
 
- 
+        [Fact]
+        public void VoegBestuurderToe_En_Verwijder()
+        {
+            //Selecteer een bestuurder uit de lijst
+            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
 
-            //Check dag van GeldigheidsDatum => mag op de dag zelf niet vervallen zijn
+            //Maak een TankKaart aan
+            var GeldigheidsDatum = DateTime.Now.AddDays(312);
+            TankKaart tanKaart = new TankKaart("5632637890123456789", GeldigheidsDatum);
+
+            //Controleer dat TankKaart nog geen Bestuurder heeft
+            Assert.False(tanKaart.HeeftTankKaartBestuurder);
+
+            //Voeg de bestuurder toe
+            tanKaart.VoegBestuurderToe(bestuurder);
+
+            //controleer nu dat bestuurder aanwezig is
+            Assert.True(tanKaart.HeeftTankKaartBestuurder);
+
+            //Controleer de relatie: Bestuurder moet nu ook de TankKaart kennen
+            Assert.True(tanKaart.Bestuurder.HeeftBestuurderTankKaart);
+
+            //Controleer dat alle TankKaartNummers gelijk zijn
+            Assert.Equal(tanKaart.TankKaartNummer, tanKaart.Bestuurder.TankKaart.TankKaartNummer);
+            Assert.Equal("5632637890123456789", tanKaart.TankKaartNummer);
+            Assert.Equal("5632637890123456789", tanKaart.Bestuurder.TankKaart.TankKaartNummer);
+
+            //Controleer de GeldigheidsDatums
+            Assert.Equal(tanKaart.GeldigheidsDatum, tanKaart.Bestuurder.TankKaart.GeldigheidsDatum);
+            Assert.Equal(GeldigheidsDatum, tanKaart.GeldigheidsDatum);
+            Assert.Equal(GeldigheidsDatum, tanKaart.Bestuurder.TankKaart.GeldigheidsDatum);
+
+            //Voeg een andere Bestuurder toe via TankKaart(selecteer ander Bestuurder in repo)
+            Bestuurder anderBestuurder = _bestuurderRepo.GeefBestuurder("76003101965");
+
+            var ex = Assert.Throws<TankKaartException>(() =>
+            {
+                tanKaart.VoegBestuurderToe(anderBestuurder);
+            });
+
+            Assert.Equal($"Er is al een {nameof(Bestuurder)} aan de TankKaart toegevoegd", ex.Message);
+
+            //Voeg nu een ander bestuurder toe via de relatie
+            ex = Assert.Throws<TankKaartException>(() =>
+            {
+                tanKaart.Bestuurder.TankKaart.VoegBestuurderToe(anderBestuurder);
+            });
+
+            Assert.Equal($"Er is al een {nameof(Bestuurder)} aan de TankKaart toegevoegd", ex.Message);
+
+            //Voeg een TankKaart toe via de relatie
+            var ex2 = Assert.Throws<BestuurderException>(() =>
+            {
+                tanKaart.Bestuurder.VoegTankKaartToe(
+                        new TankKaart("5632394280123456789", DateTime.Now.AddDays(512))
+                    );
+            });
+
+            Assert.Equal($"{nameof(Bestuurder)} heeft al een {nameof(TankKaart)}", ex2.Message);
+
+            //Controleer de eerste Bestuurder uit repo die we hebben toegevoegd
+            //Via Rreference Type moet dat gekoppeld zijn aan de TankKaart
+            Assert.True(bestuurder.HeeftBestuurderTankKaart);
+
+            //Probeer eerst anderBestuurder mee te geven om te verwijderen      
+            var ex3 = Assert.Throws<TankKaartException>(() =>
+            {
+                tanKaart.VerwijderBestuurder(anderBestuurder);
+            });
+
+            Assert.Equal($"{nameof(Bestuurder)} kan niet worden verwijderd", ex3.Message);
+
+            //Probeer nog eens null mee te geven om te verwijderen  
+            var ex4 = Assert.Throws<TankKaartException>(() =>
+            {
+                tanKaart.VerwijderBestuurder(null);
+            });
+
+            Assert.Equal($"Ingegeven {nameof(Bestuurder)} mag niet null zijn", ex4.Message);
+
+            //Verwijder nu de juiste Bestuurder
+            tanKaart.VerwijderBestuurder(bestuurder);
+
+            //Controleer tankkaart & bestuurder, beide moeten losgekoppeld zijn
+            Assert.False(tanKaart.HeeftTankKaartBestuurder);
+            Assert.False(bestuurder.HeeftBestuurderTankKaart); //Reference Type is ook null
+        }
 
 
 
-            //Men kan een lijst met dubbels ingeven in de consctructor, dat wordt niet gecontroleerd
-            //[Fact]
-            //public void NewTankkaart() {
-            //    List<BrandstofType> l1 = new List<BrandstofType>();
-            //    l1.Add(new BrandstofType("gas"));
-            //    TankKaart t = new TankKaart("1234567890123456789", new DateTime(2000, 01, 02), "1234", l1);
-            //    Assert.False(t.Actief);
-            //    Assert.Equal("1234567890123456789", t.KaartNummer);
-            //    Assert.Equal(new DateTime(2000, 01, 02), t.GeldigheidsDatum);
-            //    Assert.Equal("1234", t.Pincode);
-            //    Assert.Equal(l1, t.Brandstoffen);
-            //}
+        //Check dag van GeldigheidsDatum => mag op de dag zelf niet vervallen zijn
 
-            //Ingevoegd Filip: Test nieuwe instantie TankKaart met Actief (true)
 
-            //KaartNummer wijzigen is niet OK. Het mag nooit kunnen
-            //En het zal ook niet kunnen! Onze database moet een constraint hebben hiervoor (diamant op ERD)
 
-            //[Fact]
-            //public void VoegTankKaart_Valid() {
-            //    DateTime vervalDatum = DateTime.Now.AddDays(365);
-            //    Bestuurder b = _bestuurderRepo.GeefBestuurder("76033101986");
+        //Men kan een lijst met dubbels ingeven in de consctructor, dat wordt niet gecontroleerd
+        //[Fact]
+        //public void NewTankkaart() {
+        //    List<BrandstofType> l1 = new List<BrandstofType>();
+        //    l1.Add(new BrandstofType("gas"));
+        //    TankKaart t = new TankKaart("1234567890123456789", new DateTime(2000, 01, 02), "1234", l1);
+        //    Assert.False(t.Actief);
+        //    Assert.Equal("1234567890123456789", t.KaartNummer);
+        //    Assert.Equal(new DateTime(2000, 01, 02), t.GeldigheidsDatum);
+        //    Assert.Equal("1234", t.Pincode);
+        //    Assert.Equal(l1, t.Brandstoffen);
+        //}
 
-            //    b.TankKaart.VoegKaartNummerToe("1234567890123456789");
-            //    Assert.Equal("1234567890123456789", b.TankKaart.KaartNummer);
-            //}
+        //Ingevoegd Filip: Test nieuwe instantie TankKaart met Actief (true)
 
-            ////Opgelet: lege TankKaartNummer geeft ook een exception!
-            //[Fact]
-            //public void VoegTankKaart_Invalid() {
-            //    TankKaart t = new TankKaart("", new DateTime(2000, 01, 02));
-            //    var ex = Assert.Throws<TankKaartException>(() => t.VoegKaartNummerToe(""));
-            //    Assert.Equal("Kaart nummer kan niet leeg zijn", ex.Message);
-            //}
+        //KaartNummer wijzigen is niet OK. Het mag nooit kunnen
+        //En het zal ook niet kunnen! Onze database moet een constraint hebben hiervoor (diamant op ERD)
 
-            //Indien reeds geblokkeerd, zie: NieuwInstantieTFalseMeegegeven_Blijft_InActief()
+        //[Fact]
+        //public void VoegTankKaart_Valid() {
+        //    DateTime vervalDatum = DateTime.Now.AddDays(365);
+        //    Bestuurder b = _bestuurderRepo.GeefBestuurder("76033101986");
+
+        //    b.TankKaart.VoegKaartNummerToe("1234567890123456789");
+        //    Assert.Equal("1234567890123456789", b.TankKaart.KaartNummer);
+        //}
+
+        ////Opgelet: lege TankKaartNummer geeft ook een exception!
+        //[Fact]
+        //public void VoegTankKaart_Invalid() {
+        //    TankKaart t = new TankKaart("", new DateTime(2000, 01, 02));
+        //    var ex = Assert.Throws<TankKaartException>(() => t.VoegKaartNummerToe(""));
+        //    Assert.Equal("Kaart nummer kan niet leeg zijn", ex.Message);
+        //}
+
+        //Indien reeds geblokkeerd, zie: NieuwInstantieTFalseMeegegeven_Blijft_InActief()
 
         [Fact]
         public void BlokkeerTankKaart_Inactief()

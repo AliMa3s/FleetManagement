@@ -43,7 +43,7 @@ namespace FleetManagement.Test.ModelTest {
             //Maak een voertuig aan
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
 
-            //Controleer dat TankKaart nog geen Bestuurder heeft
+            //Controleer dat Voertuig nog geen Bestuurder heeft
             Assert.False(voertuig.HeeftVoertuigBestuurder);
 
             //Voeg de bestuurder toe
