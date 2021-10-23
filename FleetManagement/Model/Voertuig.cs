@@ -15,7 +15,7 @@ namespace FleetManagement.Model
         public AutoModel AutoModel { get; }  //Ingevoegd Filip, dit ontbreekte set? 
         public string ChassisNummer { get; }
         public string NummerPlaat { get; private set; }
-        public StatusKleur? Kleur { get; set; } = null;
+        public Kleur? VoertuigKleur { get; set; } = null;
         public BrandstofType Brandstof { get; }
         public DateTime InBoekDatum { get; set; }
         public AantalDeuren? AantalDeuren { get; set; } = null;
@@ -27,22 +27,16 @@ namespace FleetManagement.Model
         {
             if(CheckFormat.IsChassisNummerGeldig(chassisnummer))
             {
-                this.ChassisNummer = chassisnummer;
+                ChassisNummer = chassisnummer;
             }
 
             if (CheckFormat.IsNummerplaatGeldig(nummerplaat))
             {
-                this.NummerPlaat = nummerplaat;
+                NummerPlaat = nummerplaat;
             }
             
-            this.AutoModel = autoModel;
-            this.Brandstof = brandstof;
-        }
-        //ok?
-        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof, StatusKleur statusKleur)
-            :this(autoModel, chassisnummer, nummerplaat, brandstof)
-        {
-            Kleur = statusKleur;
+            AutoModel = autoModel;
+            Brandstof = brandstof;
         }
 
         public Voertuig(int voertuigId, AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof) 
@@ -50,15 +44,15 @@ namespace FleetManagement.Model
         {
             if(voertuigId > 0)
             {
-                this.VoertuigId = voertuigId;
+                VoertuigId = voertuigId;
             }
             else
             {
-                throw new VoertuigException($"{nameof(VoertuigId)} moet meer zijn dan 0");
+                throw new VoertuigException("VoertuigId moet meer zijn dan 0");
             }
         }
 
-        //Voeg Bestuurder toe aan Voertuig
+        //Voeg Bestuurder toe en maak relatie met het voertuig
         public void VoegBestuurderToe(Bestuurder ingegevenBestuurder)
         {
             if(ingegevenBestuurder == null)
@@ -77,7 +71,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Voeg Bestuurder toe aan Voertuig
+        //Plaatst bestuurder in eigen entiteit door een relatieaanvraag
         public void VoegBestuurderToe(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
@@ -139,26 +133,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Dat heeft property access: ik heb dat ook in de test aangepast
-        //=> Dit wordt dan gewoon: Kleur = VoertuigKleur.Blauw
-        //public void SetAutoKleur(StatusKleur kleur)
-        //{
-        //    Kleur = kleur;
-        //}
-
-        //De vraag is moet een Voertuig zomaar van Brandstof kunnen veranderen? Ik kan dat in ieder geval niet met mijn auto
-        //public void SetBrandstof(BrandstofType brandstof)
-        //{
-        //    Brandstof = brandstof;
-        //}
-
-        //Dat heeft property access: ik heb dat ook in de testen aangepast
-        //public void SetAantalDeuren(AantalDeuren deurenaantal)
-        //{
-        //    AantalDeuren = deurenaantal;
-        //}
-
-        //Vergelijk twee instanties van Voertuig met: ChassisNummer
+        //Vergelijk twee instanties van Voertuig met: ChassisNummer & NummerPlaat
         public override bool Equals(object obj)
         {
             if (obj is Voertuig)

@@ -10,12 +10,7 @@ namespace FleetManagement.Model {
     public class BrandstofType {
 
         public int BrandstofTypeId { get; }
-
         public string BrandstofNaam { get; private set; }
-
-        //public string BrandstofAfkorting { get; set; }
-
-        //Properties uitbreiding mogelijk: etikettering, normen, beschrijving, enz.
 
         public BrandstofType(string brandstofNaam) {
             VoegBrandstofToe(brandstofNaam);

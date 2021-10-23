@@ -17,19 +17,19 @@ namespace FleetManagement.Test.ModelTest {
         private readonly IVoertuigNepRepo _voertuigRepo = new VoertuigNepManager();
 
         [Fact]
-        public void Instantie_VerplichteVelden_Actief()
+        public void Verplichte_Velden_Geldig()
         {
             //Maak een vervaldatum aan in de toekomst van 365 dagen
             DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
 
             //Maak TankKaart aan met drie argumenten
-            TankKaart tankKaart = new("1234567890123456789", geldigheidsDatum, "");
+            TankKaart tankKaart = new("1234567890123456789", geldigheidsDatum);
             
-            /* Controleer dat nieuwe instantie: 
-             * 1). een lege pincode mag zijn
+            /* Controleer of nieuwe instantie: 
+             * 1). En lege pincode mag zijn
              * 2). Geen Bestuurder nodig heeft
-             * 3). De brandstoflijst leeg mag zijn */
-            Assert.Equal("", tankKaart.Pincode);
+             * 3). De brandstofLijst leeg mag zijn */
+            Assert.Null(tankKaart.Pincode);
             Assert.False(tankKaart.HeeftTankKaartBestuurder);
             Assert.Null(tankKaart.Bestuurder);
             Assert.Empty(tankKaart.Brandstoffen);
@@ -43,7 +43,7 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void InstantieMetPincode_Actief()
+        public void Met_Pincode_Geldig()
         { 
             //Maak een vervaldatum aan in de toekomst van 365 dagen
             DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
@@ -56,47 +56,29 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal(geldigheidsDatum, tankKaart.GeldigheidsDatum);
         }
         [Fact]
-        public void Instantie_MetTrue_Inactief()
+        public void True_MetVervaldatum_Ongeldig()
         {
             //Maak een vervaldatum aan in het verleden van 365 dagen
             DateTime geldigheidsDatum = DateTime.Now.AddDays(-365);
 
-            //Maak tankKaart aan die op true staat, maar geef datum die vervallen is
+            //Maak tankKaart aan die op true staat,en geef datum op die vervallen is
             TankKaart tankKaart = new("1234567890123456789", true, geldigheidsDatum, "52374");
             Assert.Equal("1234567890123456789", tankKaart.TankKaartNummer);
             Assert.Equal("52374", tankKaart.Pincode);
 
-            //Constructor is slim genoeg om te herkennen dat TankKaart vervallen is ondanks true werd meegegeven
+            //Constructor is slim genoeg om te herkennen dat TankKaart vervallen is
             Assert.False(tankKaart.Actief);
             Assert.True(tankKaart.IsGeldigheidsDatumVervallen);
             Assert.Equal(geldigheidsDatum, tankKaart.GeldigheidsDatum);
         }
 
         [Fact]
-        public void Instantie_True_NietMeegegeven_Inactief()
-        {
-            //Maak een vervaldatum aan in het verleden van 365 dagen
-            DateTime geldigheidsDatum = DateTime.Now.AddDays(-365);
-
-            //Maak tankKaart aan zonder True voor Status mee te geven, en geef datum die vervallen is
-            TankKaart tankKaart = new("1234567890123456789", geldigheidsDatum, "52374");
-            Assert.Equal("1234567890123456789", tankKaart.TankKaartNummer);
-            Assert.Equal("52374", tankKaart.Pincode);
-
-            //Constructor is slim genoeg om te herkennen dat TankKaart vervallen is,
-            //ondanks geen true of false is meegegeven
-            Assert.False(tankKaart.Actief);
-            Assert.True(tankKaart.IsGeldigheidsDatumVervallen); 
-            Assert.Equal(geldigheidsDatum, tankKaart.GeldigheidsDatum);
-        }
-
-        [Fact]
-        public void Instantie_False_Meegeven_Blijft_Inactief()
+        public void Ongeldig_Blijft_Ongeldig()
         {
             //Maak een vervaldatum aan in de toemkomst van 365 dagen
             DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
 
-            //Maak tankKaart aan en geef false mee (geblokkeerd) met een datum dat nog geldig is
+            //Maak tankKaart aan en geef false mee (geblokkeerd) maar met een niet vervallen datum
             TankKaart tankKaart = new("1234567890123456789", false, geldigheidsDatum, "52374");
             Assert.Equal("1234567890123456789", tankKaart.TankKaartNummer);
             Assert.Equal("52374", tankKaart.Pincode);
@@ -112,7 +94,7 @@ namespace FleetManagement.Test.ModelTest {
         //Voeg pincode toe: met lege string & null (pincode plaatsen = mag niet null zijn en string ook niet leeg zijn)
 
         [Fact]
-        public void Instantie_leeg_null_TankKaartNummer()
+        public void TankKaartNummer_Null_leeg_Ongeldig()
         {
             DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
 
@@ -139,7 +121,7 @@ namespace FleetManagement.Test.ModelTest {
 
             //Maak een TankKaart aan
             var GeldigheidsDatum = DateTime.Now.AddDays(312);
-            TankKaart tanKaart = new TankKaart("5632637890123456789", GeldigheidsDatum);
+            TankKaart tanKaart = new("5632637890123456789", GeldigheidsDatum);
 
             //Controleer dat TankKaart nog geen Bestuurder heeft
             Assert.False(tanKaart.HeeftTankKaartBestuurder);
@@ -211,58 +193,20 @@ namespace FleetManagement.Test.ModelTest {
 
             Assert.Equal($"Ingegeven {nameof(Bestuurder)} mag niet null zijn", ex4.Message);
 
-            //Verwijder nu de juiste Bestuurder
-            tanKaart.VerwijderBestuurder(bestuurder);
+            //Verwijder nu de juiste Bestuurder met nieuwe instantie
+            Bestuurder zelfdeBestuurder = new("Filip", "Rigoir", "1976-03-31", "B", "0514081390", "76033101986");
+            tanKaart.VerwijderBestuurder(zelfdeBestuurder);
 
             //Controleer tankkaart & bestuurder, beide moeten losgekoppeld zijn
             Assert.False(tanKaart.HeeftTankKaartBestuurder);
             Assert.False(bestuurder.HeeftBestuurderTankKaart); //Reference Type is ook null
         }
 
-
-        //Men kan een lijst met dubbels ingeven in de consctructor, dat wordt niet gecontroleerd
-        //[Fact]
-        //public void NewTankkaart() {
-        //    List<BrandstofType> l1 = new List<BrandstofType>();
-        //    l1.Add(new BrandstofType("gas"));
-        //    l1.Add(new BrandstofType("gas"));
-        //    TankKaart t = new TankKaart("1234567890123456789", new DateTime(2000, 01, 02), "1234", l1);
-        //    Assert.False(t.Actief);
-        //    Assert.Equal("1234567890123456789", t.KaartNummer);
-        //    Assert.Equal(new DateTime(2000, 01, 02), t.GeldigheidsDatum);
-        //    Assert.Equal("1234", t.Pincode);
-        //    Assert.Equal(l1, t.Brandstoffen);
-        //}
-
-        //Ingevoegd Filip: Test nieuwe instantie TankKaart met Actief (true)
-
-        //KaartNummer wijzigen is niet OK. Het mag nooit kunnen
-        //En het zal ook niet kunnen! Onze database moet een constraint hebben hiervoor (diamant op ERD)
-
-        //[Fact]
-        //public void VoegTankKaart_Valid() {
-        //    DateTime vervalDatum = DateTime.Now.AddDays(365);
-        //    Bestuurder b = _bestuurderRepo.GeefBestuurder("76033101986");
-
-        //    b.TankKaart.VoegKaartNummerToe("1234567890123456789");
-        //    Assert.Equal("1234567890123456789", b.TankKaart.KaartNummer);
-        //}
-
-        ////Opgelet: lege TankKaartNummer geeft ook een exception!
-        //[Fact]
-        //public void VoegTankKaart_Invalid() {
-        //    TankKaart t = new TankKaart("", new DateTime(2000, 01, 02));
-        //    var ex = Assert.Throws<TankKaartException>(() => t.VoegKaartNummerToe(""));
-        //    Assert.Equal("Kaart nummer kan niet leeg zijn", ex.Message);
-        //}
-
-        //Indien reeds geblokkeerd, zie: NieuwInstantieTFalseMeegegeven_Blijft_InActief()
-
         [Fact]
         public void BlokkeerTankKaart_Inactief()
         {
             DateTime vervalDatum = DateTime.Now.AddDays(365);
-            TankKaart t = new TankKaart("1234567890123456789", true, vervalDatum, "1234");
+            TankKaart t = new("1234567890123456789", true, vervalDatum, "1234");
 
             //Kaart is Actief
             Assert.True(t.Actief);
@@ -279,7 +223,7 @@ namespace FleetManagement.Test.ModelTest {
         {
             //Datum in toekomst
             DateTime vervalDatum = DateTime.Now.AddDays(365);
-            TankKaart t = new TankKaart("1234567890123456789", false, vervalDatum, "1234");
+            TankKaart t = new("1234567890123456789", false, vervalDatum, "1234");
 
             //TankKaart is al goblokkeerd
             var e = Assert.Throws<TankKaartException>(() => {
@@ -297,7 +241,7 @@ namespace FleetManagement.Test.ModelTest {
         {
             //Datum verleden
             DateTime vervalDatum = DateTime.Now.AddDays(-365);
-            TankKaart t = new TankKaart("1234567890123456789", vervalDatum, "1234");
+            TankKaart t = new("1234567890123456789", vervalDatum, "1234");
 
             var e = Assert.Throws<TankKaartException>(() => {
                 t.BlokkeerTankKaart();
@@ -311,7 +255,7 @@ namespace FleetManagement.Test.ModelTest {
 
         [Fact]
         public void GeldigheidsDatum_IsVervallen() {
-            TankKaart t = new TankKaart("1234567890123456789", new DateTime(2000, 01, 02));
+            TankKaart t = new("1234567890123456789", new DateTime(2000, 01, 02));
             Assert.False(t.Actief);
             Assert.True(t.IsGeldigheidsDatumVervallen);
 
@@ -321,7 +265,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact] 
         public void GeldigheidsDatum_IsNietVervallen() {
             DateTime vervalDatum = DateTime.Now.AddDays(512);
-            TankKaart t = new TankKaart("1234567890123456789", vervalDatum);
+            TankKaart t = new("1234567890123456789", vervalDatum);
             Assert.True(t.Actief);
             Assert.False(t.IsGeldigheidsDatumVervallen);
 
@@ -332,8 +276,8 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void VoegPincodeToe_MetVerstrekenDatum() {
-            TankKaart t = new TankKaart("1234567890123456789", new DateTime(2000, 01, 02));
+        public void VoegPincode_En_VerstrekenDatum() {
+            TankKaart t = new("1234567890123456789", new DateTime(2000, 01, 02));
 
            var e = Assert.Throws<TankKaartException>(() => { 
                 t.VoegPincodeToe("1234");
@@ -343,9 +287,9 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void UpdatePincode_MetVerstrekenDatum()
+        public void UpdatePincode_En_VerstrekenDatum()
         {
-            TankKaart t = new TankKaart("1234567890123456789", new DateTime(2000, 01, 02), "1234");
+            TankKaart t = new("1234567890123456789", new DateTime(2000, 01, 02), "1234");
 
             var e = Assert.Throws<TankKaartException>(() => {
                 t.UpdatePincode("4567");
@@ -355,36 +299,45 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void UpdatePincode_LeegArgument_Mag()
+        public void UpdatePincode_Leeg_Geldig()
         {
             //GeldegheidsDatum in de toekomst
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
 
             //Pincode dat leeg is hoeft niet meegestuurd te worden als argument; krijgt default lege string
-            TankKaart t = new TankKaart("1234567890123456789", GeldigheidsDatum);
-
-            t.VoegPincodeToe("4567");
-            Assert.Equal("4567", t.Pincode);
-
-            t.UpdatePincode("");
-
-            Assert.Equal("", t.Pincode);
+            TankKaart t = new("1234567890123456789", GeldigheidsDatum);
         }
 
-        /* Nog in te voegen:
-         * VoegPincodeToe_NullArgument_MagNiet()
-         * UpdatePincode_NullArgument_MagNiet() 
-        */
+        [Fact]
+        public void IngegevenPincodes_null_Ongeldig()
+        {
+            //GeldegheidsDatum in de toekomst
+            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
 
+            TankKaart t = new("1234567890123456789", GeldigheidsDatum);
+
+            var e = Assert.Throws<TankKaartException>(() => {
+                t.VoegPincodeToe(null);
+            });
+
+            Assert.Equal("Ingegeven Pincode mag niet null zijn", e.Message);
+
+            e = Assert.Throws<TankKaartException>(() => {
+                t.UpdatePincode(null);
+            });
+
+            Assert.Equal("Ingegeven Pincode mag niet null zijn", e.Message);
+
+        }
 
         [Fact]
-        public void VoegPincodeToe_LeegArgument_MagNiet()
+        public void VoegPincodeToe_Leeg_Null_Ongeldig()
         {
             //GeldegheidsDatum in de toekomst
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
 
             //Pincode niet meegegeven
-            TankKaart t = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            TankKaart t = new("1234567890123456789", GeldigheidsDatum);
 
             var e = Assert.Throws<TankKaartException>(() => {
                 t.VoegPincodeToe("");
@@ -397,11 +350,15 @@ namespace FleetManagement.Test.ModelTest {
         public void VoegPincodeToe_Dan_UpdatePincode() {
             DateTime vervalDatum = DateTime.Now.AddDays(512);
 
-            TankKaart t = new TankKaart("1234567890123456789", vervalDatum);
+            TankKaart t = new("1234567890123456789", vervalDatum);
             t.VoegPincodeToe("1456");
             Assert.Equal("1456", t.Pincode);
             t.UpdatePincode("1234");
             Assert.Equal("1234", t.Pincode);
+            t.UpdatePincode("");
+            Assert.Equal("", t.Pincode);
+            t.UpdatePincode("78953");
+            Assert.Equal("78953", t.Pincode);
         }
 
         [Fact]
@@ -432,7 +389,7 @@ namespace FleetManagement.Test.ModelTest {
         public void VoegBrandstofTypeToe_Valid() {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             BrandstofType bs = new BrandstofType("Gas");
-            TankKaart t = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            TankKaart t = new("1234567890123456789", GeldigheidsDatum);
 
             Assert.False(t.IsBrandstofAanwezig(bs));
 
@@ -443,7 +400,7 @@ namespace FleetManagement.Test.ModelTest {
         public void VoegBrandstofTypeToe_Invalid()
         {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
-            TankKaart t = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            TankKaart t = new("1234567890123456789", GeldigheidsDatum);
 
             var ex = Assert.Throws<TankKaartException>(() => t.VoegBrandstofToe(null));
             Assert.Equal("Brandstof mag niet null zijn", ex.Message);
@@ -452,7 +409,7 @@ namespace FleetManagement.Test.ModelTest {
         public void VerwijderBrandsotfType_Valid() {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             BrandstofType bs = new BrandstofType("Gas");
-            TankKaart t = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            TankKaart t = new("1234567890123456789", GeldigheidsDatum);
 
             //Toevoegen
             t.VoegBrandstofToe(bs);
@@ -468,7 +425,7 @@ namespace FleetManagement.Test.ModelTest {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
 
             BrandstofType bs = new BrandstofType("Gas");
-            TankKaart t = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            TankKaart t = new("1234567890123456789", GeldigheidsDatum);
             var ex = Assert.Throws<TankKaartException>(() => t.VerwijderBrandstof(bs));
             Assert.Equal("Brandstof bestaat niet", ex.Message);
         }
@@ -476,14 +433,14 @@ namespace FleetManagement.Test.ModelTest {
         public void IsBrandstofAanwezig_valid() {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             BrandstofType bs = new BrandstofType("Gas");
-            TankKaart t = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            TankKaart t = new("1234567890123456789", GeldigheidsDatum);
             t.VoegBrandstofToe(bs);
             Assert.True(t.IsBrandstofAanwezig(bs));
         }
         [Fact]
         public void IsBrandstofAanwezigInvalid() {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
-            TankKaart t = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            TankKaart t = new("1234567890123456789", GeldigheidsDatum);
             var ex = Assert.Throws<TankKaartException>(() => t.IsBrandstofAanwezig(null));
             Assert.Equal("Brandstof mag niet null zijn", ex.Message);
         }
@@ -494,22 +451,22 @@ namespace FleetManagement.Test.ModelTest {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
 
             //Zelfde instantie Gegevens
-            TankKaart tanKaart1 = new TankKaart("1234567890123456789", GeldigheidsDatum);
-            TankKaart tanKaart2 = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            TankKaart tanKaart1 = new("1234567890123456789", GeldigheidsDatum);
+            TankKaart tanKaart2 = new("1234567890123456789", GeldigheidsDatum);
             Assert.True(tanKaart1.Equals(tanKaart2));
 
             //Verkeerde GeldigheidsDatum
             var GeldigheidsDatum2 = DateTime.Now.AddDays(312);
-            TankKaart tanKaart3 = new TankKaart("1234567890123456789", GeldigheidsDatum2);
+            TankKaart tanKaart3 = new("1234567890123456789", GeldigheidsDatum2);
             Assert.False(tanKaart1.Equals(tanKaart3));
 
             //Verkeerde TankKaartNummer
             GeldigheidsDatum = DateTime.Now.AddDays(312);
-            TankKaart tanKaart4 = new TankKaart("5632637890123456789", GeldigheidsDatum);
+            TankKaart tanKaart4 = new("5632637890123456789", GeldigheidsDatum);
             Assert.False(tanKaart1.Equals(tanKaart4));
 
             //Verkeerde GeldigheidsDatum & TankKaartNummer
-            TankKaart tanKaart5 = new TankKaart("5632789012345674489", GeldigheidsDatum2);
+            TankKaart tanKaart5 = new("5632789012345674489", GeldigheidsDatum2);
             Assert.False(tanKaart1.Equals(tanKaart5));
         }
     }
