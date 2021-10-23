@@ -12,6 +12,6 @@ namespace FleetManagement.ADO
         private readonly string _connectionString = 
             ConfigurationManager.ConnectionStrings["FleetManagerConnectionString"].ConnectionString;
 
-        public virtual string ConnectionString => _connectionString;
+        protected virtual string ConnectionString => _connectionString;
     }
 }

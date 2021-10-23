@@ -12,11 +12,23 @@ namespace FleetManagement.ADO.Mangagers
             //example
         }
 
-        public Bestuurder RetrieveBestuurder(string rijksRegisterNummer, string query)
+        public Bestuurder AddBestuurder(Bestuurder bestuurder)
         {
             using (SqlConnection conn = new(ConnectionString))
             {
-                //ToDo
+                try
+                {
+                    //ToDo
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+
+                }
+                
             }
 
             return null;
