@@ -85,7 +85,7 @@ namespace FleetManagement.Model {
         //Ik heb het juiste uitgeschreven, met elk hun eigen exception
         public void UpdatePincode(string ingegevenPincode)
         {
-            if (String.IsNullOrEmpty(ingegevenPincode)) {
+            if (ingegevenPincode == null) {
                 throw new TankKaartException($"Ingegeven Pincode mag niet null zijn");
             }
 
@@ -94,7 +94,7 @@ namespace FleetManagement.Model {
 
             if (Pincode != string.Empty)
             {
-                if (String.IsNullOrEmpty(ingegevenPincode))
+                if (ingegevenPincode == string.Empty)
                 {
                     Pincode = ingegevenPincode; //Pincode mag leeg zijn
                 }

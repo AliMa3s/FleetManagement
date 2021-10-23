@@ -107,6 +107,10 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal(geldigheidsDatum, tankKaart.GeldigheidsDatum);
         }
 
+        //Update pincode: met lege string & null (pincode updaten: string mag leeg maar niet null)
+
+        //Voeg pincode toe: met lege string & null (pincode plaatsen = mag niet null zijn en string ook niet leeg zijn)
+
         [Fact]
         public void Instantie_leeg_null_TankKaartNummer()
         {
@@ -216,11 +220,6 @@ namespace FleetManagement.Test.ModelTest {
         }
 
 
-
-        //Todo: Check dag van GeldigheidsDatum => mag op de dag zelf niet vervallen zijn
-        //Todo check dag daarna, moet wel vervallen zijn
-
-
         //Men kan een lijst met dubbels ingeven in de consctructor, dat wordt niet gecontroleerd
         //[Fact]
         //public void NewTankkaart() {
@@ -315,6 +314,8 @@ namespace FleetManagement.Test.ModelTest {
             TankKaart t = new TankKaart("1234567890123456789", new DateTime(2000, 01, 02));
             Assert.False(t.Actief);
             Assert.True(t.IsGeldigheidsDatumVervallen);
+
+            //Todo: check Date.now + 1 dag (moet vervallen op: 00.00.00 am)
         }
 
         [Fact] 
@@ -323,6 +324,11 @@ namespace FleetManagement.Test.ModelTest {
             TankKaart t = new TankKaart("1234567890123456789", vervalDatum);
             Assert.True(t.Actief);
             Assert.False(t.IsGeldigheidsDatumVervallen);
+
+            //Todo: check dag van invoeging (IsGeldigheidsDatumVervallen moet op dag zelf van aanmaken false zijn)
+            //met GedligheidsDatum van vandaag ingeven dus
+
+            //ook Todo: Check einde van GeldigheidsDatum => mag niet vervallen zijn
         }
 
         [Fact]
@@ -349,7 +355,7 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void UpdatePincode_LeegArgument()
+        public void UpdatePincode_LeegArgument_Mag()
         {
             //GeldegheidsDatum in de toekomst
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
@@ -360,15 +366,19 @@ namespace FleetManagement.Test.ModelTest {
             t.VoegPincodeToe("4567");
             Assert.Equal("4567", t.Pincode);
 
-            var e = Assert.Throws<TankKaartException>(() => {
-                t.UpdatePincode("");
-            });
+            t.UpdatePincode("");
 
-            Assert.Equal("Ingegeven Pincode mag niet null zijn", e.Message);
+            Assert.Equal("", t.Pincode);
         }
 
+        /* Nog in te voegen:
+         * VoegPincodeToe_NullArgument_MagNiet()
+         * UpdatePincode_NullArgument_MagNiet() 
+        */
+
+
         [Fact]
-        public void VoegPincodeToe_LeegArgument()
+        public void VoegPincodeToe_LeegArgument_MagNiet()
         {
             //GeldegheidsDatum in de toekomst
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
@@ -389,6 +399,7 @@ namespace FleetManagement.Test.ModelTest {
 
             TankKaart t = new TankKaart("1234567890123456789", vervalDatum);
             t.VoegPincodeToe("1456");
+            Assert.Equal("1456", t.Pincode);
             t.UpdatePincode("1234");
             Assert.Equal("1234", t.Pincode);
         }

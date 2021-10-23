@@ -10,10 +10,12 @@ namespace FleetManagement.Test.ModelTest {
         //Controleer ID nummer (via ctor)
 
         //Nieuwe instantie: verplichte velden alleen ingeven en controleren 
-        
-        //Addres ingeven: controleren niet ingevuld en wel ingevuld. Mag dus NULL zijn
 
-        //This relatie testen (bestuurder & voertuig invoegen)
+        //Nieuw instantie + niet verplichte gegevens invullen en controleren
+        
+        //Addres ingeven: controleren "niet ingevuld" en "wel ingevuld". Mag dus NULL zijn
+
+        //This relatie testen (bestuurder & voertuig)
 
         //instanties vergelijken 
 
