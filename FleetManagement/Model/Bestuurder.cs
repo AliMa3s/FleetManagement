@@ -61,7 +61,6 @@ namespace FleetManagement.Model
             }
         }
 
-        //bellen
         public void VoegVoertuigToe(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -80,7 +79,6 @@ namespace FleetManagement.Model
             }
         }
 
-        //opnemen
         public void VoegVoertuigToe(string actie, Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -98,7 +96,6 @@ namespace FleetManagement.Model
             }
         }
 
-        //bellen
         public virtual void VerwijderVoertuig(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -124,7 +121,6 @@ namespace FleetManagement.Model
             }
         }
 
-        //opnemen
         public virtual void VerwijderVoertuig(string actie, Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -185,8 +181,6 @@ namespace FleetManagement.Model
             }
         }
 
-        //TankKaart verwijderen maar BankKaartNummer & GeligheidsDatum moeten overeenkomen
-        //bellen
         public virtual void VerwijderTankKaart(TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)

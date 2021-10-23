@@ -217,14 +217,15 @@ namespace FleetManagement.Test.ModelTest {
 
 
 
-        //Check dag van GeldigheidsDatum => mag op de dag zelf niet vervallen zijn
-
+        //Todo: Check dag van GeldigheidsDatum => mag op de dag zelf niet vervallen zijn
+        //Todo check dag daarna, moet wel vervallen zijn
 
 
         //Men kan een lijst met dubbels ingeven in de consctructor, dat wordt niet gecontroleerd
         //[Fact]
         //public void NewTankkaart() {
         //    List<BrandstofType> l1 = new List<BrandstofType>();
+        //    l1.Add(new BrandstofType("gas"));
         //    l1.Add(new BrandstofType("gas"));
         //    TankKaart t = new TankKaart("1234567890123456789", new DateTime(2000, 01, 02), "1234", l1);
         //    Assert.False(t.Actief);

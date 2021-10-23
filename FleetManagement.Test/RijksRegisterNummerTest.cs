@@ -36,6 +36,7 @@ namespace FleetManagement.Test
         [InlineData("76033201956", "31/03/1976")]
         [InlineData("76033109986", "31/03/1976")]
         [InlineData("76043101986", "31/03/1976")]
+        [InlineData("76043101986", "3103-19/76")]
         public void RijksRegisterNummerOngeldig(string rijksRegisterNummer, string geboorteDatum)
         {
             Assert.Throws<RijksRegisterNummerException>(() => {

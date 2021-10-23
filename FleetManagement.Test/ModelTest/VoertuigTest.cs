@@ -203,7 +203,7 @@ namespace FleetManagement.Test.ModelTest {
         //    BrandstofType brandstof = new BrandstofType("diesel");
         //    Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine"));
             
-
+ 
         //    //voertuig.SetBrandstof(brandstof);
         //    Assert.Equal(brandstof, voertuig.Brandstof);
         //}

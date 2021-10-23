@@ -113,7 +113,6 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Bestaande vervallen TankKaarten met pincode gaan via constructor
         public void VoegPincodeToe(string ingegevenPincode) {
 
             if(String.IsNullOrEmpty(ingegevenPincode)) {
@@ -164,7 +163,6 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Voeg bestuurder toe aan tankkaart
         public void VoegBestuurderToe(Bestuurder ingegevenBestuurder) {
             if (ingegevenBestuurder == null) {
                 throw new TankKaartException($"{nameof(Bestuurder)} mag niet null zijn");
@@ -181,7 +179,6 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Voeg bestuurder toe aan tankkaart
         public void VoegBestuurderToe(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
@@ -199,7 +196,6 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Bellen
         public void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
@@ -218,7 +214,6 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Opnemen
         public void VerwijderBestuurder(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder != null)

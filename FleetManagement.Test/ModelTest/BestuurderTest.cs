@@ -6,5 +6,18 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Test.ModelTest {
     class BestuurderTest {
+
+        //Controleer ID nummer (via ctor)
+
+        //Nieuwe instantie: verplichte velden alleen ingeven en controleren 
+        
+        //Addres ingeven: controleren niet ingevuld en wel ingevuld. Mag dus NULL zijn
+
+        //This relatie testen (bestuurder & voertuig invoegen)
+
+        //instanties vergelijken 
+
+        //
+
     }
 }

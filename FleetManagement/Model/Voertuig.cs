@@ -94,7 +94,6 @@ namespace FleetManagement.Model
             }
         }
 
-        //Verwijder Bestuurder met relatie
         public void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
@@ -113,7 +112,6 @@ namespace FleetManagement.Model
             }
         }
 
-        //Verwijder Bestuurder met relatie
         public void VerwijderBestuurder(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
