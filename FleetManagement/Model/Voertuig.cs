@@ -52,8 +52,8 @@ namespace FleetManagement.Model
             }
         }
 
-        //Voeg Bestuurder toe en maak relatie met het voertuig
-        public void VoegBestuurderToe(Bestuurder ingegevenBestuurder)
+        //Voegt Bestuurder toe en vraagt aan het Voertuig de Bestuurder te connecteren
+        public virtual void VoegBestuurderToe(Bestuurder ingegevenBestuurder)
         {
             if(ingegevenBestuurder == null)
             {
@@ -71,8 +71,8 @@ namespace FleetManagement.Model
             }
         }
 
-        //Plaatst bestuurder in eigen entiteit door een relatieaanvraag
-        public void VoegBestuurderToe(string actie, Bestuurder ingegevenBestuurder)
+        //Voegt Bestuurder toe door connectieaanvraag
+        public virtual void VoegBestuurderToe(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
             {
@@ -89,7 +89,8 @@ namespace FleetManagement.Model
             }
         }
 
-        public void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
+        //Verwijdert Bestuurder en vraagt aan het Voertuig de Bestuurder te deconnecteren
+        public virtual void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
             {
@@ -107,7 +108,8 @@ namespace FleetManagement.Model
             }
         }
 
-        public void VerwijderBestuurder(string actie, Bestuurder ingegevenBestuurder)
+        //Verwijdert Bestuurder door deconnectieaanvraag
+        public virtual void VerwijderBestuurder(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
             {
@@ -125,7 +127,7 @@ namespace FleetManagement.Model
         }
 
         //Static check ingevoegd
-        public void UpdateNummerplaat(string nummerplaat)
+        public virtual void UpdateNummerplaat(string nummerplaat)
         {
            if(CheckFormats.CheckFormat.IsNummerplaatGeldig(nummerplaat))
             {

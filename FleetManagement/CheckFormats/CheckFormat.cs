@@ -14,7 +14,7 @@ namespace FleetManagement.CheckFormats
 
         public static bool IsRijbewijsNummerGeldig(string rijBewijsNummer)
         {
-            return Regex.IsMatch(rijBewijsNummer, @"^[0-9]{10}$")
+            return Regex.IsMatch(rijBewijsNummer, @"^[1-9]{1}[0-9]{9}$")
                 ? true : throw new RijBewijsNummerException($"rijBewijsNummer moet een string zijn van 10 cijfers");
         }
 
@@ -65,7 +65,7 @@ namespace FleetManagement.CheckFormats
 
         public static bool IsTankKaartNummerGeldig(string tankKaartNummer)
         {
-            return Regex.IsMatch(tankKaartNummer.ToUpper(), @"^[0-9]{19}$")
+            return Regex.IsMatch(tankKaartNummer.ToUpper(), @"^[0-9]{18,19}$")
                 ? true : throw new TankKaartException($" {nameof(tankKaartNummer)} is niet het juiste format");
         }
 

@@ -30,7 +30,7 @@ namespace FleetManagement.Model
             }
             else
             {
-                throw new AutoModelException($"{nameof(AutoModelId)} moet meer zijn dan 0");
+                throw new AutoModelException("AutoModelId moet meer zijn dan 0");
             }
         } 
     }

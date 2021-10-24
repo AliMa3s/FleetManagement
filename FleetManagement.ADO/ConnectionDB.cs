@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.ADO
 {
-    public abstract class ConnectionDB
+    public class ConnectionDB
     {
         private readonly string _connectionString = 
             ConfigurationManager.ConnectionStrings["FleetManagerConnectionString"].ConnectionString;

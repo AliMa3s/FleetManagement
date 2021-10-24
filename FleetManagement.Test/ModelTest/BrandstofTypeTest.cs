@@ -10,17 +10,22 @@ using Xunit;
 namespace FleetManagement.Test.ModelTest {
     public class BrandstofTypeTest {
         [Fact]
-        public void Test_BrandstofType_Valid() {
+        public void BrandstofType_Valid() {
             BrandstofType bstype = new BrandstofType("Gasoline");
-            bstype.VoegBrandstofToe("Diesel");
-            Assert.Equal("Diesel", bstype.BrandstofNaam);
+            Assert.Equal("Gasoline", bstype.BrandstofNaam);
         }
 
         [Fact]
-        public void Test_BrandstofType_InValid() {
-            BrandstofType bstype = new BrandstofType("Gasoline");
-            Assert.Throws<BrandstofTypeException>(() => bstype.VoegBrandstofToe(""));
+        public void BrandstofType_InValid() {
+            var e = Assert.Throws<BrandstofTypeException>(() => new BrandstofType(""));
+            Assert.Equal("Brandstof kan niet leeg zijn", e.Message);
         }
 
+        [Fact]
+        public void BrandstofType_fout_Id()
+        {
+            var e = Assert.Throws<BrandstofTypeException>(() => new BrandstofType(-15, "Hybride met diesel"));
+            Assert.Equal("BrandstofTypeId moet meer zijn dan 0", e.Message);
+        }
     }
 }

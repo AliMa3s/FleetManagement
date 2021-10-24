@@ -179,6 +179,8 @@ namespace FleetManagement.Test.ModelTest {
             voertuig.AantalDeuren = AantalDeuren.Zes;
             Assert.Equal(AantalDeuren.Zes, voertuig.AantalDeuren);
 
+            voertuig.AantalDeuren = null;
+            Assert.Null(voertuig.AantalDeuren);
         }
     }
 }

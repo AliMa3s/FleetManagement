@@ -3,7 +3,7 @@ using FleetManagement.Model;
 using Microsoft.Data.SqlClient;
 using System;
 
-namespace FleetManagement.ADO.Mangagers
+namespace FleetManagement.ADO.Managers
 {
     public class BestuurderManager : ConnectionDB, IBestuurderManager
     {
@@ -14,24 +14,21 @@ namespace FleetManagement.ADO.Mangagers
 
         public Bestuurder AddBestuurder(Bestuurder bestuurder)
         {
-            using (SqlConnection conn = new(ConnectionString))
+            using SqlConnection conn = new(ConnectionString);
+            try
             {
-                try
-                {
-                    //ToDo
-                }
-                catch
-                {
+                //ToDo
+            }
+            catch
+            {
 
-                }
-                finally
-                {
+            }
+            finally
+            {
 
-                }
-                
             }
 
-            return null;
+            return null; //is momenteel Null voor geen compilefout te hebben
         }
     }
 }

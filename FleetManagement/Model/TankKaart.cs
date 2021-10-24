@@ -18,12 +18,11 @@ namespace FleetManagement.Model {
         public List<BrandstofType> Brandstoffen { get; private set; } = new List<BrandstofType>();
         public Bestuurder Bestuurder { get; private set; } = null;
         public bool HeeftTankKaartBestuurder => Bestuurder != null;
-        public bool IsGeldigheidsDatumVervallen => GeldigheidsDatum.Date <= DateTime.Today;
+        public bool IsGeldigheidsDatumVervallen => GeldigheidsDatum.Date < DateTime.Today;
 
         //Ctor 
         public TankKaart(string kaartnummer, bool actief, DateTime geldigheidsDatum, string pincode = null)
         {
-            //Kaart mag niet null of leeg zijn
             if(string.IsNullOrEmpty(kaartnummer))
             {
                 throw new TankKaartException($"{nameof(TankKaart)} Kan niet null of leeg zijn");
@@ -59,8 +58,8 @@ namespace FleetManagement.Model {
         public TankKaart(string kaartnummer, DateTime vervaldatum, string pincode = null)
             : this(kaartnummer, true, vervaldatum, pincode) { }
 
-        //TankKaart blokkeren 
-        public void BlokkeerTankKaart() {
+        //TankKaart onmiddelijk blokkeren 
+        public virtual void BlokkeerTankKaart() {
 
             if(Actief)
             {
@@ -80,7 +79,7 @@ namespace FleetManagement.Model {
         }
 
         //Pincode enkel toevoegen wanneer pincode op null staat
-        public void VoegPincodeToe(string ingegevenPincode)
+        public virtual void VoegPincodeToe(string ingegevenPincode)
         {
             if (String.IsNullOrEmpty(ingegevenPincode))
             {
@@ -96,6 +95,8 @@ namespace FleetManagement.Model {
                 {
                     Pincode = ingegevenPincode;
                 }
+
+                //Gooit exception in CheckFormat als Pincode verkeerd is
             }
             else
             {
@@ -104,7 +105,7 @@ namespace FleetManagement.Model {
         }
 
         //Pincode updaten als pincode is ingevuld of leeg is
-        public void UpdatePincode(string ingegevenPincode)
+        public virtual void UpdatePincode(string ingegevenPincode)
         {
             if (ingegevenPincode == null) {
                 throw new TankKaartException($"Ingegeven Pincode mag niet null zijn");
@@ -125,6 +126,8 @@ namespace FleetManagement.Model {
                     {
                         Pincode = ingegevenPincode;
                     }
+
+                    //Gooit exception in CheckFormat als Pincode verkeerd is
                 }
             }
             else
@@ -133,7 +136,7 @@ namespace FleetManagement.Model {
             }
         }
 
-        public bool IsBrandstofAanwezig(BrandstofType brandstofType)
+        public virtual bool IsBrandstofAanwezig(BrandstofType brandstofType)
         {
             if (brandstofType == null) throw new TankKaartException("Brandstof mag niet null zijn");
 
@@ -145,13 +148,13 @@ namespace FleetManagement.Model {
             return false;
         }
 
-        public void VoegBrandstofToe(BrandstofType brandstofType) {
+        public virtual void VoegBrandstofToe(BrandstofType brandstofType) {
 
             if (!IsBrandstofAanwezig(brandstofType)) {
                 Brandstoffen.Add(brandstofType);
             }
         }
-        public void VerwijderBrandstof(BrandstofType brandstofType) {
+        public virtual void VerwijderBrandstof(BrandstofType brandstofType) {
 
             if (IsBrandstofAanwezig(brandstofType)) {
                 Brandstoffen.Remove(brandstofType);
@@ -160,7 +163,8 @@ namespace FleetManagement.Model {
             }
         }
 
-        public void VoegBestuurderToe(Bestuurder ingegevenBestuurder) {
+        //Voegt Bestuurder toe en vraagt aan de TankKaart de Bestuurder te connecteren
+        public virtual void VoegBestuurderToe(Bestuurder ingegevenBestuurder) {
             if (ingegevenBestuurder == null) {
                 throw new TankKaartException($"{nameof(Bestuurder)} mag niet null zijn");
             }
@@ -176,7 +180,7 @@ namespace FleetManagement.Model {
             }
         }
 
-        public void VoegBestuurderToe(string actie, Bestuurder ingegevenBestuurder)
+        public virtual void VoegBestuurderToe(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
             {
@@ -193,7 +197,7 @@ namespace FleetManagement.Model {
             }
         }
 
-        public void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
+        public virtual void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
             {
@@ -211,7 +215,7 @@ namespace FleetManagement.Model {
             }
         }
 
-        public void VerwijderBestuurder(string actie, Bestuurder ingegevenBestuurder)
+        public virtual void VerwijderBestuurder(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder != null)
             {

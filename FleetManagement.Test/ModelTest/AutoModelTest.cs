@@ -1,4 +1,5 @@
-﻿using FleetManagement.Model;
+﻿using FleetManagement.Exceptions;
+using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +29,11 @@ namespace FleetManagement.Test.ModelTest
             Assert.Equal(AutoType.Cabriolet, AutoType.Cabriolet);
         }
 
+        [Fact]
+        public void BrandstofType_fout_Id()
+        {
+            var e = Assert.Throws<AutoModelException>(() => new AutoModel(-100, "mercedes", "klasse-c", AutoType.Cabriolet));
+            Assert.Equal("AutoModelId moet meer zijn dan 0", e.Message);
+        }
     }
 }

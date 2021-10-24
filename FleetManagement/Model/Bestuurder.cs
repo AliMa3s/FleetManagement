@@ -61,14 +61,15 @@ namespace FleetManagement.Model
             }
         }
 
-        public void VoegVoertuigToe(Voertuig ingegevenVoertuig)
+        //Voegt Voertuig toe en vraagt aan het voertuig de Bestuurder te connecteren
+        public virtual void VoegVoertuigToe(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
             {
                 throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn");
             }
 
-            if (Voertuig == null)
+            if (!HeeftBestuurderVoertuig)
             {
                 Voertuig = ingegevenVoertuig;
                 Voertuig.VoegBestuurderToe("connecteren", this);
@@ -79,14 +80,14 @@ namespace FleetManagement.Model
             }
         }
 
-        public void VoegVoertuigToe(string actie, Voertuig ingegevenVoertuig)
+        public virtual void VoegVoertuigToe(string actie, Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
             {
                 throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn");
             }
 
-            if (Voertuig == null && actie.ToLower() == "connecteren")
+            if (!HeeftBestuurderVoertuig && actie.ToLower() == "connecteren")
             {
                 Voertuig = ingegevenVoertuig;
             }
@@ -121,6 +122,7 @@ namespace FleetManagement.Model
             }
         }
 
+        //
         public virtual void VerwijderVoertuig(string actie, Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -145,7 +147,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Voegt TankKaart toe naar relatie
+        //Voegt TankKaart toe en vraagt aan de TankKaart de Bestuurder te connecteren
         public virtual void VoegTankKaartToe(TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)

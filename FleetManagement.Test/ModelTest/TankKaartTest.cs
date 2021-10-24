@@ -89,10 +89,6 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal(geldigheidsDatum, tankKaart.GeldigheidsDatum);
         }
 
-        //Update pincode: met lege string & null (pincode updaten: string mag leeg maar niet null)
-
-        //Voeg pincode toe: met lege string & null (pincode plaatsen = mag niet null zijn en string ook niet leeg zijn)
-
         [Fact]
         public void TankKaartNummer_Null_leeg_Ongeldig()
         {
@@ -194,7 +190,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal($"Ingegeven {nameof(Bestuurder)} mag niet null zijn", ex4.Message);
 
             //Verwijder nu de juiste Bestuurder met nieuwe instantie
-            Bestuurder zelfdeBestuurder = new("Filip", "Rigoir", "1976-03-31", "B", "0514081390", "76033101986");
+            Bestuurder zelfdeBestuurder = new("Filip", "Rigoir", "1976-03-31", "B", "1514081390", "76033101986");
             tanKaart.VerwijderBestuurder(zelfdeBestuurder);
 
             //Controleer tankkaart & bestuurder, beide moeten losgekoppeld zijn
@@ -468,6 +464,22 @@ namespace FleetManagement.Test.ModelTest {
             //Verkeerde GeldigheidsDatum & TankKaartNummer
             TankKaart tanKaart5 = new("5632789012345674489", GeldigheidsDatum2);
             Assert.False(tanKaart1.Equals(tanKaart5));
+        }
+
+        [Fact]
+        public void UitersteGeldigheidsDatum()
+        {
+            //Om te vergelijken worden de uren van datums op 00:00:00 gezet
+
+            //De geldigheidsDatum op vandaag moet steeds geldig zijn.
+            DateTime vandaag = DateTime.Today;
+            TankKaart tanKaart1 = new("1234567890123456789", vandaag);
+            Assert.False(tanKaart1.IsGeldigheidsDatumVervallen);
+
+            //De geldigheidsDatum op 1 seconde vroeger dan vandaag is vervallen.
+            DateTime vandaag1SecondeTerug = DateTime.Today.AddSeconds(-1);
+            TankKaart tanKaart2 = new("1234567890123456789", vandaag1SecondeTerug);
+            Assert.True(tanKaart2.IsGeldigheidsDatumVervallen);
         }
     }
 }

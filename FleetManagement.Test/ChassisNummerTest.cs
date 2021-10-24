@@ -19,22 +19,18 @@ namespace FleetManagement.Test
             bool check = CheckFormat.IsChassisNummerGeldig(ChassisNummer);
             Assert.True(check);
         }
-        
-        
-
-        //Voertuig hoort hier niet thuis. Dat is een gedeelte van de Static class CheckFormats
-        //Wordt nog uitgebreid met de juiste zaken
-        
-        
-        //[Theory]
-        //[InlineData("88kloplkk144")]
-        //public void ChassisnummerInvalid(string chassisnummer)
-        //{
-        //    AutoModel automodel = new AutoModel("mercedes", "mercedes-c klasse", AutoType.GT);
-        //    Voertuig voertuig = new Voertuig(automodel, chassisnummer, "1FEG830", new("Diezel"));
-        //    var ex = Assert.Throws<ChassisNummerException>(() => voertuig.ChassisNummer);
-        //    Assert.Equal("chassisnummer moet string zijn van 17 cijfers/letters maar letter I/i, O/o en Q/q mag niet voorkomen", ex.Message);
-
-        //}
-    }
+        [Theory]
+        [InlineData("OABCDEFGHJKLMN1234")]
+        [InlineData("I0234DkzpGUKNt6Gb")]
+        [InlineData("0Q234DkzpGUKNt6Gb")]
+        [InlineData("")]
+        [InlineData("     ")]
+        [InlineData("0234DkzpIGUKNt6GbK")]
+        public void ChassisnummerInValid(string ChassisNummer)
+        {
+            Assert.Throws<ChassisNummerException>(() => {
+                CheckFormat.IsChassisNummerGeldig(ChassisNummer);
+            });
+        }
+    } 
 }
