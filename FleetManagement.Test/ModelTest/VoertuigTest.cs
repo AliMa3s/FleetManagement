@@ -1,6 +1,5 @@
 ﻿using FleetManagement.Exceptions;
 using FleetManagement.Model;
-using FleetManagement.Test.Interfaces;
 using FleetManagement.Test.Respositories;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ using Xunit;
 namespace FleetManagement.Test.ModelTest {
     public class VoertuigTest {
 
-       private readonly IBestuurderNepRepo _bestuurderRepo = new BestuurderNepManager();
+       private readonly BestuurderNepRepo _bestuurderRepo = new();
 
         [Fact]
         public void Voertuig_VerplichteVelden_Valid()
@@ -174,7 +173,10 @@ namespace FleetManagement.Test.ModelTest {
         public void Verander_AantalDeuren()
         {
             Voertuig voertuig = new(
-                new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine")
+                new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), 
+                "WAUZZZ8V5KA106598", 
+                "1ABC599", 
+                new("benzine")
             );
             voertuig.AantalDeuren = AantalDeuren.Zes;
             Assert.Equal(AantalDeuren.Zes, voertuig.AantalDeuren);

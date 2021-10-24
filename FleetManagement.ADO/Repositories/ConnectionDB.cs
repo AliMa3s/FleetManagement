@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FleetManagement.ADO
+namespace FleetManagement.ADO.Repositories 
 {
-    public class ConnectionDB
+    public abstract class ConnectionDB
     {
         private readonly string _connectionString = 
             ConfigurationManager.ConnectionStrings["FleetManagerConnectionString"].ConnectionString;

@@ -1,6 +1,5 @@
 ﻿using FleetManagement.Model;
 using FleetManagement.Test.Exceptions;
-using FleetManagement.Test.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Test.Respositories
 {
-    class TankKaartNepManager : ITankKaartNepRepo
+    class TankKaartNepRepo
     {
         //Key = TankKaartNummer
         private readonly Dictionary<string, TankKaart> _tankKaarten = new();
 
-        public TankKaartNepManager()
+        public TankKaartNepRepo()
         {
             //Selecteerlijst voor Bestuurder
             //Persoon die TankKaart test, configureert voor alle andere teamleden de juiste instanties 

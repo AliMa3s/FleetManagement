@@ -44,7 +44,7 @@ namespace FleetManagement.Model {
             }
 
             //Pincode is niet verplicht in te vullen
-            if (pincode != null)
+            if (!string.IsNullOrEmpty(pincode))
             {
                 //Indien wel ingevuld format controleren
                 if (CheckFormat.IsPincodeGeldig(pincode))

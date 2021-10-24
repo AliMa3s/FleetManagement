@@ -1,6 +1,5 @@
 ﻿using FleetManagement.Exceptions;
 using FleetManagement.Model;
-using FleetManagement.Test.Interfaces;
 using FleetManagement.Test.Respositories;
 using System;
 using System.Collections.Generic;
@@ -13,8 +12,8 @@ namespace FleetManagement.Test.ModelTest {
     public class TankKaartTest {
 
         //Selecteer een Bestuurder en Voertuig uit de repo:
-        private readonly IBestuurderNepRepo _bestuurderRepo = new BestuurderNepManager();
-        private readonly IVoertuigNepRepo _voertuigRepo = new VoertuigNepManager();
+        private readonly BestuurderNepRepo _bestuurderRepo = new();
+        private readonly VoertuigNepRepo _voertuigRepo = new();
 
         [Fact]
         public void Verplichte_Velden_Geldig()
@@ -79,9 +78,9 @@ namespace FleetManagement.Test.ModelTest {
             DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
 
             //Maak tankKaart aan en geef false mee (geblokkeerd) maar met een niet vervallen datum
-            TankKaart tankKaart = new("1234567890123456789", false, geldigheidsDatum, "52374");
+            TankKaart tankKaart = new("1234567890123456789", false, geldigheidsDatum, null);
             Assert.Equal("1234567890123456789", tankKaart.TankKaartNummer);
-            Assert.Equal("52374", tankKaart.Pincode);
+            Assert.Null(tankKaart.Pincode);
 
             //Constructor is slim genoeg om de Kaart niet naar true te zetten want tankkaart is geblokkeerd
             Assert.False(tankKaart.Actief);
@@ -202,7 +201,7 @@ namespace FleetManagement.Test.ModelTest {
         public void BlokkeerTankKaart_Inactief()
         {
             DateTime vervalDatum = DateTime.Now.AddDays(365);
-            TankKaart t = new("1234567890123456789", true, vervalDatum, "1234");
+            TankKaart t = new("1234567890123456789", true, vervalDatum, "");
 
             //Kaart is Actief
             Assert.True(t.Actief);
@@ -323,8 +322,9 @@ namespace FleetManagement.Test.ModelTest {
             });
 
             Assert.Equal("Ingegeven Pincode mag niet null zijn", e.Message);
-
         }
+
+        //wanneer constructor voor pin leeg is, gooi e want dat is plaatsen
 
         [Fact]
         public void VoegPincodeToe_Leeg_Null_Ongeldig()

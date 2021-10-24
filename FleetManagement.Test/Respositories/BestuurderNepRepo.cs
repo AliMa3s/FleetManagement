@@ -1,6 +1,5 @@
 ﻿using FleetManagement.Model;
 using FleetManagement.Test.Exceptions;
-using FleetManagement.Test.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Test.Respositories
 {
-    class BestuurderNepManager : IBestuurderNepRepo
+    class BestuurderNepRepo
     {
         //Key = RijksRegisterNummer
         private readonly Dictionary<string, Bestuurder> _bestuurders = new();
 
-        public BestuurderNepManager()
+        public BestuurderNepRepo()
         {
             //Selecteerlijst voor Voertuig & TankKaart
             //Persoon die Bestuurder test, configureert voor alle andere teamleden de juiste instanties 

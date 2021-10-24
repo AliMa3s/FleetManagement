@@ -1,6 +1,5 @@
 ﻿using FleetManagement.Model;
 using FleetManagement.Test.Exceptions;
-using FleetManagement.Test.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Test.Respositories
 {
-    class VoertuigNepManager : IVoertuigNepRepo
+    class VoertuigNepRepo
     {
         //Key = ChassisNummer
         private readonly Dictionary<string, Voertuig> _voertuigen = new();
 
-        public VoertuigNepManager()
+        public VoertuigNepRepo()
         {
             //Selecteerlijst voor Bestuurder
             //Persoon die Voeertuig test, configureert voor alle andere teamleden de juiste instanties 

@@ -1,11 +1,10 @@
-﻿using FleetManagement.ADO.Interfaces;
-using FleetManagement.Model;
+﻿using FleetManagement.Model;
 using Microsoft.Data.SqlClient;
 using System;
 
-namespace FleetManagement.ADO.Managers
+namespace FleetManagement.ADO.Repositories
 {
-    public class BestuurderManager : ConnectionDB, IBestuurderManager
+    public class BestuurderManager : ConnectionDB
     {
         public BestuurderManager()
         {
