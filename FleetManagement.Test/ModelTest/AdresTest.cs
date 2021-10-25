@@ -21,7 +21,6 @@ namespace FleetManagement.Test.ModelTest
             Assert.Equal("9240", adres.Postcode);
             Assert.Equal("zele", adres.Stad);
             adres.ToString();
-
         }
 
         [Fact]
