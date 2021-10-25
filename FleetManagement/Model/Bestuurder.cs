@@ -61,7 +61,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Voegt Voertuig toe en vraagt aan het voertuig de Bestuurder te connecteren
+        //Maakt de relatie en plaatst de entiteit
         public virtual void VoegVoertuigToe(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -80,6 +80,7 @@ namespace FleetManagement.Model
             }
         }
 
+        //Vangt de relatie op en plaatst de entiteit
         public virtual void VoegVoertuigToe(string actie, Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -97,6 +98,7 @@ namespace FleetManagement.Model
             }
         }
 
+        //Maakt de relatie en verwijdert de entiteit
         public virtual void VerwijderVoertuig(Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -122,7 +124,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //
+        //Vangt de relatie op en plaatst de entiteit
         public virtual void VerwijderVoertuig(string actie, Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
@@ -147,7 +149,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Voegt TankKaart toe en vraagt aan de TankKaart de Bestuurder te connecteren
+        //Maakt de relatie en plaatst de entiteit
         public virtual void VoegTankKaartToe(TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)
@@ -166,6 +168,7 @@ namespace FleetManagement.Model
             }
         }
 
+        //Vangt de relatie op en plaatst de entiteit
         public virtual void VoegTankKaartToe(string actie,TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)
@@ -183,6 +186,7 @@ namespace FleetManagement.Model
             }
         }
 
+        //Maakt de relatie en verwijdert de entiteit
         public virtual void VerwijderTankKaart(TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)
@@ -208,6 +212,7 @@ namespace FleetManagement.Model
             }
         }
 
+        //Vangt de relatie op en verwijdert entiteit
         public virtual void VerwijderTankKaart(string actie, TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)

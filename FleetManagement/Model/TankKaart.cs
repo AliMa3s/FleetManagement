@@ -163,7 +163,7 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Voegt Bestuurder toe en vraagt aan de TankKaart de Bestuurder te connecteren
+        //Maakt de relatie en plaatst entiteit
         public virtual void VoegBestuurderToe(Bestuurder ingegevenBestuurder) {
             if (ingegevenBestuurder == null) {
                 throw new TankKaartException($"{nameof(Bestuurder)} mag niet null zijn");
@@ -180,6 +180,7 @@ namespace FleetManagement.Model {
             }
         }
 
+        //Vangt relatie op en plaatst entiteit
         public virtual void VoegBestuurderToe(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
@@ -197,6 +198,7 @@ namespace FleetManagement.Model {
             }
         }
 
+        //Maakt de relatie en verwijdert entiteit
         public virtual void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
@@ -215,6 +217,7 @@ namespace FleetManagement.Model {
             }
         }
 
+        //Vangt de relatie op en verwijdert entiteit
         public virtual void VerwijderBestuurder(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder != null)

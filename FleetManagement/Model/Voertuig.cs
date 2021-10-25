@@ -11,8 +11,9 @@ namespace FleetManagement.Model
 {
     public class Voertuig
     {
+        //Zone properties
         public int VoertuigId { get; }
-        public AutoModel AutoModel { get; }  //Ingevoegd Filip, dit ontbreekte set? 
+        public AutoModel AutoModel { get; set; } 
         public string ChassisNummer { get; }
         public string NummerPlaat { get; private set; }
         public Kleur? VoertuigKleur { get; set; } = null;
@@ -22,7 +23,7 @@ namespace FleetManagement.Model
         public Bestuurder Bestuurder { get; private set; }
         public bool HeeftVoertuigBestuurder => Bestuurder != null;
 
-        //Static checks ingevoegd
+        //Ctor
         public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof)
         {
             if(CheckFormat.IsChassisNummerGeldig(chassisnummer))
@@ -52,7 +53,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Voegt Bestuurder toe en vraagt aan het Voertuig de Bestuurder te connecteren
+        //Maakt de relatie en plaatst entiteit
         public virtual void VoegBestuurderToe(Bestuurder ingegevenBestuurder)
         {
             if(ingegevenBestuurder == null)
@@ -71,7 +72,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Voegt Bestuurder toe door connectieaanvraag
+        //Vangt de relatie op en plaatst de entiteit
         public virtual void VoegBestuurderToe(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
@@ -89,7 +90,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Verwijdert Bestuurder en vraagt aan het Voertuig de Bestuurder te deconnecteren
+        //Maakt de relatie en verwijdert entiteit
         public virtual void VerwijderBestuurder(Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
@@ -108,7 +109,7 @@ namespace FleetManagement.Model
             }
         }
 
-        //Verwijdert Bestuurder door deconnectieaanvraag
+        //Vangt de relatie op en verwijdert de entiteit
         public virtual void VerwijderBestuurder(string actie, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
