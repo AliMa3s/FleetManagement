@@ -189,7 +189,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal($"Ingegeven {nameof(Bestuurder)} mag niet null zijn", ex4.Message);
 
             //Verwijder nu de juiste Bestuurder met nieuwe instantie
-            Bestuurder zelfdeBestuurder = new("Filip", "Rigoir", "1976-03-31", "B", "1514081390", "76033101986");
+            Bestuurder zelfdeBestuurder = new(1, "Filip", "Rigoir", "1976-03-31", "B", "1514081390", "76033101986");
             tanKaart.VerwijderBestuurder(zelfdeBestuurder);
 
             //Controleer tankkaart & bestuurder, beide moeten losgekoppeld zijn

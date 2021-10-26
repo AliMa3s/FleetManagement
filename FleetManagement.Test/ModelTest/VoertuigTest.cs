@@ -31,6 +31,7 @@ namespace FleetManagement.Test.ModelTest {
             //Bij nieuwe instantie moet dat leeg kunnen zijn. 
             Assert.Null(voertuig.VoertuigKleur);
             Assert.Null(voertuig.AantalDeuren);
+            Assert.Equal(0, voertuig.VoertuigId); //nieuwe gebruiker is internal 0
         }
 
         [Fact]
@@ -57,7 +58,7 @@ namespace FleetManagement.Test.ModelTest {
             BrandstofType bezine = new("benzine");
             AutoModel automodel = new ("ferrari", "ferrari enzo", AutoType.GT);
 
-            //Maak een voertuig aan
+            //Maak een voertuig aan (zonder ID)
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
 
             //Controleer dat Voertuig nog geen Bestuurder heeft
@@ -82,7 +83,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal("1ABC495", voertuig.NummerPlaat);
             Assert.Equal("1ABC495", voertuig.Bestuurder.Voertuig.NummerPlaat);
 
-            //Voeg een andere Bestuurder toe via Voertuig (selecteer ander Bestuurder in repo)
+            //Voeg een andere Bestuurder toe via Voertuig (selecteer ander Bestuurder uit repo)
             Bestuurder anderBestuurder = _bestuurderRepo.GeefBestuurder("76003101965");
 
             var ex = Assert.Throws<VoertuigException>(() => { 
@@ -127,7 +128,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal($"Ingegeven {nameof(Bestuurder)} mag niet null zijn", ex4.Message);
 
             //Verwijder nu de juiste Bestuurder
-            voertuig.VerwijderBestuurder(bestuurder);
+            voertuig.VerwijderBestuurder(voertuig.Bestuurder);
 
             //Controleer voertuig & bestuurder, beide moeten losgekoppeld zijn
             Assert.False(voertuig.HeeftVoertuigBestuurder);

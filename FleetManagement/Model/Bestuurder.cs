@@ -12,6 +12,7 @@ namespace FleetManagement.Model
 {
     public class Bestuurder
     {
+        #region Properties
         public int BestuurderId { get; }
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
@@ -25,7 +26,9 @@ namespace FleetManagement.Model
         public DateTime AanMaakDatum { get; }
         public bool HeeftBestuurderVoertuig => Voertuig != null;
         public bool HeeftBestuurderTankKaart => TankKaart != null;
+        #endregion
 
+        #region ctors
         //Nieuw Bestuurder: Enkel verplichte velden
         public Bestuurder(string voornaam, string achternaam, string geboorteDatum, string typeRijbewijs,
             string rijBewijsNummer, string rijksRegisterNummer)
@@ -60,7 +63,9 @@ namespace FleetManagement.Model
                 throw new BestuurderException($"{nameof(BestuurderId)} moet meer zijn dan 0");
             }
         }
+        #endregion
 
+        #region Voertuig
         //Maakt de relatie en plaatst de entiteit
         public virtual void VoegVoertuigToe(Voertuig ingegevenVoertuig)
         {
@@ -72,7 +77,7 @@ namespace FleetManagement.Model
             if (!HeeftBestuurderVoertuig)
             {
                 Voertuig = ingegevenVoertuig;
-                Voertuig.VoegBestuurderToe("connecteren", this);
+                Voertuig.VoegBestuurderToe(BestuurderId, this);
             }
             else
             {
@@ -81,14 +86,20 @@ namespace FleetManagement.Model
         }
 
         //Vangt de relatie op en plaatst de entiteit
-        public virtual void VoegVoertuigToe(string actie, Voertuig ingegevenVoertuig)
+        public virtual void VoegVoertuigToe(int voertuigId, Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
             {
                 throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn");
             }
 
-            if (!HeeftBestuurderVoertuig && actie.ToLower() == "connecteren")
+            if(BestuurderId < 1)
+            {
+                throw new BestuurderException($"De {nameof(Bestuurder)} is niet geslecteerd uit lijst bestuurders");
+            }
+
+            //Voertuig hoeft niet geslecteerd te zijn
+            if (!HeeftBestuurderVoertuig && voertuigId >= 0)
             {
                 Voertuig = ingegevenVoertuig;
             }
@@ -110,7 +121,7 @@ namespace FleetManagement.Model
             {
                 if (Voertuig.Equals(ingegevenVoertuig))
                 {
-                    Voertuig.VerwijderBestuurder("deconnecteren", this);
+                    Voertuig.VerwijderBestuurder(BestuurderId, this);
                     Voertuig = null; 
                 }
                 else
@@ -125,7 +136,7 @@ namespace FleetManagement.Model
         }
 
         //Vangt de relatie op en plaatst de entiteit
-        public virtual void VerwijderVoertuig(string actie, Voertuig ingegevenVoertuig)
+        public virtual void VerwijderVoertuig(int voertuigId, Voertuig ingegevenVoertuig)
         {
             if (ingegevenVoertuig == null)
             {
@@ -134,7 +145,7 @@ namespace FleetManagement.Model
 
             if (HeeftBestuurderVoertuig)
             {
-                if (Voertuig.Equals(ingegevenVoertuig) && actie.ToLower() == "deconnecteren")
+                if (Voertuig.Equals(ingegevenVoertuig) && voertuigId >= 0)
                 {
                     Voertuig = null;
                 }
@@ -148,7 +159,9 @@ namespace FleetManagement.Model
                 throw new BestuurderException($"Er is geen {nameof(Voertuig)} om te verwijderen");
             }
         }
+        #endregion
 
+        #region Tankkaart
         //Maakt de relatie en plaatst de entiteit
         public virtual void VoegTankKaartToe(TankKaart ingegevenTankKaart)
         {
@@ -160,7 +173,7 @@ namespace FleetManagement.Model
             if (!HeeftBestuurderTankKaart)
             {
                 TankKaart = ingegevenTankKaart;
-                TankKaart.VoegBestuurderToe("connecteren", this); //Plaatst Bestuurder
+                TankKaart.VoegBestuurderToe(BestuurderId, this); //Plaatst Bestuurder
             }
             else
             {
@@ -169,14 +182,19 @@ namespace FleetManagement.Model
         }
 
         //Vangt de relatie op en plaatst de entiteit
-        public virtual void VoegTankKaartToe(string actie,TankKaart ingegevenTankKaart)
+        public virtual void VoegTankKaartToe(string tankKaartNummer,TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)
             {
                 throw new BestuurderException($"Ingegeven {nameof(TankKaart)} mag niet null zijn.");
             }
 
-            if (!HeeftBestuurderTankKaart && actie.ToLower() == "connecteren")
+            if(tankKaartNummer == null)
+            {
+                throw new BestuurderException($"De {nameof(TankKaart)} is niet geslecteerd uit lijst tankkaarten");
+            }
+
+            if (!HeeftBestuurderTankKaart)
             {
                 TankKaart = ingegevenTankKaart;
             }
@@ -197,8 +215,8 @@ namespace FleetManagement.Model
             if (HeeftBestuurderTankKaart)
             {
                 if (TankKaart.Equals(ingegevenTankKaart))
-                { //Ali: overriden van Equals TankKaart met BankKaartNummer en GeldegheidsDatum, 
-                    TankKaart.VerwijderBestuurder("deconnecteren", this);
+                {
+                    TankKaart.VerwijderBestuurder(BestuurderId, this);
                     TankKaart = null;
                 }
                 else
@@ -213,7 +231,7 @@ namespace FleetManagement.Model
         }
 
         //Vangt de relatie op en verwijdert entiteit
-        public virtual void VerwijderTankKaart(string actie, TankKaart ingegevenTankKaart)
+        public virtual void VerwijderTankKaart(string tankKaartNummer, TankKaart ingegevenTankKaart)
         {
             if (ingegevenTankKaart == null)
             {
@@ -222,7 +240,7 @@ namespace FleetManagement.Model
 
             if (HeeftBestuurderTankKaart)
             {
-                if (TankKaart.Equals(ingegevenTankKaart) && actie.ToLower() == "deconnecteren")
+                if (TankKaart.Equals(ingegevenTankKaart) && tankKaartNummer != null)
                 { 
                     TankKaart = null;
                 }
@@ -236,7 +254,9 @@ namespace FleetManagement.Model
                 throw new BestuurderException($"Er is geen {nameof(TankKaart)} om te verwijderen");
             }
         }
+        #endregion
 
+        #region overridables
         //Vergelijk twee instanties van Bestuurder met: rijksRegisterNummer
         public override bool Equals(object obj)
         {
@@ -256,5 +276,6 @@ namespace FleetManagement.Model
         {
             return RijksRegisterNummer.GetHashCode() ^ GeboorteDatum.GetHashCode();
         }
+        #endregion
     }
 }

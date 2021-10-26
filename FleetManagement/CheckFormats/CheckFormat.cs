@@ -21,7 +21,8 @@ namespace FleetManagement.CheckFormats
         public static bool IsChassisNummerGeldig(string chassisNummer)
         {
             return Regex.IsMatch(chassisNummer.ToUpper(), @"^[0-9A-HJ-NPR-Z]{17}$")
-                ? true : throw new ChassisNummerException($"Chassisnummer moet string zijn van 17 cijfers/letters maar letter I/i, O/o en Q/q mag niet voorkomen");
+                ? true : throw new ChassisNummerException($"Chassisnummer moet string zijn van 17 cijfers/letters maar " +
+                $"letter I/i, O/o en Q/q mag niet voorkomen");
         }
 
         public static bool IsNummerplaatGeldig(string nummerPlaat)

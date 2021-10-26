@@ -21,7 +21,7 @@ namespace FleetManagement.Test.Respositories
             AutoModel model = new("Toyota","Celica", AutoType.GT);
             BrandstofType brandstof = new("Hybride met Benzine");
 
-            VoegVoertuigToe( new( model, "ABCDEFGHJKLMN1234", "1FEG830", brandstof)); //Key = ABCDEFGHJKLMN1234
+            VoegVoertuigToe( new(1, model, "ABCDEFGHJKLMN1234", "1FEG830", brandstof)); //Key = ABCDEFGHJKLMN1234
             //VoegVoertuigToe(Voertuig);
             //VoegVoertuigToe(Voertuig);
         }

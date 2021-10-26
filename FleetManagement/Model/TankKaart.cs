@@ -172,7 +172,7 @@ namespace FleetManagement.Model {
             if (!HeeftTankKaartBestuurder)
             {
                 Bestuurder = ingegevenBestuurder;
-                Bestuurder.VoegTankKaartToe("connecteren", this);
+                Bestuurder.VoegTankKaartToe(TankKaartNummer, this);
             }
             else
             {
@@ -181,14 +181,19 @@ namespace FleetManagement.Model {
         }
 
         //Vangt relatie op en plaatst entiteit
-        public virtual void VoegBestuurderToe(string actie, Bestuurder ingegevenBestuurder)
+        public virtual void VoegBestuurderToe(int bestuurderId, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder == null)
             {
                 throw new TankKaartException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if (!HeeftTankKaartBestuurder && actie.ToLower() == "connecteren")
+            if (bestuurderId < 1)
+            {
+                throw new TankKaartException($"De {nameof(Bestuurder)} is niet geslecteerd uit lijst bestuurders");
+            }
+
+            if (!HeeftTankKaartBestuurder)
             {
                 Bestuurder = ingegevenBestuurder;
             }
@@ -206,9 +211,14 @@ namespace FleetManagement.Model {
                 throw new TankKaartException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
             }
 
+            if (ingegevenBestuurder.BestuurderId < 1)
+            {
+                throw new TankKaartException($"De {nameof(Bestuurder)} is niet geslecteerd uit lijst bestuurders");
+            }
+
             if (Bestuurder.Equals(ingegevenBestuurder))
             {
-                Bestuurder.VerwijderTankKaart("deconnecteren", this);
+                Bestuurder.VerwijderTankKaart(TankKaartNummer, this);
                 Bestuurder = null;
             }
             else
@@ -218,14 +228,14 @@ namespace FleetManagement.Model {
         }
 
         //Vangt de relatie op en verwijdert entiteit
-        public virtual void VerwijderBestuurder(string actie, Bestuurder ingegevenBestuurder)
+        public virtual void VerwijderBestuurder(int bestuurderId, Bestuurder ingegevenBestuurder)
         {
             if (ingegevenBestuurder != null)
             {
                 throw new TankKaartException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
 
-            if (Bestuurder.Equals(ingegevenBestuurder) && actie.ToLower() == "deconnecteren")
+            if (Bestuurder.Equals(ingegevenBestuurder) && bestuurderId > 0)
             {
                 Bestuurder = null;
             }
