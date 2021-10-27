@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories.Connections
 {
-    class BestuurderConnection : ConfigurationDB
+    class BestuurderConfig : ConfigurationDB
     {
         private readonly string _connectionString;
 
         public virtual string ConnectionString => _connectionString;
 
-        public BestuurderConnection() : base() 
+        public BestuurderConfig() : base() 
         {
             _connectionString = _config.GetConnectionString("FleetManagerConnectionString");
         }

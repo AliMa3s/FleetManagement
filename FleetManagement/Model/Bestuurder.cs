@@ -13,7 +13,7 @@ namespace FleetManagement.Model
     public class Bestuurder
     {
         #region Properties
-        public int BestuurderId { get; }
+        public int BestuurderId { get; private set; }
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
         public string GeboorteDatum { get; }
@@ -54,16 +54,28 @@ namespace FleetManagement.Model
             string rijBewijsNummer, string rijksRegisterNummer) : this(voornaam, achternaam, geboorteDatum,
                 typeRijbewijs, rijBewijsNummer, rijksRegisterNummer)
         {
+            VoegIdToe(bestuurderId);
+        }
+        #endregion
+
+        public void VoegIdToe(int bestuurderId)
+        {
             if (bestuurderId > 0)
             {
-                BestuurderId = bestuurderId;
+                if(BestuurderId == 0)
+                {
+                    BestuurderId = bestuurderId;
+                }
+                else
+                {
+                    throw new BestuurderException($"{nameof(BestuurderId)} is al aanwezig en kan niet gewijzigd worden");
+                }
             }
             else
             {
                 throw new BestuurderException($"{nameof(BestuurderId)} moet meer zijn dan 0");
             }
         }
-        #endregion
 
         #region Voertuig
         //Maakt de relatie en plaatst de entiteit
@@ -91,11 +103,6 @@ namespace FleetManagement.Model
             if (ingegevenVoertuig == null)
             {
                 throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn");
-            }
-
-            if(BestuurderId < 1)
-            {
-                throw new BestuurderException($"De {nameof(Bestuurder)} is niet geslecteerd uit lijst bestuurders");
             }
 
             //Voertuig hoeft niet geslecteerd te zijn
@@ -187,11 +194,6 @@ namespace FleetManagement.Model
             if (ingegevenTankKaart == null)
             {
                 throw new BestuurderException($"Ingegeven {nameof(TankKaart)} mag niet null zijn.");
-            }
-
-            if(tankKaartNummer == null)
-            {
-                throw new BestuurderException($"De {nameof(TankKaart)} is niet geslecteerd uit lijst tankkaarten");
             }
 
             if (!HeeftBestuurderTankKaart)

@@ -4,12 +4,12 @@ namespace FleetManagement.Test.Exceptions
 {
 
     [Serializable]
-    internal class BestuurderNepManagerException : Exception
+    internal class BestuurderNepRepoException : Exception
     {
-        public BestuurderNepManagerException() { }
+        public BestuurderNepRepoException() { }
 
-        public BestuurderNepManagerException(string message) : base(message) { }
+        public BestuurderNepRepoException(string message) : base(message) { }
 
-        public BestuurderNepManagerException(string message, Exception innerException) : base(message, innerException) { }
+        public BestuurderNepRepoException(string message, Exception innerException) : base(message, innerException) { }
     }
 }

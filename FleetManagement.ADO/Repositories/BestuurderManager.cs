@@ -7,18 +7,16 @@ namespace FleetManagement.ADO.Repositories
 {
     public class BestuurderManager
     {
-        private readonly BestuurderConnection _connectieDB;
+        private readonly BestuurderConfig _config;
 
         public BestuurderManager()
         {
-            _connectieDB = new();
-
-            //example
+            _config = new();
         }
 
         public Bestuurder AddBestuurder(Bestuurder bestuurder)
         {
-            using SqlConnection conn = new(_connectieDB.ConnectionString);
+            using SqlConnection conn = new(_config.ConnectionString);
             try
             {
                 //ToDo

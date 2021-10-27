@@ -21,9 +21,9 @@ namespace FleetManagement.Test.Respositories
             AutoModel model = new("Toyota","Celica", AutoType.GT);
             BrandstofType brandstof = new("Hybride met Benzine");
 
-            VoegVoertuigToe( new(1, model, "ABCDEFGHJKLMN1234", "1FEG830", brandstof)); //Key = ABCDEFGHJKLMN1234
-            //VoegVoertuigToe(Voertuig);
-            //VoegVoertuigToe(Voertuig);
+            VoegVoertuigToe(new(1, model, "ABCDEFGHJKLMN1234", "1FEG830", brandstof)); //Key = ABCDEFGHJKLMN1234 
+            VoegVoertuigToe(new(2, model, "1234ABCDEFGHJKLMN", "2FEG830", brandstof)); //Key = 1234ABCDEFGHJKLMN
+            VoegVoertuigToe(new(model, "ABCDEFG1234HJKLMN", "3FEG830", brandstof)); //Key = ABCDEFG1234HJKLMN
         }
 
         public Voertuig GeefVoertuig(string chassisNummer)
@@ -54,7 +54,7 @@ namespace FleetManagement.Test.Respositories
             }
             else
             {
-                throw new VoertuigNepManagerException("Voertuig staat al in de lijst");
+                throw new VoertuigNepRepoException("Voertuig staat al in de lijst");
             }
         }
     }

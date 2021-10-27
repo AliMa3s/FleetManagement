@@ -18,14 +18,18 @@ namespace FleetManagement.Test.Respositories
             //Selecteerlijst voor Bestuurder
             //Persoon die TankKaart test, configureert voor alle andere teamleden de juiste instanties 
 
-            //VoegTankKaartToe(TankKaart);
-            //VoegTankKaartToe(TankKaart);
-            //VoegTankKaartToe(TankKaart);
+            DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
+
+            VoegTankKaartToe(new("1234567890123456789", true, geldigheidsDatum)); //1234567890123456789
+            //VoegTankKaartToe( new("1234567890123456789", geldigheidsDatum) );
+            //VoegTankKaartToe( new("1234567890123456789", geldigheidsDatum) );
         }
+
+        //ABCDEFGHJKLMN1234
 
         public TankKaart GeefTankKaart(string tankKaartNummer)
         {
-            if (!IsTankKaartAanwezig(tankKaartNummer))
+            if (IsTankKaartAanwezig(tankKaartNummer))
             {
                 return _tankKaarten[tankKaartNummer]; //return null of object
             }
@@ -51,7 +55,7 @@ namespace FleetManagement.Test.Respositories
             }
             else
             {
-                throw new TankKaartNepManagerException("TankKaart staat reeds in de lijst");
+                throw new TankKaartNepRepoException("TankKaart staat reeds in de lijst");
             }
         }
     }
