@@ -28,7 +28,7 @@ namespace FleetManagement.Model
         public bool HeeftBestuurderTankKaart => TankKaart != null;
         #endregion
 
-        #region ctors
+        #region Ctors
         //Nieuw Bestuurder: Enkel verplichte velden
         public Bestuurder(string voornaam, string achternaam, string geboorteDatum, string typeRijbewijs,
             string rijBewijsNummer, string rijksRegisterNummer)
@@ -256,7 +256,7 @@ namespace FleetManagement.Model
         }
         #endregion
 
-        #region overridables
+        #region Overridables
         //Vergelijk twee instanties van Bestuurder met: rijksRegisterNummer
         public override bool Equals(object obj)
         {

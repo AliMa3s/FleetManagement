@@ -1,4 +1,5 @@
-﻿using FleetManagement.Model;
+﻿using FleetManagement.ADO.Repositories.Connections;
+using FleetManagement.Model;
 using Microsoft.Data.SqlClient;
 using System;
 
@@ -6,7 +7,7 @@ namespace FleetManagement.ADO.Repositories
 {
     public class BestuurderManager
     {
-        private readonly ConnectionDB _connectieDB;
+        private readonly BestuurderConnection _connectieDB;
 
         public BestuurderManager()
         {
