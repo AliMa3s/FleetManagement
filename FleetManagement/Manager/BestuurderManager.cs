@@ -64,7 +64,7 @@ namespace FleetManagement.Manager {
 
         public void VerwijderBestuurder(Bestuurder bestuurder) {
             try {
-                if (bestuurder == null) throw new AdresManagerException("Bestuurder - Bestuurder mag niet null zijn");
+                if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
                 if (repo.BestaatBestuurder(bestuurder.BestuurderId)) {
                     repo.VerwijderBestuurder(bestuurder);
                 } else {
@@ -78,7 +78,7 @@ namespace FleetManagement.Manager {
 
         public void VoegBestuurderToe(Bestuurder bestuurder) {
             try {
-                if (bestuurder == null) throw new AdresManagerException("Bestuurder - Bestuurder mag niet null zijn");
+                if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
                 if (!repo.BestaatBestuurder(bestuurder.BestuurderId)) {
                     repo.VoegBestuurderToe(bestuurder);
                 } else {
