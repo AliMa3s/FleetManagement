@@ -30,7 +30,7 @@ namespace FleetManagement.Manager {
 
         public bool BestaatAdres(int adresId) {
             try {
-                if (adresId < 1) throw new AdresManagerException("Adres kan niet kleiner dan 0 zijn");
+                if (adresId < 1) throw new AdresManagerException("Adres id kan niet kleiner dan 0 zijn");
                 if (!repo.BestaatAdres(adresId)) {
                     return false;
                 } else {
