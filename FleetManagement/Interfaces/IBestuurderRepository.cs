@@ -9,7 +9,7 @@ namespace FleetManagement.Interfaces {
     public interface IBestuurderRepository {
         IReadOnlyList<Bestuurder> GeefAlleBestuurder();
         IReadOnlyList<Bestuurder> ZoekBestuurders(int? id, string voornaam, string achternaam, string geboortedatum, Adres adres);
-        Bestuurder ZoekBestuurder(int? id, string voornaam, string achternaam, string geboorteDatum, Adres adres);
+        Bestuurder ZoekBestuurder(int bestuurderid);
         bool BestaatBestuurder(int id);
         Bestuurder GetBestuurderId(int id);
         void VoegBestuurderToe(Bestuurder bestuurder);
