@@ -9,7 +9,7 @@ namespace FleetManagement.Interfaces {
     public interface IVoertuigRepository {
         IReadOnlyList<Voertuig> GeefAlleVoerTuig();
         IReadOnlyList<Voertuig> ZoekVoertuigen(int? voertuigId, AutoModel automodel, string chassisNumber, string nummerPlaat, BrandstofType brandstof, Kleur kleur, AantalDeuren aantalDeuren, Bestuurder bestuurder);
-        Voertuig GeefVoertuig();
+        Voertuig GetVoertuig(int voertuigId);
         Voertuig ZoekVoertuig(int? voertuigId, AutoModel automodel, string chassisNumber, string nummerPlaat, BrandstofType brandstof, Kleur kleur, AantalDeuren aantalDeuren, Bestuurder bestuurder);
         bool BestaatVoertuig(Voertuig voertuig);
         void VoegVoertuigToe(Voertuig voertuig);
