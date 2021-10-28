@@ -24,20 +24,17 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         //Probeer een nul & negatief getal mee te geven
-        [Fact]
-        public void Id_Nummer_Incorrect()
+        [Theory]
+        [InlineData(-35)]
+        [InlineData(0)]
+        public void Id_Nummer_Incorrect(int id)
         {
             var e = Assert.Throws<BestuurderException>(() => {
-                new Bestuurder(-35, "Filip", "Rigoir", "1976/03/31", "A,B", "1514081390", "76033101986");
+                new Bestuurder(id, "Filip", "Rigoir", "1976/03/31", "A,B", "1514081390", "76033101986");
             });
 
             Assert.Equal("BestuurderId moet meer zijn dan 0", e.Message);
 
-            e = Assert.Throws<BestuurderException>(() => {
-                new Bestuurder(0, "Filip", "Rigoir", "1976/03/31", "A,B", "1514081390", "76033101986");
-            });
-
-            Assert.Equal("BestuurderId moet meer zijn dan 0", e.Message);
         }
 
         //Nieuwe instantie: met verplichte velden (zonder ID)
@@ -64,13 +61,22 @@ namespace FleetManagement.Test.ModelTest {
             bestuurder.VoegIdToe(1);
             Assert.Equal(1, bestuurder.BestuurderId);
 
-            //Probeer nog eenzs toe te voegen
-            var e = Assert.Throws<BestuurderException>(() => {
-                bestuurder.VoegIdToe(1);
-            });
+            //----------------------------------------------------------------------------------------------------------------//
 
-            Assert.Equal("BestuurderId is al aanwezig en kan niet gewijzigd worden", e.Message);
+        }
+        [Fact]
+        public void Bestaand_BestuurderInvoegen_Invalid()
+        {
+            /*
+             nog een method aanmaken dat een exception geeft als er een bestaande id wordt overschreven met nieuwe ID Input:
+             public void VoegIdToe_Bestaand_Bestuurder() => err
+             */
 
+            //var e = Assert.Throws<BestuurderException>(() => {
+            //    bestuurder.VoegIdToe(1);
+            //});
+
+            //Assert.Equal("BestuurderId is al aanwezig en kan niet gewijzigd worden", e.Message);
         }
 
         [Fact]
@@ -85,8 +91,9 @@ namespace FleetManagement.Test.ModelTest {
             bestuurder.VoegIdToe(1);
 
             //Voeg Voertuig & TankKaart toe
-            bestuurder.VoegVoertuigToe(_voertuigRepo.GeefVoertuig("ABCDEFGHJKLMN1234"));
-            bestuurder.VoegTankKaartToe(_tankKaartRepo.GeefTankKaart("1234567890123456789"));
+            bestuurder.VoegVoertuigToe(_voertuigRepo.GeefVoertuig("ABCDEFGHJKLMN1234"));//method(1):public void GeefVoertuig_Valid() + method(3):public void GeefVoertuig_InValid()
+            //----------------------------------------------------------------------------------------------------------------//
+            bestuurder.VoegTankKaartToe(_tankKaartRepo.GeefTankKaart("1234567890123456789"));//method(2):public void GeefTankKaart_Valid() + method(4):public void GeefTankKaart_InValid()
 
             //Controleer de aanwezigheid
             Assert.Equal(1, bestuurder.BestuurderId);
