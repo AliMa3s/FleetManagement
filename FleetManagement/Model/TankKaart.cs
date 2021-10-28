@@ -23,7 +23,7 @@ namespace FleetManagement.Model {
         //Ctor 
         public TankKaart(string kaartnummer, bool actief, DateTime geldigheidsDatum, string pincode = null)
         {
-            if(string.IsNullOrEmpty(kaartnummer))
+            if(string.IsNullOrEmpty(kaartnummer) || string.IsNullOrWhiteSpace(kaartnummer))
             {
                 throw new TankKaartException($"{nameof(TankKaart)} Kan niet null of leeg zijn");
             }

@@ -24,7 +24,7 @@ namespace FleetManagement.Test
         [InlineData("I0234DkzpGUKNt6Gb")]
         [InlineData("0Q234DkzpGUKNt6Gb")]
         [InlineData("")]
-        [InlineData("     ")]
+        [InlineData(" ")]
         [InlineData("0234DkzpIGUKNt6GbK")]
         public void ChassisnummerInValid(string ChassisNummer)
         {
