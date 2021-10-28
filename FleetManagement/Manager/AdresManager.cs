@@ -51,7 +51,7 @@ namespace FleetManagement.Manager {
                 }
             } catch (Exception ex) {
 
-                throw;
+                throw new AdresManagerException(ex.Message);
             }
         }
 

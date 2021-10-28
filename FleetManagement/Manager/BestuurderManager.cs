@@ -22,28 +22,72 @@ namespace FleetManagement.Manager {
                     return true;
                 }
             } catch (Exception ex) {
-                throw new AdresManagerException("Bestuurder - BestaatBestuurder - Foutief", ex);
+                throw new BestuurderManagerException("Bestuurder - BestaatBestuurder - Foutief", ex);
             }
         }
 
         public bool BestaatRijksRegisterNummer(string rijksRegisterNr) {
-            throw new NotImplementedException();
+            try {
+                if (string.IsNullOrWhiteSpace(rijksRegisterNr)) throw new BestuurderManagerException("RijksRegiserNr mag niet leeg of On-nodige spaties hebben!");
+                if (!repo.BestaatRijksRegisterNummer(rijksRegisterNr)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } catch (Exception ex) {
+                throw new BestuurderManagerException("RijksRegisterNr - BestaatRijksRegisterNummer - Foutief", ex);
+            }
         }
 
         public IReadOnlyList<Bestuurder> GeefAlleBestuurder() {
-            throw new NotImplementedException();
+            return repo.GeefAlleBestuurder();
         }
 
-        public Bestuurder GetBestuurderId(int id) {
-            throw new NotImplementedException();
+        public Bestuurder GetBestuurderId(int bestuuderId) {
+            if (bestuuderId < 1) throw new BestuurderManagerException("Bestuurder id mag niet 0 of kleiner zijn.");
+            return repo.GetBestuurderId(bestuuderId);
         }
 
         public void UpdateBestuurder(Bestuurder bestuurder) {
-            throw new NotImplementedException();
+            try {
+                if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
+                if (repo.BestaatBestuurder(bestuurder.BestuurderId)) {
+                    repo.UpdateBestuurder(bestuurder);
+                } else {
+                    throw new BestuurderManagerException("Bestuurder - bestaat niet!");
+                }
+            } catch (Exception ex) {
+
+                throw new BestuurderManagerException(ex.Message);
+            }
         }
 
-        public void VoegBestuurder(Bestuurder bestuurder) {
-            throw new NotImplementedException();
+        public void VerwijderBestuurder(Bestuurder bestuurder) {
+            try {
+                if (bestuurder == null) throw new AdresManagerException("Bestuurder - Bestuurder mag niet null zijn");
+                if (repo.BestaatBestuurder(bestuurder.BestuurderId)) {
+                    repo.VerwijderBestuurder(bestuurder);
+                } else {
+                    throw new BestuurderManagerException("Bestuurder - Bestuurder bestaat niet!");
+                }
+            } catch (Exception ex) {
+
+                throw new BestuurderManagerException(ex.Message);
+            }
+        }
+
+        public void VoegBestuurderToe(Bestuurder bestuurder) {
+            try {
+                if (bestuurder == null) throw new AdresManagerException("Bestuurder - Bestuurder mag niet null zijn");
+                if (!repo.BestaatBestuurder(bestuurder.BestuurderId)) {
+                    repo.VoegBestuurderToe(bestuurder);
+                } else {
+                    throw new BestuurderManagerException("Bestuurder Bestaat al");
+                }
+            } catch (Exception ex) {
+
+                throw new BestuurderManagerException(ex.Message);
+            }
         }
 
         public Bestuurder ZoekBestuurder(int? id, string voornaam, string achternaam, string geboorteDatum, Adres adres) {
