@@ -90,8 +90,19 @@ namespace FleetManagement.Manager {
             }
         }
 
-        public Bestuurder ZoekBestuurder(int? id, string voornaam, string achternaam, string geboorteDatum, Adres adres) {
-            throw new NotImplementedException();
+        public Bestuurder ZoekBestuurder(int bestuurderid) {
+            try {
+                if (bestuurderid < 1) throw new BestuurderManagerException("Bestuurder id kan niet kleiner dan 0 zijn");
+                if (repo.BestaatBestuurder(bestuurderid)) {
+                    return repo.ZoekBestuurder(bestuurderid);
+                } else {
+                    throw new BestuurderManagerException("Bestuurder - Bestaat niet!");
+                }
+            } catch (Exception ex) {
+
+                throw new BestuurderManagerException(ex.Message);
+            }
+
         }
 
         public IReadOnlyList<Bestuurder> ZoekBestuurders(int? id, string voornaam, string achternaam, string geboortedatum, Adres adres) {
