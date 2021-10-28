@@ -22,7 +22,7 @@ namespace FleetManagement.Manager {
                     return true;
                 }
             } catch (Exception ex) {
-                throw new AdresManagerException("Adres - BestaatAdres - Foutief", ex);
+                throw new AdresManagerException("Bestuurder - BestaatBestuurder - Foutief", ex);
             }
         }
 
