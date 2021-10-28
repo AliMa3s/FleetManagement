@@ -22,10 +22,19 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void BrandstofType_fout_Id()
+        public void BrandstofType_Invalid_Id()
         {
             var e = Assert.Throws<BrandstofTypeException>(() => new BrandstofType(-15, "Hybride met diesel"));
             Assert.Equal("BrandstofTypeId moet meer zijn dan 0", e.Message);
+        }
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(10)]
+        public void BrandstofType_Valid_Id(int id)
+        {
+            BrandstofType bstype = new BrandstofType(id,"Gasoline");
+            Assert.Equal(id, bstype.BrandstofTypeId);
         }
     }
 }

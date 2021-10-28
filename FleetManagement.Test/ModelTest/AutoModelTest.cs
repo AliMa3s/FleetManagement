@@ -30,7 +30,7 @@ namespace FleetManagement.Test.ModelTest
         }
 
         [Fact]
-        public void BrandstofType_fout_Id()
+        public void BrandstofType_Invalid_Id()
         {
             var e = Assert.Throws<AutoModelException>(() => new AutoModel(-100, "mercedes", "klasse-c", AutoType.Cabriolet));
             Assert.Equal("AutoModelId moet meer zijn dan 0", e.Message);
