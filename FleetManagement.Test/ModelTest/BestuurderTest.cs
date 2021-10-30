@@ -39,7 +39,7 @@ namespace FleetManagement.Test.ModelTest {
 
         //Nieuwe instantie: met verplichte velden (zonder ID)
         [Fact]
-        public void Instantie_Verplichte_Velden()
+        public void Ctor_NoId_Valid()
         {
             Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
 
@@ -61,22 +61,16 @@ namespace FleetManagement.Test.ModelTest {
             bestuurder.VoegIdToe(1);
             Assert.Equal(1, bestuurder.BestuurderId);
 
-            //----------------------------------------------------------------------------------------------------------------//
+            
 
         }
         [Fact]
-        public void Bestaand_BestuurderInvoegen_Invalid()
+        public void VoegId_Invalid()
         {
-            /*
-             nog een method aanmaken dat een exception geeft als er een bestaande id wordt overschreven met nieuwe ID Input:
-             public void VoegIdToe_Bestaand_Bestuurder() => err
-             */
-
-            //var e = Assert.Throws<BestuurderException>(() => {
-            //    bestuurder.VoegIdToe(1);
-            //});
-
-            //Assert.Equal("BestuurderId is al aanwezig en kan niet gewijzigd worden", e.Message);
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            var ex = Assert.Throws<BestuurderException>(() => bestuurder.VoegIdToe(1));
+            Assert.Equal("BestuurderId is al aanwezig en kan niet gewijzigd worden", ex.Message);
+            
         }
 
         [Fact]
@@ -101,6 +95,35 @@ namespace FleetManagement.Test.ModelTest {
             //Assert.True(bestuurder.HeeftBestuurderTankKaart);
             Assert.NotNull(bestuurder.Adres);
         }
+        //----------------------------------------------------------------------------------------------------------------//NIEUW
+        [Fact]
+        public void GeefVoertuig_Valid()
+        {
+            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+
+            //Voeg niet-verplichte toe
+            bestuurder.Adres = new Adres(1, "L.Schuermanstraat", "20", "9040", "Gent");
+
+            //Voeg eerst ID toe want bestuurder moet uit een lijst geslecteerd worden
+            bestuurder.VoegIdToe(1);
+
+            //Voeg Voertuig & TankKaart toe
+            bestuurder.VoegVoertuigToe(_voertuigRepo.GeefVoertuig("ABCDEFGHJKLMN1234"));
+        }
+        //----------------------------------------------------------------------------------------------------------------//NIEUW
+        [Fact]
+        public void GeefVoertuig_Invalid()
+        {
+            Bestuurder bestuurder = new Bestuurder(1,"Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+
+            //Voeg niet-verplichte toe
+            bestuurder.Adres = new Adres(1, "L.Schuermanstraat", "20", "9040", "Gent");
+
+
+            //var ex = Assert.Throws<VoertuigNepRepo>(() => bestuurder.VoegVoertuigToe(_voertuigRepo.GeefVoertuig(""))); 
+                //throw new VoertuigNepRepoException("Voertuig staat al in de lijst");
+        }
+
 
         [Fact]
         public void InstantieVergelijking()
