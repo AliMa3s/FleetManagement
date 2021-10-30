@@ -17,8 +17,24 @@ namespace FleetManagement.Manager {
 
         public bool BestaatVoertuig(Voertuig voertuig) {
             try {
+
                 if (voertuig == null) throw new VoertuigManagerException("Voertuig mag niet null zijn");
                 if (!repo.BestaatVoertuig(voertuig)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } catch (Exception ex) {
+                throw new VoertuigManagerException("Voertuig - BestaatVoertuig - Foutief", ex);
+            }
+        }
+
+        public bool BestaatVoertuig(Voertuig voertuig, string chasisnummer, string nummerplaat) {
+            try {
+
+                if (voertuig == null) throw new VoertuigManagerException("Voertuig mag niet null zijn");
+                if (!repo.BestaatVoertuig(voertuig) && CheckFormats.CheckFormat.IsChassisNummerGeldig(chasisnummer)
+                    && CheckFormats.CheckFormat.IsNummerplaatGeldig(nummerplaat)) {
                     return false;
                 } else {
                     return true;

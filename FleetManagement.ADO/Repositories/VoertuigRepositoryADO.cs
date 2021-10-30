@@ -51,5 +51,9 @@ namespace FleetManagement.ADO.Repositories {
         public IReadOnlyList<Voertuig> ZoekVoertuigen(int? voertuigId, AutoModel automodel, string chassisNumber, string nummerPlaat, BrandstofType brandstof, Kleur kleur, AantalDeuren aantalDeuren, Bestuurder bestuurder) {
             throw new NotImplementedException();
         }
+
+        public bool BestaatVoertuig(Voertuig voertuig, string chasisnummer, string nummerplaat) {
+            throw new NotImplementedException();
+        }
     }
 }

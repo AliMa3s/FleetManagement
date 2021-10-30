@@ -11,7 +11,8 @@ namespace FleetManagement.Interfaces {
         IReadOnlyList<Voertuig> ZoekVoertuigen(int? voertuigId, AutoModel automodel, string chassisNumber, string nummerPlaat, BrandstofType brandstof, Kleur kleur, AantalDeuren aantalDeuren, Bestuurder bestuurder);
         Voertuig GetVoertuig(int voertuigId);
         Voertuig ZoekVoertuig(int? voertuigId, AutoModel automodel, string chassisNumber, string nummerPlaat, BrandstofType brandstof, Kleur kleur, AantalDeuren aantalDeuren, Bestuurder bestuurder);
-        bool BestaatVoertuig(Voertuig voertuig);
+        public bool BestaatVoertuig(Voertuig voertuig);
+        public bool BestaatVoertuig(Voertuig voertuig, string chasisnummer, string nummerplaat);
         void VoegVoertuigToe(Voertuig voertuig);
         void UpdateVoertuig(Voertuig voertuig);
         void VerwijderVoertuig(Voertuig voertuig);
