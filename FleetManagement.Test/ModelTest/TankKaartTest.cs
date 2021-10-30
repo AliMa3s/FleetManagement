@@ -266,30 +266,6 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void VulTankKaartMetBrandstof() {
-
-            
-            Voertuig voertuig = _voertuigRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
-
-            
-            DateTime vervalDatum = DateTime.Now.AddDays(365);
-
-            
-            TankKaart tankKaart = new("1234567890123456789", vervalDatum);
-
-             
-            Assert.False(tankKaart.IsBrandstofAanwezig(new BrandstofType(voertuig.Brandstof)));
-            Assert.Equal("Hybride met Benzine", voertuig.Brandstof);
-
-            
-            tankKaart.VoegBrandstofToe(new BrandstofType(voertuig.Brandstof));
-
-            
-            Assert.True(tankKaart.IsBrandstofAanwezig(new BrandstofType(voertuig.Brandstof)));
-            Assert.Equal("Hybride met Benzine", tankKaart.Brandstoffen[0].BrandstofNaam);
-        }
-
-        [Fact]
         public void VoegBrandstofTypeToe_Valid() {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             BrandstofType bs = new BrandstofType("Gas");

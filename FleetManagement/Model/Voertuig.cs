@@ -11,6 +11,9 @@ namespace FleetManagement.Model
 {
     public class Voertuig
     {
+        private readonly BrandstofType _brandstof;
+        private readonly bool _isHybride;
+
         //Zone properties
         public int VoertuigId { get; }
         public AutoModel AutoModel { get; set; }
@@ -20,10 +23,8 @@ namespace FleetManagement.Model
         public DateTime InBoekDatum { get; set; }
         public AantalDeuren? AantalDeuren { get; set; } = null;
         public Bestuurder Bestuurder { get; private set; }
-        public bool HeeftVoertuigBestuurder => Bestuurder != null;
-
-        private readonly BrandstofType _brandstof;
-        private readonly bool _isHybride;
+        public bool HeeftVoertuigBestuurder => Bestuurder != null; 
+        public bool HeeftVoertuigHybride => _isHybride;
 
         public string Brandstof => _isHybride ? "Hybride met " + _brandstof.BrandstofNaam : _brandstof.BrandstofNaam;
 
