@@ -21,7 +21,7 @@ namespace FleetManagement.Test.ModelTest {
             AutoModel autoModel = new("mercedes", "c-klasse", AutoType.GT);
             bool ishybride = true;
             Voertuig voertuig = new(autoModel, "WAUZZZ8V5KA106598", "1AYB020", brandstof,ishybride);
-            Assert.True(voertuig.IsHybrideWagen);
+            Assert.True(voertuig.Hybride);
         }
 
         [Fact]

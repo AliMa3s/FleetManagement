@@ -278,14 +278,14 @@ namespace FleetManagement.Test.ModelTest {
             TankKaart tankKaart = new("1234567890123456789", vervalDatum);
 
              
-            Assert.False(tankKaart.IsBrandstofAanwezig(voertuig.Brandstof));
-            Assert.Equal("Hybride met Benzine", voertuig.Brandstof.BrandstofNaam);
+            Assert.False(tankKaart.IsBrandstofAanwezig(new BrandstofType(voertuig.Brandstof)));
+            Assert.Equal("Hybride met Benzine", voertuig.Brandstof);
 
             
-            tankKaart.VoegBrandstofToe(voertuig.Brandstof);
+            tankKaart.VoegBrandstofToe(new BrandstofType(voertuig.Brandstof));
 
             
-            Assert.True(tankKaart.IsBrandstofAanwezig(voertuig.Brandstof));
+            Assert.True(tankKaart.IsBrandstofAanwezig(new BrandstofType(voertuig.Brandstof)));
             Assert.Equal("Hybride met Benzine", tankKaart.Brandstoffen[0].BrandstofNaam);
         }
 

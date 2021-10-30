@@ -25,7 +25,7 @@ namespace FleetManagement.Test.ModelTest.ModelScenario
             AutoModel automodel = new("ferrari", "ferrari enzo", AutoType.GT);
 
             //Maak een voertuig aan (zonder ID)
-            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine, false);
 
             //Controleer dat Voertuig nog geen Bestuurder heeft
             Assert.False(voertuig.HeeftVoertuigBestuurder);
@@ -71,7 +71,7 @@ namespace FleetManagement.Test.ModelTest.ModelScenario
             var ex2 = Assert.Throws<BestuurderException>(() =>
             {
                 voertuig.Bestuurder.VoegVoertuigToe(
-                        new Voertuig(5, automodel, "GDTKBSD1256YFES56", "2BDO563", bezine)
+                        new Voertuig(5, automodel, "GDTKBSD1256YFES56", "2BDO563", bezine, false)
                     );
             });
 

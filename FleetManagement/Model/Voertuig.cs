@@ -13,25 +13,21 @@ namespace FleetManagement.Model
     {
         //Zone properties
         public int VoertuigId { get; }
-        public AutoModel AutoModel { get; set; } 
+        public AutoModel AutoModel { get; set; }
         public string ChassisNummer { get; }
         public string NummerPlaat { get; private set; }
         public Kleur? VoertuigKleur { get; set; } = null;
-        public BrandstofType Brandstof { get; }
         public DateTime InBoekDatum { get; set; }
         public AantalDeuren? AantalDeuren { get; set; } = null;
         public Bestuurder Bestuurder { get; private set; }
         public bool HeeftVoertuigBestuurder => Bestuurder != null;
-        public bool IsHybrideWagen {get; private set;}
-        //Ctor
-        
-        public bool  isHybridewagen(bool ishybride)
-        {
-            if (ishybride) return true;
-            return false;
-            
-        }
-        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof,bool ishybride)
+
+        private readonly BrandstofType _brandstof;
+        private readonly bool _isHybride;
+
+        public string Brandstof => _isHybride ? "Hybride met " + _brandstof.BrandstofNaam : _brandstof.BrandstofNaam;
+
+        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof, bool ishybride)
         {
             if (CheckFormat.IsChassisNummerGeldig(chassisnummer))
             {
@@ -44,31 +40,12 @@ namespace FleetManagement.Model
             }
 
             AutoModel = autoModel;
-            Brandstof = brandstof;
-
-            IsHybrideWagen = ishybride;
+            _brandstof = brandstof;
+            _isHybride = ishybride;
         }
 
-
-
-        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof)
-        {
-            if(CheckFormat.IsChassisNummerGeldig(chassisnummer))
-            {
-                ChassisNummer = chassisnummer;
-            }
-
-            if (CheckFormat.IsNummerplaatGeldig(nummerplaat))
-            {
-                NummerPlaat = nummerplaat;
-            }
-            
-            AutoModel = autoModel;
-            Brandstof = brandstof;
-        }
-
-        public Voertuig(int voertuigId, AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof) 
-            : this(autoModel, chassisnummer, nummerplaat, brandstof)
+        public Voertuig(int voertuigId, AutoModel autoModel, string chassisnummer, string nummerplaat, 
+            BrandstofType brandstof, bool ishybride) : this(autoModel, chassisnummer, nummerplaat, brandstof, ishybride)
         {
             if(voertuigId > 0)
             {
