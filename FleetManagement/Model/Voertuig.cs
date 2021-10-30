@@ -22,8 +22,16 @@ namespace FleetManagement.Model
         public AantalDeuren? AantalDeuren { get; set; } = null;
         public Bestuurder Bestuurder { get; private set; }
         public bool HeeftVoertuigBestuurder => Bestuurder != null;
-
+        public bool IsHybrideWagen {get; private set;}
         //Ctor
+        
+        public bool Voertuig(bool ishybride)
+        {
+            if(ishybride) return true;
+            return false;
+        }
+        
+        
         public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof)
         {
             if(CheckFormat.IsChassisNummerGeldig(chassisnummer))
