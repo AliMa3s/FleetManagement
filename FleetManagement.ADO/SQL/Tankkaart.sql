@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[Tankkaart] (
-    [kaartnummer]      NVARCHAR (19) NOT NULL,
+    [kaartnummer]      NVARCHAR (25) NOT NULL,
     [bestuurderid]     INT           NULL,
     [geldigheidsdatum] DATE          NOT NULL,
-    [pincode]          NVARCHAR (4)  NULL,
+    [pincode]          NVARCHAR (10)  NULL,
     [actief]           TINYINT       NOT NULL,
     [uitgeefdatum]     TIMESTAMP    NOT NULL,
     PRIMARY KEY CLUSTERED ([kaartnummer] ASC),
