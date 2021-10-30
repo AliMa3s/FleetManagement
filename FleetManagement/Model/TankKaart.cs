@@ -230,7 +230,9 @@ namespace FleetManagement.Model {
         //Vangt de relatie op en verwijdert entiteit
         public virtual void VerwijderBestuurder(int bestuurderId, Bestuurder ingegevenBestuurder)
         {
-            if (ingegevenBestuurder != null)
+            //code veranderd er stond if(ingegevenBestuurder != null)
+            //waardoor een bestaand bestuurder niet kon verwijderd worden.
+            if (ingegevenBestuurder == null)
             {
                 throw new TankKaartException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }

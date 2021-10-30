@@ -15,7 +15,7 @@ namespace FleetManagement.Test.ModelTest {
         private readonly TankKaartNepRepo _tankKaartRepo = new();
         private readonly VoertuigNepRepo _voertuigRepo = new();
 
-        //ID nummer is correct ingegeven
+        
         [Fact]
         public void Id_Nummer_Correct()
         {
@@ -23,7 +23,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal(1, bestuurder.BestuurderId);
         }
 
-        //Probeer een nul & negatief getal mee te geven
+        
         [Theory]
         [InlineData(-35)]
         [InlineData(0)]
@@ -37,7 +37,7 @@ namespace FleetManagement.Test.ModelTest {
 
         }
 
-        //Nieuwe instantie: met verplichte velden (zonder ID)
+       
         [Fact]
         public void Ctor_NoId_Valid()
         {
@@ -61,9 +61,8 @@ namespace FleetManagement.Test.ModelTest {
             bestuurder.VoegIdToe(1);
             Assert.Equal(1, bestuurder.BestuurderId);
 
-            
-
         }
+
         [Fact]
         public void VoegId_Invalid()
         {
@@ -74,54 +73,39 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void Instantie_Aangevulde_Velden()
+        public void Bestuurder_Adres_NotNull_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            Bestuurder bestuurder = new Bestuurder(1,"Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
 
-            //Voeg niet-verplichte toe
             bestuurder.Adres = new Adres(1,"L.Schuermanstraat","20","9040","Gent");
 
-           //Voeg eerst ID toe want bestuurder moet uit een lijst geslecteerd worden
-            bestuurder.VoegIdToe(1);
-
-            //Voeg Voertuig & TankKaart toe
-            bestuurder.VoegVoertuigToe(_voertuigRepo.GeefVoertuig("ABCDEFGHJKLMN1234"));//method(1):public void GeefVoertuig_Valid() + method(3):public void GeefVoertuig_InValid()
-            //----------------------------------------------------------------------------------------------------------------//
-            bestuurder.VoegTankKaartToe(_tankKaartRepo.GeefTankKaart("1234567890123456789"));//method(2):public void GeefTankKaart_Valid() + method(4):public void GeefTankKaart_InValid()
-
-            //Controleer de aanwezigheid
-            Assert.Equal(1, bestuurder.BestuurderId);
-            Assert.True(bestuurder.HeeftBestuurderVoertuig);
-            //Assert.True(bestuurder.HeeftBestuurderTankKaart);
             Assert.NotNull(bestuurder.Adres);
         }
-        //----------------------------------------------------------------------------------------------------------------//NIEUW
+        
         [Fact]
         public void GeefVoertuig_Valid()
         {
             Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
 
-            //Voeg niet-verplichte toe
             bestuurder.Adres = new Adres(1, "L.Schuermanstraat", "20", "9040", "Gent");
 
-            //Voeg eerst ID toe want bestuurder moet uit een lijst geslecteerd worden
             bestuurder.VoegIdToe(1);
 
-            //Voeg Voertuig & TankKaart toe
             bestuurder.VoegVoertuigToe(_voertuigRepo.GeefVoertuig("ABCDEFGHJKLMN1234"));
+
+            Assert.True(bestuurder.HeeftBestuurderVoertuig);
         }
-        //----------------------------------------------------------------------------------------------------------------//NIEUW
+       
         [Fact]
-        public void GeefVoertuig_Invalid()
+        public void GeefTankKaart_Valid()
         {
             Bestuurder bestuurder = new Bestuurder(1,"Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
 
-            //Voeg niet-verplichte toe
             bestuurder.Adres = new Adres(1, "L.Schuermanstraat", "20", "9040", "Gent");
 
+            bestuurder.VoegTankKaartToe(_tankKaartRepo.GeefTankKaart("1234567890123456789"));
+            Assert.True(bestuurder.HeeftBestuurderTankKaart);
 
-            //var ex = Assert.Throws<VoertuigNepRepo>(() => bestuurder.VoegVoertuigToe(_voertuigRepo.GeefVoertuig(""))); 
-                //throw new VoertuigNepRepoException("Voertuig staat al in de lijst");
         }
 
 
@@ -129,12 +113,12 @@ namespace FleetManagement.Test.ModelTest {
         public void InstantieVergelijking()
         {
 
-            //Zelfde instantie Gegevens
+            
             Bestuurder bestuurder1 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
             Bestuurder bestuurder2 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
             Assert.True(bestuurder1.Equals(bestuurder2));
 
-            //Ander RijsksRegisterNummer
+            
             Bestuurder bestuurder3 = new Bestuurder("Filip", "Rigoir", "2018-12-05", "B,E+1", "1514081390", "18120553401");
             Assert.False(bestuurder1.Equals(bestuurder3));
         }

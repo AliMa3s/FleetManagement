@@ -31,8 +31,26 @@ namespace FleetManagement.Model
             return false;
             
         }
-        
-        
+        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof,bool ishybride)
+        {
+            if (CheckFormat.IsChassisNummerGeldig(chassisnummer))
+            {
+                ChassisNummer = chassisnummer;
+            }
+
+            if (CheckFormat.IsNummerplaatGeldig(nummerplaat))
+            {
+                NummerPlaat = nummerplaat;
+            }
+
+            AutoModel = autoModel;
+            Brandstof = brandstof;
+
+            IsHybrideWagen = ishybride;
+        }
+
+
+
         public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof)
         {
             if(CheckFormat.IsChassisNummerGeldig(chassisnummer))
