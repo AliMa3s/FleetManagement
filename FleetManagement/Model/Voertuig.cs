@@ -25,10 +25,11 @@ namespace FleetManagement.Model
         public bool IsHybrideWagen {get; private set;}
         //Ctor
         
-        public bool Voertuig(bool ishybride)
+        public bool  isHybridewagen(bool ishybride)
         {
-            if(ishybride) return true;
+            if (ishybride) return true;
             return false;
+            
         }
         
         
