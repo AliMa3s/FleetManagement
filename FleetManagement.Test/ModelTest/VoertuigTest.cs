@@ -23,7 +23,6 @@ namespace FleetManagement.Test.ModelTest {
 
             Voertuig voertuig = new(autoModel, "WAUZZZ8V5KA106598", "1AYB020", brandstof);
             Assert.True(voertuig.Brandstof.Hybride);
-            Assert.Equal("Hybride Diesel", voertuig.Brandstof.Aandrijving);
             Assert.Equal("Diesel", voertuig.Brandstof.BrandstofNaam);
         }
 
@@ -40,7 +39,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal(AutoType.GT, voertuig.AutoModel.AutoType);
             Assert.Equal("WAUZZZ8V5KA106598", voertuig.ChassisNummer);
             Assert.Equal("1AYB020", voertuig.NummerPlaat);
-            Assert.Equal("Diesel", voertuig.Brandstof.Aandrijving);
+            Assert.Equal("Diesel", voertuig.Brandstof.BrandstofNaam);
 
             Assert.Null(voertuig.VoertuigKleur);
             Assert.Null(voertuig.AantalDeuren);
