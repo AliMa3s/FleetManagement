@@ -11,24 +11,19 @@ namespace FleetManagement.Model
 {
     public class Voertuig
     {
-        private readonly BrandstofType _brandstof;
-        private readonly bool _isHybride;
-
         //Zone properties
         public int VoertuigId { get; }
         public AutoModel AutoModel { get; set; }
         public string ChassisNummer { get; }
         public string NummerPlaat { get; private set; }
+        public VoertuigAandrijving Aandrijfmotor { get; private set; }
         public Kleur? VoertuigKleur { get; set; } = null;
         public DateTime InBoekDatum { get; set; }
         public AantalDeuren? AantalDeuren { get; set; } = null;
         public Bestuurder Bestuurder { get; private set; }
         public bool HeeftVoertuigBestuurder => Bestuurder != null; 
-        public bool HeeftVoertuigHybride => _isHybride;
 
-        public string Brandstof => _isHybride ? "Hybride met " + _brandstof.BrandstofNaam : _brandstof.BrandstofNaam;
-
-        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofType brandstof, bool ishybride)
+        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, VoertuigAandrijving brandstof)
         {
             if (CheckFormat.IsChassisNummerGeldig(chassisnummer))
             {
@@ -41,12 +36,11 @@ namespace FleetManagement.Model
             }
 
             AutoModel = autoModel;
-            _brandstof = brandstof;
-            _isHybride = ishybride;
+            Aandrijfmotor = brandstof;
         }
 
         public Voertuig(int voertuigId, AutoModel autoModel, string chassisnummer, string nummerplaat, 
-            BrandstofType brandstof, bool ishybride) : this(autoModel, chassisnummer, nummerplaat, brandstof, ishybride)
+            VoertuigAandrijving brandstof) : this(autoModel, chassisnummer, nummerplaat, brandstof)
         {
             if(voertuigId > 0)
             {
