@@ -16,14 +16,14 @@ namespace FleetManagement.Model
         public AutoModel AutoModel { get; set; }
         public string ChassisNummer { get; }
         public string NummerPlaat { get; private set; }
-        public VoertuigAandrijving Aandrijfmotor { get; private set; }
+        public BrandstofVoertuig Brandstof { get; private set; }
         public Kleur? VoertuigKleur { get; set; } = null;
         public DateTime InBoekDatum { get; set; }
         public AantalDeuren? AantalDeuren { get; set; } = null;
         public Bestuurder Bestuurder { get; private set; }
         public bool HeeftVoertuigBestuurder => Bestuurder != null; 
 
-        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, VoertuigAandrijving brandstof)
+        public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofVoertuig brandstof)
         {
             if (CheckFormat.IsChassisNummerGeldig(chassisnummer))
             {
@@ -36,11 +36,11 @@ namespace FleetManagement.Model
             }
 
             AutoModel = autoModel;
-            Aandrijfmotor = brandstof;
+            Brandstof = brandstof;
         }
 
         public Voertuig(int voertuigId, AutoModel autoModel, string chassisnummer, string nummerplaat, 
-            VoertuigAandrijving brandstof) : this(autoModel, chassisnummer, nummerplaat, brandstof)
+            BrandstofVoertuig brandstof) : this(autoModel, chassisnummer, nummerplaat, brandstof)
         {
             if(voertuigId > 0)
             {

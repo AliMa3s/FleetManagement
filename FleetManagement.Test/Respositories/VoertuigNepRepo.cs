@@ -19,8 +19,8 @@ namespace FleetManagement.Test.Respositories
             //Persoon die Voeertuig test, configureert voor alle andere teamleden de juiste instanties 
 
             AutoModel model = new("Toyota","Celica", AutoType.GT);
-            VoertuigAandrijving brandstof = new("Benzine", true);
-            VoertuigAandrijving brandstof2 = new("Benzine", false);
+            BrandstofVoertuig brandstof = new("Benzine", true);
+            BrandstofVoertuig brandstof2 = new("Benzine", false);
 
             VoegVoertuigToe(new(1, model, "ABCDEFGHJKLMN1234", "1FEG830", brandstof)); //Key = ABCDEFGHJKLMN1234 
             VoegVoertuigToe(new(2, model, "1234ABCDEFGHJKLMN", "2FEG830", brandstof2)); //Key = 1234ABCDEFGHJKLMN

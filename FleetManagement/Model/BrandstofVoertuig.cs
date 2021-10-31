@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Model
 {
-    public class VoertuigAandrijving : BrandstofType
+    public class BrandstofVoertuig : BrandstofType
     {
         public bool Hybride { get; set; }
 
-        public string Aandrijving => Hybride ? "Hybride " + BrandstofNaam : BrandstofNaam;
+        public string aandrijving => Hybride ? "Hybride " + BrandstofNaam : BrandstofNaam;
         
-        public VoertuigAandrijving(string brandstofNaam, bool isHybride) : base(brandstofNaam)
+        public BrandstofVoertuig(string brandstofNaam, bool isHybride) : base(brandstofNaam)
         {
             Hybride = isHybride;
         }

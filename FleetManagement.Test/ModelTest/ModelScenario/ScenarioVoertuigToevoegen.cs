@@ -21,7 +21,7 @@ namespace FleetManagement.Test.ModelTest.ModelScenario
             Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
 
             //Maak een autoType & Benzine
-            VoertuigAandrijving bezine = new("benzine", false);
+            BrandstofVoertuig bezine = new("benzine", false);
             AutoModel automodel = new("ferrari", "ferrari enzo", AutoType.GT);
 
             //Maak een voertuig aan (zonder ID)
