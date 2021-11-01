@@ -93,10 +93,10 @@ namespace FleetManagement.ADO.Repositories {
 
         public Bestuurder GetBestuurderId(int id) {
             string query = "SELECT * FROM Bestuurder WHERE bestuurderid=@bestuurderid";
-            SqlConnection conn = getConnection();
-            using (SqlCommand command = new SqlCommand(query, conn)) {
+            SqlConnection connection = getConnection();
+            using (SqlCommand command = new SqlCommand(query, connection)) {
                 try {
-                    conn.Open();
+                    connection.Open();
                     command.Parameters.AddWithValue("@bestuurderid", id);
                     IDataReader dataReader = command.ExecuteReader();
                     dataReader.Read();
@@ -106,9 +106,9 @@ namespace FleetManagement.ADO.Repositories {
                     dataReader.Close();
                     return b;
                 } catch (Exception ex) {
-                    throw new BestuurderRepositoryADOException("GetBestuurderid niet gefaald", ex);
+                    throw new BestuurderRepositoryADOException("GetBestuurderid - gefaald", ex);
                 } finally {
-                    conn.Close();
+                    connection.Close();
                 }
             }
         }
@@ -117,7 +117,7 @@ namespace FleetManagement.ADO.Repositories {
             SqlConnection connection = getConnection();
 
             string query = "UPDATE Bestuurder" +
-                           "SET voornaam=@voornaam, achternaam=@achternaam, geboortedatum=@geboortedatum, rijksregisternummer=@rijksregisternummer," +
+                           "SET voornaam=@voornaam, achternaam=@achternaam, geboortedatum=@geboortedatum, rijksregisternummer=@rijksregisternummer, " +
                            " rijbewijstype=@rijbewijstype, rijbewijsnummer=@rijbewijsnummer, aanmaakDatum=@aanmaakDatum " +
                            " WHERE bestuurderid=@bestuurderid";
 
