@@ -95,15 +95,31 @@ namespace FleetManagement.ADO.Repositories {
                     command.CommandText = query;
                     command.ExecuteNonQuery();
                 } catch (Exception ex) {
-                    throw new Exception(ex.Message);
+                    throw new AdresRepositoryADOException("UpdateAdres - gefaald", ex);
                 } finally {
                     connection.Close();
                 }
             }
         }
 
-        public void VerwijderAders(Adres adres) {
-            throw new NotImplementedException();
+        public void VerwijderAdres(Adres adres) {
+            SqlConnection connection = getConnection();
+
+            string query = "DELETE FROM Adres WHERE adresId=@adresId";
+
+            using (SqlCommand command = connection.CreateCommand()) {
+                connection.Open();
+                try {
+                    command.Parameters.Add(new SqlParameter("@adresId", SqlDbType.Int));
+                    command.Parameters["@adresId"].Value = adres.AdresId;
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                } catch (Exception ex) {
+                    throw new AdresRepositoryADOException("VerwijderAdres - gefaald", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
         }
 
         public void VoegAdresToe(Adres adres) {
@@ -115,13 +131,11 @@ namespace FleetManagement.ADO.Repositories {
             using (SqlCommand command = connection.CreateCommand()) {
                 try {
                     connection.Open();
-                    //command.Parameters.Add(new SqlParameter("@addressId", SqlDbType.Int));       zonder id
                     command.Parameters.Add(new SqlParameter("@straat", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@postcode", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@gemeente", SqlDbType.NVarChar));
 
-                    //command.Parameters["@addressId"].Value = address.AddressID;                zonder id
                     command.Parameters["@straat"].Value = adres.Straat;
                     command.Parameters["@nummer"].Value = adres.Nr;
                     command.Parameters["@postcode"].Value = adres.Postcode;

@@ -10,7 +10,7 @@ namespace FleetManagement.Interfaces {
         bool BestaatAdres(Adres adres);
         void VoegAdresToe(Adres adres);
         void UpdateAdres(Adres adres);
-        void VerwijderAders(Adres adres);
+        void VerwijderAdres(Adres adres);
         bool BestaatAdres(int adresId);
     }
 }
