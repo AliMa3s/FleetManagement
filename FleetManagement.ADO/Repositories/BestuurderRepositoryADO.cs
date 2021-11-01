@@ -1,4 +1,5 @@
-﻿using FleetManagement.Interfaces;
+﻿using FleetManagement.Helpers;
+using FleetManagement.Interfaces;
 using FleetManagement.Model;
 using Microsoft.Data.SqlClient;
 using System;
@@ -54,6 +55,28 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public IReadOnlyList<Bestuurder> ZoekBestuurders(int? id, string voornaam, string achternaam, string geboortedatum, Adres adres) {
+            throw new NotImplementedException();
+        }
+
+
+        //bezig idee uitwerking Filip
+        public Bestuurder ZoekBestuurder(string RijksRegisterNummer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PaginaLijst<Bestuurder> FilterBestuurders(string voornaam, string achternaam)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PaginaLijst<Bestuurder> AlleBestuurders(SorteerOptie sorteer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PaginaLijst<Bestuurder> BestuurdersZonderVoertuig()
+        {
             throw new NotImplementedException();
         }
     }

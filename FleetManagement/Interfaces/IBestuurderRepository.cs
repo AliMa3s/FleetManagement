@@ -1,4 +1,5 @@
-﻿using FleetManagement.Model;
+﻿using FleetManagement.Helpers;
+using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,10 @@ namespace FleetManagement.Interfaces {
         void VerwijderBestuurder(Bestuurder bestuurder);
         bool BestaatRijksRegisterNummer(string rijksRegisterNr);
 
+        //bezig idee uitwerking Filip
+        Bestuurder ZoekBestuurder(string RijksRegisterNummer);
+        PaginaLijst<Bestuurder> FilterBestuurders(string voornaam, string achternaam);
+        PaginaLijst<Bestuurder> AlleBestuurders(SorteerOptie sorteer);
+        PaginaLijst<Bestuurder> BestuurdersZonderVoertuig();
     }
 }
