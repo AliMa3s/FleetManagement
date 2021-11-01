@@ -79,11 +79,58 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public void VerwijderBestuurder(Bestuurder bestuurder) {
-            throw new NotImplementedException();
+            SqlConnection connection = getConnection();
+            string query = "DELETE FROM Bestuurder WHERE bestuurderid=@bestuurderid";
+
+            using (SqlCommand command = connection.CreateCommand()) {
+                try {
+                    connection.Open();
+                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
+                    command.Parameters["@bestuurderid"].Value = bestuurder.BestuurderId;
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                } catch (Exception ex) {
+                    throw new BestuurderRepositoryADOException("Verwijderbestuurder - gefaald", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
         }
 
         public void VoegBestuurderToe(Bestuurder bestuurder) {
-            throw new NotImplementedException();
+            SqlConnection connection = getConnection();
+
+            string query = "INSERT INTO Bestuurder (voornaam, achternaam, geboortedatum, rijksregisternummer,rijbewijstype,rijbewijsnummer,aanmaakDatum)" +
+                           "VALUES (@voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype, @rijbewijsnummer, @aanmaakDatum)";
+
+            using (SqlCommand command = connection.CreateCommand()) {
+                try {
+                    connection.Open();
+                    command.Parameters.Add(new SqlParameter("@voornaam", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@achternaam", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@geboortedatum", SqlDbType.Date));
+                    command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@rijbewijstype", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@rijbewijsnummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@aanmaakDatum", SqlDbType.Timestamp));
+
+                    command.Parameters["@voornaam"].Value = bestuurder.Voornaam;
+                    command.Parameters["@achternaam"].Value = bestuurder.Achternaam;
+                    command.Parameters["@geboortedatum"].Value = bestuurder.GeboorteDatum;
+                    command.Parameters["@rijksregisternummer"].Value = bestuurder.RijksRegisterNummer;
+                    command.Parameters["@rijbewijstype"].Value = bestuurder.TypeRijbewijs;
+                    command.Parameters["@rijbewijsnummer"].Value = bestuurder.RijBewijsNummer;
+                    command.Parameters["@aanmaakDatum"].Value = bestuurder.AanMaakDatum;
+
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+
+                } catch (Exception ex) {
+                    throw new BestuurderRepositoryADOException("VoegBestuurderToe(bestuurder)- gefaald", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
         }
 
         public Bestuurder ZoekBestuurder(int bestuurderid) {

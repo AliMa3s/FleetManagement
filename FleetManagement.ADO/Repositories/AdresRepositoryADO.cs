@@ -73,7 +73,7 @@ namespace FleetManagement.ADO.Repositories {
         public void UpdateAdres(Adres adres) {
             SqlConnection connection = getConnection();
 
-            string query = "UPDATE Address" +
+            string query = "UPDATE Adres" +
                            "SET straat=@straat, nummer=@nummer, postcode=@postcode, gemeente=@gemeente " +
                            "WHERE adresId=@adresId";
 
@@ -108,8 +108,8 @@ namespace FleetManagement.ADO.Repositories {
             string query = "DELETE FROM Adres WHERE adresId=@adresId";
 
             using (SqlCommand command = connection.CreateCommand()) {
-                connection.Open();
                 try {
+                    connection.Open();
                     command.Parameters.Add(new SqlParameter("@adresId", SqlDbType.Int));
                     command.Parameters["@adresId"].Value = adres.AdresId;
                     command.CommandText = query;
