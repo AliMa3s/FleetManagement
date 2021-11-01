@@ -80,7 +80,22 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public void VerwijderVoertuig(Voertuig voertuig) {
-            throw new NotImplementedException();
+            SqlConnection connection = getConnection();
+            string query = "DELETE FROM Voertuig WHERE voertuigid=@voertuigid";
+
+            using (SqlCommand command = connection.CreateCommand()) {
+                try {
+                    connection.Open();
+                    command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
+                    command.Parameters["@voertuigid"].Value = voertuig.VoertuigId;
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                } catch (Exception ex) {
+                    throw new BestuurderRepositoryADOException("VerwijderVoertuig - gefaald", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
         }
 
         public void VoegVoertuigToe(Voertuig voertuig) {
@@ -94,8 +109,8 @@ namespace FleetManagement.ADO.Repositories {
                     connection.Open();
                     command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.Date));
-                    command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.Timestamp));
 
                     command.Parameters["@aantal_deuren"].Value = voertuig.AantalDeuren;
                     command.Parameters["@chassisnummer"].Value = voertuig.ChassisNummer;
