@@ -76,7 +76,36 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public void UpdateVoertuig(Voertuig voertuig) {
-            throw new NotImplementedException();
+            SqlConnection connection = getConnection();
+
+            string query = "UPDATE Voertuig" +
+                           "SET aantal_deuren=@aantal_deuren, chassisnummer=@chassisnummer, nummerplaat=@nummerplaat, inboekdatum=@inboekdatum, " +
+                           " WHERE voertuigid=@voertuigid";
+
+            using (SqlCommand command = connection.CreateCommand()) {
+                try {
+                    connection.Open();
+                    connection.Open();
+                    command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.Timestamp));
+                    command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
+
+                    command.Parameters["@aantal_deuren"].Value = voertuig.AantalDeuren;
+                    command.Parameters["@chassisnummer"].Value = voertuig.ChassisNummer;
+                    command.Parameters["@nummerplaat"].Value = voertuig.NummerPlaat;
+                    command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
+                    command.Parameters["@voertuigid"].Value = voertuig.VoertuigId;
+
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                } catch (Exception ex) {
+                    throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
         }
 
         public void VerwijderVoertuig(Voertuig voertuig) {
