@@ -26,11 +26,11 @@ namespace FleetManagement.ADO.Repositories {
             SqlConnection connection = getConnection();
             string query = "SELECT count(*) FROM Adres WHERE straat=@straat AND nummer=@nummer AND postcode=@postcode AND gemeente=@gemeente";
             using (SqlCommand command = connection.CreateCommand()) {
-                connection.Open();
                 try {
+                    connection.Open();
                     command.Parameters.Add(new SqlParameter("@straat", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@postalCode", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@postcode", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@gemeente", SqlDbType.NVarChar));
 
                     command.Parameters["@straat"].Value = adres.Straat;
@@ -53,8 +53,8 @@ namespace FleetManagement.ADO.Repositories {
             SqlConnection connection = getConnection();
             string query = "SELECT count(*) FROM Adres WHERE adresId=@adresId";
             using (SqlCommand command = connection.CreateCommand()) {
-                connection.Open();
                 try {
+                    connection.Open();
                     command.Parameters.Add(new SqlParameter("@adresId", SqlDbType.Int));
 
                     command.Parameters["@adresId"].Value = adresId;
@@ -71,7 +71,35 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public void UpdateAdres(Adres adres) {
-            throw new NotImplementedException();
+            SqlConnection connection = getConnection();
+
+            string query = "UPDATE Address" +
+                           "SET straat=@straat, nummer=@nummer, postcode=@postcode, gemeente=@gemeente " +
+                           "WHERE adresId=@adresId";
+
+            using (SqlCommand command = connection.CreateCommand()) {
+                try {
+                    connection.Open();
+                    command.Parameters.Add(new SqlParameter("@straat", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@nummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@postcode", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@gemeente", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@adresId", SqlDbType.Int));
+
+                    command.Parameters["@straat"].Value = adres.Straat;
+                    command.Parameters["@nummer"].Value = adres.Nr;
+                    command.Parameters["@postcode"].Value = adres.Postcode;
+                    command.Parameters["@gemeente"].Value = adres.Gemeente;
+                    command.Parameters["@adresId"].Value = adres.AdresId;
+
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                } catch (Exception ex) {
+                    throw new Exception(ex.Message);
+                } finally {
+                    connection.Close();
+                }
+            }
         }
 
         public void VerwijderAders(Adres adres) {
@@ -79,7 +107,35 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public void VoegAdresToe(Adres adres) {
-            throw new NotImplementedException();
+            SqlConnection connection = getConnection();
+
+            string query = "INSERT INTO Adres (straat, nummer, postcode, gemeente)" +
+                           "VALUES (@straat, @nummer, @postcode, @gemeente)";
+
+            using (SqlCommand command = connection.CreateCommand()) {
+                try {
+                    connection.Open();
+                    //command.Parameters.Add(new SqlParameter("@addressId", SqlDbType.Int));       zonder id
+                    command.Parameters.Add(new SqlParameter("@straat", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@nummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@postcode", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@gemeente", SqlDbType.NVarChar));
+
+                    //command.Parameters["@addressId"].Value = address.AddressID;                zonder id
+                    command.Parameters["@straat"].Value = adres.Straat;
+                    command.Parameters["@nummer"].Value = adres.Nr;
+                    command.Parameters["@postcode"].Value = adres.Postcode;
+                    command.Parameters["@gemeente"].Value = adres.Gemeente;
+
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+
+                } catch (Exception ex) {
+                    throw new AdresRepositoryADOException("VoegAdresToe(adres)- gefaald", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
         }
     }
 }
