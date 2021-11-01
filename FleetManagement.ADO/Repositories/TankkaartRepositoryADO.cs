@@ -45,7 +45,27 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public IReadOnlyList<TankKaart> GeefAlleTankkaart() {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM Tankkaart";
+            List<TankKaart> kaartLijst = new List<TankKaart>();
+            SqlConnection connection = getConnection();
+            using (SqlCommand command = new SqlCommand(query, connection)) {
+                try {
+                    connection.Open();
+                    IDataReader dataReader = command.ExecuteReader();
+                    TankKaart k = null;
+                    while (dataReader.Read()) {
+                        if (k == null) k = new TankKaart((string)dataReader["kaartnummer"], (bool)dataReader["actief"], (DateTime)dataReader["geldigheidsdatum"],
+                        (string)dataReader["pincode"]);
+                        kaartLijst.Add(k);
+                    }
+                    dataReader.Close();
+                } catch (Exception ex) {
+                    throw new TankkaarRepositoryADOException("GetAlleTankkaart niet gelukt", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
+            return kaartLijst.AsReadOnly();
         }
 
         public TankKaart GetTankKaart(string tankkaartNr) {
