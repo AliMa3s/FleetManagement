@@ -1,9 +1,11 @@
-﻿using FleetManagement.Helpers;
+﻿using FleetManagement.ADO.RepositoryExceptions;
+using FleetManagement.Helpers;
 using FleetManagement.Interfaces;
 using FleetManagement.Model;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,11 +25,45 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public bool BestaatBestuurder(int id) {
-            throw new NotImplementedException();
+            SqlConnection connection = getConnection();
+            string query = "SELECT count(*) FROM Bestuurder WHERE bestuurderid=@bestuurderid";
+            using (SqlCommand command = connection.CreateCommand()) {
+                try {
+                    connection.Open();
+                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
+
+                    command.Parameters["@bestuurderid"].Value = id;
+
+                    command.CommandText = query;
+                    int n = (int)command.ExecuteScalar();
+                    if (n > 0) return true; else return false;
+                } catch (Exception ex) {
+                    throw new AdresRepositoryADOException("BestaatBestuurder(int-id)- gefaald", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
         }
 
         public bool BestaatRijksRegisterNummer(string rijksRegisterNr) {
-            throw new NotImplementedException();
+            string query = $"SELECT * FROM Bestuurder WHERE rijksregisternummer=@rijksregisternummer;";
+            SqlConnection connection = getConnection();
+            using (SqlCommand command = connection.CreateCommand()) {
+                try {
+                    connection.Open();
+                    command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
+
+                    command.Parameters["@rijksregisternummer"].Value = rijksRegisterNr;
+
+                    command.CommandText = query;
+                    int n = (int)command.ExecuteScalar();
+                    if (n > 0) return true; else return false;
+                } catch (Exception ex) {
+                    throw new AdresRepositoryADOException("BestaatRijksRegisterNummer - gefaald", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
         }
 
         public IReadOnlyList<Bestuurder> GeefAlleBestuurder() {
@@ -60,23 +96,19 @@ namespace FleetManagement.ADO.Repositories {
 
 
         //bezig idee uitwerking Filip
-        public Bestuurder ZoekBestuurder(string RijksRegisterNummer)
-        {
+        public Bestuurder ZoekBestuurder(string RijksRegisterNummer) {
             throw new NotImplementedException();
         }
 
-        public PaginaLijst<Bestuurder> FilterBestuurders(string voornaam, string achternaam)
-        {
+        public PaginaLijst<Bestuurder> FilterBestuurders(string voornaam, string achternaam) {
             throw new NotImplementedException();
         }
 
-        public PaginaLijst<Bestuurder> AlleBestuurders(SorteerOptie sorteer)
-        {
+        public PaginaLijst<Bestuurder> AlleBestuurders(SorteerOptie sorteer) {
             throw new NotImplementedException();
         }
 
-        public PaginaLijst<Bestuurder> BestuurdersZonderVoertuig()
-        {
+        public PaginaLijst<Bestuurder> BestuurdersZonderVoertuig() {
             throw new NotImplementedException();
         }
     }
