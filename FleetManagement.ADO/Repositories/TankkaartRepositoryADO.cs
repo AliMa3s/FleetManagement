@@ -97,6 +97,7 @@ namespace FleetManagement.ADO.Repositories {
                 }
             }
         }
+
         public void UpdateTankKaart(TankKaart tankkaart) {
             throw new NotImplementedException();
         }
@@ -106,7 +107,35 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public void VoegTankKaartToe(TankKaart tankkaart) {
-            throw new NotImplementedException();
+            SqlConnection connection = getConnection();
+
+            string query = "INSERT INTO Tankkaart (kaartnummer, geldigheidsdatum, pincode, actief, uitgeefdatum)" +
+                           "VALUES (@kaartnummer, @geldigheidsdatum, @pincode, @actief, @uitgeefdatum)";
+
+            using (SqlCommand command = connection.CreateCommand()) {
+                try {
+                    connection.Open();
+                    command.Parameters.Add(new SqlParameter("@kaartnummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.DateTime));
+                    command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@actief", SqlDbType.Bit));
+                    command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Timestamp));
+
+                    command.Parameters["@kaartnummer"].Value = tankkaart.TankKaartNummer;
+                    command.Parameters["@geldigheidsdatum"].Value = tankkaart.GeldigheidsDatum;
+                    command.Parameters["@pincode"].Value = tankkaart.Pincode;
+                    command.Parameters["@actief"].Value = tankkaart.Actief;
+                    command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum;
+
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+
+                } catch (Exception ex) {
+                    throw new TankkaarRepositoryADOException("VoegTankkaarttoe - gefaald", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
         }
 
         public TankKaart ZoekTankKaart(string tankkaartNr, BrandstofType branstof) {
@@ -114,7 +143,37 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public IReadOnlyList<TankKaart> ZoekTankKaarten(string tankkaartNr, BrandstofType brandstof) {
-            throw new NotImplementedException();
+            SqlConnection connection = getConnection();
+
+            List<TankKaart> kaartLijst = new List<TankKaart>();
+
+            string query = "SELECT Tankkaart.kaartnummer, Brandstoftype.brandstofnaam FROM Tankkaart" +
+                " INNER JOIN Brandstoftype ON Tankkaart.kaartnummer=@Tankkaart.kaartnummer ";
+
+            using (SqlCommand command = connection.CreateCommand()) {
+                connection.Open();
+                try {
+                    command.Parameters.Add(new SqlParameter("@Tankkaart.kaartnummer ", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@Brandstoftype.brandstofnaam", SqlDbType.NVarChar));
+
+                    command.Parameters["@Tankkaart.kaartnummer"].Value = tankkaartNr;
+                    command.Parameters["@Brandstoftype.brandstofnaam"].Value = brandstof;
+
+                    command.CommandText = query;
+                    IDataReader dataReader = command.ExecuteReader();
+                    TankKaart k = null;
+                    while (dataReader.Read()) {
+                        if (k == null) k = new TankKaart((string)dataReader["kaartnummer"], (bool)dataReader["actief"], (DateTime)dataReader["geldigheidsdatum"],
+                        (string)dataReader["pincode"]);
+                        kaartLijst.Add(k);
+                    }
+                } catch (Exception ex) {
+                    throw new TankkaarRepositoryADOException("ZoekTankKaarten niet gelukt", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
+            return kaartLijst.AsReadOnly();
         }
     }
 }
