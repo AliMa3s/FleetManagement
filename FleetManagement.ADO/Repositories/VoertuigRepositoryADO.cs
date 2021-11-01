@@ -84,7 +84,33 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public void VoegVoertuigToe(Voertuig voertuig) {
-            throw new NotImplementedException();
+            SqlConnection connection = getConnection();
+
+            string query = "INSERT INTO Voertuig (aantal_deuren,chassisnummer,nummerplaat,inboekdatum)" +
+                           "VALUES (@aantal_deuren,@chassisnummer,@nummerplaat,@inboekdatum)";
+
+            using (SqlCommand command = connection.CreateCommand()) {
+                try {
+                    connection.Open();
+                    command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.Date));
+                    command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.NVarChar));
+
+                    command.Parameters["@aantal_deuren"].Value = voertuig.AantalDeuren;
+                    command.Parameters["@chassisnummer"].Value = voertuig.ChassisNummer;
+                    command.Parameters["@nummerplaat"].Value = voertuig.NummerPlaat;
+                    command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
+
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+
+                } catch (Exception ex) {
+                    throw new VoertuigRepositoryADOException("VoegVoertuig - gefaald", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
         }
 
         public Voertuig ZoekVoertuig(int? voertuigId, AutoModel automodel, string chassisNumber, string nummerPlaat, BrandstofType brandstof, Kleur kleur, AantalDeuren aantalDeuren, Bestuurder bestuurder) {
