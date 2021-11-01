@@ -71,7 +71,25 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public Bestuurder GetBestuurderId(int id) {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM Bestuurder WHERE bestuurderid=@bestuurderid";
+            SqlConnection conn = getConnection();
+            using (SqlCommand command = new SqlCommand(query, conn)) {
+                try {
+                    conn.Open();
+                    command.Parameters.AddWithValue("@bestuurderid", id);
+                    IDataReader dataReader = command.ExecuteReader();
+                    dataReader.Read();
+                    Bestuurder b = new Bestuurder((int)dataReader["bestuurderid"], (string)dataReader["voornaam"], (string)dataReader["achternaam"],
+                        (string)dataReader["geboortedatum"], (string)dataReader["rijbewijstype"], (string)dataReader["rijbewijsnummer"],
+                        (string)dataReader["rijksregisternummer"]);
+                    dataReader.Close();
+                    return b;
+                } catch (Exception ex) {
+                    throw new BestuurderRepositoryADOException("GetBestuurderid niet gefaald", ex);
+                } finally {
+                    conn.Close();
+                }
+            }
         }
 
         public void UpdateBestuurder(Bestuurder bestuurder) {
