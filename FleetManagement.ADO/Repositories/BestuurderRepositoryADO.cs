@@ -67,7 +67,28 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public IReadOnlyList<Bestuurder> GeefAlleBestuurder() {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM Bestuurder";
+            List<Bestuurder> bestuurderLijst = new List<Bestuurder>();
+            SqlConnection connection = getConnection();
+            using (SqlCommand command = new SqlCommand(query, connection)) {
+                try {
+                    connection.Open();
+                    IDataReader dataReader = command.ExecuteReader();
+                    Bestuurder b = null;
+                    while (dataReader.Read()) {
+                        if (b == null) b = new Bestuurder((int)dataReader["bestuurderid"], (string)dataReader["voornaam"], (string)dataReader["achternaam"],
+                        (string)dataReader["geboortedatum"], (string)dataReader["rijbewijstype"], (string)dataReader["rijbewijsnummer"],
+                        (string)dataReader["rijksregisternummer"]);
+                        bestuurderLijst.Add(b);
+                    }
+                    dataReader.Close();
+                } catch (Exception ex) {
+                    throw new BestuurderRepositoryADOException("GetAlleBestuurders niet gelukt", ex);
+                } finally {
+                    connection.Close();
+                }
+            }
+            return bestuurderLijst.AsReadOnly();
         }
 
         public Bestuurder GetBestuurderId(int id) {
