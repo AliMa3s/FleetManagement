@@ -1,4 +1,5 @@
-﻿using FleetManagement.Interfaces;
+﻿using FleetManagement.Manager.Helpers;
+using FleetManagement.Interfaces;
 using FleetManagement.ManagerExceptions;
 using FleetManagement.Model;
 using System;
@@ -13,6 +14,7 @@ namespace FleetManagement.Manager {
         public BestuurderManager(IBestuurderRepository repo) {
             this.repo = repo;
         }
+
         public bool BestaatBestuurder(int bestuurderid) {
             try {
                 if (bestuurderid < 1) throw new BestuurderManagerException("Bestuurder id kan niet kleiner dan 0 zijn");
@@ -38,7 +40,7 @@ namespace FleetManagement.Manager {
                 throw new BestuurderManagerException("RijksRegisterNr - BestaatRijksRegisterNummer - Foutief", ex);
             }
         }
-
+ 
         public IReadOnlyList<Bestuurder> GeefAlleBestuurder() {
             return repo.GeefAlleBestuurder();
         }
@@ -106,6 +108,28 @@ namespace FleetManagement.Manager {
         }
 
         public IReadOnlyList<Bestuurder> ZoekBestuurders(int? id, string voornaam, string achternaam, string geboortedatum, Adres adres) {
+            throw new NotImplementedException();
+        }
+
+
+        //bezig idee uitwerking Filip
+        public PaginaLijst<Bestuurder> AlleBestuurdersZonderVoertuig()
+        {
+            throw new NotImplementedException();
+        }
+
+        public PaginaLijst<Bestuurder> FilterOpBestuurdersNaam(string voornaam, string achternaam)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Bestuurder ZoekBestuurder(string RijksRegisterNummer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PaginaLijst<Bestuurder> AlleBestuurders(SorteerOptie sorteer)
+        {
             throw new NotImplementedException();
         }
     }

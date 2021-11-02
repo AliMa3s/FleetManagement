@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FleetManagement.Helpers
+namespace FleetManagement.Manager.Helpers
 {
     public class PaginaLijst<T> : List<T>
     {

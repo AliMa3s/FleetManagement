@@ -50,7 +50,7 @@ namespace FleetManagement.CheckFormats
                     && IsNummerBinnenBereik(rijksRegister.Dag, 0, 31)
                     && (IsNummerBinnenBereik(rijksRegister.Maand, 0, 12) 
                         || IsNummerBinnenBereik(rijksRegister.Maand, 20, 32) || IsNummerBinnenBereik(rijksRegister.Maand, 40, 52))
-                    && IsNummerBinnenBereik(rijksRegister.Geslacht, 1, 998)
+                    && IsNummerBinnenBereik(rijksRegister.Geslacht, 1, 999)
                     && CheckSum(rijksRegister.CheckGetal, rijksRegister.ControleSom))
                 {
                     return true;

@@ -1,5 +1,5 @@
 ﻿using FleetManagement.ADO.RepositoryExceptions;
-using FleetManagement.Helpers;
+using FleetManagement.Manager.Helpers;
 using FleetManagement.Interfaces;
 using FleetManagement.Model;
 using Microsoft.Data.SqlClient;
@@ -14,13 +14,13 @@ namespace FleetManagement.ADO.Repositories {
     public class BestuurderRepositoryADO : IBestuurderRepository {
 
 
-        private string connectionString = @"YourConnectionStringhere";
+        private readonly string _connectionString = @"YourConnectionStringhere";
         public BestuurderRepositoryADO(string connectionstring) {
-            this.connectionString = connectionstring;
+            this._connectionString = connectionstring;
         }
 
         private SqlConnection getConnection() {
-            SqlConnection connection = new SqlConnection(connectionString);
+            SqlConnection connection = new SqlConnection(_connectionString);
             return connection;
         }
 
@@ -217,11 +217,135 @@ namespace FleetManagement.ADO.Repositories {
 
 
         //bezig idee uitwerking Filip
-        public Bestuurder ZoekBestuurder(string RijksRegisterNummer) {
-            throw new NotImplementedException();
+        public Bestuurder ZoekBestuurder(string rijksRegisterNummer) {
+
+            string queryBestuurder = "SELECT * FROM bestuurders b" +
+                "LEFT JOIN adressen a ON b.adresId = a.adresId" +
+                "LEFT JOIN voertuigen v ON b.bestuurderId = v.bestuurderId" +
+                "LEFT JOIN automodel a ON v.autoModelId = a.autoModelId" +
+                "LEFT JOIN tankkaarten t ON b.bestuurderId = t.bestuurderId" +
+                "WHERE b.rijksRegisterNummer = @rijksRegisterNummer";
+
+            SqlConnection connection = getConnection();
+
+            using (SqlCommand command = new(queryBestuurder, connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@rijksRegisterNummer", rijksRegisterNummer);
+                    connection.Open();
+
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            dataReader.Read();
+
+                            //Bestuurder gevonden
+                            Bestuurder bestuurderDB = new(
+                                (int)dataReader["bestuurderId"],
+                                (string)dataReader["voornaam"],
+                                (string)dataReader["achternaam"],
+                                (string)dataReader["geboorteDatum"],
+                                (string)dataReader["rijbewijsType"],
+                                (string)dataReader["rijbewijsNummer"],
+                                (string)dataReader["rijksRegisterNummer"]
+                            ) {
+                                AanMaakDatum = (DateTime)dataReader["aanmaakDatum"]
+                            };
+
+                            //Heeft bestuurder Adres
+                            if (dataReader["adresId"] != null)
+                            {
+                                //Maak adres aan en voeg toe aan bestuurder
+                                Adres adres = new(
+                                    (string)dataReader["straat"],
+                                    (string)dataReader["nr"],
+                                    (string)dataReader["postcode"],
+                                    (string)dataReader["gemeente"]
+                                );
+
+                                bestuurderDB.Adres = adres;
+                            }
+
+                            //Is bestuurder gekoppeld aan een voertuig
+                            if (dataReader["voertuigId"] != null)
+                            {
+                                //AutoType kan nog veranderen naar ConfigFile (dan wordt dat string in business laag)
+                                AutoType autoType = (AutoType)Enum.Parse(typeof(AutoType), (string)dataReader["[autotype]"]);
+
+                                Voertuig voertuigDB = new(
+                                    new AutoModel(
+                                        (string)dataReader["merk"],
+                                        (string)dataReader["autoModelNaam"],
+                                        autoType
+                                    ),
+                                    (string)dataReader["chassisNummer"],
+                                    (string)dataReader["nummerPlaat"],
+                                    new BrandstofVoertuig((string)dataReader["brandstofNaam"], (bool)dataReader["hybride"])
+                                );
+
+                                //voeg toe aan bestuurder
+                                bestuurderDB.VoegVoertuigToe(voertuigDB);
+                            }
+
+                            //Heeft de bestuurder een Tankkaart
+                            if (dataReader["tankkaartNummer"] != null)
+                            {
+                                TankKaart tankKaartDB = new(
+                                    (string)dataReader["tankKaartNummer"],
+                                    (bool)dataReader["actief"],
+                                    (DateTime)dataReader["geldigheidsDatum"],
+                                    (string)dataReader["pincode"]
+                                );
+
+                                string queryTankkaartOpVullen = "SELECT * FROM tankkaarten_brandstoftypes t" +
+                                    "JOIN brandstofType b ON t.brandstofTypeId = b.brandstoftypeId" +
+                                    "where t.TankKaartNummer = @tankkaartNummer";
+
+                                command.CommandText = queryTankkaartOpVullen;
+                                command.Parameters.AddWithValue("@tankkaartNummer", dataReader["tankkaartNummer"]);
+
+                                command.ExecuteReader();
+
+                                if (dataReader.HasRows)
+                                {
+                                    while(dataReader.Read())
+                                    {
+                                        tankKaartDB.VoegBrandstofToe(
+                                            new BrandstofType((string)dataReader["brandstofNaam"])
+                                        );
+                                    }
+                                }
+
+                                //voeg toe aan bestuurder
+                                bestuurderDB.VoegTankKaartToe(tankKaartDB);
+                            }
+
+                            connection.Close();
+
+                            //Bestuurder met alle mogelijke objecten die gereleateerd zijn
+                            return bestuurderDB;
+                        }
+                        else
+                        {
+                            return null; //Geen bestuurder gevonden met dit rijksRegisterNummer
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new BestuurderRepositoryADOException("ZoekBestuurder op rijksregisternummer - gefaald", ex);
+                }
+                finally
+                {
+                    connection?.Dispose();
+                    connection = null;
+                }
+            }
         }
 
-        public PaginaLijst<Bestuurder> FilterBestuurders(string voornaam, string achternaam) {
+        public PaginaLijst<Bestuurder> FilterOpBestuurdersNaam(string voornaam, string achternaam) {
             throw new NotImplementedException();
         }
 
@@ -229,7 +353,7 @@ namespace FleetManagement.ADO.Repositories {
             throw new NotImplementedException();
         }
 
-        public PaginaLijst<Bestuurder> BestuurdersZonderVoertuig() {
+        public PaginaLijst<Bestuurder> AlleBestuurdersZonderVoertuig() {
             throw new NotImplementedException();
         }
     }

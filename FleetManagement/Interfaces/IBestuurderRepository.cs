@@ -1,4 +1,4 @@
-﻿using FleetManagement.Helpers;
+﻿using FleetManagement.Manager.Helpers;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -20,8 +20,8 @@ namespace FleetManagement.Interfaces {
 
         //bezig idee uitwerking Filip
         Bestuurder ZoekBestuurder(string RijksRegisterNummer);
-        PaginaLijst<Bestuurder> FilterBestuurders(string voornaam, string achternaam);
+        PaginaLijst<Bestuurder> FilterOpBestuurdersNaam(string voornaam, string achternaam);
         PaginaLijst<Bestuurder> AlleBestuurders(SorteerOptie sorteer);
-        PaginaLijst<Bestuurder> BestuurdersZonderVoertuig();
+        PaginaLijst<Bestuurder> AlleBestuurdersZonderVoertuig();
     }
 }

@@ -23,7 +23,7 @@ namespace FleetManagement.Model
         public string RijksRegisterNummer { get; }
         public Voertuig Voertuig { get; private set; } = null;
         public TankKaart TankKaart { get; private set; } = null;
-        public DateTime AanMaakDatum { get; }
+        public DateTime AanMaakDatum { get; set; }
         public bool HeeftBestuurderVoertuig => Voertuig != null;
         public bool HeeftBestuurderTankKaart => TankKaart != null;
         #endregion
