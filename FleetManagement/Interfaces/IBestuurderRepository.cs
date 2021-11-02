@@ -22,6 +22,6 @@ namespace FleetManagement.Interfaces {
         Bestuurder ZoekBestuurder(string RijksRegisterNummer);
         PaginaLijst<Bestuurder> FilterOpBestuurdersNaam(string voornaam, string achternaam);
         PaginaLijst<Bestuurder> AlleBestuurders(SorteerOptie sorteer);
-        PaginaLijst<Bestuurder> AlleBestuurdersZonderVoertuig();
+        PaginaLijst<Bestuurder> BestuurdersZonderVoertuig();
     }
 }

@@ -15,7 +15,7 @@ namespace FleetManagement.Manager.Helpers
         public bool HeeftVorigePagina => HuidigePagina > 1;
         public bool HeeftVolgendePagina => HuidigePagina < AantalPaginaNummers;
 
-        public PaginaLijst(List<T> lijst, int totaleResultaten, int huidigePagina, int weergavePerPagina = 50)
+        public PaginaLijst(List<T> lijst, int totaleResultaten, int huidigePagina, int weergavePerPagina)
         {
             TotaleResultaten = totaleResultaten;
             HuidigePagina = huidigePagina;

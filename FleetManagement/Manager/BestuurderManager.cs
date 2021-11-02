@@ -113,7 +113,7 @@ namespace FleetManagement.Manager {
 
 
         //bezig idee uitwerking Filip
-        public PaginaLijst<Bestuurder> AlleBestuurdersZonderVoertuig()
+        public PaginaLijst<Bestuurder> BestuurdersZonderVoertuig()
         {
             throw new NotImplementedException();
         }
