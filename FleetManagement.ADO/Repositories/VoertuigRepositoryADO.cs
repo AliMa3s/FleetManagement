@@ -190,5 +190,45 @@ namespace FleetManagement.ADO.Repositories {
                 }
             }
         }
+
+        //Versie toegevoegd filip
+        public bool IsVoertuigUniek(string chassisNummer, string nummerPlaat)
+        {
+            string queryVoertuig = "SELECT chassisnummer, nummperplaat FROM voertuigen " +
+                "WHERE chassisnummer = @chassisNummer || nummerplaat = @nummerPlaat";
+
+            SqlConnection connection = getConnection();
+
+            using (SqlCommand command = new(queryVoertuig, connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@chassisNummer", chassisNummer);
+                    command.Parameters.AddWithValue("@nummerPlaat", nummerPlaat);
+                    connection.Open();
+
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        connection.Close(); //gaat dat vóór HasRows? Of moet dat daarna komen?
+
+                        if (dataReader.HasRows)
+                        {
+                            return false;
+                        }
+                       
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new VoertuigRepositoryADOException("Bestaat Voertruig op chassisnummer & plaatnummer - gefaald", ex);
+                }
+                finally
+                {
+                    connection?.Dispose();
+                    connection = null;
+                }
+            }
+        }
     }
 }

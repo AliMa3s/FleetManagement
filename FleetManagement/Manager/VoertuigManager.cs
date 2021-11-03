@@ -1,4 +1,5 @@
-﻿using FleetManagement.Interfaces;
+﻿using FleetManagement.CheckFormats;
+using FleetManagement.Interfaces;
 using FleetManagement.ManagerExceptions;
 using FleetManagement.Model;
 using System;
@@ -10,16 +11,16 @@ using System.Threading.Tasks;
 namespace FleetManagement.Manager {
     public class VoertuigManager : IVoertuigRepository {
 
-        private IVoertuigRepository repo;
+        private readonly IVoertuigRepository _repo;
         public VoertuigManager(IVoertuigRepository repo) {
-            this.repo = repo;
+            this._repo = repo;
         }
 
         public bool BestaatVoertuig(Voertuig voertuig) {
             try {
 
                 if (voertuig == null) throw new VoertuigManagerException("Voertuig mag niet null zijn");
-                if (!repo.BestaatVoertuig(voertuig)) {
+                if (!_repo.BestaatVoertuig(voertuig)) {
                     return false;
                 } else {
                     return true;
@@ -33,7 +34,7 @@ namespace FleetManagement.Manager {
             try {
 
                 if (voertuig == null) throw new VoertuigManagerException("Voertuig mag niet null zijn");
-                if (!repo.BestaatVoertuig(voertuig) && CheckFormats.CheckFormat.IsChassisNummerGeldig(chasisnummer)
+                if (!_repo.BestaatVoertuig(voertuig) && CheckFormats.CheckFormat.IsChassisNummerGeldig(chasisnummer)
                     && CheckFormats.CheckFormat.IsNummerplaatGeldig(nummerplaat)) {
                     return false;
                 } else {
@@ -44,20 +45,42 @@ namespace FleetManagement.Manager {
             }
         }
 
+        //Versie toegevoegd filip (hetzelfde als hierboven met mijn kijk op de zaak)
+        public bool IsVoertuigUniek(string chassisnummer, string nummerplaat)
+        {
+            try
+            {
+                if(CheckFormat.IsChassisNummerGeldig(chassisnummer) 
+                    && CheckFormat.IsNummerplaatGeldig(nummerplaat))
+                {
+                    if (_repo.IsVoertuigUniek(chassisnummer, nummerplaat))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new VoertuigManagerException("Voertuig - BestaatVoertuig - Foutief", ex);
+            }
+        }
+
         public IReadOnlyList<Voertuig> GeefAlleVoerTuig() {
-            return repo.GeefAlleVoerTuig();
+            return _repo.GeefAlleVoerTuig();
         }
 
         public Voertuig GetVoertuig(int voertuigId) {
             if (voertuigId < 1) throw new VoertuigManagerException("VoertuigId mag niet null zijn");
-            return repo.GetVoertuig(voertuigId);
+            return _repo.GetVoertuig(voertuigId);
         }
 
         public void UpdateVoertuig(Voertuig voertuig) {
             try {
                 if (voertuig == null) throw new VoertuigManagerException("Voertuig - Voertuig mag niet null zijn");
-                if (repo.BestaatVoertuig(voertuig)) {
-                    repo.UpdateVoertuig(voertuig);
+                if (_repo.BestaatVoertuig(voertuig)) {
+                    _repo.UpdateVoertuig(voertuig);
                 } else {
                     throw new VoertuigManagerException("Voertuig - bestaat niet!");
                 }
@@ -70,8 +93,8 @@ namespace FleetManagement.Manager {
         public void VerwijderVoertuig(Voertuig voertuig) {
             try {
                 if (voertuig == null) throw new VoertuigManagerException("Voertuig - Voertuig mag niet null zijn");
-                if (repo.BestaatVoertuig(voertuig)) {
-                    repo.VerwijderVoertuig(voertuig);
+                if (_repo.BestaatVoertuig(voertuig)) {
+                    _repo.VerwijderVoertuig(voertuig);
                 } else {
                     throw new VoertuigManagerException("Voertuig - Voertuig bestaat niet!");
                 }
@@ -84,8 +107,8 @@ namespace FleetManagement.Manager {
         public void VoegVoertuigToe(Voertuig voertuig) {
             try {
                 if (voertuig == null) throw new VoertuigManagerException("Voertuig - Voertuig mag niet null zijn");
-                if (!repo.BestaatVoertuig(voertuig)) {
-                    repo.VoegVoertuigToe(voertuig);
+                if (!_repo.BestaatVoertuig(voertuig)) {
+                    _repo.VoegVoertuigToe(voertuig);
                 } else {
                     throw new VoertuigManagerException("Voertuig Bestaat al");
                 }
