@@ -293,11 +293,11 @@ namespace FleetManagement.Test.ModelTest {
             BrandstofType bs = new BrandstofType("Gas");
             TankKaart t = new("1234567890123456789", GeldigheidsDatum);
 
-            //Toevoegen
+            
             t.VoegBrandstofToe(bs);
             Assert.True(t.IsBrandstofAanwezig(bs));
 
-            //Verwijderd
+            
             t.VerwijderBrandstof(bs);
             Assert.False(t.IsBrandstofAanwezig(bs));
         }

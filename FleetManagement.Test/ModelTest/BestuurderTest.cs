@@ -43,7 +43,7 @@ namespace FleetManagement.Test.ModelTest {
         {
             Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
 
-            //Verplichte velden zijn aanwezig
+            
             Assert.Equal("Filip", bestuurder.Voornaam);
             Assert.Equal("Rigoir", bestuurder.Achternaam);
             Assert.Equal("1976/03/31", bestuurder.GeboorteDatum);
@@ -51,13 +51,11 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal("1514081390", bestuurder.RijBewijsNummer);
             Assert.Equal("76033101986", bestuurder.RijksRegisterNummer);
 
-            //Niet verplichte velden bij instantie hoeven niet aanwezig te zijn
             Assert.Equal(0, bestuurder.BestuurderId);
             Assert.False(bestuurder.HeeftBestuurderVoertuig);
             Assert.False(bestuurder.HeeftBestuurderTankKaart);
             Assert.Null(bestuurder.Adres);
 
-            //Voeg Id nummer toe 
             bestuurder.VoegIdToe(1);
             Assert.Equal(1, bestuurder.BestuurderId);
 
