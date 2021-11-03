@@ -55,11 +55,11 @@ namespace FleetManagement.Manager {
             }
         }
 
-        public void VerwijderAders(Adres adres) {
+        public void VerwijderAdres(Adres adres) {
             try {
                 if (adres == null) throw new AdresManagerException("Adres - Adres mag niet null zijn");
                 if (repo.BestaatAdres(adres)) {
-                    repo.VerwijderAders(adres);
+                    repo.VerwijderAdres(adres);
                 } else {
                     throw new AdresManagerException("Adres - bestaat niet!");
                 }

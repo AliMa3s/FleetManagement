@@ -18,6 +18,6 @@ namespace FleetManagement.Interfaces {
         void VerwijderVoertuig(Voertuig voertuig);
 
         //toevegoegd filip
-        public bool IsVoertuigUniek(string chassisnummer, string nummerplaat)
+        public bool IsVoertuigUniek(string chassisnummer, string nummerplaat);
     }
 }
