@@ -214,13 +214,13 @@ namespace FleetManagement.ADO.Repositories {
 
                     using (SqlDataReader dataReader = command.ExecuteReader())
                     {
-                        connection.Close(); //gaat dat vóór HasRows? Of moet dat daarna komen?
-
                         if (dataReader.HasRows)
                         {
+                            connection.Close();
                             return false;
                         }
-                       
+
+                        connection.Close();
                         return true;
                     }
                 }

@@ -316,29 +316,26 @@ namespace FleetManagement.ADO.Repositories {
 
         public PaginaLijst<Bestuurder> AlleBestuurders(SorteerOptie sorteerOptie) {
 
-            string concatQuery = "";
-            int paginaNummer = 1;
-            int aantalPerPagina = 250;
-            if(sorteerOptie != null)
+            if(sorteerOptie == null)
             {
-                concatQuery += sorteerOptie.OrderBy switch
-                {
-                    "bestuurderId" => "ORDER BY bestuurderId ",
-                    "voornaam" => "ORDER BY voornaam ",
-                    "achternaam" => "ORDER BY achternaam ",
-                    "geboorteDatum" => "ORDER BY geboorteDatum ",
-                    "AanmaakDatum" => "ORDER BY AanmaakDatum ",
-                    _ => "ORDER BY bestuurderId ",
-                };
-
-                concatQuery += sorteerOptie.Sort;
-                concatQuery += $" LIMIT {sorteerOptie.AantalPerPagina * (sorteerOptie.HuidigePaginaNummer - 1)}, " +
-                    $"{sorteerOptie.AantalPerPagina}";
-
-                paginaNummer = sorteerOptie.HuidigePaginaNummer;
-                aantalPerPagina = sorteerOptie.AantalPerPagina;
+                throw new BestuurderRepositoryADOException("SorteerOptie mag niet null zijn");
             }
 
+            string concatQuery = "";
+            concatQuery += sorteerOptie.OrderBy switch
+            {
+                "bestuurderId" => "ORDER BY bestuurderId ",
+                "voornaam" => "ORDER BY voornaam ",
+                "achternaam" => "ORDER BY achternaam ",
+                "geboorteDatum" => "ORDER BY geboorteDatum ",
+                "AanmaakDatum" => "ORDER BY AanmaakDatum ",
+                _ => "ORDER BY bestuurderId ",
+            };
+
+            concatQuery += sorteerOptie.Sort;
+            concatQuery += $" LIMIT {sorteerOptie.AantalPerPagina * (sorteerOptie.HuidigePaginaNummer - 1)}, " +
+                $"{sorteerOptie.AantalPerPagina}";
+            
             string queryBestuurder = "SELECT * FROM bestuurders b" +
             "LEFT JOIN adressen a ON b.adresId = a.adresId" +
             "LEFT JOIN voertuigen v ON b.bestuurderId = v.bestuurderId" +
@@ -404,12 +401,14 @@ namespace FleetManagement.ADO.Repositories {
                                 }
 
                                 //Geef List<T> terug met info over de resultaten
-                                return new PaginaLijst<Bestuurder>(bestuurdersDB, totaalResulaten, paginaNummer, aantalPerPagina);
+                                return new PaginaLijst<Bestuurder>(bestuurdersDB, totaalResulaten, sorteerOptie.HuidigePaginaNummer, 
+                                    sorteerOptie.AantalPerPagina);
                             }
                         }
                         else
                         {
-                            return new PaginaLijst<Bestuurder>(bestuurdersDB, totaalResulaten, paginaNummer, aantalPerPagina);
+                            return new PaginaLijst<Bestuurder>(bestuurdersDB, totaalResulaten, sorteerOptie.HuidigePaginaNummer, 
+                                sorteerOptie.AantalPerPagina);
                         }
                     }
                 }
@@ -428,13 +427,5 @@ namespace FleetManagement.ADO.Repositories {
         public PaginaLijst<Bestuurder> BestuurdersZonderVoertuig() { //VoertuigId moet op null staan 
             throw new NotImplementedException();
         }
-
-
-
-        //Spreek method aan om Voertuig aan te maken (eerst checken dat VoertuigId bestaat)
-        
-
-        //Spreek method aan om TankKaart aan te maken (eerst checken dat tankKaartNummer bestaat)
-
     }
 }
