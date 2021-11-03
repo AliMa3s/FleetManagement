@@ -127,6 +127,10 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
+        /* 
+         * Idee: We zouden OUTPUT INSERTED.voertuigId kunnen toevoegen 
+         * We krijgen dan de nieuwe VoertuigId terug
+        */
         public void VoegVoertuigToe(Voertuig voertuig) {
             SqlConnection connection = getConnection();
 
@@ -192,6 +196,7 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         //Versie toegevoegd filip
+        //Vergeet niet: DB => Voertuigen (en niet Voertuig)
         public bool IsVoertuigUniek(string chassisNummer, string nummerPlaat)
         {
             string queryVoertuig = "SELECT chassisnummer, nummperplaat FROM voertuigen " +

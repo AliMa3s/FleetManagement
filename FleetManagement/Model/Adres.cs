@@ -13,15 +13,15 @@ namespace FleetManagement.Model {
         public string Postcode { get; set; }
         public string Gemeente { get; set; }
 
-        public Adres(string straat, string nr, string postcode, string stad) {
+        public Adres(string straat, string nr, string postcode, string gemeente) {
             Straat = straat;
             Nr = nr;
             Postcode = postcode;
-            Gemeente = stad;
+            Gemeente = gemeente;
         }
 
-        public Adres(int adresId, string straat, string nr, string postcode, string stad)
-            : this(straat, nr, postcode, stad) {
+        public Adres(int adresId, string straat, string nr, string postcode, string gemeente)
+            : this(straat, nr, postcode, gemeente) {
             if (adresId > 0) {
                 AdresId = adresId;
             } else {

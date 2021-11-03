@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FleetManagement.Manager.Helpers
+namespace FleetManagement.Helpers
 {
     public class SorteerOptie
     {

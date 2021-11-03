@@ -1,5 +1,6 @@
-﻿using FleetManagement.ADO.RepositoryExceptions;
-using FleetManagement.Manager.Helpers;
+﻿using FleetManagement.ADO.Repositories.Instances;
+using FleetManagement.ADO.RepositoryExceptions;
+using FleetManagement.Helpers;
 using FleetManagement.Interfaces;
 using FleetManagement.Model;
 using Microsoft.Data.SqlClient;
@@ -242,26 +243,26 @@ namespace FleetManagement.ADO.Repositories {
                             dataReader.Read();
 
                             //Bestuurder gevonden
-                            Bestuurder bestuurderDB = BestuurderInstance(dataReader);
+                            Bestuurder bestuurderDB = BouwInstance.BestuurderInstance(dataReader);
 
                             //Heeft bestuurder Adres
                             if (dataReader["adresId"] != null)
                             {
-                                Adres adresDB = AdresInstance(dataReader);
+                                Adres adresDB = BouwInstance.AdresInstance(dataReader);
                                 bestuurderDB.Adres = adresDB;
                             }
 
                             //Is bestuurder gekoppeld aan een voertuig
                             if (dataReader["voertuigId"] != null)
                             {
-                                Voertuig voertuigDB = VoertuigInstance(dataReader);
+                                Voertuig voertuigDB = BouwInstance.VoertuigInstance(dataReader);
                                 bestuurderDB.VoegVoertuigToe(voertuigDB);
                             }
 
                             //Heeft de bestuurder een Tankkaart
                             if (dataReader["tankkaartNummer"] != null)
                             {
-                                TankKaart tankKaartDB = TankkaartInstance(dataReader);
+                                TankKaart tankKaartDB = BouwInstance.TankkaartInstance(dataReader);
 
                                 string queryTankkaartOpVullen = "SELECT * FROM tankkaarten_brandstoftypes t" +
                                     "JOIN brandstofType b ON t.brandstofTypeId = b.brandstoftypeId" +
@@ -370,26 +371,26 @@ namespace FleetManagement.ADO.Repositories {
                                 while (dataReader.Read())
                                 {
                                     //Bestuurder gevonden
-                                    Bestuurder bestuurderDB = BestuurderInstance(dataReader);
+                                    Bestuurder bestuurderDB = BouwInstance.BestuurderInstance(dataReader);
 
                                     //Heeft bestuurder Adres
                                     if (dataReader["adresId"] != null)
                                     {
-                                        Adres adresDB = AdresInstance(dataReader);
+                                        Adres adresDB = BouwInstance.AdresInstance(dataReader);
                                         bestuurderDB.Adres = adresDB;
                                     }
 
                                     //Is bestuurder gekoppeld aan een voertuig
                                     if (dataReader["voertuigId"] != null)
                                     {
-                                        Voertuig voertuigDB = VoertuigInstance(dataReader);
+                                        Voertuig voertuigDB = BouwInstance.VoertuigInstance(dataReader);
                                         bestuurderDB.VoegVoertuigToe(voertuigDB);
                                     }
 
                                     //Heeft de bestuurder een Tankkaart
                                     if (dataReader["tankkaartNummer"] != null)
                                     {
-                                        TankKaart tankKaartDB = TankkaartInstance(dataReader);
+                                        TankKaart tankKaartDB = BouwInstance.TankkaartInstance(dataReader);
 
                                         //voeg toe aan bestuurder / zonder opvulling tankkaart anders te veel connecties
                                         //Vraag brandstoffen op stuk voor stuk indien nodig in detail
@@ -428,72 +429,12 @@ namespace FleetManagement.ADO.Repositories {
             throw new NotImplementedException();
         }
 
-        //Spreek method aan om Bestuurder aan te maken
-        protected static Bestuurder BestuurderInstance(SqlDataReader dataReader)
-        {
-            return new(
-                (int)dataReader["bestuurderId"],
-                (string)dataReader["voornaam"],
-                (string)dataReader["achternaam"],
-                (string)dataReader["geboorteDatum"],
-                (string)dataReader["rijbewijsType"],
-                (string)dataReader["rijbewijsNummer"],
-                (string)dataReader["rijksRegisterNummer"]
-            ) {
-                AanMaakDatum = (DateTime)dataReader["aanmaakDatum"]
-            };
-        }
 
-        //Spreek method aan om Adres aan te maken (eerst checken dat bestuurderId bestaat)
-        protected static Adres AdresInstance(SqlDataReader dataReader)
-        {
-            return new(
-                (int)dataReader["adresId"],
-                (string)dataReader["straat"],
-                (string)dataReader["nr"],
-                (string)dataReader["postcode"],
-                (string)dataReader["gemeente"]
-            );
-        }
 
         //Spreek method aan om Voertuig aan te maken (eerst checken dat VoertuigId bestaat)
-        protected static Voertuig VoertuigInstance(SqlDataReader dataReader)
-        {
-            //AutoType kan nog veranderen naar ConfigFile
-            AutoType autoType = (AutoType)Enum.Parse(typeof(AutoType), (string)dataReader["autotype"]);
-
-            //Kleur verschuift naar DB
-            Kleur? kleur = (Kleur?)Enum.Parse(typeof(Kleur?), (string)dataReader["kleurnaam"]);
-            AantalDeuren? aantalDeuren = (AantalDeuren?)Enum.Parse(typeof(AantalDeuren?), (string)dataReader["aantalDeuren"]);
-
-            return new(
-                new AutoModel(
-                    (int)dataReader["autoModelId"],
-                    (string)dataReader["merk"],
-                    (string)dataReader["autoModelNaam"],
-                    autoType
-                ),
-                (string)dataReader["chassisNummer"],
-                (string)dataReader["nummerPlaat"],
-                new BrandstofVoertuig((string)dataReader["brandstofNaam"], (bool)dataReader["hybride"])
-            ) {
-                AantalDeuren = aantalDeuren,
-                VoertuigKleur = kleur,
-                InBoekDatum = (DateTime)dataReader["inboekDatum"]
-            };
-        }
+        
 
         //Spreek method aan om TankKaart aan te maken (eerst checken dat tankKaartNummer bestaat)
-        protected static TankKaart TankkaartInstance(SqlDataReader dataReader)
-        {
-            return new(
-                (string)dataReader["tankKaartNummer"],
-                (bool)dataReader["actief"],
-                (DateTime)dataReader["geldigheidsDatum"],
-                (string)dataReader["pincode"]
-            ) { 
-                UitgeefDatum = (DateTime)dataReader["uitgeefDatum"]
-            };
-        }
+
     }
 }

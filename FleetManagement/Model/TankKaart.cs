@@ -54,7 +54,7 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Tweede ctor dat nu ook de pincode kan laten meegeven
+        //Tweede ctor kan gebruikt worden om een kaart aan te maken. Geldigeid bij default op true
         public TankKaart(string kaartnummer, DateTime vervaldatum, string pincode = null)
             : this(kaartnummer, true, vervaldatum, pincode) { }
 
