@@ -243,26 +243,72 @@ namespace FleetManagement.ADO.Repositories {
                             dataReader.Read();
 
                             //Bestuurder gevonden
-                            Bestuurder bestuurderDB = BouwInstance.BestuurderInstance(dataReader);
+                            Bestuurder bestuurderDB = new(
+                                (int)dataReader["bestuurderId"],
+                                (string)dataReader["voornaam"],
+                                (string)dataReader["achternaam"],
+                                (string)dataReader["geboorteDatum"],
+                                (string)dataReader["rijbewijsType"],
+                                (string)dataReader["rijbewijsNummer"],
+                                (string)dataReader["rijksRegisterNummer"]
+                            )
+                            {
+                                AanMaakDatum = (DateTime)dataReader["aanmaakDatum"]
+                            };
 
                             //Heeft bestuurder Adres
                             if (dataReader["adresId"] != null)
                             {
-                                Adres adresDB = BouwInstance.AdresInstance(dataReader);
+                                Adres adresDB =  new(
+                                    (int)dataReader["adresId"],
+                                    (string)dataReader["straat"],
+                                    (string)dataReader["nr"],
+                                    (string)dataReader["postcode"],
+                                    (string)dataReader["gemeente"]
+                                );
                                 bestuurderDB.Adres = adresDB;
                             }
 
                             //Is bestuurder gekoppeld aan een voertuig
                             if (dataReader["voertuigId"] != null)
                             {
-                                Voertuig voertuigDB = BouwInstance.VoertuigInstance(dataReader);
+                                //AutoType kan nog veranderen naar ConfigFile
+                                AutoType autoType = (AutoType)Enum.Parse(typeof(AutoType), (string)dataReader["autotype"]);
+
+                                //Kleur verschuift naar DB
+                                Kleur? kleur = (Kleur?)Enum.Parse(typeof(Kleur?), (string)dataReader["kleurnaam"]);
+                                AantalDeuren? aantalDeuren = (AantalDeuren?)Enum.Parse(typeof(AantalDeuren?), (string)dataReader["aantalDeuren"]);
+
+                                Voertuig voertuigDB = new(
+                                    new AutoModel(
+                                        (int)dataReader["autoModelId"],
+                                        (string)dataReader["merk"],
+                                        (string)dataReader["autoModelNaam"],
+                                        autoType
+                                    ),
+                                    (string)dataReader["chassisNummer"],
+                                    (string)dataReader["nummerPlaat"],
+                                    new BrandstofVoertuig((string)dataReader["brandstofNaam"], (bool)dataReader["hybride"])
+                                ) {
+                                    AantalDeuren = aantalDeuren,
+                                    VoertuigKleur = kleur,
+                                    InBoekDatum = (DateTime)dataReader["inboekDatum"]
+                                };
+
                                 bestuurderDB.VoegVoertuigToe(voertuigDB);
                             }
 
                             //Heeft de bestuurder een Tankkaart
                             if (dataReader["tankkaartNummer"] != null)
                             {
-                                TankKaart tankKaartDB = BouwInstance.TankkaartInstance(dataReader);
+                                TankKaart tankKaartDB = new(
+                                    (string)dataReader["tankKaartNummer"],
+                                    (bool)dataReader["actief"],
+                                    (DateTime)dataReader["geldigheidsDatum"],
+                                    (string)dataReader["pincode"]
+                                ) {
+                                    UitgeefDatum = (DateTime)dataReader["uitgeefDatum"]
+                                };
 
                                 string queryTankkaartOpVullen = "SELECT * FROM tankkaarten_brandstoftypes t" +
                                     "JOIN brandstofType b ON t.brandstofTypeId = b.brandstoftypeId" +

@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Voertuig] (
-    [voertuigid]      INT           NOT NULL,
+    [voertuigid]      INT           IDENTITY (1, 1) NOT NULL,
     [automodelid]     INT           NOT NULL,
     [brandstoftypeid] INT           NOT NULL,
     [kleurnaam]       NVARCHAR(55)  NULL,
