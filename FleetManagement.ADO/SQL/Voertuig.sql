@@ -15,6 +15,5 @@
     UNIQUE NONCLUSTERED ([chassisnummer] ASC),
     CONSTRAINT [FK_Voertuig_automodel] FOREIGN KEY ([automodelid]) REFERENCES [dbo].[Automodel] ([automodelid]),
     CONSTRAINT [FK_Voertuig_Brandstoftype] FOREIGN KEY ([brandstoftypeid]) REFERENCES [dbo].[Brandstoftype] ([brandstofid]),
-    CONSTRAINT [FK_Voertuig_kleur] FOREIGN KEY ([kleurnaam]) REFERENCES [dbo].[Kleur] ([kleurnaam]),
     CONSTRAINT [FK_Voertuig_Bestuurder] FOREIGN KEY ([bestuurderid]) REFERENCES [dbo].[Bestuurder] ([bestuurderid])
 );
