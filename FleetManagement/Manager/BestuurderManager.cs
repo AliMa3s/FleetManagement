@@ -113,13 +113,6 @@ namespace FleetManagement.Manager {
             throw new NotImplementedException();
         }
 
-
-        //bezig idee uitwerking Filip
-        public PaginaLijst<Bestuurder> BestuurdersZonderVoertuig()
-        {
-            throw new NotImplementedException();
-        }
-
         public PaginaLijst<Bestuurder> FilterOpBestuurdersNaam(string voornaam, string achternaam)
         {
             throw new NotImplementedException();
@@ -136,11 +129,6 @@ namespace FleetManagement.Manager {
             {
                 throw new BestuurderManagerException("Rijksregister bevat geen 17 digits");
             }
-        }
-
-        public PaginaLijst<Bestuurder> AlleBestuurders(SorteerOptie sorteer)
-        {
-            throw new NotImplementedException();
         }
     }
 }
