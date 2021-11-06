@@ -119,7 +119,7 @@ namespace FleetManagement.ADO.Repositories {
 
             string query = "UPDATE Bestuurder" +
                            "SET voornaam=@voornaam, achternaam=@achternaam, geboortedatum=@geboortedatum, rijksregisternummer=@rijksregisternummer, " +
-                           " rijbewijstype=@rijbewijstype, rijbewijsnummer=@rijbewijsnummer, aanmaakDatum=@aanmaakDatum " +
+                           " rijbewijstype=@rijbewijstype, rijbewijsnummer=@rijbewijsnummer" +
                            " WHERE bestuurderid=@bestuurderid";
 
             using (SqlCommand command = connection.CreateCommand()) {
@@ -131,7 +131,6 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@rijbewijstype", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@rijbewijsnummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@aanmaakDatum", SqlDbType.Timestamp));
                     command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
 
                     command.Parameters["@voornaam"].Value = bestuurder.Voornaam;
@@ -140,7 +139,6 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters["@rijksregisternummer"].Value = bestuurder.RijksRegisterNummer;
                     command.Parameters["@rijbewijstype"].Value = bestuurder.TypeRijbewijs;
                     command.Parameters["@rijbewijsnummer"].Value = bestuurder.RijBewijsNummer;
-                    command.Parameters["@aanmaakDatum"].Value = bestuurder.AanMaakDatum;
                     command.Parameters["@bestuurderid"].Value = bestuurder.BestuurderId;
 
                     command.CommandText = query;
@@ -175,8 +173,8 @@ namespace FleetManagement.ADO.Repositories {
         public void VoegBestuurderToe(Bestuurder bestuurder) {
             SqlConnection connection = getConnection();
 
-            string query = "INSERT INTO Bestuurder (voornaam, achternaam, geboortedatum, rijksregisternummer,rijbewijstype,rijbewijsnummer,aanmaakDatum)" +
-                           "VALUES (@voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype, @rijbewijsnummer, @aanmaakDatum)";
+            string query = "INSERT INTO Bestuurder (voornaam, achternaam, geboortedatum, rijksregisternummer,rijbewijstype,rijbewijsnummer)" +
+                           "VALUES (@voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype, @rijbewijsnummer)";
 
             using (SqlCommand command = connection.CreateCommand()) {
                 try {
@@ -187,7 +185,6 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@rijbewijstype", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@rijbewijsnummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@aanmaakDatum", SqlDbType.Timestamp));
 
                     command.Parameters["@voornaam"].Value = bestuurder.Voornaam;
                     command.Parameters["@achternaam"].Value = bestuurder.Achternaam;
@@ -195,7 +192,6 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters["@rijksregisternummer"].Value = bestuurder.RijksRegisterNummer;
                     command.Parameters["@rijbewijstype"].Value = bestuurder.TypeRijbewijs;
                     command.Parameters["@rijbewijsnummer"].Value = bestuurder.RijBewijsNummer;
-                    command.Parameters["@aanmaakDatum"].Value = bestuurder.AanMaakDatum;
 
                     command.CommandText = query;
                     command.ExecuteNonQuery();
@@ -229,17 +225,13 @@ namespace FleetManagement.ADO.Repositories {
 
             SqlConnection connection = getConnection();
 
-            using (SqlCommand command = new(queryBestuurder, connection))
-            {
-                try
-                {
+            using (SqlCommand command = new(queryBestuurder, connection)) {
+                try {
                     command.Parameters.AddWithValue("@rijksRegisterNummer", rijksRegisterNummer);
                     connection.Open();
 
-                    using (SqlDataReader dataReader = command.ExecuteReader())
-                    {
-                        if (dataReader.HasRows)
-                        {
+                    using (SqlDataReader dataReader = command.ExecuteReader()) {
+                        if (dataReader.HasRows) {
                             dataReader.Read();
 
                             //Bestuurder gevonden
@@ -251,15 +243,13 @@ namespace FleetManagement.ADO.Repositories {
                                 (string)dataReader["rijbewijsType"],
                                 (string)dataReader["rijbewijsNummer"],
                                 (string)dataReader["rijksRegisterNummer"]
-                            )
-                            {
+                            ) {
                                 AanMaakDatum = (DateTime)dataReader["aanmaakDatum"]
                             };
 
                             //Heeft bestuurder Adres
-                            if (dataReader["adresId"] != null)
-                            {
-                                Adres adresDB =  new(
+                            if (dataReader["adresId"] != null) {
+                                Adres adresDB = new(
                                     (int)dataReader["adresId"],
                                     (string)dataReader["straat"],
                                     (string)dataReader["nr"],
@@ -270,8 +260,7 @@ namespace FleetManagement.ADO.Repositories {
                             }
 
                             //Is bestuurder gekoppeld aan een voertuig
-                            if (dataReader["voertuigId"] != null)
-                            {
+                            if (dataReader["voertuigId"] != null) {
                                 //AutoType kan nog veranderen naar ConfigFile
                                 AutoType autoType = (AutoType)Enum.Parse(typeof(AutoType), (string)dataReader["autotype"]);
 
@@ -299,8 +288,7 @@ namespace FleetManagement.ADO.Repositories {
                             }
 
                             //Heeft de bestuurder een Tankkaart
-                            if (dataReader["tankkaartNummer"] != null)
-                            {
+                            if (dataReader["tankkaartNummer"] != null) {
                                 TankKaart tankKaartDB = new(
                                     (string)dataReader["tankKaartNummer"],
                                     (bool)dataReader["actief"],
@@ -319,10 +307,8 @@ namespace FleetManagement.ADO.Repositories {
 
                                 command.ExecuteReader();
 
-                                if (dataReader.HasRows)
-                                {
-                                    while(dataReader.Read())
-                                    {
+                                if (dataReader.HasRows) {
+                                    while (dataReader.Read()) {
                                         tankKaartDB.VoegBrandstofToe(
                                             new BrandstofType((string)dataReader["brandstofNaam"])
                                         );
@@ -337,19 +323,13 @@ namespace FleetManagement.ADO.Repositories {
 
                             //Bestuurder met alle mogelijke objecten die gereleateerd zijn
                             return bestuurderDB;
-                        }
-                        else
-                        {
+                        } else {
                             return null; //Geen bestuurder gevonden met dit rijksRegisterNummer
                         }
                     }
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("ZoekBestuurder op rijksregisternummer - gefaald", ex);
-                }
-                finally
-                {
+                } finally {
                     connection?.Dispose();
                     connection = null;
                 }
@@ -381,7 +361,7 @@ namespace FleetManagement.ADO.Repositories {
         //    concatQuery += sorteerOptie.Sort;
         //    concatQuery += $" LIMIT {sorteerOptie.AantalPerPagina * (sorteerOptie.HuidigePaginaNummer - 1)}, " +
         //        $"{sorteerOptie.AantalPerPagina}";
-            
+
         //    string queryBestuurder = "SELECT * FROM bestuurders b" +
         //    "LEFT JOIN adressen a ON b.adresId = a.adresId" +
         //    "LEFT JOIN voertuigen v ON b.bestuurderId = v.bestuurderId" +
