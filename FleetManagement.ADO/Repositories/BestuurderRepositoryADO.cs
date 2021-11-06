@@ -1,5 +1,4 @@
-﻿using FleetManagement.ADO.Repositories.Instances;
-using FleetManagement.ADO.RepositoryExceptions;
+﻿using FleetManagement.ADO.RepositoryExceptions;
 using FleetManagement.Helpers;
 using FleetManagement.Interfaces;
 using FleetManagement.Model;
