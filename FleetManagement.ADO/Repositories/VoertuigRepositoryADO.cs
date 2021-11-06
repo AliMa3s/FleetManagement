@@ -24,20 +24,19 @@ namespace FleetManagement.ADO.Repositories {
 
         public bool BestaatVoertuig(Voertuig voertuig) {
             SqlConnection connection = getConnection();
-            string query = "SELECT count(*) FROM Voertuig WHERE aantal_deuren=@aantal_deuren AND chassisnummer=@chassisnummer AND nummerplaat=@nummerplaat " +
-                " AND inboekdatum=@inboekdatum";
+            string query = "SELECT count(*) FROM Voertuig WHERE aantal_deuren=@aantal_deuren AND chassisnummer=@chassisnummer AND nummerplaat=@nummerplaat ";
             using (SqlCommand command = connection.CreateCommand()) {
                 try {
                     connection.Open();
                     command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.Timestamp));
+                    //command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.Timestamp));
 
                     command.Parameters["@aantal_deuren"].Value = voertuig.AantalDeuren;
                     command.Parameters["@chassisnummer"].Value = voertuig.ChassisNummer;
                     command.Parameters["@nummerplaat"].Value = voertuig.NummerPlaat;
-                    command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
+                    //command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
 
                     command.CommandText = query;
                     int n = (int)command.ExecuteScalar();
@@ -79,7 +78,7 @@ namespace FleetManagement.ADO.Repositories {
             SqlConnection connection = getConnection();
 
             string query = "UPDATE Voertuig" +
-                           "SET aantal_deuren=@aantal_deuren, chassisnummer=@chassisnummer, nummerplaat=@nummerplaat, inboekdatum=@inboekdatum, " +
+                           "SET aantal_deuren=@aantal_deuren, chassisnummer=@chassisnummer, nummerplaat=@nummerplaat, " +
                            " WHERE voertuigid=@voertuigid";
 
             using (SqlCommand command = connection.CreateCommand()) {
@@ -89,13 +88,13 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.Timestamp));
+                    //command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.Timestamp));
                     command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
 
                     command.Parameters["@aantal_deuren"].Value = voertuig.AantalDeuren;
                     command.Parameters["@chassisnummer"].Value = voertuig.ChassisNummer;
                     command.Parameters["@nummerplaat"].Value = voertuig.NummerPlaat;
-                    command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
+                    //command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
                     command.Parameters["@voertuigid"].Value = voertuig.VoertuigId;
 
                     command.CommandText = query;
@@ -134,8 +133,8 @@ namespace FleetManagement.ADO.Repositories {
         public void VoegVoertuigToe(Voertuig voertuig) {
             SqlConnection connection = getConnection();
 
-            string query = "INSERT INTO Voertuig (aantal_deuren,chassisnummer,nummerplaat,inboekdatum)" +
-                           "VALUES (@aantal_deuren,@chassisnummer,@nummerplaat,@inboekdatum)";
+            string query = "INSERT INTO Voertuig (aantal_deuren,chassisnummer,nummerplaat)" +
+                           "VALUES (@aantal_deuren,@chassisnummer,@nummerplaat)";
 
             using (SqlCommand command = connection.CreateCommand()) {
                 try {
@@ -143,12 +142,12 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.Timestamp));
+                    //command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.Timestamp));
 
                     command.Parameters["@aantal_deuren"].Value = voertuig.AantalDeuren;
                     command.Parameters["@chassisnummer"].Value = voertuig.ChassisNummer;
                     command.Parameters["@nummerplaat"].Value = voertuig.NummerPlaat;
-                    command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
+                    //command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
 
                     command.CommandText = query;
                     command.ExecuteNonQuery();
@@ -197,25 +196,20 @@ namespace FleetManagement.ADO.Repositories {
 
         //Versie toegevoegd filip
         //Vergeet niet: DB => Voertuigen (en niet Voertuig)
-        public bool IsVoertuigUniek(string chassisNummer, string nummerPlaat)
-        {
+        public bool IsVoertuigUniek(string chassisNummer, string nummerPlaat) {
             string queryVoertuig = "SELECT chassisnummer, nummperplaat FROM voertuigen " +
                 "WHERE chassisnummer = @chassisNummer || nummerplaat = @nummerPlaat";
 
             SqlConnection connection = getConnection();
 
-            using (SqlCommand command = new(queryVoertuig, connection))
-            {
-                try
-                {
+            using (SqlCommand command = new(queryVoertuig, connection)) {
+                try {
                     command.Parameters.AddWithValue("@chassisNummer", chassisNummer);
                     command.Parameters.AddWithValue("@nummerPlaat", nummerPlaat);
                     connection.Open();
 
-                    using (SqlDataReader dataReader = command.ExecuteReader())
-                    {
-                        if (dataReader.HasRows)
-                        {
+                    using (SqlDataReader dataReader = command.ExecuteReader()) {
+                        if (dataReader.HasRows) {
                             connection.Close();
                             return false;
                         }
@@ -223,13 +217,9 @@ namespace FleetManagement.ADO.Repositories {
                         connection.Close();
                         return true;
                     }
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     throw new VoertuigRepositoryADOException("Bestaat Voertruig op chassisnummer & plaatnummer - gefaald", ex);
-                }
-                finally
-                {
+                } finally {
                     connection?.Dispose();
                     connection = null;
                 }
