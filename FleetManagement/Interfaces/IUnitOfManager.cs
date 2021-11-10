@@ -12,5 +12,9 @@ namespace FleetManagement.Interfaces
         public VoertuigBouwer VoertuigBouwer { get; }
         public BestuurderOpbouw BestuurderOpbouw { get; }
         public TankkaartOpbouw TankkaartOpbouw { get; }
+
+        //Interne variabelen inladen
+        public Array AantalDeuren { get; }
+        public Array AutoTypes { get; }
     }
 }
