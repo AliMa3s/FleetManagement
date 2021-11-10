@@ -12,9 +12,9 @@ namespace ConsoleApplicatie
             Console.WriteLine("Hello World!");
 
             string connectionstring = @"Data Source=.\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True";
-
-            IUnitOfRepository unitOfRepository = new UnitOfRepository(connectionstring);  //Maak ADO met alle repos
-            IUnitOfManager unitOfManager = new UnitOfManager(unitOfRepository);  //Maak Managers (erft ook over van IUnitOfRepository)
+             
+            IUnitOfRepository repos = new UnitOfRepository(connectionstring);  //Maak ADO met alle repos
+            IUnitOfManager managers = new UnitOfManager(repos);  //Maak Managers (erft ook over van IUnitOfRepository)
 
 
             //Indien gelezen mag dat allemaal weg: is om te communiceren met Ali & Ahmet
@@ -22,14 +22,14 @@ namespace ConsoleApplicatie
             //Idee van Ali was alles tesamen 
             //Idee van Filip was met Bouwers 
             //Is alle twee geworden onder één beheer (maar toch staat alles apart voor onderhoud)
-            //Dus in unitOfManager zitten alle managers & bouwers (is toegevoegd aan de pattern om in regel te zijn)
+            //Dus in managers zitten alle managers & bouwers (is toegevoegd aan de pattern om in regel te zijn)
             //** Voertuig & VoertuigBouwer is al gedaan, meer werk hieraan is er niet. Is klaar voor formulier te maken in WPF, te checken en te posten **
             //(behalve extra interfaces (in het rood) & testen zijn nog niet gedaan)
 
             /* Voorbeelden:
-            * unitOfManager.Voertuigen.BestaatVoertuig();
-            * unitOfManager.VoertuigBouwer; 
-            * unitOfManager.Bestuurders...
+            * managers.Voertuigen.BestaatVoertuig();
+            * managers.VoertuigBouwer; 
+            * managers.Bestuurders...
             * Etc...
             * 
             * Een voorbeeld zal duidelijk worden hoe eenvoudig het wel is. 
