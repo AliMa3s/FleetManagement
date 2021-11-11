@@ -22,25 +22,26 @@ namespace FleetManagement.Manager
         public VoertuigBouwer VoertuigBouwer { get; private set; }
         public BestuurderOpbouw BestuurderOpbouw { get; private set; }
         public TankkaartOpbouw TankkaartOpbouw { get; private set; }
+
         public Array AantalDeuren { get; private set; }
         public Array AutoTypes { get; private set; }
 
-        public UnitOfManager(IUnitOfRepository globalRepo)
+        public UnitOfManager(IUnitOfRepository repos)
         {
             //ADO
-            AdresRepo = new AdresManager(globalRepo.AdresRepo);
-            BestuurderRepo = new BestuurderManager(globalRepo.BestuurderRepo);
-            VoertuigRepo = new VoertuigManager(globalRepo.VoertuigRepo);
-            TankkaartRepo = new TankkaartManager(globalRepo.TankkaartRepo);
-
-            //Bouwers
-            VoertuigBouwer = new(globalRepo.VoertuigRepo);
-            BestuurderOpbouw = new(globalRepo.BestuurderRepo);
-            TankkaartOpbouw = new(globalRepo.TankkaartRepo);
+            AdresRepo = new AdresManager(repos.AdresRepo);
+            BestuurderRepo = new BestuurderManager(repos.BestuurderRepo);
+            VoertuigRepo = new VoertuigManager(repos.VoertuigRepo);
+            TankkaartRepo = new TankkaartManager(repos.TankkaartRepo);
 
             //Interne variabelen inladen
             AantalDeuren = Enum.GetValues(new AantalDeuren().GetType());
             AutoTypes = Enum.GetValues(new AutoType().GetType());
+
+            //Bouwers
+            VoertuigBouwer = new(repos.VoertuigRepo);
+            BestuurderOpbouw = new(repos.BestuurderRepo);
+            TankkaartOpbouw = new(repos.TankkaartRepo);
         }
     }
 }

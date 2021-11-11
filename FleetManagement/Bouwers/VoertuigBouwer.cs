@@ -66,7 +66,7 @@ namespace FleetManagement.Bouwers
 
         private bool IsChassisnummerEnNummerplaatGeldig()
         {
-            if (!_repo.bestaatChassisNummerEnNummerplaat(ChassisNummer, NummerPlaat)) {
+            if (!_repo.bestaatChassisNummerOfNummerplaat(ChassisNummer, NummerPlaat)) {
                 return true;
             }
  
