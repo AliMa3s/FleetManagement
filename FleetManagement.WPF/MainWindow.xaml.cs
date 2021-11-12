@@ -1,6 +1,5 @@
 ﻿using FleetManagement.Bouwers;
 using FleetManagement.Manager;
-using FleetManagement.Manager.Interfaces;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -25,7 +24,6 @@ namespace FleetManagement.WPF
     public partial class MainWindow : Window
     {
         private readonly UnitOfManager _manager;
-        private readonly VoertuigBouwer _voertuigBouwer;
 
         public MainWindow(UnitOfManager unitOfManager)
         {
@@ -33,7 +31,7 @@ namespace FleetManagement.WPF
             _manager = unitOfManager;
             autoTypes.ItemsSource = _manager.VoertuigManager.AutoTypes;
 
-            _voertuigBouwer = _manager.VoertuigBouwer = new VoertuigBouwer(_manager.VoertuigManager)
+            _manager.VoertuigBouwer = new VoertuigBouwer(_manager.VoertuigManager)
             {
                 VoertuigKleur = null,
                 AantalDeuren = null
@@ -42,7 +40,7 @@ namespace FleetManagement.WPF
 
         private void AutoTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _voertuigBouwer.AutoModel = new AutoModel("BWM","5-Reeks", (AutoType)autoTypes.SelectedIndex);
+            _manager.VoertuigBouwer.AutoModel = new AutoModel("BWM","5-Reeks", (AutoType)autoTypes.SelectedIndex);
         }
     }
 }
