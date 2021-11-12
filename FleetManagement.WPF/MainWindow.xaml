@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <ComboBox x:Name="autoTypes" HorizontalAlignment="Left" Margin="47,100,0,0" SelectedIndex='-1' VerticalAlignment="Top" Width="120" SelectionChanged="autoTypes_SelectionChanged" />
+        <ComboBox x:Name="autoTypes" HorizontalAlignment="Left" Margin="47,100,0,0" SelectedIndex='-1' VerticalAlignment="Top" Width="120" SelectionChanged="AutoTypes_SelectionChanged" />
         <TextBlock x:Name="autoGeslecteerd" HorizontalAlignment="Left" Margin="187,100,0,0" Text="{Binding ElementName=autoTypes, Path=SelectedItem, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Width="131"/>
         <Label Content="Eerste dropdown met binding om even te testen:" HorizontalAlignment="Left" Margin="43,65,0,0" VerticalAlignment="Top" Width="427"/>
     </Grid>

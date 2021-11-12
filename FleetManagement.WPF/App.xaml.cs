@@ -1,4 +1,4 @@
-﻿using FleetManagement.Interfaces;
+﻿//using FleetManagement.Interfaces;
 using FleetManagement.Manager;
 using FleetManagement.Manager.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +26,7 @@ namespace FleetManagement.WPF
             string connectionString = config.GetConnectionString("FleetManagementConnectionString");
 
             //ADO instantie aanmaken
-            IUnitOfRepository repository = new ADO.Repositories.UnitOfRepository(connectionString);
+            Interfaces.IUnitOfRepository repository = new ADO.Repositories.UnitOfRepository(connectionString);
 
             //Manager instantie aamaken
             Manager = new UnitOfManager(repository);

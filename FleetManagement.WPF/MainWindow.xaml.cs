@@ -31,17 +31,16 @@ namespace FleetManagement.WPF
         {
             InitializeComponent();
             _manager = unitOfManager;
-            autoTypes.ItemsSource = _manager.AutoTypes;
+            autoTypes.ItemsSource = _manager.VoertuigManager.AutoTypes;
 
             _voertuigBouwer = _manager.VoertuigBouwer = new VoertuigBouwer(_manager.VoertuigManager)
             {
                 VoertuigKleur = null,
                 AantalDeuren = null
             };
-            
         }
 
-        private void autoTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AutoTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _voertuigBouwer.AutoModel = new AutoModel("BWM","5-Reeks", (AutoType)autoTypes.SelectedIndex);
         }

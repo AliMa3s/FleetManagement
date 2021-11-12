@@ -12,8 +12,12 @@ using System.Threading.Tasks;
 namespace FleetManagement.Manager {
     public class VoertuigManager : IVoertuigManager
     {
-
         private readonly IVoertuigRepository _repo;
+
+        public IEnumerable<AantalDeuren> AantalDeuren => Enum.GetValues(typeof(AantalDeuren)).Cast<AantalDeuren>();
+
+        public IEnumerable<AutoType> AutoTypes => Enum.GetValues(typeof(AutoType)).Cast<AutoType>();
+
         public VoertuigManager(IVoertuigRepository repo) {
             this._repo = repo;
         }

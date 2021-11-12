@@ -24,9 +24,6 @@ namespace FleetManagement.Manager
         public BestuurderOpbouw BestuurderOpbouw { get; set; }
         public TankkaartOpbouw TankkaartOpbouw { get; set; }
 
-        //interne variabelen inladen
-        public IEnumerable<AantalDeuren> AantalDeuren { get; private set; }
-        public IEnumerable<AutoType> AutoTypes { get; private set; }
 
         public UnitOfManager(IUnitOfRepository repos)
         {
@@ -35,10 +32,6 @@ namespace FleetManagement.Manager
             BestuurderManager = new BestuurderManager(repos.BestuurderRepo);
             VoertuigManager = new VoertuigManager(repos.VoertuigRepo);
             TankkaartManager = new TankkaartManager(repos.TankkaartRepo);
-
-            //Interne variabelen inladen
-            AantalDeuren = Enum.GetValues(typeof(AantalDeuren)).Cast<AantalDeuren>();
-            AutoTypes = Enum.GetValues(typeof(AutoType)).Cast<AutoType>();
         }
     }
 }

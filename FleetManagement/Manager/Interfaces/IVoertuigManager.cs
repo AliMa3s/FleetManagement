@@ -1,4 +1,5 @@
 ﻿using FleetManagement.Interfaces;
+using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,9 @@ namespace FleetManagement.Manager.Interfaces
     public interface  IVoertuigManager : IVoertuigRepository
     {
         //Implementeert en profileert zichzelf als Manager
+
+        //interne variabelen inladen
+        public IEnumerable<AantalDeuren> AantalDeuren { get; }
+        public IEnumerable<AutoType> AutoTypes { get; }
     }
 }
