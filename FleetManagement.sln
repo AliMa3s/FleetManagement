@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetManagement.Test", "Fle
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetManagement.ADO", "FleetManagement.ADO\FleetManagement.ADO.csproj", "{20F69C62-2374-463D-9186-45EBF1588C38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplicatie", "ConsoleApplicatie\ConsoleApplicatie.csproj", "{B00EFD82-93A6-4793-998C-935AC0C8EEFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApplicatie", "ConsoleApplicatie\ConsoleApplicatie.csproj", "{B00EFD82-93A6-4793-998C-935AC0C8EEFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleetManagement.WPF", "FleetManagement.WPF\FleetManagement.WPF.csproj", "{3CDB5505-FADE-42AC-8772-965D601C7F02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B00EFD82-93A6-4793-998C-935AC0C8EEFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B00EFD82-93A6-4793-998C-935AC0C8EEFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B00EFD82-93A6-4793-998C-935AC0C8EEFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CDB5505-FADE-42AC-8772-965D601C7F02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CDB5505-FADE-42AC-8772-965D601C7F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CDB5505-FADE-42AC-8772-965D601C7F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CDB5505-FADE-42AC-8772-965D601C7F02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

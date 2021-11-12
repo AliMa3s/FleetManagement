@@ -17,11 +17,11 @@ namespace FleetManagement.Model
         public string ChassisNummer { get; }
         public string NummerPlaat { get; private set; }
         public BrandstofVoertuig Brandstof { get; private set; }
-        public Kleur? VoertuigKleur { get; set; } = null;
+        public Kleur? VoertuigKleur { get; set; }
         public DateTime InBoekDatum { get; set; }
-        public AantalDeuren? AantalDeuren { get; set; } = null;
+        public AantalDeuren? AantalDeuren { get; set; }
         public Bestuurder Bestuurder { get; private set; }
-        public bool HeeftVoertuigBestuurder => Bestuurder != null; 
+        public bool HeeftVoertuigBestuurder => Bestuurder != null;
 
         public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofVoertuig brandstof)
         {

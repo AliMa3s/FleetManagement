@@ -1,6 +1,7 @@
 ﻿using FleetManagement.CheckFormats;
 using FleetManagement.Helpers;
 using FleetManagement.Interfaces;
+using FleetManagement.Manager.Interfaces;
 using FleetManagement.ManagerExceptions;
 using FleetManagement.Model;
 using System;
@@ -11,7 +12,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace FleetManagement.Manager {
-    public class BestuurderManager : IBestuurderRepository {
+    public class BestuurderManager : IBestuurderManager
+    {
         private readonly IBestuurderRepository _repo;
         public BestuurderManager(IBestuurderRepository repo) {
             this._repo = repo;

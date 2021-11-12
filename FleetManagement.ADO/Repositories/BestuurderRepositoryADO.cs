@@ -19,13 +19,13 @@ namespace FleetManagement.ADO.Repositories {
             this._connectionString = connectionstring;
         }
 
-        private SqlConnection getConnection() {
+        private SqlConnection GetConnection() {
             SqlConnection connection = new SqlConnection(_connectionString);
             return connection;
         }
 
         public bool BestaatBestuurder(int id) {
-            SqlConnection connection = getConnection();
+            SqlConnection connection = GetConnection();
             string query = "SELECT count(*) FROM Bestuurder WHERE bestuurderid=@bestuurderid";
             using (SqlCommand command = connection.CreateCommand()) {
                 try {
@@ -47,7 +47,7 @@ namespace FleetManagement.ADO.Repositories {
 
         public bool BestaatRijksRegisterNummer(string rijksRegisterNr) {
             string query = $"SELECT * FROM Bestuurder WHERE rijksregisternummer=@rijksregisternummer;";
-            SqlConnection connection = getConnection();
+            SqlConnection connection = GetConnection();
             using (SqlCommand command = connection.CreateCommand()) {
                 try {
                     connection.Open();
@@ -69,7 +69,7 @@ namespace FleetManagement.ADO.Repositories {
         public IReadOnlyList<Bestuurder> GeefAlleBestuurder() {
             string query = "SELECT * FROM Bestuurder";
             List<Bestuurder> bestuurderLijst = new List<Bestuurder>();
-            SqlConnection connection = getConnection();
+            SqlConnection connection = GetConnection();
             using (SqlCommand command = new SqlCommand(query, connection)) {
                 try {
                     connection.Open();
@@ -93,7 +93,7 @@ namespace FleetManagement.ADO.Repositories {
 
         public Bestuurder GetBestuurderId(int id) {
             string query = "SELECT * FROM Bestuurder WHERE bestuurderid=@bestuurderid";
-            SqlConnection connection = getConnection();
+            SqlConnection connection = GetConnection();
             using (SqlCommand command = new SqlCommand(query, connection)) {
                 try {
                     connection.Open();
@@ -114,7 +114,7 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public void UpdateBestuurder(Bestuurder bestuurder) {
-            SqlConnection connection = getConnection();
+            SqlConnection connection = GetConnection();
 
             string query = "UPDATE Bestuurder" +
                            "SET voornaam=@voornaam, achternaam=@achternaam, geboortedatum=@geboortedatum, rijksregisternummer=@rijksregisternummer, " +
@@ -151,7 +151,7 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public void VerwijderBestuurder(Bestuurder bestuurder) {
-            SqlConnection connection = getConnection();
+            SqlConnection connection = GetConnection();
             string query = "DELETE FROM Bestuurder WHERE bestuurderid=@bestuurderid";
 
             using (SqlCommand command = connection.CreateCommand()) {
@@ -170,7 +170,7 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public void VoegBestuurderToe(Bestuurder bestuurder) {
-            SqlConnection connection = getConnection();
+            SqlConnection connection = GetConnection();
 
             string query = "INSERT INTO Bestuurder (voornaam, achternaam, geboortedatum, rijksregisternummer,rijbewijstype,rijbewijsnummer)" +
                            "VALUES (@voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype, @rijbewijsnummer)";
@@ -222,7 +222,7 @@ namespace FleetManagement.ADO.Repositories {
                 "LEFT JOIN tankkaarten t ON b.bestuurderId = t.bestuurderId" +
                 "WHERE b.rijksRegisterNummer = @rijksRegisterNummer";
 
-            SqlConnection connection = getConnection();
+            SqlConnection connection = GetConnection();
 
             using (SqlCommand command = new(queryBestuurder, connection)) {
                 try {

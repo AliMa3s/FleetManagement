@@ -1,6 +1,8 @@
 ﻿using FleetManagement.CheckFormats;
 using FleetManagement.Exceptions;
 using FleetManagement.Interfaces;
+using FleetManagement.Manager;
+using FleetManagement.Manager.Interfaces;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -12,68 +14,63 @@ namespace FleetManagement.Bouwers
 {
     public class VoertuigBouwer
     {
-        private readonly IVoertuigRepository _repo;
+        private readonly IVoertuigManager _voertuigManager;
 
         public AutoModel AutoModel { get; set; }
         public string ChassisNummer { get; set;  }
         public string NummerPlaat { get; set; }
         public BrandstofVoertuig Brandstof { get; set; }
-        public Kleur? VoertuigKleur { get; set; } = null;
-        public AantalDeuren? AantalDeuren { get; set; } = null;
+        public Kleur? VoertuigKleur { get; set; }
+        public AantalDeuren? AantalDeuren { get; set; }
         public Bestuurder Bestuurder { get; set; }
 
-        public VoertuigBouwer(IVoertuigRepository repo) 
+        public VoertuigBouwer(IVoertuigManager voertuigManager) 
         {
-            _repo = repo;
+            _voertuigManager = voertuigManager;
         }
 
         public bool IsGeldig() 
         {
-            if (AutoModel != null
+            return AutoModel != null
                 && AutoModel.AutoModelId > 0
                 && !string.IsNullOrWhiteSpace(ChassisNummer)
                 && !string.IsNullOrWhiteSpace(NummerPlaat)
                 && Bestuurder != null
                 && Bestuurder.BestuurderId > 0
                 && Brandstof != null
-                && IsChassisnummerEnNummerplaatGeldig())
-            {
-                return true;
-            }
-
-            return false;
+                && IsChassisnummerEnNummerplaatGeldig();
         }
 
         private bool BestaatChassisNummer()
         {
-            if(_repo.BestaatChassisNummer(ChassisNummer)) //Nog IRepository implementatie aanmaken om chassis te checken
-            {
-                return true;
-            }
+            //if(_repo.BestaatChassisNummer(ChassisNummer)) //Nog IRepository implementatie aanmaken om chassis te checken
+            //{
+            //    return true;
+            //}
 
             return false;
         }
 
         private bool BestaatNummerplaat()
         {
-            if (_repo.BestaatNummerplaat(NummerPlaat))  //Nog IRepository implementatie aanmaken om nummerplaat te checken
-            {
-                return true;
-            }
+            //if (_repo.BestaatNummerplaat(NummerPlaat))  //Nog IRepository implementatie aanmaken om nummerplaat te checken
+            //{
+            //    return true;
+            //}
 
             return false;
         }
 
         private bool IsChassisnummerEnNummerplaatGeldig()
         {
-            if (!_repo.bestaatChassisNummerOfNummerplaat(ChassisNummer, NummerPlaat)) {
+            if (!_voertuigManager.bestaatChassisNummerOfNummerplaat(ChassisNummer, NummerPlaat)) {
                 return true;
             }
  
             return false;
         }
 
-        public Voertuig Bouw()
+        public Voertuig BouwVoertuig()
         {
             if(!IsGeldig())
             {

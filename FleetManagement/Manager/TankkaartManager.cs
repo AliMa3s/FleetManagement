@@ -1,5 +1,6 @@
 ﻿using FleetManagement.Exceptions;
 using FleetManagement.Interfaces;
+using FleetManagement.Manager.Interfaces;
 using FleetManagement.ManagerExceptions;
 using FleetManagement.Model;
 using System;
@@ -9,15 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FleetManagement.Manager {
-    public class TankkaartManager : ITankkaartRepository {
-        private ITankkaartRepository repo;
+    public class TankkaartManager : ITankkaartManager
+    {
+        private readonly ITankkaartRepository _repo;
         public TankkaartManager(ITankkaartRepository repo) {
-            this.repo = repo;
+            this._repo = repo;
         }
         public bool BestaatTankKaart(TankKaart tankkaart) {
             try {
                 if (tankkaart == null) throw new TankKaartManagerException("Tankkaart mag niet null zijn");
-                if (!repo.BestaatTankKaart(tankkaart)) {
+                if (!_repo.BestaatTankKaart(tankkaart)) {
                     return false;
                 } else {
                     return true;
@@ -28,19 +30,19 @@ namespace FleetManagement.Manager {
         }
 
         public IReadOnlyList<TankKaart> GeefAlleTankkaart() {
-            return repo.GeefAlleTankkaart();
+            return _repo.GeefAlleTankkaart();
         }
 
         public TankKaart GetTankKaart(string tankkaartNr) {
             if (string.IsNullOrWhiteSpace(tankkaartNr)) throw new TankKaartManagerException("TankkaartNr - Foutief");
-            return repo.GetTankKaart(tankkaartNr);
+            return _repo.GetTankKaart(tankkaartNr);
         }
 
         public void UpdateTankKaart(TankKaart tankkaart) {
             try {
                 if (tankkaart == null) throw new TankKaartManagerException("Tankkaart - tankkaart mag niet null zijn");
-                if (repo.BestaatTankKaart(tankkaart)) {
-                    repo.UpdateTankKaart(tankkaart);
+                if (_repo.BestaatTankKaart(tankkaart)) {
+                    _repo.UpdateTankKaart(tankkaart);
                 } else {
                     throw new TankKaartManagerException("Tankkaart - bestaat niet!");
                 }
@@ -53,8 +55,8 @@ namespace FleetManagement.Manager {
         public void VerwijderTankKaart(TankKaart tankkaart) {
             try {
                 if (tankkaart == null) throw new TankKaartManagerException("Tankkaart - tankkaart mag niet null zijn");
-                if (repo.BestaatTankKaart(tankkaart)) {
-                    repo.VerwijderTankKaart(tankkaart);
+                if (_repo.BestaatTankKaart(tankkaart)) {
+                    _repo.VerwijderTankKaart(tankkaart);
                 } else {
                     throw new TankKaartManagerException("Bestuurder - Bestuurder bestaat niet!");
                 }
@@ -67,8 +69,8 @@ namespace FleetManagement.Manager {
         public void VoegTankKaartToe(TankKaart tankkaart) {
             try {
                 if (tankkaart == null) throw new TankKaartManagerException("TankKaart - Tankkaart mag niet null zijn");
-                if (!repo.BestaatTankKaart(tankkaart)) {
-                    repo.VoegTankKaartToe(tankkaart);
+                if (!_repo.BestaatTankKaart(tankkaart)) {
+                    _repo.VoegTankKaartToe(tankkaart);
                 } else {
                     throw new TankKaartManagerException("TankKaart Bestaat al");
                 }
@@ -81,7 +83,7 @@ namespace FleetManagement.Manager {
         public TankKaart ZoekTankKaart(string tankkaartNr, BrandstofType branstof) {
             if (string.IsNullOrWhiteSpace(tankkaartNr)) throw new TankKaartManagerException("TankkaartNr - Foutief");
             if (string.IsNullOrWhiteSpace(branstof.BrandstofNaam)) throw new TankKaartManagerException("BrandstofNaam - Foutief");
-            return repo.ZoekTankKaart(tankkaartNr, branstof);
+            return _repo.ZoekTankKaart(tankkaartNr, branstof);
 
         }
 

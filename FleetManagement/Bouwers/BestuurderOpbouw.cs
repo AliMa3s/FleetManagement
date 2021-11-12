@@ -1,4 +1,5 @@
 ﻿using FleetManagement.Interfaces;
+using FleetManagement.Manager.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace FleetManagement.Bouwers
 {
     public class BestuurderOpbouw
     {
-        private readonly IBestuurderRepository _repo;
+        private readonly IBestuurderManager _bestuurderManager;
 
-        public BestuurderOpbouw(IBestuurderRepository repo)
+        public BestuurderOpbouw(IBestuurderManager bestuurderManager)
         {
-            _repo = repo;
+            _bestuurderManager = bestuurderManager;
         }
     }
 }

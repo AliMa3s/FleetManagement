@@ -1,4 +1,5 @@
 ﻿using FleetManagement.Interfaces;
+using FleetManagement.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace FleetManagement.Bouwers
 {
     public class TankkaartOpbouw
     {
-        private readonly ITankkaartRepository _repo;
+        private readonly TankkaartManager _tankkaartManager;
 
-        public TankkaartOpbouw(ITankkaartRepository repo)
+        public TankkaartOpbouw(TankkaartManager tankkaartManager)
         {
-            _repo = repo;
+            _tankkaartManager = tankkaartManager;
         }
     }
 }

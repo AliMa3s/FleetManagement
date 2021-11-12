@@ -1,5 +1,6 @@
 ﻿using FleetManagement.CheckFormats;
 using FleetManagement.Interfaces;
+using FleetManagement.Manager.Interfaces;
 using FleetManagement.ManagerExceptions;
 using FleetManagement.Model;
 using System;
@@ -9,7 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FleetManagement.Manager {
-    public class VoertuigManager : IVoertuigRepository {
+    public class VoertuigManager : IVoertuigManager
+    {
 
         private readonly IVoertuigRepository _repo;
         public VoertuigManager(IVoertuigRepository repo) {
