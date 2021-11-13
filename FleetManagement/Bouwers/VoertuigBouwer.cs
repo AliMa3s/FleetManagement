@@ -24,7 +24,7 @@ namespace FleetManagement.Bouwers
         public AantalDeuren? AantalDeuren { get; set; }
         public Bestuurder Bestuurder { get; set; }
 
-        public VoertuigBouwer(IVoertuigManager voertuigManager) 
+        public VoertuigBouwer(IVoertuigManager voertuigManager)
         {
             _voertuigManager = voertuigManager;
         }
@@ -38,10 +38,10 @@ namespace FleetManagement.Bouwers
                 && Bestuurder != null
                 && Bestuurder.BestuurderId > 0
                 && Brandstof != null
-                && ValideerChassisEnNummerplaat();
+                && bestaatChassisOfNummerplaat();
         }
 
-        private bool ValideerChassisNummer()
+        private bool IsChassisNummerGeldig()
         {
             //if(_repo.BestaatChassisNummer(ChassisNummer)) //Nog IRepository implementatie aanmaken om chassis te checken
             //{
@@ -51,7 +51,7 @@ namespace FleetManagement.Bouwers
             return false;
         }
 
-        private bool ValideerNummerplaat()
+        private bool IsNummerplaatGeldig()
         {
             //if (_repo.BestaatNummerplaat(NummerPlaat))  //Nog IRepository implementatie aanmaken om nummerplaat te checken
             //{
@@ -61,7 +61,7 @@ namespace FleetManagement.Bouwers
             return false;
         }
 
-        private bool ValideerChassisEnNummerplaat()
+        private bool bestaatChassisOfNummerplaat()
         {
             if (!_voertuigManager.bestaatChassisOfNummerplaat(Chassisnummer, Nummerplaat)) {
                 return true;
@@ -76,6 +76,8 @@ namespace FleetManagement.Bouwers
             {
                 throw new VoertuigBouwerException("Voertuig kan niet worden gebouwd");
             }
+
+            //check kleur & aantal deuren mss nog indien ingevuld (indien API ipv WPF Parsen van selectors)
 
             Voertuig voertuig = new(
                 AutoModel,
@@ -103,8 +105,8 @@ namespace FleetManagement.Bouwers
             if (Bestuurder == null) { message.AppendLine("Bestuurder moet ingevuld zijn"); }
             if (Bestuurder.BestuurderId < 1) { message.AppendLine("Bestuurder moet geslecteerd zijn uit de lijst"); }
             if (Brandstof == null) { message.AppendLine("Brandstof mag niet leeg zijn"); }
-            if (!ValideerChassisNummer()) { message.AppendLine("Chassisnummer bestaat al"); }
-            if (!ValideerNummerplaat()) { message.AppendLine("Nummerplaat bestaat al"); }
+            if (!IsChassisNummerGeldig()) { message.AppendLine("Chassisnummer bestaat al"); }
+            if (!IsNummerplaatGeldig()) { message.AppendLine("Nummerplaat bestaat al"); }
 
             return message.ToString();
         }

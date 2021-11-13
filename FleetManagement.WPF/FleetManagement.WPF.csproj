@@ -36,6 +36,14 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DetailSrceens\" />
+    <Folder Include="UpdateScreens\" />
+    <Folder Include="SelecteerScreens\" />
+    <Folder Include="UserControls\WagenparkBeheer\" />
+    <Folder Include="UserControls\Zoeken\" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties app_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -16,10 +16,12 @@
         <Label x:Name="Title_FleetManegent" Content="FleetManagement App" HorizontalAlignment="Center" Margin="20,-325,0,0" VerticalAlignment="Center" Width="233" Height="39" Grid.Column="0" FontSize="20" FontWeight="Bold"/>
         <Image Source="/fleetmanagement_logo.png" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="350" Margin="20,0,0,0" Grid.RowSpan="2" Grid.Row="0" MaxHeight="230" />
         <Label x:Name="Autorisatie" Content="Autorisatie:" HorizontalAlignment="Center" Margin="0,-325,0,0" VerticalAlignment="Center" Width="105" Height="30" Grid.Column="1" FontSize="14" FontWeight="Bold"/>
-        <ComboBox x:Name="auth" HorizontalAlignment="Center" Margin="0,-250,0,0" VerticalAlignment="Center" Width="120" Height="22" Grid.Column="1" SelectionChanged="AuthNameSelectie"/>
-
-        <Button x:Name="Toevoegen" Content="_Toevoegen" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-100,0,0" Width="150" Height="40" Padding ="10" Background="LightSkyBlue" Grid.Column="1" IsEnabled="False" Click="Toevoegen_Click"/>
-        <Button x:Name="Zoeken" Content="_Zoeken" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,25,0,0" Width="150" Height="40" Background="LightSkyBlue" Grid.Column="1" IsEnabled="False" Click="Zoeken_Click"/>
-        <Button x:Name="Afsluiten" Content="_Afsluiten" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,250,0,0" Width="150" Height="40" Background="LightSkyBlue" Grid.Column="1" Click="Afsluiten_Click"/>
+        
+        <ComboBox x:Name="Auth" HorizontalAlignment="Center" Margin="0,-250,0,0" VerticalAlignment="Center" Width="120" Height="22" Grid.Column="1" SelectionChanged="AuthNameSelectie"/>
+        
+        <Button x:Name="WagenparkBeheer" Content="_Wagenparkbeheer" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-125,0,0" Width="150" Height="40" Padding ="10" Background="LightSkyBlue" Grid.Column="1" IsEnabled="False" Click="WagenparBeheer_Click"/>
+        <Button x:Name="Toevoegen" Content="_Toevoegen" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" Width="150" Height="40" Padding ="10" Background="LightSkyBlue" Grid.Column="1" IsEnabled="False" Click="Toevoegen_Click"/>
+        <Button x:Name="Zoeken" Content="_Zoeken" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,125,0,0" Width="150" Height="40" Background="LightSkyBlue" Grid.Column="1" IsEnabled="False" Click="Zoeken_Click"/>
+        <Button x:Name="Afsluiten" Content="_Afsluiten" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,300,0,0" Width="150" Height="40" Background="LightSkyBlue" Grid.Column="1" Click="Afsluiten_Click"/>
     </Grid>
 </Window>

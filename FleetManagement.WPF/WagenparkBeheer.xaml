@@ -1,19 +1,19 @@
-﻿<Window x:Class="FleetManagement.WPF.ZoekWindow"
+﻿<Window x:Class="FleetManagement.WPF.WagenparkBeheer"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF"
         mc:Ignorable="d"
-        Title="ZoekWindow" Height="450" Width="800">
+        Title="WagenparkBeheer" Height="450" Width="800">
     <Grid>
         <TabControl Background="LightBlue">
-            <TabItem Header="Overzicht" FontSize="14">
-                <TextBlock x:Name="authUser"></TextBlock>
+            <TabItem x:Name="OverzichtTab" Header="Overzicht" FontSize="14">
+
             </TabItem>
-            <TabItem x:Name="VouertuigTab" Header="Voertuigen" FontSize="14"></TabItem>
-            <TabItem Header="Bestuurders" FontSize="14"></TabItem>
-            <TabItem Header="Tankkaarten" FontSize="14"></TabItem>
+            <TabItem x:Name="AutoModellenTab" Header="Automodellen" FontSize="14"></TabItem>
+            <TabItem x:Name="BrandstoftypeTab" Header="Brandstoffen" FontSize="14"></TabItem>
+            <TabItem x:Name="KleurenTab" Header="Kleurenlijst" FontSize="14"></TabItem>
         </TabControl>
     </Grid>
 </Window>

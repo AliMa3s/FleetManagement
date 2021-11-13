@@ -14,26 +14,14 @@ namespace FleetManagement.Model {
 
         public BrandstofType(string brandstofNaam) {
 
-            if (!string.IsNullOrWhiteSpace(brandstofNaam))
-            {
-                BrandstofNaam = brandstofNaam;
-            }
-            else
-            {
-                throw new BrandstofTypeException("Brandstof kan niet leeg zijn");
-            }
+            BrandstofNaam = !string.IsNullOrWhiteSpace(brandstofNaam) ? brandstofNaam
+                : throw new BrandstofTypeException("Brandstof kan niet leeg zijn");
         }
 
         public BrandstofType(int brandstofTypeId, string brandstofNaam) : this(brandstofNaam) {
 
-            if (brandstofTypeId > 0)
-            {
-                BrandstofTypeId = brandstofTypeId;
-            }
-            else
-            {
-                throw new BrandstofTypeException("BrandstofTypeId moet meer zijn dan 0");
-            }
+            BrandstofTypeId = brandstofTypeId > 0 ? brandstofTypeId 
+                : throw new BrandstofTypeException("BrandstofTypeId moet meer zijn dan 0");
         }
     }
 }

@@ -15,7 +15,6 @@ namespace FleetManagement.Manager
     public class UnitOfManager
     {
         //Managers
-        public IAdresManager AdresManager { get; private set ;}
         public IBestuurderManager BestuurderManager { get; private set; }
         public IVoertuigManager VoertuigManager { get; private set; }
         public ITankkaartManager TankkaartManager { get; private set; }
@@ -30,28 +29,17 @@ namespace FleetManagement.Manager
         public Role LoggedIn { get; set; }
 
         //Klaarzetten voor Autotype in te laden via configFile
-        public IList<string> AutoTypes { get; set; } = new List<string>();
+        public IEnumerable<KeyValuePair<string, string>> AutoTypes { get; set; }
 
         public UnitOfManager(IUnitOfRepository repos)
         {
             //ADO
-            AdresManager = new AdresManager(repos.AdresRepo);
             BestuurderManager = new BestuurderManager(repos.BestuurderRepo);
             VoertuigManager = new VoertuigManager(repos.VoertuigRepo);
             TankkaartManager = new TankkaartManager(repos.TankkaartRepo);
 
             //Roles ophalen
             Auth = new();
-        }
-
-        public UnitOfManager VoegAutoTypesToe(IEnumerable<KeyValuePair<string, string>> autotypes)
-        {
-            autotypes.ToList().ForEach(item =>
-            {
-                AutoTypes.Add(item.Value);
-            });
-
-            return this;
         }
     }
 }

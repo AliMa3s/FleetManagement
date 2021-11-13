@@ -8,15 +8,12 @@
         Title="ToevoegWindow" Height="450" Width="800">
     <Grid>
         <TabControl Background="LightBlue">
-            <TabItem Header="Overzicht" FontSize="14">
-                <TextBlock x:Name="authUser"></TextBlock>
+            <TabItem x:Name="OverzichtTab" Header="Overzicht" FontSize="14">
+                
             </TabItem>
-            <TabItem Header="Voertuig" FontSize="14"></TabItem>
-            <TabItem Header="Bestuurder" FontSize="14"></TabItem>
-            <TabItem Header="Tankkaart" FontSize="14"></TabItem>
-            <TabItem Header="AutoModel" FontSize="14"></TabItem>
-            <TabItem Header="Brandstof" FontSize="14"></TabItem>
-            <TabItem Header="Kleur" FontSize="14"></TabItem>
+            <TabItem x:Name="VoertuigTab" Header="Nieuw voertuig" FontSize="14"></TabItem>
+            <TabItem Header="Bestuurder aanmaken" FontSize="14"></TabItem>
+            <TabItem Header="Tankkaart ingeven" FontSize="14"></TabItem>
         </TabControl>
     </Grid>
 </Window>

@@ -1,6 +1,4 @@
 ﻿using FleetManagement.Manager;
-using FleetManagement.WPF.TabScreens;
-using FleetManagement.WPF.UserControls.Toevoegen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,20 +16,16 @@ using System.Windows.Shapes;
 namespace FleetManagement.WPF
 {
     /// <summary>
-    /// Interaction logic for ToevoegWindow.xaml
+    /// Interaction logic for WagenparkBeheer.xaml
     /// </summary>
-    public partial class ToevoegWindow : Window
+    public partial class WagenparkBeheer : Window
     {
-        private readonly UnitOfManager _manager; 
-            
-        public ToevoegWindow(UnitOfManager unitOfManager)
+        private readonly UnitOfManager _manager;
+
+        public WagenparkBeheer(UnitOfManager unitOfManager)
         {
             InitializeComponent();
-            Title = "FleetManagement Toevoegscherm";
             _manager = unitOfManager;
-
-            OverzichtTab.Content = new ToevoegOverzichtTab(_manager);
-            VoertuigTab.Content = new VoertuigToevoegen(_manager);
         }
     }
 }

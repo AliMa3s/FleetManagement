@@ -26,6 +26,7 @@ namespace FleetManagement.WPF
     {
         private readonly UnitOfManager _manager;
 
+        #region ctor & dependency injection
         public MainWindow(UnitOfManager unitOfManager)
         {
             InitializeComponent(); 
@@ -33,34 +34,33 @@ namespace FleetManagement.WPF
 
             _manager.Auth.Roles.ToList().ForEach(name =>
             {
-                auth.Items.Add(name.Key);
+                Auth.Items.Add(name.Key);
             });
-            
-            _manager.VoertuigBouwer = new VoertuigBouwer(_manager.VoertuigManager)
-            {
-                VoertuigKleur = null,
-                AantalDeuren = null
-            };
         }
-         
+        #endregion
+
+        #region toekenning van de rechten
         private void AuthNameSelectie(object sender, SelectionChangedEventArgs e)
         {
             Toevoegen.IsEnabled = false;
             Zoeken.IsEnabled = false;
+            WagenparkBeheer.IsEnabled = false;
 
-            string checkAuth = auth.SelectedItem.ToString();
+            string checkAuth = Auth.SelectedItem.ToString();
             if (_manager.Auth.Roles.ContainsKey(checkAuth))
             {
                 Role loggedIn = _manager.Auth.Roles[checkAuth];
                 if (loggedIn.IsAdmin)
                 {
                     Toevoegen.IsEnabled = true;
-                    Zoeken.IsEnabled = true; 
+                    Zoeken.IsEnabled = true;
+                    WagenparkBeheer.IsEnabled = true;
                 }
                 else
                 {
                     Zoeken.IsEnabled = true;
                     Toevoegen.IsEnabled = false;
+                    WagenparkBeheer.IsEnabled = false;
                 }
 
                 _manager.LoggedIn = loggedIn;
@@ -70,10 +70,12 @@ namespace FleetManagement.WPF
                 _manager.LoggedIn = null;
             }
         }
+        #endregion
 
+        #region nieuwe windowschermen na klikken
         private void Zoeken_Click(object sender, RoutedEventArgs e)
         {
-            var window = new ZoekWindow(_manager)
+            Window window = new ZoekWindow(_manager)
             {
                 Owner = this
             };
@@ -83,13 +85,24 @@ namespace FleetManagement.WPF
 
         private void Toevoegen_Click(object sender, RoutedEventArgs e)
         {
-            var window = new ToevoegWindow(_manager)
+            Window window = new ToevoegWindow(_manager)
             {
                 Owner = this
             };
 
             window.Show();
         }
+
+        private void WagenparBeheer_Click(object sender, RoutedEventArgs e)
+        {
+            Window window = new WagenparkBeheer(_manager)
+            {
+                Owner = this
+            };
+
+            window.Show();
+        }
+        #endregion
 
         private void Afsluiten_Click(object sender, RoutedEventArgs e)
         {
