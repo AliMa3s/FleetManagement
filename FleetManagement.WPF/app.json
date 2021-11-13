@@ -1,5 +1,14 @@
-{
+﻿{
   "connectionStrings": {
     "FleetManagementConnectionString": "Data Source=.\\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True"
+  },
+  "autotypes": {
+    "0": "Cabriolet",
+    "1": "Coupé",
+    "2": "GT",
+    "3": "Tererreinwagen",
+    "4": "Sedan",
+    "5": "Stationwagen",
+    "6": "SUV"
   }
 }

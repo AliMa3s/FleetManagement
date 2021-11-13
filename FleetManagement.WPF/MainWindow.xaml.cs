@@ -1,5 +1,6 @@
 ﻿using FleetManagement.Bouwers;
 using FleetManagement.Manager;
+using FleetManagement.Manager.Roles;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -27,20 +28,72 @@ namespace FleetManagement.WPF
 
         public MainWindow(UnitOfManager unitOfManager)
         {
-            InitializeComponent();
+            InitializeComponent(); 
             _manager = unitOfManager;
-            autoTypes.ItemsSource = _manager.VoertuigManager.AutoTypes;
 
+            _manager.Auth.Roles.ToList().ForEach(name =>
+            {
+                auth.Items.Add(name.Key);
+            });
+            
             _manager.VoertuigBouwer = new VoertuigBouwer(_manager.VoertuigManager)
             {
                 VoertuigKleur = null,
                 AantalDeuren = null
             };
         }
-
-        private void AutoTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+         
+        private void AuthNameSelectie(object sender, SelectionChangedEventArgs e)
         {
-            _manager.VoertuigBouwer.AutoModel = new AutoModel("BWM","5-Reeks", (AutoType)autoTypes.SelectedIndex);
+            Toevoegen.IsEnabled = false;
+            Zoeken.IsEnabled = false;
+
+            string checkAuth = auth.SelectedItem.ToString();
+            if (_manager.Auth.Roles.ContainsKey(checkAuth))
+            {
+                Role loggedIn = _manager.Auth.Roles[checkAuth];
+                if (loggedIn.IsAdmin)
+                {
+                    Toevoegen.IsEnabled = true;
+                    Zoeken.IsEnabled = true; 
+                }
+                else
+                {
+                    Zoeken.IsEnabled = true;
+                    Toevoegen.IsEnabled = false;
+                }
+
+                _manager.LoggedIn = loggedIn;
+            }
+            else
+            {
+                _manager.LoggedIn = null;
+            }
+        }
+
+        private void Zoeken_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new ZoekWindow(_manager)
+            {
+                Owner = this
+            };
+
+            window.Show();
+        }
+
+        private void Toevoegen_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new ToevoegWindow(_manager)
+            {
+                Owner = this
+            };
+
+            window.Show();
+        }
+
+        private void Afsluiten_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

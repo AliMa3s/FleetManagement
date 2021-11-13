@@ -52,14 +52,14 @@ namespace FleetManagement.Manager {
         }
 
         //Versie toegevoegd filip (hetzelfde als hierboven met mijn kijk op de zaak)
-        public bool bestaatChassisNummerOfNummerplaat(string chassisnummer, string nummerplaat)
+        public bool bestaatChassisOfNummerplaat(string chassisnummer, string nummerplaat)
         {
             try
             {
                 if(CheckFormat.IsChassisNummerGeldig(chassisnummer) 
                     && CheckFormat.IsNummerplaatGeldig(nummerplaat))
                 {
-                    if (_repo.bestaatChassisNummerOfNummerplaat(chassisnummer, nummerplaat))
+                    if (_repo.bestaatChassisOfNummerplaat(chassisnummer, nummerplaat))
                     {
                         return true;
                     }

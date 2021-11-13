@@ -20,16 +20,20 @@ namespace FleetManagement.WPF
         public static UnitOfManager Manager { get; set; }
 
         public App()
-        {
+        {  
             //ConnectionString inladen
             IConfiguration config = new ConfigurationBuilder().AddJsonFile("app.json").Build();
             string connectionString = config.GetConnectionString("FleetManagementConnectionString");
 
+            //Autotypes via ConfigFile ophalen (of moet dat in Businesslaag?)
+            IEnumerable<KeyValuePair<string, string>> autotypes = config.GetSection("autotypes").AsEnumerable();
+
             //ADO instantie aanmaken
             Interfaces.IUnitOfRepository repository = new ADO.Repositories.UnitOfRepository(connectionString);
 
-            //Manager instantie aamaken
-            Manager = new UnitOfManager(repository);
+            //Manager instantie aamaken en Autotypes inladen
+            Manager = new UnitOfManager(repository)
+                .VoegAutoTypesToe(autotypes);
         }
 
         protected override void OnStartup(StartupEventArgs e)

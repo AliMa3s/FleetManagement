@@ -1,6 +1,7 @@
 ﻿using FleetManagement.Bouwers;
 using FleetManagement.Interfaces;
 using FleetManagement.Manager.Interfaces;
+using FleetManagement.Manager.Roles;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,12 @@ namespace FleetManagement.Manager
         public BestuurderOpbouw BestuurderOpbouw { get; set; }
         public TankkaartOpbouw TankkaartOpbouw { get; set; }
 
+        //Authenticatie
+        public Authenticatie Auth { get; private set; }
+        public Role LoggedIn { get; set; }
+
+        //Klaarzetten voor Autotype in te laden via configFile
+        public IList<string> AutoTypes { get; set; } = new List<string>();
 
         public UnitOfManager(IUnitOfRepository repos)
         {
@@ -32,6 +39,19 @@ namespace FleetManagement.Manager
             BestuurderManager = new BestuurderManager(repos.BestuurderRepo);
             VoertuigManager = new VoertuigManager(repos.VoertuigRepo);
             TankkaartManager = new TankkaartManager(repos.TankkaartRepo);
+
+            //Roles ophalen
+            Auth = new();
+        }
+
+        public UnitOfManager VoegAutoTypesToe(IEnumerable<KeyValuePair<string, string>> autotypes)
+        {
+            autotypes.ToList().ForEach(item =>
+            {
+                AutoTypes.Add(item.Value);
+            });
+
+            return this;
         }
     }
 }

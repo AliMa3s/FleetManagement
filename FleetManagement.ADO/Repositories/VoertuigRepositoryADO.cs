@@ -196,7 +196,7 @@ namespace FleetManagement.ADO.Repositories {
 
         //Versie toegevoegd filip
         //Vergeet niet: DB => Voertuigen (en niet Voertuig)
-        public bool bestaatChassisNummerOfNummerplaat(string chassisNummer, string nummerPlaat) {
+        public bool bestaatChassisOfNummerplaat(string chassisNummer, string nummerPlaat) {
             string queryVoertuig = "SELECT chassisnummer, nummperplaat FROM voertuigen " +
                 "WHERE chassisnummer = @chassisNummer || nummerplaat = @nummerPlaat";
 

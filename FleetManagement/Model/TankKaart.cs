@@ -17,7 +17,7 @@ namespace FleetManagement.Model {
         public bool Actief { get; private set; } = true;
         public List<BrandstofType> Brandstoffen { get; private set; } = new List<BrandstofType>();
         public Bestuurder Bestuurder { get; private set; } = null;
-        public bool HeeftTankKaartBestuurder => Bestuurder != null;
+        public bool HeeftTankKaartBestuurder => Bestuurder != null; 
         public bool IsGeldigheidsDatumVervallen => GeldigheidsDatum.Date < DateTime.Today;
 
         //Ctor 
