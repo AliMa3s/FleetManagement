@@ -73,9 +73,9 @@ namespace FleetManagement.ADO.Repositories {
         public void UpdateAdres(Adres adres) {
             SqlConnection connection = getConnection();
 
-            string query = "UPDATE Adres" +
-                           "SET straat=@straat, nummer=@nummer, postcode=@postcode, gemeente=@gemeente " +
-                           "WHERE adresId=@adresId";
+            string query = "UPDATE Adres " +
+                           " SET straat=@straat, nummer=@nummer, postcode=@postcode, gemeente=@gemeente " +
+                           " WHERE adresId=@adresId";
 
             using (SqlCommand command = connection.CreateCommand()) {
                 try {
