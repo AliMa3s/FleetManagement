@@ -15,10 +15,11 @@ namespace ConsoleApplicatie
             string connectionstring = @"Data Source=.\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True";
             BestuurderRepositoryADO bsd = new BestuurderRepositoryADO(connectionstring);
             Bestuurder b = new Bestuurder(1, "Filip", "Rigoir", "1976-03-31", "B", "1514081390", "76033101986");
-            bsd.VoegBestuurderToe(b);
+            //bsd.VoegBestuurderToe(b);
             Console.WriteLine("Bestuurder teogevoegd!");//done 
-
-
+            Bestuurder bu = new Bestuurder(3, "Filip", "Updated", "1976-03-31", "B", "1514081390", "76033101986");
+            bsd.UpdateBestuurder(bu);
+            Console.WriteLine("Bestuurder Updated!");//done 
         }
     }
 }

@@ -117,7 +117,7 @@ namespace FleetManagement.ADO.Repositories {
             SqlConnection connection = GetConnection();
 
             string query = "UPDATE Bestuurder" +
-                           "SET voornaam=@voornaam, achternaam=@achternaam, geboortedatum=@geboortedatum, rijksregisternummer=@rijksregisternummer, " +
+                           " SET voornaam=@voornaam, achternaam=@achternaam, geboortedatum=@geboortedatum, rijksregisternummer=@rijksregisternummer, " +
                            " rijbewijstype=@rijbewijstype, rijbewijsnummer=@rijbewijsnummer" +
                            " WHERE bestuurderid=@bestuurderid";
 
