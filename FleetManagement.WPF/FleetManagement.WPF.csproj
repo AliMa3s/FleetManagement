@@ -37,10 +37,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DetailSrceens\" />
-    <Folder Include="UpdateScreens\" />
-    <Folder Include="SelecteerScreens\" />
-    <Folder Include="UserControls\WagenparkBeheer\" />
+    <Folder Include="DetailWindows\" />
+    <Folder Include="UpdateWindows\" />
+    <Folder Include="SelecteerWindows\" />
     <Folder Include="UserControls\Zoeken\" />
   </ItemGroup>
 

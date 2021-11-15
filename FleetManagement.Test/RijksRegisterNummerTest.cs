@@ -22,6 +22,7 @@ namespace FleetManagement.Test
         [InlineData("18120553401", "2018-12-05")]
         [InlineData("18250553492", "2018-25-05")]
         [InlineData("18450553438", "2018-45-05")]
+        [InlineData("00000153447", "00000001")]
         public void RijksRegisterNummerIsGeldig(string rijksRegisterNummer, string geboorteDatum) 
         {
             Assert.True(CheckFormats.CheckFormat.IsRijksRegisterGeldig(rijksRegisterNummer, geboorteDatum));
@@ -37,6 +38,7 @@ namespace FleetManagement.Test
         [InlineData("76033109986", "31/03/1976")]
         [InlineData("76043101986", "31/03/1976")]
         [InlineData("76043101986", "3103-19/76")]
+        [InlineData("00450553419", "0000")]
         public void RijksRegisterNummerOngeldig(string rijksRegisterNummer, string geboorteDatum)
         {
             Assert.Throws<RijksRegisterNummerException>(() => {

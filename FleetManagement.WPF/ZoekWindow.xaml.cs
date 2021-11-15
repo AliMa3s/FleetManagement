@@ -27,7 +27,6 @@ namespace FleetManagement.WPF
             InitializeComponent();
             Title = "FleetManagement Zoekscherm";
             _manager = unitOfManager;
-            authUser.Text = "Welkom " + _manager.LoggedIn.Naam ;
         }
     }
 }

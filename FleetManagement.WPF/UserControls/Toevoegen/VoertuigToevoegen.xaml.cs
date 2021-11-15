@@ -1,4 +1,6 @@
-﻿using FleetManagement.Manager;
+﻿using FleetManagement.Bouwers;
+using FleetManagement.Manager;
+using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,48 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             InitializeComponent();
             _manager = unitOfManager;
+            FormVoertuig.Content = $"Nieuw voertuig aanmaken ( by {_manager.LoggedIn.Naam})";
+
+            _manager.VoertuigBouwer = new VoertuigBouwer(_manager.VoertuigManager)
+            {
+                VoertuigKleur = null,
+                AantalDeuren = null
+            };
+        }
+
+        //Wis het formulier en begin opnieuw
+        private void WisFormulierButton_Click(object sender, RoutedEventArgs e)
+        {
+            RestForm();
+        }
+
+        //Voertuig aanmaken
+        private void VoertuigAanmakenButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Voertuig nieuwVoertuig = _manager.VoertuigBouwer.BouwVoertuig();
+                _manager.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
+            }
+            catch
+            {
+                infoVoertuigMess.Text = _manager.VoertuigBouwer.Status();
+            }
+        }
+
+        //reset Formulier
+        private void RestForm()
+        {
+            infoVoertuigMess.Text = "";
+            _manager.VoertuigBouwer = new VoertuigBouwer(_manager.VoertuigManager);
+
+            //Todo velden
+        }
+
+        //sluit vernster
+        private void SluitVoertuigForm_Click(object sender, RoutedEventArgs e)
+        {
+            Window.GetWindow(this).Close();
         }
     }
 }

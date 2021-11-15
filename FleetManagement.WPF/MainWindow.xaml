@@ -13,7 +13,7 @@
             <ColumnDefinition Width="40*"/>
         </Grid.ColumnDefinitions>
 
-        <Label x:Name="Title_FleetManegent" Content="FleetManagement App" HorizontalAlignment="Center" Margin="20,-325,0,0" VerticalAlignment="Center" Width="233" Height="39" Grid.Column="0" FontSize="20" FontWeight="Bold"/>
+        <Label x:Name="Title_FleetManegent" Content="Fleet Management App" HorizontalAlignment="Center" Margin="20,-325,0,0" VerticalAlignment="Center" Width="233" Height="39" Grid.Column="0" FontSize="20" FontWeight="Bold"/>
         <Image Source="/fleetmanagement_logo.png" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="350" Margin="20,0,0,0" Grid.RowSpan="2" Grid.Row="0" MaxHeight="230" />
         <Label x:Name="Autorisatie" Content="Autorisatie:" HorizontalAlignment="Center" Margin="0,-325,0,0" VerticalAlignment="Center" Width="105" Height="30" Grid.Column="1" FontSize="14" FontWeight="Bold"/>
         

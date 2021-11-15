@@ -3,17 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FleetManagement.WPF"
         mc:Ignorable="d"
-        Title="ToevoegWindow" Height="450" Width="800">
-    <Grid>
-        <TabControl Background="LightBlue">
-            <TabItem x:Name="OverzichtTab" Header="Overzicht" FontSize="14">
-                
-            </TabItem>
-            <TabItem x:Name="VoertuigTab" Header="Nieuw voertuig" FontSize="14"></TabItem>
-            <TabItem Header="Bestuurder aanmaken" FontSize="14"></TabItem>
-            <TabItem Header="Tankkaart ingeven" FontSize="14"></TabItem>
-        </TabControl>
-    </Grid>
+        Title="ToevoegWindow" Height="550" Width="800">
+    <TabControl>
+        <TabItem x:Name="VoertuigToevoegTab" Header="Nieuw voertuig" FontSize="14"/>
+        <TabItem x:Name="BestuurderToevoegTab" Header="Bestuurder aanmaken" FontSize="14"></TabItem>
+        <TabItem x:Name="TankkaartToevoegTab" Header="Tankkaart ingeven" FontSize="14"></TabItem>
+    </TabControl>
 </Window>

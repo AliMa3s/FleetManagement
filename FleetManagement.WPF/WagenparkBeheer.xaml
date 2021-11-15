@@ -7,13 +7,10 @@
         mc:Ignorable="d"
         Title="WagenparkBeheer" Height="450" Width="800">
     <Grid>
-        <TabControl Background="LightBlue">
-            <TabItem x:Name="OverzichtTab" Header="Overzicht" FontSize="14">
-
-            </TabItem>
+        <TabControl>
             <TabItem x:Name="AutoModellenTab" Header="Automodellen" FontSize="14"></TabItem>
-            <TabItem x:Name="BrandstoftypeTab" Header="Brandstoffen" FontSize="14"></TabItem>
-            <TabItem x:Name="KleurenTab" Header="Kleurenlijst" FontSize="14"></TabItem>
+            <TabItem x:Name="BrandstoftypeTab" Header="Brandstoftypes" FontSize="14"></TabItem>
+            <TabItem x:Name="KleurenTab" Header="Kleuren" FontSize="14"></TabItem>
         </TabControl>
     </Grid>
 </Window>

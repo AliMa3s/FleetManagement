@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetManagement.ADO", "Flee
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApplicatie", "ConsoleApplicatie\ConsoleApplicatie.csproj", "{B00EFD82-93A6-4793-998C-935AC0C8EEFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FleetManagement.WPF", "FleetManagement.WPF\FleetManagement.WPF.csproj", "{3CDB5505-FADE-42AC-8772-965D601C7F02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetManagement.WPF", "FleetManagement.WPF\FleetManagement.WPF.csproj", "{3CDB5505-FADE-42AC-8772-965D601C7F02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C9BEED6F-C7A5-4E54-80A4-382790A8C3E2}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

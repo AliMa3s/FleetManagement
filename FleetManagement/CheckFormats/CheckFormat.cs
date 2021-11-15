@@ -39,8 +39,8 @@ namespace FleetManagement.CheckFormats
                 SplitRijksRegister rijksRegister = new(rijksRegisterNummer);
                 SplitGeboorteDatum geboortedatum = new(ingegevenGeboorteDatum);
 
-                //Controleer of Bestuurder is geboren in of na 2000
-                if (geboortedatum.Jaartal >= 2000)
+                //Controleer of Bestuurder is geboren in of na 2000 (+ iendien geboortedatum niet is gekend (0000))
+                if (geboortedatum.Jaartal == 0 || geboortedatum.Jaartal >= 2000)
                 {
                     rijksRegister.CheckGetal += 2000000000;
                 }
@@ -56,7 +56,7 @@ namespace FleetManagement.CheckFormats
                     return true;
                 }
 
-                throw new RijksRegisterNummerException($"De inhoud van {nameof(rijksRegisterNummer)} bevat fouten");
+                throw new RijksRegisterNummerException($"De inhoud van {nameof(rijksRegisterNummer)} is foutief");
             }
             else
             {

@@ -35,39 +35,30 @@ namespace FleetManagement.Bouwers
                 && AutoModel.AutoModelId > 0
                 && !string.IsNullOrWhiteSpace(Chassisnummer)
                 && !string.IsNullOrWhiteSpace(Nummerplaat)
+                && CheckFormat.IsChassisNummerGeldig(Chassisnummer)
+                && CheckFormat.IsNummerplaatGeldig(Nummerplaat)
                 && Bestuurder != null
                 && Bestuurder.BestuurderId > 0
                 && Brandstof != null
-                && bestaatChassisOfNummerplaat();
+                && IsChassisOfNummerplaatGeldig();
         }
 
         private bool IsChassisNummerGeldig()
         {
-            //if(_repo.BestaatChassisNummer(ChassisNummer)) //Nog IRepository implementatie aanmaken om chassis te checken
-            //{
-            //    return true;
-            //}
-
-            return false;
+            //return !_voertuigManager.BestaatChassisNummer(Chassisnummer);
+            throw new NotImplementedException("Interface bestaat niet");
         }
 
         private bool IsNummerplaatGeldig()
         {
-            //if (_repo.BestaatNummerplaat(NummerPlaat))  //Nog IRepository implementatie aanmaken om nummerplaat te checken
-            //{
-            //    return true;
-            //}
+            //return !_voertuigManager.BestaatNummerplaat(Nummerplaat);
+            throw new NotImplementedException("Interface bestaat niet");
 
-            return false;
         }
 
-        private bool bestaatChassisOfNummerplaat()
+        private bool IsChassisOfNummerplaatGeldig()
         {
-            if (!_voertuigManager.bestaatChassisOfNummerplaat(Chassisnummer, Nummerplaat)) {
-                return true;
-            }
- 
-            return false;
+            return !_voertuigManager.bestaatChassisOfNummerplaat(Chassisnummer, Nummerplaat);
         }
 
         public Voertuig BouwVoertuig()
@@ -77,14 +68,14 @@ namespace FleetManagement.Bouwers
                 throw new VoertuigBouwerException("Voertuig kan niet worden gebouwd");
             }
 
-            //check kleur & aantal deuren mss nog indien ingevuld (indien API ipv WPF Parsen van selectors)
+            //Check kleur & aantal deuren mss nog indien ingevuld (indien API ipv WPF Parsen van selectors)
 
             Voertuig voertuig = new(
                 AutoModel,
                 Chassisnummer,
                 Nummerplaat,
                 Brandstof
-            ) { 
+            ) {
                 VoertuigKleur = VoertuigKleur,
                 AantalDeuren = AantalDeuren
             };
@@ -95,18 +86,33 @@ namespace FleetManagement.Bouwers
 
        public string Status()
         {
+            //Controleer verplichte velden
             StringBuilder message = new();
-            if (AutoModel == null) { message.AppendLine("AutoModel mag niet leeg zijn"); }
-            if (AutoModel.AutoModelId < 1) { message.AppendLine("AutoModel is niet gelecteerd uit de lijst"); }
-            if (string.IsNullOrWhiteSpace(Chassisnummer)) { message.AppendLine("ChassisNummer moet ingevuld zijn"); }
-            if (string.IsNullOrWhiteSpace(Nummerplaat)) { message.AppendLine("Nummerplaat moet ingevuld zijn"); }
-            if (!CheckFormat.IsChassisNummerGeldig(Chassisnummer)) { message.AppendLine("Chassisnummer is niet het correcte formaat"); }
-            if (!CheckFormat.IsNummerplaatGeldig(Nummerplaat)) { message.AppendLine("Nummerplaat is niet het correcte formaat"); }
-            if (Bestuurder == null) { message.AppendLine("Bestuurder moet ingevuld zijn"); }
-            if (Bestuurder.BestuurderId < 1) { message.AppendLine("Bestuurder moet geslecteerd zijn uit de lijst"); }
-            if (Brandstof == null) { message.AppendLine("Brandstof mag niet leeg zijn"); }
-            if (!IsChassisNummerGeldig()) { message.AppendLine("Chassisnummer bestaat al"); }
-            if (!IsNummerplaatGeldig()) { message.AppendLine("Nummerplaat bestaat al"); }
+            if (AutoModel == null) { message.AppendLine($"{nameof(AutoModel)} mag niet leeg zijn"); }
+            if (string.IsNullOrWhiteSpace(Chassisnummer)) { message.AppendLine($"{nameof(Chassisnummer)} mag niet leeg zijn"); }
+            if (string.IsNullOrWhiteSpace(Nummerplaat)) { message.AppendLine($"{nameof(Nummerplaat)} mag niet leeg zijn"); }
+            if (Bestuurder == null) { message.AppendLine($"{nameof(Bestuurder)} mag niet leeg zijn"); }
+            if (Brandstof == null) { message.AppendLine($"{nameof(Brandstof)} mag niet leeg zijn"); }
+
+            if(!string.IsNullOrEmpty(message.ToString()))
+            {
+                return message.ToString();
+            }
+
+            //Controleer geldiheid van de velden
+            if (AutoModel.AutoModelId < 1) { message.AppendLine($"{nameof(AutoModel)} is niet gelecteerd uit de lijst"); }
+            if (Bestuurder.BestuurderId < 1) { message.AppendLine($"{nameof(Bestuurder)} is niet geslecteerd uit de lijst"); }
+            if (!CheckFormat.IsChassisNummerGeldig(Chassisnummer)) { message.AppendLine($"{nameof(Chassisnummer)} is niet het correcte formaat"); }
+            if (!CheckFormat.IsNummerplaatGeldig(Nummerplaat)) { message.AppendLine($"{nameof(Nummerplaat)} is niet het correcte formaat"); }
+
+            if (!string.IsNullOrEmpty(message.ToString()))
+            {
+                return message.ToString();
+            }
+
+            //Check bij manager of deze geldig om toe te voegen
+            if (!IsChassisNummerGeldig()) { message.AppendLine($"{nameof(Chassisnummer)} bestaat reeds"); }
+            if (!IsNummerplaatGeldig()) { message.AppendLine($"{nameof(Nummerplaat)} bestaat reeds"); }
 
             return message.ToString();
         }

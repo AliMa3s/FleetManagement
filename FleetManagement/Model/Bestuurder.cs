@@ -17,12 +17,12 @@ namespace FleetManagement.Model
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
         public string GeboorteDatum { get; }
-        public Adres Adres { get; set; } = null;
+        public Adres Adres { get; set; }
         public string TypeRijbewijs { get; set; }
         public string RijBewijsNummer { get; }
         public string RijksRegisterNummer { get; }
-        public Voertuig Voertuig { get; private set; } = null;
-        public TankKaart TankKaart { get; private set; } = null;
+        public Voertuig Voertuig { get; private set; }
+        public TankKaart TankKaart { get; private set; }
         public DateTime AanMaakDatum { get; set; }
         public bool HeeftBestuurderVoertuig => Voertuig != null;
         public bool HeeftBestuurderTankKaart => TankKaart != null;

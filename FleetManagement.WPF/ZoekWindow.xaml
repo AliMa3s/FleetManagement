@@ -7,10 +7,7 @@
         mc:Ignorable="d"
         Title="ZoekWindow" Height="450" Width="800">
     <Grid>
-        <TabControl Background="LightBlue">
-            <TabItem Header="Overzicht" FontSize="14">
-                <TextBlock x:Name="authUser"></TextBlock>
-            </TabItem>
+        <TabControl>
             <TabItem x:Name="VouertuigTab" Header="Voertuigen" FontSize="14"></TabItem>
             <TabItem Header="Bestuurders" FontSize="14"></TabItem>
             <TabItem Header="Tankkaarten" FontSize="14"></TabItem>
