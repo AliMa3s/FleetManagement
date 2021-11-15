@@ -18,11 +18,6 @@ namespace FleetManagement.Manager
         public IBestuurderManager BestuurderManager { get; private set; }
         public IVoertuigManager VoertuigManager { get; private set; }
         public ITankkaartManager TankkaartManager { get; private set; }
-        
-        //Logica om een geldige instanties op te leveren
-        public VoertuigBouwer VoertuigBouwer { get; set; }
-        public BestuurderOpbouw BestuurderOpbouw { get; set; }
-        public TankkaartOpbouw TankkaartOpbouw { get; set; }
 
         //Authenticatie
         public Authenticatie Auth { get; private set; }
