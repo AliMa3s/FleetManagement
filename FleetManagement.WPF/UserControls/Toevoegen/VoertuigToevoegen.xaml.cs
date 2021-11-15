@@ -24,18 +24,39 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     public partial class VoertuigToevoegen : UserControl
     {
         private readonly UnitOfManager _manager;
-        private VoertuigBouwer _voertuig;
+        private VoertuigBouwer _bouwer;
+
+        public string DisplayFirst { get; set; } = "Selecteer";
+        private VoertuigBouwer VoertuigBouwerInstance => new(_manager.VoertuigManager) { Bestuurder = null };
 
         public VoertuigToevoegen(UnitOfManager unitOfManager)
         {
             InitializeComponent();
+
             _manager = unitOfManager;
             FormVoertuig.Content = $"Nieuw voertuig aanmaken (by {_manager.LoggedIn.Naam})";
 
-            _voertuig = new VoertuigBouwer(_manager.VoertuigManager)
+            _bouwer = VoertuigBouwerInstance;
+            SetDefault();
+        }
+
+        //Set Default waarde van het formulier
+        private void SetDefault()
+        {
+            HybrideNeen.IsChecked = true;
+
+            //set dropdown Aantal Deuren
+            Deuren.Items.Add(DisplayFirst);
+            _manager.VoertuigManager.AantalDeuren.ToList().ForEach(aantal =>
             {
-                Bestuurder = null
-            };
+                Deuren.Items.Add(aantal);
+            });
+
+            //set dropdown Aantal Deuren
+            //ToDo
+
+            //set dropdown Aantal Deuren
+            //ToDo
         }
 
         //Wis het formulier en begin opnieuw
@@ -47,28 +68,98 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         //Voertuig aanmaken
         private void VoertuigAanmakenButton_Click(object sender, RoutedEventArgs e)
         {
+            //Wis bij elke nieuw poging de message info
+            InfoVoertuigMess.Text = string.Empty;
+
             try
             {
-                Voertuig nieuwVoertuig = _voertuig.BouwVoertuig();
+                Voertuig nieuwVoertuig = _bouwer.BouwVoertuig();
                 int voertuigId = _manager.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
-                //nieuwVoertuig.VoegIdToe(); nog aanmaken
+
+                ResetForm();
+
+                InfoVoertuigMess.Foreground = Brushes.Green;
+                InfoVoertuigMess.Text = $"Voertuig met ID: {voertuigId} succesvol aangemaakt";
             }
             catch
             {
-                infoVoertuigMess.Text = _voertuig.Status();
+                InfoVoertuigMess.Foreground = Brushes.Red;
+                InfoVoertuigMess.Text = _bouwer.Status();
             }
+        }
+
+        //events
+        private void KiesBestuurder_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ChassisNummer_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _bouwer.Chassisnummer = ChassisNummer.Text;
+        }
+
+        private void Nummerplaat_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _bouwer.Nummerplaat = Nummerplaat.Text;
+        }
+
+        private void HybrideNeen_Checked(object sender, RoutedEventArgs e)
+        {
+            if(HybrideNeen.IsChecked.HasValue)
+            {
+                _bouwer.Hybride = false;
+            }
+        }
+
+        private void HybrideJa_Checked(object sender, RoutedEventArgs e)
+        {
+            if (HybrideJa.IsChecked.HasValue)
+            {
+                _bouwer.Hybride = true;
+            }
+        }
+
+        private void Brandstof_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void VoertuigKleur_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Deuren_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(Deuren.SelectedItem != null)
+            {
+                string selected = Deuren.SelectedItem.ToString();
+                _bouwer.AantalDeuren = selected != DisplayFirst ? selected : null;
+            }
+        }
+
+        private void KiesAutoModel_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         //reset Formulier
         private void ResetForm()
         {
-            infoVoertuigMess.Text = string.Empty;
-            _voertuig = new VoertuigBouwer(_manager.VoertuigManager)
-            {
-                Bestuurder = null
-            };
+            InfoVoertuigMess.Text = string.Empty;
+            GekozenAutoModel.Text = string.Empty;
+            ChassisNummer.Text = string.Empty;
+            Nummerplaat.Text = string.Empty;
+            HybrideJa.IsChecked = false;
+            HybrideNeen.IsChecked = true;
+            Brandstof.SelectedIndex = 0;
+            VoertuigKleur.SelectedIndex = 0;
+            Deuren.SelectedIndex = 0;
+            GekozenBestuurder.Text = string.Empty;
 
-            //Todo velden  
+            _bouwer = null;
+            _bouwer = VoertuigBouwerInstance;
         }
 
         //sluit vernster
@@ -76,7 +167,5 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             Window.GetWindow(this).Close();
         }
-
-        
     }
 }

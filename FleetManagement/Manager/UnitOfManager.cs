@@ -26,6 +26,8 @@ namespace FleetManagement.Manager
         //Klaarzetten voor Autotype in te laden via configFile
         public IEnumerable<KeyValuePair<string, string>> AutoTypes { get; set; }
 
+        //Klaarzetten voor Kleur
+
         public UnitOfManager(IUnitOfRepository repos)
         {
             //ADO

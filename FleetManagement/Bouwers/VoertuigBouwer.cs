@@ -16,7 +16,7 @@ namespace FleetManagement.Bouwers
     {
         private readonly IVoertuigManager _voertuigManager;
 
-        #region alle velden vrij in te vullen (via event)
+        #region alle velden vrij in te vullen (via WPF-event of input API)
         public AutoModel AutoModel { get; set; }
         public string Chassisnummer { get; set;  }
         public string Nummerplaat { get; set; }
@@ -30,6 +30,7 @@ namespace FleetManagement.Bouwers
         public VoertuigBouwer(IVoertuigManager voertuigManager)
         {
             _voertuigManager = voertuigManager;
+            Hybride = false;
         }
 
         #region controleer alle verplichte velden op alle geldigheden
@@ -83,24 +84,19 @@ namespace FleetManagement.Bouwers
                 new(Brandstof, (bool)Hybride)
             );
 
-            
-            //Niet verplichte velden al dan niet toevoegen
-            if (Enum.IsDefined(typeof(Kleur), Kleur))
+            //Niet-verplichte-velden toevoegen of niet
+            if(!string.IsNullOrEmpty(Kleur))
             {
-                voertuig.VoertuigKleur = (Kleur)Enum.Parse(typeof(Kleur), Kleur);
-            }
-            else
-            {
-                throw new VoertuigBouwerException("Kleur van Voertuig bestaat niet");
+                voertuig.VoertuigKleur = Enum.IsDefined(typeof(Kleur), Kleur)
+                    ? (Kleur)Enum.Parse(typeof(Kleur), Kleur)
+                    : throw new VoertuigBouwerException("Kleur van Voertuig bestaat niet");
             }
 
-            if (Enum.IsDefined(typeof(AantalDeuren), AantalDeuren))
+            if(!string.IsNullOrEmpty(AantalDeuren))
             {
-                voertuig.AantalDeuren = (AantalDeuren)Enum.Parse(typeof(AantalDeuren), AantalDeuren);
-            } 
-            else
-            {
-                throw new VoertuigBouwerException("Aantal deuren bestaat niet");
+                voertuig.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), AantalDeuren)
+                    ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), AantalDeuren)
+                    : throw new VoertuigBouwerException("Aantal deuren bestaat niet");
             }
 
             voertuig.VoegBestuurderToe(Bestuurder);
@@ -108,7 +104,7 @@ namespace FleetManagement.Bouwers
         }
         #endregion
 
-        #region vraag op wat allemmal onjuist is 
+        #region vraag op wat allemaal onjuist is 
         public string Status()
         {
             StringBuilder message = new();
@@ -138,15 +134,18 @@ namespace FleetManagement.Bouwers
             }
             #endregion
 
-            #region zend foutbericht indien niet kan geparst worden naar enumlijst
-            if (!Enum.IsDefined(typeof(Kleur), Kleur))
+            #region zend foutbericht indien ingevuld maar niet kan parsen naar enumlijst
+            if (!string.IsNullOrEmpty(Kleur))
             {
-                message.AppendLine($"{nameof(Kleur)} is niet geslecteerd uit de lijst");
+                if (!Enum.IsDefined(typeof(Kleur), Kleur)) { message.AppendLine($"{nameof(Kleur)} is niet geslecteerd uit de lijst"); }
             }
 
-            if (!Enum.IsDefined(typeof(AantalDeuren), AantalDeuren))
+            if (!string.IsNullOrEmpty(AantalDeuren))
             {
-                message.AppendLine($"{nameof(AantalDeuren)} is niet geslecteerd uit de lijst");
+                if (!Enum.IsDefined(typeof(AantalDeuren), AantalDeuren))
+                {
+                    message.AppendLine($"{nameof(AantalDeuren)} is niet geslecteerd uit de lijst");
+                }
             }
 
             if (!string.IsNullOrEmpty(message.ToString()))
