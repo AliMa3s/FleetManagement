@@ -16,19 +16,23 @@ namespace FleetManagement.Bouwers
     {
         private readonly IVoertuigManager _voertuigManager;
 
+        #region alle velden vrij in te vullen (via event)
         public AutoModel AutoModel { get; set; }
         public string Chassisnummer { get; set;  }
         public string Nummerplaat { get; set; }
-        public BrandstofVoertuig Brandstof { get; set; }
-        public Kleur? VoertuigKleur { get; set; }
-        public AantalDeuren? AantalDeuren { get; set; }
+        public bool? Hybride { get; set; } = null;
+        public string Brandstof { get; set; }
+        public string Kleur { get; set; }
+        public string AantalDeuren { get; set; }
         public Bestuurder Bestuurder { get; set; }
+        #endregion
 
         public VoertuigBouwer(IVoertuigManager voertuigManager)
         {
             _voertuigManager = voertuigManager;
         }
 
+        #region controleer alle verplichte velden op alle geldigheden
         public bool IsGeldig() 
         {
             return AutoModel != null
@@ -37,12 +41,15 @@ namespace FleetManagement.Bouwers
                 && !string.IsNullOrWhiteSpace(Nummerplaat)
                 && CheckFormat.IsChassisNummerGeldig(Chassisnummer)
                 && CheckFormat.IsNummerplaatGeldig(Nummerplaat)
+                && Hybride != null
+                && !string.IsNullOrWhiteSpace(Brandstof)
                 && Bestuurder != null
                 && Bestuurder.BestuurderId > 0
-                && Brandstof != null
                 && IsChassisOfNummerplaatGeldig();
         }
+        #endregion
 
+        #region checkers
         private bool IsChassisNummerGeldig()
         {
             //return !_voertuigManager.BestaatChassisNummer(Chassisnummer);
@@ -60,46 +67,68 @@ namespace FleetManagement.Bouwers
         {
             return !_voertuigManager.bestaatChassisOfNummerplaat(Chassisnummer, Nummerplaat);
         }
+        #endregion
 
+        #region levert correcte & complete instantie van Voertuig indien alles juist is
         public Voertuig BouwVoertuig()
         {
-            if(!IsGeldig())
+            if (!IsGeldig())
             {
                 throw new VoertuigBouwerException("Voertuig kan niet worden gebouwd");
             }
-
-            //Check kleur & aantal deuren mss nog indien ingevuld (indien API ipv WPF Parsen van selectors)
 
             Voertuig voertuig = new(
                 AutoModel,
                 Chassisnummer,
                 Nummerplaat,
-                Brandstof
-            ) {
-                VoertuigKleur = VoertuigKleur,
-                AantalDeuren = AantalDeuren
-            };
+                new(Brandstof, (bool)Hybride)
+            );
+
+            
+            //Niet verplichte velden al dan niet toevoegen
+            if (Enum.IsDefined(typeof(Kleur), Kleur))
+            {
+                voertuig.VoertuigKleur = (Kleur)Enum.Parse(typeof(Kleur), Kleur);
+            }
+            else
+            {
+                throw new VoertuigBouwerException("Kleur van Voertuig bestaat niet");
+            }
+
+            if (Enum.IsDefined(typeof(AantalDeuren), AantalDeuren))
+            {
+                voertuig.AantalDeuren = (AantalDeuren)Enum.Parse(typeof(AantalDeuren), AantalDeuren);
+            } 
+            else
+            {
+                throw new VoertuigBouwerException("Aantal deuren bestaat niet");
+            }
 
             voertuig.VoegBestuurderToe(Bestuurder);
             return voertuig;
         }
+        #endregion
 
-       public string Status()
+        #region vraag op wat allemmal onjuist is 
+        public string Status()
         {
-            //Controleer verplichte velden
             StringBuilder message = new();
+
+            #region zend foutbericht van verplichte velden
             if (AutoModel == null) { message.AppendLine($"{nameof(AutoModel)} mag niet leeg zijn"); }
             if (string.IsNullOrWhiteSpace(Chassisnummer)) { message.AppendLine($"{nameof(Chassisnummer)} mag niet leeg zijn"); }
             if (string.IsNullOrWhiteSpace(Nummerplaat)) { message.AppendLine($"{nameof(Nummerplaat)} mag niet leeg zijn"); }
             if (Bestuurder == null) { message.AppendLine($"{nameof(Bestuurder)} mag niet leeg zijn"); }
-            if (Brandstof == null) { message.AppendLine($"{nameof(Brandstof)} mag niet leeg zijn"); }
+            if (Hybride == null) { message.AppendLine($"{nameof(Hybride)} moet ja of neen zijn"); }
+            if (string.IsNullOrWhiteSpace(Brandstof)) { message.AppendLine($"{nameof(Brandstof)} mag niet leeg zijn"); }
 
-            if(!string.IsNullOrEmpty(message.ToString()))
+            if (!string.IsNullOrEmpty(message.ToString()))
             {
                 return message.ToString();
             }
+            #endregion
 
-            //Controleer geldiheid van de velden
+            #region zend foutbericht van ongeldige velden
             if (AutoModel.AutoModelId < 1) { message.AppendLine($"{nameof(AutoModel)} is niet gelecteerd uit de lijst"); }
             if (Bestuurder.BestuurderId < 1) { message.AppendLine($"{nameof(Bestuurder)} is niet geslecteerd uit de lijst"); }
             if (!CheckFormat.IsChassisNummerGeldig(Chassisnummer)) { message.AppendLine($"{nameof(Chassisnummer)} is niet het correcte formaat"); }
@@ -109,12 +138,32 @@ namespace FleetManagement.Bouwers
             {
                 return message.ToString();
             }
+            #endregion
 
-            //Check bij manager of deze geldig om toe te voegen
+            #region zend foutbericht indien niet kan geparst worden naar enumlijst
+            if (!Enum.IsDefined(typeof(Kleur), Kleur))
+            {
+                message.AppendLine($"{nameof(Kleur)} is niet geslecteerd uit de lijst");
+            }
+
+            if (!Enum.IsDefined(typeof(AantalDeuren), AantalDeuren))
+            {
+                message.AppendLine($"{nameof(AantalDeuren)} is niet geslecteerd uit de lijst");
+            }
+
+            if (!string.IsNullOrEmpty(message.ToString()))
+            {
+                return message.ToString();
+            }
+            #endregion
+
+            #region zend foutbericht indien dubbel is aangtroffen
             if (!IsChassisNummerGeldig()) { message.AppendLine($"{nameof(Chassisnummer)} bestaat reeds"); }
             if (!IsNummerplaatGeldig()) { message.AppendLine($"{nameof(Nummerplaat)} bestaat reeds"); }
+            #endregion
 
             return message.ToString();
         }
+        #endregion
     }
 }
