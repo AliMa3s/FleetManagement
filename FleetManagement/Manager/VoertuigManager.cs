@@ -109,15 +109,17 @@ namespace FleetManagement.Manager {
                 throw new VoertuigManagerException(ex.Message);
             }
         }
-
-        public void VoegVoertuigToe(Voertuig voertuig) {
+        //check voor zekerheid 'return voertuig.VoertuigId;'
+        public int VoegVoertuigToe(Voertuig voertuig) {
             try {
                 if (voertuig == null) throw new VoertuigManagerException("Voertuig - Voertuig mag niet null zijn");
                 if (!_repo.BestaatVoertuig(voertuig)) {
                     _repo.VoegVoertuigToe(voertuig);
+
                 } else {
                     throw new VoertuigManagerException("Voertuig Bestaat al");
                 }
+                return voertuig.VoertuigId;
             } catch (Exception ex) {
 
                 throw new VoertuigManagerException(ex.Message);

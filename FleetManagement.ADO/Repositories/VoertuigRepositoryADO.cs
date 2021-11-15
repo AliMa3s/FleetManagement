@@ -84,7 +84,7 @@ namespace FleetManagement.ADO.Repositories {
             using (SqlCommand command = connection.CreateCommand()) {
                 try {
                     connection.Open();
-                    connection.Open();
+                    //connection.Open();
                     command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
@@ -111,12 +111,12 @@ namespace FleetManagement.ADO.Repositories {
             SqlConnection connection = getConnection();
             string query = "DELETE FROM Voertuig WHERE voertuigid=@voertuigid";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = new SqlCommand(query,connection)) {
                 try {
                     connection.Open();
                     command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
                     command.Parameters["@voertuigid"].Value = voertuig.VoertuigId;
-                    command.CommandText = query;
+                    //command.CommandText = query;
                     command.ExecuteNonQuery();
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("VerwijderVoertuig - gefaald", ex);
@@ -130,11 +130,11 @@ namespace FleetManagement.ADO.Repositories {
          * Idee: We zouden OUTPUT INSERTED.voertuigId kunnen toevoegen 
          * We krijgen dan de nieuwe VoertuigId terug
         */
-        public void VoegVoertuigToe(Voertuig voertuig) {
+        public int VoegVoertuigToe(Voertuig voertuig) {
             SqlConnection connection = getConnection();
 
             string query = "INSERT INTO Voertuig (aantal_deuren,chassisnummer,nummerplaat)" +
-                           "VALUES (@aantal_deuren,@chassisnummer,@nummerplaat)";
+                           "OUTPUT INSERTED.ID VALUES (@aantal_deuren,@chassisnummer,@nummerplaat)";
 
             using (SqlCommand command = connection.CreateCommand()) {
                 try {
@@ -150,7 +150,9 @@ namespace FleetManagement.ADO.Repositories {
                     //command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
 
                     command.CommandText = query;
-                    command.ExecuteNonQuery();
+
+                    return (int)command.ExecuteScalar();
+                    
 
                 } catch (Exception ex) {
                     throw new VoertuigRepositoryADOException("VoegVoertuig - gefaald", ex);
@@ -206,16 +208,17 @@ namespace FleetManagement.ADO.Repositories {
                 try {
                     command.Parameters.AddWithValue("@chassisNummer", chassisNummer);
                     command.Parameters.AddWithValue("@nummerPlaat", nummerPlaat);
+
                     connection.Open();
 
                     using (SqlDataReader dataReader = command.ExecuteReader()) {
                         if (dataReader.HasRows) {
                             connection.Close();
-                            return false;
+                            return true;
                         }
 
                         connection.Close();
-                        return true;
+                        return false;
                     }
                 } catch (Exception ex) {
                     throw new VoertuigRepositoryADOException("Bestaat Voertruig op chassisnummer & plaatnummer - gefaald", ex);

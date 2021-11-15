@@ -39,7 +39,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         }
 
         //Wis het formulier en begin opnieuw
-        private void WisFormulierButton_Click(object sender, RoutedEventArgs e)
+        private void ResetFormulierButton_Click(object sender, RoutedEventArgs e)
         {
             RestForm();
         }
@@ -61,10 +61,11 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         //reset Formulier
         private void RestForm()
         {
-            infoVoertuigMess.Text = "";
+            infoVoertuigMess.Text = string.Empty;
             _manager.VoertuigBouwer = new VoertuigBouwer(_manager.VoertuigManager);
 
             //Todo velden
+            
         }
 
         //sluit vernster
@@ -72,5 +73,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             Window.GetWindow(this).Close();
         }
+
+        
     }
 }

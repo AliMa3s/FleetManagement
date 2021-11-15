@@ -3,7 +3,7 @@
     [adresid]             INT            NULL,
     [voornaam]            NVARCHAR (50)  NOT NULL,
     [achternaam]          NVARCHAR (50)  NOT NULL,
-    [geboortedatum]       DATE           NOT NULL,
+    [geboortedatum]       NVARCHAR (50)  NOT NULL,
     [rijksregisternummer] NVARCHAR (11)  NOT NULL,
     [rijbewijstype]       NVARCHAR (100) NOT NULL,
     [rijbewijsnummer]     NVARCHAR (10)  NOT NULL,
