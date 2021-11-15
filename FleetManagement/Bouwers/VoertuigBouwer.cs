@@ -20,7 +20,7 @@ namespace FleetManagement.Bouwers
         public AutoModel AutoModel { get; set; }
         public string Chassisnummer { get; set;  }
         public string Nummerplaat { get; set; }
-        public bool? Hybride { get; set; } = null;
+        public bool Hybride { get; set; }
         public string Brandstof { get; set; }
         public string Kleur { get; set; }
         public string AantalDeuren { get; set; }
@@ -41,7 +41,6 @@ namespace FleetManagement.Bouwers
                 && !string.IsNullOrWhiteSpace(Nummerplaat)
                 && CheckFormat.IsChassisNummerGeldig(Chassisnummer)
                 && CheckFormat.IsNummerplaatGeldig(Nummerplaat)
-                && Hybride != null
                 && !string.IsNullOrWhiteSpace(Brandstof)
                 && Bestuurder != null
                 && Bestuurder.BestuurderId > 0
@@ -119,7 +118,6 @@ namespace FleetManagement.Bouwers
             if (string.IsNullOrWhiteSpace(Chassisnummer)) { message.AppendLine($"{nameof(Chassisnummer)} mag niet leeg zijn"); }
             if (string.IsNullOrWhiteSpace(Nummerplaat)) { message.AppendLine($"{nameof(Nummerplaat)} mag niet leeg zijn"); }
             if (Bestuurder == null) { message.AppendLine($"{nameof(Bestuurder)} mag niet leeg zijn"); }
-            if (Hybride == null) { message.AppendLine($"{nameof(Hybride)} moet ja of neen zijn"); }
             if (string.IsNullOrWhiteSpace(Brandstof)) { message.AppendLine($"{nameof(Brandstof)} mag niet leeg zijn"); }
 
             if (!string.IsNullOrEmpty(message.ToString()))

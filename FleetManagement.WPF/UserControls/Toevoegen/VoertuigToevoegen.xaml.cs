@@ -33,15 +33,14 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
             _manager.VoertuigBouwer = new VoertuigBouwer(_manager.VoertuigManager)
             {
-                VoertuigKleur = null,
-                AantalDeuren = null
+                Bestuurder = null
             };
         }
 
         //Wis het formulier en begin opnieuw
         private void ResetFormulierButton_Click(object sender, RoutedEventArgs e)
         {
-            RestForm();
+            ResetForm();
         }
 
         //Voertuig aanmaken
@@ -50,7 +49,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             try
             {
                 Voertuig nieuwVoertuig = _manager.VoertuigBouwer.BouwVoertuig();
-                _manager.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
+                int voertuigId = _manager.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
+                //nieuwVoertuig.VoegIdToe(); nog aanmaken
             }
             catch
             {
@@ -59,13 +59,15 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         }
 
         //reset Formulier
-        private void RestForm()
+        private void ResetForm()
         {
             infoVoertuigMess.Text = string.Empty;
-            _manager.VoertuigBouwer = new VoertuigBouwer(_manager.VoertuigManager);
+            _manager.VoertuigBouwer = new VoertuigBouwer(_manager.VoertuigManager)
+            {
+                Bestuurder = null
+            };
 
-            //Todo velden
-            
+            //Todo velden  
         }
 
         //sluit vernster
