@@ -23,7 +23,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     public partial class TankkaartToevoegen : UserControl
     {
         private readonly UnitOfManager _manager;
-        private readonly TankkaartOpbouw _nieuwTankkaart;
+        private readonly TankkaartOpbouw _tankkaart;
 
         public TankkaartToevoegen(UnitOfManager unitOfManager)
         {
@@ -31,7 +31,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             _manager = unitOfManager;
             FormTankkaart.Content = $"Nieuw tankkaart toevoegen (by {_manager.LoggedIn.Naam})";
 
-            _nieuwTankkaart = new TankkaartOpbouw(_manager.TankkaartManager)
+            _tankkaart = new TankkaartOpbouw(_manager.TankkaartManager)
             {
                 Bestuurder = null
             };

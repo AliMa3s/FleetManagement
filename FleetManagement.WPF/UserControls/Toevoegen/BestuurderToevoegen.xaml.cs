@@ -23,7 +23,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     public partial class BestuurderToevoegen : UserControl
     {
         private readonly UnitOfManager _manager;
-        private readonly BestuurderOpbouw _nieuwBestuurder; 
+        private readonly BestuurderOpbouw _bestuurder; 
 
         public BestuurderToevoegen(UnitOfManager unitOfManager)
         {
@@ -32,7 +32,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
             FormBestuurder.Content = $"Bestuurder aanmaken (by {_manager.LoggedIn.Naam})";
 
-            _nieuwBestuurder = new BestuurderOpbouw(_manager.BestuurderManager)
+            _bestuurder = new BestuurderOpbouw(_manager.BestuurderManager)
             {
                Adres = null,
                Voertuig = null,

@@ -24,15 +24,15 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     public partial class VoertuigToevoegen : UserControl
     {
         private readonly UnitOfManager _manager;
-        private VoertuigBouwer _nieuwVoertuig;
+        private VoertuigBouwer _voertuig;
 
         public VoertuigToevoegen(UnitOfManager unitOfManager)
         {
             InitializeComponent();
             _manager = unitOfManager;
-            FormVoertuig.Content = $"Nieuw voertuig aanmaken ( by {_manager.LoggedIn.Naam})";
+            FormVoertuig.Content = $"Nieuw voertuig aanmaken (by {_manager.LoggedIn.Naam})";
 
-            _nieuwVoertuig = new VoertuigBouwer(_manager.VoertuigManager)
+            _voertuig = new VoertuigBouwer(_manager.VoertuigManager)
             {
                 Bestuurder = null
             };
@@ -49,13 +49,13 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             try
             {
-                Voertuig nieuwVoertuig = _nieuwVoertuig.BouwVoertuig();
+                Voertuig nieuwVoertuig = _voertuig.BouwVoertuig();
                 int voertuigId = _manager.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
                 //nieuwVoertuig.VoegIdToe(); nog aanmaken
             }
             catch
             {
-                infoVoertuigMess.Text = _nieuwVoertuig.Status();
+                infoVoertuigMess.Text = _voertuig.Status();
             }
         }
 
@@ -63,7 +63,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         private void ResetForm()
         {
             infoVoertuigMess.Text = string.Empty;
-            _nieuwVoertuig = new VoertuigBouwer(_manager.VoertuigManager)
+            _voertuig = new VoertuigBouwer(_manager.VoertuigManager)
             {
                 Bestuurder = null
             };
