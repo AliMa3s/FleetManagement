@@ -4,5 +4,6 @@
     [nummer]   NVARCHAR(50)   NULL,
     [gemeente] NVARCHAR(200)   NULL,
     [postcode] NVARCHAR(15)    NULL,
-    PRIMARY KEY CLUSTERED ([adresid] ASC)
+    PRIMARY KEY CLUSTERED ([adresid] ASC),
+    
 );

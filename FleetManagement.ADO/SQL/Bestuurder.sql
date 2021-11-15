@@ -7,10 +7,11 @@
     [rijksregisternummer] NVARCHAR (11)  NOT NULL,
     [rijbewijstype]       NVARCHAR (100) NOT NULL,
     [rijbewijsnummer]     NVARCHAR (10)  NOT NULL,
-    [aanmaakDatum]        ROWVERSION     NOT NULL,
+    [aanmaakDatum]        TIMESTAMP      NOT NULL,
     [voertuigid]          INT            NULL,
     PRIMARY KEY CLUSTERED ([bestuurderid] ASC),
     UNIQUE NONCLUSTERED ([rijksregisternummer] ASC),
-    CONSTRAINT [FK_Table_Adres] FOREIGN KEY ([adresid]) REFERENCES [dbo].[Adres] ([adresid]),
-    CONSTRAINT [FK_Bestuurder_Voertuig] FOREIGN KEY ([voertuigid]) REFERENCES [dbo].[Voertuig] ([voertuigid])
+    CONSTRAINT [FK_Table_Adres] FOREIGN KEY ([adresid]) REFERENCES [dbo].[Adres] ([adresid]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Bestuurder_Voertuig] FOREIGN KEY ([voertuigid]) REFERENCES [dbo].[Voertuig] ([voertuigid]),
+    
 );

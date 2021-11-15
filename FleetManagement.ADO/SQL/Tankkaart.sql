@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Tankkaart] (
-    [tankkaartnummer]      NVARCHAR (25) NOT NULL,
+    [tankkaartnummer]  NVARCHAR (25) NOT NULL,
     [bestuurderid]     INT           NULL,
     [geldigheidsdatum] DATE          NOT NULL,
     [pincode]          NVARCHAR (10)  NULL,
