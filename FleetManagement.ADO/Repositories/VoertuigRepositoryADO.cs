@@ -102,7 +102,7 @@ namespace FleetManagement.ADO.Repositories {
 
             string query = "DELETE FROM Voertuig WHERE voertuigid=@voertuigid";
 
-            using (SqlCommand command = new SqlCommand(query, conConnectionnection)) {
+            using (SqlCommand command = new SqlCommand(query, Connection)) {
                 try {
                     Connection.Open();
                     command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
