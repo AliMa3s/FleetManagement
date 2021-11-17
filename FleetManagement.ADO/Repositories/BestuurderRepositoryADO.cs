@@ -11,25 +11,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories {
-    public class BestuurderRepositoryADO : IBestuurderRepository {
-
-
-        private readonly string _connectionString = @"YourConnectionStringhere";
-        public BestuurderRepositoryADO(string connectionstring) {
-            this._connectionString = connectionstring;
-        }
-
-        private SqlConnection GetConnection() {
-            SqlConnection connection = new SqlConnection(_connectionString);
-            return connection;
-        }
+    public class BestuurderRepositoryADO : RepositoryBase, IBestuurderRepository
+    {
+        public BestuurderRepositoryADO(string connectionstring) : base(connectionstring) { }
 
         public bool BestaatBestuurder(int id) {
-            SqlConnection connection = GetConnection();
+
             string query = "SELECT count(*) FROM Bestuurder WHERE bestuurderid=@bestuurderid";
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
 
                     command.Parameters["@bestuurderid"].Value = id;
@@ -40,17 +31,18 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new AdresRepositoryADOException("BestaatBestuurder(int-id)- gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public bool BestaatRijksRegisterNummer(string rijksRegisterNr) {
+
             string query = $"SELECT * FROM Bestuurder WHERE rijksregisternummer=@rijksregisternummer;";
-            SqlConnection connection = GetConnection();
-            using (SqlCommand command = connection.CreateCommand()) {
+
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
 
                     command.Parameters["@rijksregisternummer"].Value = rijksRegisterNr;
@@ -61,18 +53,19 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new AdresRepositoryADOException("BestaatRijksRegisterNummer - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public IReadOnlyList<Bestuurder> GeefAlleBestuurder() {
+
             string query = "SELECT * FROM Bestuurder";
             List<Bestuurder> bestuurderLijst = new List<Bestuurder>();
-            SqlConnection connection = GetConnection();
-            using (SqlCommand command = new SqlCommand(query, connection)) {
+
+            using (SqlCommand command = new SqlCommand(query, Connection)) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     IDataReader dataReader = command.ExecuteReader();
                     Bestuurder b = null;
                     while (dataReader.Read()) {
@@ -85,18 +78,19 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("GetAlleBestuurders niet gelukt", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
             return bestuurderLijst.AsReadOnly();
         }
 
         public Bestuurder GetBestuurderId(int id) {
+
             string query = "SELECT * FROM Bestuurder WHERE bestuurderid=@bestuurderid";
-            SqlConnection connection = GetConnection();
-            using (SqlCommand command = new SqlCommand(query, connection)) {
+
+            using (SqlCommand command = new SqlCommand(query, Connection)) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.AddWithValue("@bestuurderid", id);
                     IDataReader dataReader = command.ExecuteReader();
                     dataReader.Read();
@@ -108,22 +102,21 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("GetBestuurderid - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public void UpdateBestuurder(Bestuurder bestuurder) {
-            SqlConnection connection = GetConnection();
 
             string query = "UPDATE Bestuurder" +
                            " SET voornaam=@voornaam, achternaam=@achternaam, geboortedatum=@geboortedatum, rijksregisternummer=@rijksregisternummer, " +
                            " rijbewijstype=@rijbewijstype, rijbewijsnummer=@rijbewijsnummer" +
                            " WHERE bestuurderid=@bestuurderid";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@voornaam", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@achternaam", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@geboortedatum", SqlDbType.Date));
@@ -145,18 +138,18 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public void VerwijderBestuurder(Bestuurder bestuurder) {
-            SqlConnection connection = GetConnection();
+
             string query = "DELETE FROM Bestuurder WHERE bestuurderid=@bestuurderid";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
                     command.Parameters["@bestuurderid"].Value = bestuurder.BestuurderId;
                     command.CommandText = query;
@@ -164,20 +157,19 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("Verwijderbestuurder - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public void VoegBestuurderToe(Bestuurder bestuurder) {
-            SqlConnection connection = GetConnection();
 
             string query = "INSERT INTO Bestuurder (voornaam, achternaam, geboortedatum, rijksregisternummer,rijbewijstype,rijbewijsnummer)" +
                            "VALUES (@voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype, @rijbewijsnummer)";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@voornaam", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@achternaam", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@geboortedatum", SqlDbType.Date));
@@ -198,7 +190,7 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("VoegBestuurderToe(bestuurder)- gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
@@ -222,12 +214,10 @@ namespace FleetManagement.ADO.Repositories {
                 "LEFT JOIN tankkaarten t ON b.bestuurderId = t.bestuurderId" +
                 "WHERE b.rijksRegisterNummer = @rijksRegisterNummer";
 
-            SqlConnection connection = GetConnection();
-
-            using (SqlCommand command = new(queryBestuurder, connection)) {
+            using (SqlCommand command = new(queryBestuurder, Connection)) {
                 try {
                     command.Parameters.AddWithValue("@rijksRegisterNummer", rijksRegisterNummer);
-                    connection.Open();
+                    Connection.Open();
 
                     using (SqlDataReader dataReader = command.ExecuteReader()) {
                         if (dataReader.HasRows) {
@@ -317,9 +307,6 @@ namespace FleetManagement.ADO.Repositories {
                                 //voeg toe aan bestuurder
                                 bestuurderDB.VoegTankKaartToe(tankKaartDB);
                             }
-
-                            connection.Close();
-
                             //Bestuurder met alle mogelijke objecten die gereleateerd zijn
                             return bestuurderDB;
                         } else {
@@ -329,8 +316,7 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("ZoekBestuurder op rijksregisternummer - gefaald", ex);
                 } finally {
-                    connection?.Dispose();
-                    connection = null;
+                    Connection.Close();
                 }
             }
         }

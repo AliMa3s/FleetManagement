@@ -10,24 +10,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories {
-    public class AdresRepositoryADO : IAdresRepository {
+    public class AdresRepositoryADO : RepositoryBase, IAdresRepository {
 
-        private string connectionString = @"YourConnectionStringhere";
-        public AdresRepositoryADO(string connectionstring) {
-            this.connectionString = connectionstring;
-        }
-
-        private SqlConnection getConnection() {
-            SqlConnection connection = new SqlConnection(connectionString);
-            return connection;
-        }
+        public AdresRepositoryADO(string connectionstring) : base(connectionstring) { }
 
         public bool BestaatAdres(Adres adres) {
-            SqlConnection connection = getConnection();
+
             string query = "SELECT count(*) FROM Adres WHERE straat=@straat AND nummer=@nummer AND postcode=@postcode AND gemeente=@gemeente";
-            using (SqlCommand command = connection.CreateCommand()) {
-                try {
-                    connection.Open();
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@straat", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@postcode", SqlDbType.NVarChar));
@@ -41,20 +35,24 @@ namespace FleetManagement.ADO.Repositories {
                     command.CommandText = query;
                     int n = (int)command.ExecuteScalar();
                     if (n > 0) return true; else return false;
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     throw new AdresRepositoryADOException("BestaatAdres- gefaald", ex);
-                } finally {
-                    connection.Close();
+                }
+                finally
+                {
+                    Connection.Close();
                 }
             }
         }
 
         public bool BestaatAdres(int adresId) {
-            SqlConnection connection = getConnection();
+
             string query = "SELECT count(*) FROM Adres WHERE adresId=@adresId";
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@adresId", SqlDbType.Int));
 
                     command.Parameters["@adresId"].Value = adresId;
@@ -65,21 +63,20 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new AdresRepositoryADOException("BestaatAdres(int-id)- gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public void UpdateAdres(Adres adres) {
-            SqlConnection connection = getConnection();
 
             string query = "UPDATE Adres " +
                            " SET straat=@straat, nummer=@nummer, postcode=@postcode, gemeente=@gemeente " +
                            " WHERE adresId=@adresId";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@straat", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@postcode", SqlDbType.NVarChar));
@@ -97,19 +94,18 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new AdresRepositoryADOException("UpdateAdres - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public void VerwijderAdres(Adres adres) {
-            SqlConnection connection = getConnection();
 
             string query = "DELETE FROM Adres WHERE adresId=@adresId";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@adresId", SqlDbType.Int));
                     command.Parameters["@adresId"].Value = adres.AdresId;
                     command.CommandText = query;
@@ -117,20 +113,18 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new AdresRepositoryADOException("VerwijderAdres - gefaald", ex);
                 } finally {
-                    connection.Close();
-                }
+                    Connection.Close();                }
             }
         }
 
         public void VoegAdresToe(Adres adres) {
-            SqlConnection connection = getConnection();
 
             string query = "INSERT INTO Adres (straat, nummer, postcode, gemeente)" +
-                           "VALUES (@straat, @nummer, @postcode, @gemeente)";
+                "VALUES (@straat, @nummer, @postcode, @gemeente)";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@straat", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@postcode", SqlDbType.NVarChar));
@@ -147,7 +141,7 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new AdresRepositoryADOException("VoegAdresToe(adres)- gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }

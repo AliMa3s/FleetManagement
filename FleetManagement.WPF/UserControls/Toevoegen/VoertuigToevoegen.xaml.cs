@@ -24,7 +24,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     public partial class VoertuigToevoegen : UserControl
     {
         private readonly UnitOfManager _manager;
-        private VoertuigBouwer _bouwer;
+        private VoertuigBouwer _voertuigBouwer;
 
         public string DisplayFirst { get; set; } = "Selecteer";
         private VoertuigBouwer VoertuigBouwerInstance => new(_manager.VoertuigManager) { Bestuurder = null };
@@ -36,7 +36,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             _manager = unitOfManager;
             FormVoertuig.Content = $"Nieuw voertuig aanmaken (by {_manager.LoggedIn.Naam})";
 
-            _bouwer = VoertuigBouwerInstance;
+            _voertuigBouwer = VoertuigBouwerInstance;
             SetDefault();
         }
 
@@ -49,10 +49,10 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             Deuren.Items.Add(DisplayFirst);
             _manager.VoertuigManager.AantalDeuren.ToList().ForEach(aantal =>
             {
-                Deuren.Items.Add(aantal);
+                _ = Deuren.Items.Add(aantal);
             });
 
-            //set dropdown Aantal Deuren
+            //set dropdown Kleuren
             //ToDo
 
             //set dropdown Aantal Deuren
@@ -73,7 +73,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
             try
             {
-                Voertuig nieuwVoertuig = _bouwer.BouwVoertuig();
+                Voertuig nieuwVoertuig = _voertuigBouwer.BouwVoertuig();
                 int voertuigId = _manager.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
 
                 ResetForm();
@@ -84,7 +84,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             catch
             {
                 InfoVoertuigMess.Foreground = Brushes.Red;
-                InfoVoertuigMess.Text = _bouwer.Status();
+                InfoVoertuigMess.Text = _voertuigBouwer.Status();
             }
         }
 
@@ -96,19 +96,19 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
         private void ChassisNummer_TextChanged(object sender, TextChangedEventArgs e)
         {
-            _bouwer.Chassisnummer = ChassisNummer.Text;
+            _voertuigBouwer.Chassisnummer = ChassisNummer.Text;
         }
 
         private void Nummerplaat_TextChanged(object sender, TextChangedEventArgs e)
         {
-            _bouwer.Nummerplaat = Nummerplaat.Text;
+            _voertuigBouwer.Nummerplaat = Nummerplaat.Text;
         }
 
         private void HybrideNeen_Checked(object sender, RoutedEventArgs e)
         {
             if(HybrideNeen.IsChecked.HasValue)
             {
-                _bouwer.Hybride = false;
+                _voertuigBouwer.Hybride = false;
             }
         }
 
@@ -116,7 +116,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             if (HybrideJa.IsChecked.HasValue)
             {
-                _bouwer.Hybride = true;
+                _voertuigBouwer.Hybride = true;
             }
         }
 
@@ -135,7 +135,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             if(Deuren.SelectedItem != null)
             {
                 string selected = Deuren.SelectedItem.ToString();
-                _bouwer.AantalDeuren = selected != DisplayFirst ? selected : null;
+                _voertuigBouwer.AantalDeuren = selected != DisplayFirst ? selected : null;
             }
         }
 
@@ -148,7 +148,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         private void ResetForm()
         {
             InfoVoertuigMess.Text = string.Empty;
-            GekozenAutoModel.Text = string.Empty;
+            GekozenAutoModelNaam.Text = string.Empty;
             ChassisNummer.Text = string.Empty;
             Nummerplaat.Text = string.Empty;
             HybrideJa.IsChecked = false;
@@ -156,10 +156,10 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             Brandstof.SelectedIndex = 0;
             VoertuigKleur.SelectedIndex = 0;
             Deuren.SelectedIndex = 0;
-            GekozenBestuurder.Text = string.Empty;
+            GekozenBestuurderNaam.Text = string.Empty;
 
-            _bouwer = null;
-            _bouwer = VoertuigBouwerInstance;
+            _voertuigBouwer = null;
+            _voertuigBouwer = VoertuigBouwerInstance;
         }
 
         //sluit vernster

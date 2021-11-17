@@ -10,25 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories {
-    public class TankkaartRepositoryADO : ITankkaartRepository {
+    public class TankkaartRepositoryADO : RepositoryBase, ITankkaartRepository {
 
-
-        private string connectionString = @"YourConnectionStringhere";
-        public TankkaartRepositoryADO(string connectionstring) {
-            this.connectionString = connectionstring;
-        }
-
-        private SqlConnection getConnection() {
-            SqlConnection connection = new SqlConnection(connectionString);
-            return connection;
-        }
+        public TankkaartRepositoryADO(string connectionstring) : base(connectionstring) { }
 
         public bool BestaatTankKaart(TankKaart tankkaart) {
-            SqlConnection connection = getConnection();
+
             string query = "SELECT count(*) FROM Tankkaart WHERE kaartnummer=@kaatnummer";
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@kaartnummer", SqlDbType.NVarChar));
 
                     command.Parameters["@kaartnummer"].Value = tankkaart.TankKaartNummer;
@@ -39,7 +30,7 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new TankkaarRepositoryADOException("BestaatTankkaart- gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
@@ -47,10 +38,10 @@ namespace FleetManagement.ADO.Repositories {
         public IReadOnlyList<TankKaart> GeefAlleTankkaart() {
             string query = "SELECT * FROM Tankkaart";
             List<TankKaart> kaartLijst = new List<TankKaart>();
-            SqlConnection connection = getConnection();
-            using (SqlCommand command = new SqlCommand(query, connection)) {
+
+            using (SqlCommand command = new SqlCommand(query, Connection)) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     IDataReader dataReader = command.ExecuteReader();
                     TankKaart k = null;
                     while (dataReader.Read()) {
@@ -62,7 +53,7 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new TankkaarRepositoryADOException("GetAlleTankkaart niet gelukt", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
             return kaartLijst.AsReadOnly();
@@ -70,10 +61,10 @@ namespace FleetManagement.ADO.Repositories {
 
         public TankKaart GetTankKaart(string tankkaartNr) {
             string query = "SELECT * FROM Tankkart WHERE kaartnummer=@kaartnummer";
-            SqlConnection connection = getConnection();
-            using (SqlCommand command = new SqlCommand(query, connection)) {
+
+            using (SqlCommand command = new SqlCommand(query, Connection)) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.CommandText = query;
                     SqlParameter paramId = new SqlParameter();
                     paramId.ParameterName = "@kaartnummer";
@@ -93,21 +84,20 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new TankkaarRepositoryADOException("GetTankkaart - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public void UpdateTankKaart(TankKaart tankkaart) {
-            SqlConnection connection = getConnection();
 
             string query = "UPDATE Tankkaart SET " +
                            " geldigheidsdatum=@geldigheidsdatum, pincode=@pincode, actief=@actief " +
                            " WHERE kaartnummer=@kaartnummer";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@kaartnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.DateTime));
                     command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
@@ -126,18 +116,18 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new TankkaarRepositoryADOException("UpdateTankkaart - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public void VerwijderTankKaart(TankKaart tankkaart) {
-            SqlConnection connection = getConnection();
+
             string query = "DELETE FROM Tankkaart WHERE kaartnummer=@kaartnummer";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@kaartnummer", SqlDbType.NVarChar));
                     command.Parameters["@kaartnummer"].Value = tankkaart.TankKaartNummer;
                     command.CommandText = query;
@@ -145,20 +135,19 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new TankkaarRepositoryADOException("VerwijderTankkaart - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public void VoegTankKaartToe(TankKaart tankkaart) {
-            SqlConnection connection = getConnection();
 
             string query = "INSERT INTO Tankkaart (kaartnummer, geldigheidsdatum, pincode, actief, uitgeefdatum)" +
                            "VALUES (@kaartnummer, @geldigheidsdatum, @pincode, @actief, @uitgeefdatum)";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@kaartnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.DateTime));
                     command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
@@ -177,7 +166,7 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new TankkaarRepositoryADOException("VoegTankkaarttoe - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
@@ -187,15 +176,14 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public IReadOnlyList<TankKaart> ZoekTankKaarten(string tankkaartNr, BrandstofType brandstof) {
-            SqlConnection connection = getConnection();
 
             List<TankKaart> kaartLijst = new List<TankKaart>();
 
             string query = "SELECT Tankkaart.kaartnummer, Brandstoftype.brandstofnaam FROM Tankkaart" +
                 " INNER JOIN Brandstoftype ON Tankkaart.kaartnummer=@Tankkaart.kaartnummer ";
 
-            using (SqlCommand command = connection.CreateCommand()) {
-                connection.Open();
+            using (SqlCommand command = Connection.CreateCommand()) {
+                Connection.Open();
                 try {
                     command.Parameters.Add(new SqlParameter("@Tankkaart.kaartnummer ", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@Brandstoftype.brandstofnaam", SqlDbType.NVarChar));
@@ -214,7 +202,7 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new TankkaarRepositoryADOException("ZoekTankKaarten niet gelukt", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
             return kaartLijst.AsReadOnly();

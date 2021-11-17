@@ -10,24 +10,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories {
-    public class VoertuigRepositoryADO : IVoertuigRepository {
+    public class VoertuigRepositoryADO : RepositoryBase, IVoertuigRepository {
 
-        private string connectionString = @"YourConnectionStringhere";
-        public VoertuigRepositoryADO(string connectionstring) {
-            this.connectionString = connectionstring;
-        }
-
-        private SqlConnection getConnection() {
-            SqlConnection connection = new SqlConnection(connectionString);
-            return connection;
-        }
+        public VoertuigRepositoryADO(string connectionstring) : base(connectionstring) { }
 
         public bool BestaatVoertuig(Voertuig voertuig) {
-            SqlConnection connection = getConnection();
+
             string query = "SELECT count(*) FROM Voertuig WHERE aantal_deuren=@aantal_deuren AND chassisnummer=@chassisnummer AND nummerplaat=@nummerplaat ";
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
@@ -44,7 +36,7 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new VoertuigRepositoryADOException("BestaatVoertuig - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
@@ -55,10 +47,10 @@ namespace FleetManagement.ADO.Repositories {
 
         public Voertuig GetVoertuig(int voertuigid) {
             string query = "SELECT * FROM Voertuig WHERE voertuigid=@voertuigid";
-            SqlConnection connection = getConnection();
-            using (SqlCommand command = new SqlCommand(query, connection)) {
+
+            using (SqlCommand command = new SqlCommand(query, Connection)) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.AddWithValue("@voertuigid", voertuigid);
                     IDataReader dataReader = command.ExecuteReader();
                     dataReader.Read();
@@ -69,22 +61,21 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new VoertuigRepositoryADOException("GetVoertuig - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public void UpdateVoertuig(Voertuig voertuig) {
-            SqlConnection connection = getConnection();
 
             string query = "UPDATE Voertuig" +
                            "SET aantal_deuren=@aantal_deuren, chassisnummer=@chassisnummer, nummerplaat=@nummerplaat, " +
                            " WHERE voertuigid=@voertuigid";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
-                    //connection.Open();
+                    Connection.Open();
+
                     command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
@@ -102,18 +93,18 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
 
         public void VerwijderVoertuig(Voertuig voertuig) {
-            SqlConnection connection = getConnection();
+
             string query = "DELETE FROM Voertuig WHERE voertuigid=@voertuigid";
 
-            using (SqlCommand command = new SqlCommand(query,connection)) {
+            using (SqlCommand command = new SqlCommand(query, conConnectionnection)) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
                     command.Parameters["@voertuigid"].Value = voertuig.VoertuigId;
                     //command.CommandText = query;
@@ -121,7 +112,7 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("VerwijderVoertuig - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
@@ -131,14 +122,13 @@ namespace FleetManagement.ADO.Repositories {
          * We krijgen dan de nieuwe VoertuigId terug
         */
         public int VoegVoertuigToe(Voertuig voertuig) {
-            SqlConnection connection = getConnection();
 
             string query = "INSERT INTO Voertuig (aantal_deuren,chassisnummer,nummerplaat)" +
                            "OUTPUT INSERTED.ID VALUES (@aantal_deuren,@chassisnummer,@nummerplaat)";
 
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
@@ -157,7 +147,7 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new VoertuigRepositoryADOException("VoegVoertuig - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
@@ -171,12 +161,12 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public bool BestaatVoertuig(Voertuig voertuig, string chasisnummer, string nummerplaat) {
-            SqlConnection connection = getConnection();
+
             string query = "SELECT count(*) FROM Voertuig WHERE chassisnummer=@chassisnummer AND nummerplaat=@nummerplaat " +
                 " AND voertuigid=@voertuigid";
-            using (SqlCommand command = connection.CreateCommand()) {
+            using (SqlCommand command = Connection.CreateCommand()) {
                 try {
-                    connection.Open();
+                    Connection.Open();
                     command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
@@ -191,7 +181,7 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new VoertuigRepositoryADOException("BestaatVoertuig - gefaald", ex);
                 } finally {
-                    connection.Close();
+                    Connection.Close();
                 }
             }
         }
@@ -202,29 +192,25 @@ namespace FleetManagement.ADO.Repositories {
             string queryVoertuig = "SELECT chassisnummer, nummperplaat FROM voertuigen " +
                 "WHERE chassisnummer = @chassisNummer || nummerplaat = @nummerPlaat";
 
-            SqlConnection connection = getConnection();
-
-            using (SqlCommand command = new(queryVoertuig, connection)) {
+            using (SqlCommand command = new(queryVoertuig, Connection)) {
                 try {
                     command.Parameters.AddWithValue("@chassisNummer", chassisNummer);
                     command.Parameters.AddWithValue("@nummerPlaat", nummerPlaat);
 
-                    connection.Open();
+                    Connection.Open();
 
                     using (SqlDataReader dataReader = command.ExecuteReader()) {
                         if (dataReader.HasRows) {
-                            connection.Close();
                             return true;
                         }
 
-                        connection.Close();
+                        
                         return false;
                     }
                 } catch (Exception ex) {
                     throw new VoertuigRepositoryADOException("Bestaat Voertruig op chassisnummer & plaatnummer - gefaald", ex);
                 } finally {
-                    connection?.Dispose();
-                    connection = null;
+                    Connection.Close();
                 }
             }
         }
