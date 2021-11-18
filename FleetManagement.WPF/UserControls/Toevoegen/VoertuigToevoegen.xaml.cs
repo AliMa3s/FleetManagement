@@ -1,6 +1,6 @@
-﻿using FleetManagement.Bouwers;
-using FleetManagement.Manager;
+﻿using FleetManagement.Manager;
 using FleetManagement.Model;
+using FleetManagement.WPF.exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,19 +23,19 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     /// </summary>
     public partial class VoertuigToevoegen : UserControl
     {
-        private readonly Managers _manager;
-        private VoertuigBouwer _voertuigBouwer;
+        private readonly Managers _managers;
 
         public string DisplayFirst { get; set; } = "Selecteer";
-        private VoertuigBouwer VoertuigBouwerInstance => new(_manager.VoertuigManager) { Bestuurder = null };
+
+        //Bewaar het object dat geslecteerd is
+        private AutoModel AutoModel { get; set; }
+        private Bestuurder Bestuurder { get; set; }
 
         public VoertuigToevoegen(Managers managers)
         {
             InitializeComponent();
 
-            _manager = managers;
-
-            _voertuigBouwer = VoertuigBouwerInstance;
+            _managers = managers;
             SetDefault();
         }
 
@@ -44,18 +44,27 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             HybrideNeen.IsChecked = true;
 
+            _ = Brandstof.Items.Add(DisplayFirst);
+            _ = VoertuigKleur.Items.Add(DisplayFirst);
+            _ = Deuren.Items.Add(DisplayFirst);
+
             //set dropdown Aantal Deuren
-            Deuren.Items.Add(DisplayFirst);
             VoertuigManager.AantalDeuren.ToList().ForEach(aantal =>
             {
                 _ = Deuren.Items.Add(aantal);
             });
 
-            //set dropdown Kleuren
-            //ToDo
+            //set dropdown Kleuren (DB)
+            //VoertuigManager.Kleuren.ToList().ForEach(kleur =>
+            //{
+            //    _ = VoertuigKleur.Items.Add(kleur);
+            //});
 
-            //set dropdown Aantal Deuren
-            //ToDo
+            //set dropdown Aantal Deuren (DB)
+            //VoertuigManager.Brandstoffen.ToList().ForEach(kleur =>
+            //{
+            //    _ = Brandstof.Items.Add(kleur);
+            //});
         }
 
         //Wis het formulier en begin opnieuw
@@ -72,13 +81,38 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
             try
             {
-                Voertuig nieuwVoertuig = _voertuigBouwer.BouwVoertuig();
-                int voertuigId = _manager.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
+                Voertuig nieuwVoertuig = new(
+                    AutoModel,
+                    ChassisNummer.Text,
+                    Nummerplaat.Text,
+                    new BrandstofVoertuig(
+                        Brandstof.SelectedItem.ToString() != DisplayFirst ? Brandstof.SelectedItem.ToString() : "",
+                        HybrideJa.IsChecked.HasValue && (bool)HybrideJa.IsChecked
+                    )
+                );
+
+                //Indien ingevuld checken en casten
+                if (Deuren.SelectedItem.ToString() != DisplayFirst)
+                {
+                    string selected = Deuren.SelectedItem.ToString();
+
+                    nieuwVoertuig.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), selected)
+                        ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), selected)
+                        : throw new AantalDeurenException("Aantal deuren staat niet in de lijst");
+                }
+
+                //Indien ingevuld checken en casten
+                if (VoertuigKleur.SelectedItem.ToString() != DisplayFirst)
+                {
+                    nieuwVoertuig.VoertuigKleur = new Kleur(VoertuigKleur.SelectedItem.ToString());
+                }
+
+                //Voertuig voertuigDB = _managers.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
 
                 ResetForm();
 
                 InfoVoertuigMess.Foreground = Brushes.Green;
-                InfoVoertuigMess.Text = $"Voertuig met ID: {voertuigId} succesvol aangemaakt";
+                InfoVoertuigMess.Text = $"Voertuig voertuigDB is succesvol aangemaakt";
             }
             catch (Exception ex)
             {
@@ -87,57 +121,13 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             }
         }
 
-        //events
+        //Voeg bestuurder toe uit een bestaande lijst
         private void KiesBestuurder_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void ChassisNummer_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _voertuigBouwer.Chassisnummer = ChassisNummer.Text;
-        }
-
-        private void Nummerplaat_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _voertuigBouwer.Nummerplaat = Nummerplaat.Text;
-        }
-
-        private void HybrideNeen_Checked(object sender, RoutedEventArgs e)
-        {
-            if(HybrideNeen.IsChecked.HasValue)
-            {
-                _voertuigBouwer.Hybride = false;
-            }
-        }
-
-        private void HybrideJa_Checked(object sender, RoutedEventArgs e)
-        {
-            if (HybrideJa.IsChecked.HasValue)
-            {
-                _voertuigBouwer.Hybride = true;
-            }
-        }
-
-        private void Brandstof_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void VoertuigKleur_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Deuren_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if(Deuren.SelectedItem != null)
-            {
-                string selected = Deuren.SelectedItem.ToString();
-                _voertuigBouwer.AantalDeuren = selected != DisplayFirst ? selected : null;
-            }
-        }
-
+        //Voeg AutoModel toe uit een bestaande lijst
         private void KiesAutoModel_Click(object sender, RoutedEventArgs e)
         {
 
@@ -157,8 +147,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             Deuren.SelectedIndex = 0;
             GekozenBestuurderNaam.Text = string.Empty;
 
-            _voertuigBouwer = null;
-            _voertuigBouwer = VoertuigBouwerInstance;
+            AutoModel = null;
+            Bestuurder = null;
         }
 
         //sluit vernster

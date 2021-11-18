@@ -1,7 +1,5 @@
-﻿using FleetManagement.CheckFormats;
+﻿
 using FleetManagement.Exceptions;
-using FleetManagement.Interfaces;
-using FleetManagement.Manager;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -13,8 +11,6 @@ namespace FleetManagement.Bouwers
 {
     public class VoertuigBouwer
     {
-        private readonly VoertuigManager _voertuigManager;
-
         #region alle velden vrij in te vullen
         public AutoModel AutoModel { get; set; }
         public string Chassisnummer { get; set;  }
@@ -26,11 +22,7 @@ namespace FleetManagement.Bouwers
         public Bestuurder Bestuurder { get; set; }
         #endregion
 
-        public VoertuigBouwer(VoertuigManager voertuigManager)
-        {
-            _voertuigManager = voertuigManager;
-            Hybride = false;
-        }
+        public VoertuigBouwer() { }
 
         #region controleer alle verplichte velden op alle geldigheden
         public bool IsGeldig()
@@ -48,7 +40,14 @@ namespace FleetManagement.Bouwers
         {
             if (!IsGeldig())
             {
-                throw new VoertuigBouwerException("Voertuig kan niet worden gebouwd");
+                StringBuilder mess = new StringBuilder("");
+                if (AutoModel == null) mess.AppendLine($"{nameof(AutoModel)} mag niet leeg zijn");
+                if (string.IsNullOrWhiteSpace(Chassisnummer)) mess.AppendLine($"{nameof(Chassisnummer)} mag niet leeg zijn");
+                if (string.IsNullOrWhiteSpace(Nummerplaat)) mess.AppendLine($"{nameof(Nummerplaat)} mag niet leeg zijn");
+                if (string.IsNullOrWhiteSpace(Brandstof)) mess.AppendLine($"{nameof(Brandstof)} mag niet leeg zijn");
+                if (Bestuurder == null) mess.AppendLine($"{nameof(Bestuurder)} mag niet leeg zijn");
+
+                throw new VoertuigBouwerException(mess.ToString());
             }
 
             Voertuig voertuig = new(
@@ -60,14 +59,6 @@ namespace FleetManagement.Bouwers
             {
                 VoertuigKleur = new Kleur(Kleur)
             };
-
-            //Niet-verplichte-velden toevoegen of niet
-            if(!string.IsNullOrEmpty(Kleur))
-            {
-                voertuig.VoertuigKleur = Enum.IsDefined(typeof(Kleur), Kleur)
-                    ? (Kleur)Enum.Parse(typeof(Kleur), Kleur)
-                    : throw new VoertuigBouwerException("Kleur van Voertuig bestaat niet");
-            }
 
             if(!string.IsNullOrEmpty(AantalDeuren))
             {
