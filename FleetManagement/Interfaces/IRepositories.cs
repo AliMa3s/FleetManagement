@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Interfaces
 {
-    public interface IUnitOfRepository
+    public interface IRepositories
     {
-        public IAdresRepository AdresRepo { get; }  //Gaan we volgens mij (Filip) niet nodig hebben
-        public IBestuurderRepository BestuurderRepo { get; } //Als we bestuurder aanmaken, bevat deze (mogelijk) het adres (JOIN Adres)
+        public IAdresRepository AdresRepo { get; } 
+        public IBestuurderRepository BestuurderRepo { get; }
         public IVoertuigRepository VoertuigRepo { get; }
         public ITankkaartRepository TankkaartRepo { get;  }
    

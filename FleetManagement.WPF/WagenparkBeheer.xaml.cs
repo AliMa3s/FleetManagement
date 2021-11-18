@@ -20,9 +20,9 @@ namespace FleetManagement.WPF
     /// </summary>
     public partial class WagenparkBeheer : Window
     {
-        private readonly UnitOfManager _manager;
+        private readonly Managers _manager;
 
-        public WagenparkBeheer(UnitOfManager unitOfManager)
+        public WagenparkBeheer(Managers unitOfManager)
         {
             InitializeComponent();
             _manager = unitOfManager;

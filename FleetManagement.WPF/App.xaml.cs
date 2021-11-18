@@ -1,6 +1,5 @@
 ﻿//using FleetManagement.Interfaces;
 using FleetManagement.Manager;
-using FleetManagement.Manager.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace FleetManagement.WPF
     /// </summary>
     public partial class App : Application
     {
-        public static UnitOfManager Manager { get; set; }
+        public static Managers Manager { get; set; }
 
         public App()
         {
@@ -26,10 +25,10 @@ namespace FleetManagement.WPF
             string connectionString = config.GetConnectionString("FleetManagementConnectionString");
 
             //ADO instantie aanmaken
-            Interfaces.IUnitOfRepository repository = new ADO.Repositories.UnitOfRepository(connectionString);
+            Interfaces.IRepositories repositories = new ADO.Repositories.UnitOfRepository(connectionString);
 
             //Manager instantie aamaken & Autotypes inladen
-            Manager = new UnitOfManager(repository)
+            Manager = new Managers(repositories)
             {
                 AutoTypes = config.GetSection("autotypes").AsEnumerable()
             };

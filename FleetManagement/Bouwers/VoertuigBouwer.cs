@@ -2,7 +2,6 @@
 using FleetManagement.Exceptions;
 using FleetManagement.Interfaces;
 using FleetManagement.Manager;
-using FleetManagement.Manager.Interfaces;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ namespace FleetManagement.Bouwers
 {
     public class VoertuigBouwer
     {
-        private readonly IVoertuigManager _voertuigManager;
+        private readonly VoertuigManager _voertuigManager;
 
         #region alle velden vrij in te vullen (via WPF-event of input API)
         public AutoModel AutoModel { get; set; }
@@ -27,7 +26,7 @@ namespace FleetManagement.Bouwers
         public Bestuurder Bestuurder { get; set; }
         #endregion
 
-        public VoertuigBouwer(IVoertuigManager voertuigManager)
+        public VoertuigBouwer(VoertuigManager voertuigManager)
         {
             _voertuigManager = voertuigManager;
             Hybride = false;

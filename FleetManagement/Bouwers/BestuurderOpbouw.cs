@@ -1,5 +1,5 @@
 ﻿using FleetManagement.Interfaces;
-using FleetManagement.Manager.Interfaces;
+using FleetManagement.Manager;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace FleetManagement.Bouwers
 {
     public class BestuurderOpbouw
     {
-        private readonly IBestuurderManager _bestuurderManager;
+        private readonly BestuurderManager _bestuurderManager;
 
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
@@ -23,7 +23,7 @@ namespace FleetManagement.Bouwers
         public Voertuig Voertuig { get; set; }
         public TankKaart TankKaart { get; set; }
 
-        public BestuurderOpbouw(IBestuurderManager bestuurderManager)
+        public BestuurderOpbouw(BestuurderManager bestuurderManager)
         {
             _bestuurderManager = bestuurderManager;
         }

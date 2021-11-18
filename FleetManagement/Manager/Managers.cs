@@ -1,7 +1,5 @@
 ﻿using FleetManagement.Bouwers;
 using FleetManagement.Interfaces;
-using FleetManagement.Manager.Interfaces;
-using FleetManagement.Manager.Roles;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -12,31 +10,26 @@ using System.Threading.Tasks;
 namespace FleetManagement.Manager
 {
     //Global Manager met apart beheer van repos & bouwers
-    public class UnitOfManager
+    public class Managers
     {
         //Managers
-        public IBestuurderManager BestuurderManager { get; private set; }
-        public IVoertuigManager VoertuigManager { get; private set; }
-        public ITankkaartManager TankkaartManager { get; private set; }
-
-        //Authenticatie
-        public Authenticatie Auth { get; private set; }
-        public Role LoggedIn { get; set; }
+        public AdresManager AdresManager { get; private set; }
+        public BestuurderManager BestuurderManager { get; private set; }
+        public VoertuigManager VoertuigManager { get; private set; }
+        public TankkaartManager TankkaartManager { get; private set; }
 
         //Klaarzetten voor Autotype in te laden via configFile
         public IEnumerable<KeyValuePair<string, string>> AutoTypes { get; set; }
 
         //Klaarzetten voor Kleur
 
-        public UnitOfManager(IUnitOfRepository repos)
+        public Managers(IRepositories repos)
         {
             //ADO
+            AdresManager = new AdresManager(repos.AdresRepo);
             BestuurderManager = new BestuurderManager(repos.BestuurderRepo);
             VoertuigManager = new VoertuigManager(repos.VoertuigRepo);
             TankkaartManager = new TankkaartManager(repos.TankkaartRepo);
-
-            //Roles ophalen
-            Auth = new();
         }
     }
 }

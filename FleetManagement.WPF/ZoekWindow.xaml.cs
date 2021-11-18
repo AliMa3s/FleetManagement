@@ -20,9 +20,9 @@ namespace FleetManagement.WPF
     /// </summary>
     public partial class ZoekWindow : Window
     {
-        private readonly UnitOfManager _manager; 
+        private readonly Managers _manager; 
            
-        public ZoekWindow(UnitOfManager unitOfManager)
+        public ZoekWindow(Managers unitOfManager)
         {
             InitializeComponent();
             Title = "FleetManagement Zoekscherm";

@@ -21,7 +21,7 @@ namespace FleetManagement.WPF
     /// </summary>
     public partial class ToevoegWindow : Window
     {          
-        public ToevoegWindow(UnitOfManager unitOfManager)
+        public ToevoegWindow(Managers unitOfManager)
         {
             InitializeComponent();
             Title = "FleetManagement Toevoegscherm";

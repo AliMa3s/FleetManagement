@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories {
-    public class BestuurderRepositoryADO : RepositoryBase, IBestuurderRepository
+    public class BestuurderRepositoryADO : RepoConnection, IBestuurderRepository
     {
         public BestuurderRepositoryADO(string connectionstring) : base(connectionstring) { }
 

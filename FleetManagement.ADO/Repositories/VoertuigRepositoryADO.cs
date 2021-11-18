@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories {
-    public class VoertuigRepositoryADO : RepositoryBase, IVoertuigRepository {
+    public class VoertuigRepositoryADO : RepoConnection, IVoertuigRepository {
 
         public VoertuigRepositoryADO(string connectionstring) : base(connectionstring) { }
 

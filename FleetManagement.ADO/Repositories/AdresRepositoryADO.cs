@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories {
-    public class AdresRepositoryADO : RepositoryBase, IAdresRepository {
+    public class AdresRepositoryADO : RepoConnection, IAdresRepository {
 
         public AdresRepositoryADO(string connectionstring) : base(connectionstring) { }
 

@@ -1,6 +1,5 @@
 ﻿using FleetManagement.Bouwers;
 using FleetManagement.Manager;
-using FleetManagement.Manager.Roles;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -24,51 +23,13 @@ namespace FleetManagement.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly UnitOfManager _manager;
+        private readonly Managers _manager;
 
         #region ctor & dependency injection
-        public MainWindow(UnitOfManager unitOfManager)
+        public MainWindow(Managers managers)
         {
             InitializeComponent(); 
-            _manager = unitOfManager;
-
-            _manager.Auth.Roles.ToList().ForEach(name =>
-            {
-                Auth.Items.Add(name.Key);
-            });
-        }
-        #endregion
-
-        #region toekenning van de rechten
-        private void AuthNameSelectie(object sender, SelectionChangedEventArgs e)
-        {
-            Toevoegen.IsEnabled = false;
-            Zoeken.IsEnabled = false;
-            WagenparkBeheer.IsEnabled = false;
-
-            string checkAuth = Auth.SelectedItem.ToString();
-            if (_manager.Auth.Roles.ContainsKey(checkAuth))
-            {
-                Role loggedIn = _manager.Auth.Roles[checkAuth];
-                if (loggedIn.IsAdmin)
-                {
-                    Toevoegen.IsEnabled = true;
-                    Zoeken.IsEnabled = true;
-                    WagenparkBeheer.IsEnabled = true;
-                }
-                else
-                {
-                    Zoeken.IsEnabled = true;
-                    Toevoegen.IsEnabled = false;
-                    WagenparkBeheer.IsEnabled = false;
-                }
-
-                _manager.LoggedIn = loggedIn;
-            }
-            else
-            {
-                _manager.LoggedIn = null;
-            }
+            _manager = managers;
         }
         #endregion
 

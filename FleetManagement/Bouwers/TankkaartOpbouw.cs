@@ -1,6 +1,5 @@
 ﻿using FleetManagement.Interfaces;
 using FleetManagement.Manager;
-using FleetManagement.Manager.Interfaces;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ namespace FleetManagement.Bouwers
 {
     public class TankkaartOpbouw
     {
-        private readonly ITankkaartManager _tankkaartManager;
+        private readonly TankkaartManager _tankkaartManager;
 
         public string TankKaartNummer { get; set; }
         public DateTime GeldigheidsDatum { get; set;  }
@@ -22,7 +21,7 @@ namespace FleetManagement.Bouwers
         public string Brandstoffen { get; set; }
         public Bestuurder Bestuurder { get; set; }
 
-        public TankkaartOpbouw(ITankkaartManager tankkaartManager)
+        public TankkaartOpbouw(TankkaartManager tankkaartManager)
         {
             _tankkaartManager = tankkaartManager;
         }

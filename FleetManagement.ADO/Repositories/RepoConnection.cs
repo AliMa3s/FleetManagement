@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories
 {
-    public abstract class RepositoryBase : IDisposable
+    public abstract class RepoConnection : IDisposable
     {
         private readonly string _connectionString;
         private SqlConnection _conn;
 
         private bool Disposing { get; set; }
 
-        public RepositoryBase(string connectionString)
+        public RepoConnection(string connectionString)
         {
             _connectionString = connectionString;
             Disposing = false;

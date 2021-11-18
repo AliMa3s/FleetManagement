@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories {
-    public class TankkaartRepositoryADO : RepositoryBase, ITankkaartRepository {
+    public class TankkaartRepositoryADO : RepoConnection, ITankkaartRepository {
 
         public TankkaartRepositoryADO(string connectionstring) : base(connectionstring) { }
 

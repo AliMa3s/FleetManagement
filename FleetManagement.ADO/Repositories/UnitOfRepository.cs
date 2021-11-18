@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories
 {
-    public class UnitOfRepository : IUnitOfRepository
+    public class UnitOfRepository : IRepositories
     {
         public IAdresRepository AdresRepo { get; private set; }
         public IBestuurderRepository BestuurderRepo { get; private set; }

@@ -23,18 +23,17 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     /// </summary>
     public partial class VoertuigToevoegen : UserControl
     {
-        private readonly UnitOfManager _manager;
+        private readonly Managers _manager;
         private VoertuigBouwer _voertuigBouwer;
 
         public string DisplayFirst { get; set; } = "Selecteer";
         private VoertuigBouwer VoertuigBouwerInstance => new(_manager.VoertuigManager) { Bestuurder = null };
 
-        public VoertuigToevoegen(UnitOfManager unitOfManager)
+        public VoertuigToevoegen(Managers unitOfManager)
         {
             InitializeComponent();
 
             _manager = unitOfManager;
-            FormVoertuig.Content = $"Nieuw voertuig aanmaken (by {_manager.LoggedIn.Naam})";
 
             _voertuigBouwer = VoertuigBouwerInstance;
             SetDefault();
