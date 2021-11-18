@@ -19,7 +19,7 @@ namespace FleetManagement.Test.ModelTest {
             bool ishybride = true;
             BrandstofVoertuig brandstof = new("Diesel", ishybride);
             
-            AutoModel autoModel = new("mercedes", "c-klasse", AutoType.GT);
+            AutoModel autoModel = new("mercedes", "c-klasse", new AutoType("GT"));
 
             Voertuig voertuig = new(autoModel, "WAUZZZ8V5KA106598", "1AYB020", brandstof);
             Assert.True(voertuig.Brandstof.Hybride);
@@ -31,12 +31,12 @@ namespace FleetManagement.Test.ModelTest {
         {
             BrandstofVoertuig brandstof = new("Diesel", false);
             
-            AutoModel autoModel = new("mercedes", "c-klasse", AutoType.GT);
+            AutoModel autoModel = new("mercedes", "c-klasse", new AutoType("GT"));
             Voertuig voertuig = new(autoModel, "WAUZZZ8V5KA106598", "1AYB020", brandstof);
 
             Assert.Equal("mercedes", voertuig.AutoModel.Merk);
             Assert.Equal("c-klasse", voertuig.AutoModel.AutoModelNaam);
-            Assert.Equal(AutoType.GT, voertuig.AutoModel.AutoType);
+            Assert.Equal(new AutoType("GT"), voertuig.AutoModel.AutoType);
             Assert.Equal("WAUZZZ8V5KA106598", voertuig.ChassisNummer);
             Assert.Equal("1AYB020", voertuig.NummerPlaat);
             Assert.Equal("Diesel", voertuig.Brandstof.BrandstofNaam);
@@ -51,7 +51,7 @@ namespace FleetManagement.Test.ModelTest {
         {
             BrandstofVoertuig brandstof = new("diesel", false);
 
-            AutoModel autoModel = new("mercedes", "c-klasse", AutoType.GT);
+            AutoModel autoModel = new("mercedes", "c-klasse", new AutoType("GT"));
 
             var ex = Assert.Throws<VoertuigException>(() => {
                 Voertuig voertuig = new(-10, autoModel, "WAUZZZ8V5KA106598", "1AYB020", brandstof);
@@ -61,17 +61,17 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Theory]
-        [InlineData(AutoType.Cabriolet)]        
-        public void Valid_Voertuig_AutoType(AutoType autoType)
+        [InlineData("Cabriolet")]        
+        public void Valid_Voertuig_AutoType(string autoType)
         {
-            Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo",autoType), "WAUZZZ8V5KA106598","1ABC599", new("benzine", false));    
-            Assert.Equal(AutoType.Cabriolet, voertuig.AutoModel.AutoType);
+            Voertuig voertuig = new(new AutoModel("ferrari", "ferrari enzo", new AutoType(autoType)), "WAUZZZ8V5KA106598","1ABC599", new("benzine", false));    
+            Assert.Equal(new AutoType(autoType), voertuig.AutoModel.AutoType);
         }
         [Fact]
         public void Valid_ChassisNummer()
         {
             Voertuig voertuig = new(
-                new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine", false)
+                new AutoModel("ferrari", "ferrari enzo", new AutoType("Coupé")), "WAUZZZ8V5KA106598", "1ABC599", new("benzine", false)
             );
             Assert.Equal("WAUZZZ8V5KA106598", voertuig.ChassisNummer);
         }
@@ -81,7 +81,7 @@ namespace FleetManagement.Test.ModelTest {
         {
             Voertuig voertuig;
             var ex = Assert.Throws<ChassisNummerException>(() => voertuig = new(
-                new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA10659-5", "1ABC599", new("benzine", false))
+                new AutoModel("ferrari", "ferrari enzo", new AutoType("Coupé")), "WAUZZZ8V5KA10659-5", "1ABC599", new("benzine", false))
             );
             Assert.Equal($"Chassisnummer moet string zijn van 17 cijfers/letters maar letter I/i, O/o en Q/q " +
                 $"mag niet voorkomen",ex.Message);
@@ -91,17 +91,17 @@ namespace FleetManagement.Test.ModelTest {
         public void Verander_AutoKleur_Valid()
         {
             Voertuig voertuig = new(
-                new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé), "WAUZZZ8V5KA106598", "1ABC599", new("benzine", false)
+                new AutoModel("ferrari", "ferrari enzo", new AutoType("Coupé")), "WAUZZZ8V5KA106598", "1ABC599", new("benzine", false)
             );
-            voertuig.VoertuigKleur = Kleur.Blauw;
-            Assert.Equal(Kleur.Blauw, voertuig.VoertuigKleur);
+            voertuig.VoertuigKleur = new("Blauw");
+            Assert.Equal(new Kleur("Blauw"), voertuig.VoertuigKleur);
         }
         
         [Fact]
         public void Verander_AantalDeuren()
         {
             Voertuig voertuig = new(
-            new AutoModel("ferrari", "ferrari enzo", AutoType.Coupé),"WAUZZZ8V5KA106598", "1ABC599",new("benzine", false));
+            new AutoModel("ferrari", "ferrari enzo", new AutoType("Coupé")),"WAUZZZ8V5KA106598", "1ABC599",new("benzine", false));
             voertuig.AantalDeuren = AantalDeuren.Zes;
             Assert.Equal(AantalDeuren.Zes, voertuig.AantalDeuren);
 
@@ -114,7 +114,7 @@ namespace FleetManagement.Test.ModelTest {
         {
             Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
             BrandstofVoertuig bezine = new("benzine", false);
-            AutoModel automodel = new("ferrari", "ferrari enzo", AutoType.GT);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
             voertuig.VoegBestuurderToe(bestuurder);
             
@@ -125,7 +125,7 @@ namespace FleetManagement.Test.ModelTest {
         {
             Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("");
             BrandstofVoertuig bezine = new("benzine", true);
-            AutoModel automodel = new("ferrari", "ferrari enzo", AutoType.GT);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
 
             var ex = Assert.Throws<VoertuigException>(() => new Voertuig(automodel,"WAUZZZ8V5KA106598", "1ABC495", bezine).VoegBestuurderToe(bestuurder));
@@ -137,7 +137,7 @@ namespace FleetManagement.Test.ModelTest {
         {
             Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
             BrandstofVoertuig bezine = new("benzine", true);
-            AutoModel automodel = new("ferrari", "ferrari enzo", AutoType.GT);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
             voertuig.VoegBestuurderToe(bestuurder);
 

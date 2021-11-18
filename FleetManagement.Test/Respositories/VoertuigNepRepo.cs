@@ -18,7 +18,7 @@ namespace FleetManagement.Test.Respositories
             //Selecteerlijst voor Bestuurder
             //Persoon die Voeertuig test, configureert voor alle andere teamleden de juiste instanties 
 
-            AutoModel model = new("Toyota","Celica", AutoType.GT);
+            AutoModel model = new("Toyota","Celica", new AutoType("GT"));
             BrandstofVoertuig brandstof = new("Benzine", true);
             BrandstofVoertuig brandstof2 = new("Benzine", false);
 

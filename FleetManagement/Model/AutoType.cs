@@ -6,9 +6,46 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Model
 {
-    //https://nl.wikipedia.org/wiki/Lijst_van_autotypen
-    public enum AutoType
+    public class AutoType
     {
-       Cabriolet, Coupé, GT, Tererreinwagen, Sedan, Stationwagen, SUV
+        public string AutoTypeNaam { get; set;  }
+
+        public AutoType(string autoTypeNaam)
+        {
+            if(autoTypeNaam == null)
+            {
+                //exception te maken
+            }
+
+            AutoTypeNaam = autoTypeNaam;
+        }
+
+        #region Overridables
+        //Vergelijk twee instanties van Kleur met: kleurnaam
+        public override bool Equals(object obj)
+        {
+            if (obj is AutoType)
+            {
+                AutoType ander = obj as AutoType;
+                return AutoTypeNaam == ander.AutoTypeNaam;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return AutoTypeNaam.GetHashCode();
+        }
+        #endregion
     }
+
+    //Staat nu in de ConfigFile dus wordt string
+    ///
+    //public enum AutoType
+    //{
+    //   Cabriolet, Coupé, GT, Tererreinwagen, Sedan, Stationwagen, SUV
+    //}
 }

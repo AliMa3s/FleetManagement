@@ -250,11 +250,13 @@ namespace FleetManagement.ADO.Repositories {
 
                             //Is bestuurder gekoppeld aan een voertuig
                             if (dataReader["voertuigId"] != null) {
+
                                 //AutoType kan nog veranderen naar ConfigFile
-                                AutoType autoType = (AutoType)Enum.Parse(typeof(AutoType), (string)dataReader["autotype"]);
+                                AutoType autoType = new ((string)dataReader["autotype"]);
 
                                 //Kleur verschuift naar DB
-                                Kleur? kleur = (Kleur?)Enum.Parse(typeof(Kleur?), (string)dataReader["kleurnaam"]);
+                                Kleur kleur = new ((string)dataReader["kleurnaam"]);
+
                                 AantalDeuren? aantalDeuren = (AantalDeuren?)Enum.Parse(typeof(AantalDeuren?), (string)dataReader["aantalDeuren"]);
 
                                 Voertuig voertuigDB = new(

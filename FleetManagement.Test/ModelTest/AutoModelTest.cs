@@ -14,25 +14,27 @@ namespace FleetManagement.Test.ModelTest
         [Fact]
         public void AutoModel_Ctor_Valid_NoId()
         {
-            AutoModel automodel = new AutoModel("mercedes", "klasse-c", AutoType.Cabriolet);
+            var autotype = new AutoType("Cabriolet");
+            AutoModel automodel = new AutoModel("mercedes", "klasse-c", autotype);
             Assert.Equal("mercedes", automodel.Merk);
             Assert.Equal("klasse-c", automodel.AutoModelNaam);
-            Assert.Equal(AutoType.Cabriolet, AutoType.Cabriolet);
+            Assert.Equal(autotype, automodel.AutoType);
         }
         [Fact]
         public void AutoModel_Ctor_Valid_WithId()
         {
-            AutoModel automodel = new AutoModel(1,"mercedes", "klasse-c", AutoType.Cabriolet);
+            var autotype = new AutoType("Cabriolet");
+            AutoModel automodel = new AutoModel(1,"mercedes", "klasse-c", autotype);
             Assert.Equal(1, automodel.AutoModelId);
             Assert.Equal("mercedes", automodel.Merk);
             Assert.Equal("klasse-c", automodel.AutoModelNaam);
-            Assert.Equal(AutoType.Cabriolet, AutoType.Cabriolet);
+            Assert.Equal(autotype, automodel.AutoType);
         }
 
         [Fact]
         public void BrandstofType_Invalid_Id()
         {
-            var e = Assert.Throws<AutoModelException>(() => new AutoModel(-100, "mercedes", "klasse-c", AutoType.Cabriolet));
+            var e = Assert.Throws<AutoModelException>(() => new AutoModel(-100, "mercedes", "klasse-c", new AutoType("Cabriolet")));
             Assert.Equal("AutoModelId moet meer zijn dan 0", e.Message);
         }
     }

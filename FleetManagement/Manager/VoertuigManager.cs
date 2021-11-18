@@ -13,9 +13,9 @@ namespace FleetManagement.Manager {
     {
         private readonly IVoertuigRepository _repo;
 
-        public IEnumerable<AantalDeuren> AantalDeuren => Enum.GetValues(typeof(AantalDeuren)).Cast<AantalDeuren>();
+        public static IEnumerable<AantalDeuren> AantalDeuren => Enum.GetValues(typeof(AantalDeuren)).Cast<AantalDeuren>();
 
-        public IEnumerable<AutoType> AutoTypes => Enum.GetValues(typeof(AutoType)).Cast<AutoType>();
+        public static IEnumerable<AutoType> AutoTypes => Enum.GetValues(typeof(AutoType)).Cast<AutoType>();
 
         public VoertuigManager(IVoertuigRepository repo) {
             this._repo = repo;
@@ -111,6 +111,10 @@ namespace FleetManagement.Manager {
         //check voor zekerheid 'return voertuig.VoertuigId;'
         public int VoegVoertuigToe(Voertuig voertuig) {
             try {
+
+                //Controle dat AutoType in de lijst staat  (zie static lijst bovenaan)
+                //Controle dat Kleur in de lijst staat (zie static lijst bovenaan; opgelet deze worden ingeladen via config file, dat betekent dat je eerst moet cheken dat de lijst aanwezig is)
+
                 if (voertuig == null) throw new VoertuigManagerException("Voertuig - Voertuig mag niet null zijn");
                 if (!_repo.BestaatVoertuig(voertuig)) {
                     _repo.VoegVoertuigToe(voertuig);

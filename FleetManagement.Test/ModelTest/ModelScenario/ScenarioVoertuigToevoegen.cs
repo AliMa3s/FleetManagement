@@ -22,7 +22,7 @@ namespace FleetManagement.Test.ModelTest.ModelScenario
 
             //Maak een autoType & Benzine
             BrandstofVoertuig bezine = new("benzine", false);
-            AutoModel automodel = new("ferrari", "ferrari enzo", AutoType.GT);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
 
             //Maak een voertuig aan (zonder ID)
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);

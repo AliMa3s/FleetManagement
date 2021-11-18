@@ -29,11 +29,11 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         public string DisplayFirst { get; set; } = "Selecteer";
         private VoertuigBouwer VoertuigBouwerInstance => new(_manager.VoertuigManager) { Bestuurder = null };
 
-        public VoertuigToevoegen(Managers unitOfManager)
+        public VoertuigToevoegen(Managers managers)
         {
             InitializeComponent();
 
-            _manager = unitOfManager;
+            _manager = managers;
 
             _voertuigBouwer = VoertuigBouwerInstance;
             SetDefault();
@@ -46,7 +46,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
             //set dropdown Aantal Deuren
             Deuren.Items.Add(DisplayFirst);
-            _manager.VoertuigManager.AantalDeuren.ToList().ForEach(aantal =>
+            VoertuigManager.AantalDeuren.ToList().ForEach(aantal =>
             {
                 _ = Deuren.Items.Add(aantal);
             });
@@ -80,10 +80,10 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                 InfoVoertuigMess.Foreground = Brushes.Green;
                 InfoVoertuigMess.Text = $"Voertuig met ID: {voertuigId} succesvol aangemaakt";
             }
-            catch
+            catch (Exception ex)
             {
                 InfoVoertuigMess.Foreground = Brushes.Red;
-                InfoVoertuigMess.Text = _voertuigBouwer.Status();
+                InfoVoertuigMess.Text = ex.Message;
             }
         }
 
