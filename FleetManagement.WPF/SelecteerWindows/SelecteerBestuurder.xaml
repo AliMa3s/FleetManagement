@@ -29,7 +29,6 @@
                     <DataGridTextColumn Header=" Rijbewijs " Binding="{Binding TypeRijbewijs}"/>
                     <DataGridTextColumn Header=" Rijksregisternummer " Binding="{Binding RijksRegisterNummer}"/>
                     <DataGridTextColumn Header=" Adresgegevens " Binding="{Binding Adres}"/>
-                    <DataGridTextColumn Header=" Aanmaakdatum" Binding="{Binding AanMaakDatum}"/>
                 </DataGrid.Columns>
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}" >

@@ -327,7 +327,7 @@ namespace FleetManagement.ADO.Repositories {
         {
             string zonderVoertuig = bestuurdersZonderVoertuig ? " b.voertuigid IS NULL AND " : null;
 
-            string query = "SELECT * FROM Bestuurder AS b " +
+            string query = "SELECT b.*, a.gemeente, a.nummer, a.postcode, a.straat FROM Bestuurder AS b " +
                    " LEFT JOIN adres AS a " +
                    " ON b.adresId = a.adresId " +
                    $" WHERE {zonderVoertuig} concat(b.achternaam, ' ', b.voornaam) LIKE @achterNaamEnVoornaam + '%'";

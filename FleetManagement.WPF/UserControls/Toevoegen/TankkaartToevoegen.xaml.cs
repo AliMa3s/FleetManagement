@@ -27,6 +27,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             InitializeComponent();
             _managers = managers;
+            FormTankkaart.Content = "Tankkaart ingeven";
         }
 
         private void SluitTankkaartForm_Click(object sender, RoutedEventArgs e)

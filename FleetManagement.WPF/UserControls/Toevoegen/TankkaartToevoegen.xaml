@@ -41,14 +41,12 @@
                 <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Geldigheidsdatum:</Label>
                 <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Pincode:</Label>
                 <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Brandstoffen:</Label>
-                <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Bestuurder:</Label>
 
                 <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" MaxLength="20" Height="25"/>
                 <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" Height="25" MaxLength="5"/>
                 <Button Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Content="Brandstof toevoegen" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="left" Width="150" Background="LightSkyBlue" Height="30" Margin="5,0,15,0"/>
                 <DatePicker Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center"/>
                 <DatePicker x:Name="Geldigheidsdatum" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center"/>
-                <Button Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Content="Bestuurder selecteren" HorizontalAlignment="Left" Width="150" Background="LightSkyBlue" Height="30" Margin="5,0,0,0"/>
             </Grid>
 
 

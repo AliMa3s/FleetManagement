@@ -27,6 +27,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             InitializeComponent();
             _managers = managers;
+            FormBestuurder.Content = "Bestuurder aanmaken";
         }
 
         private void SluitBestuurderForm_Click(object sender, RoutedEventArgs e)

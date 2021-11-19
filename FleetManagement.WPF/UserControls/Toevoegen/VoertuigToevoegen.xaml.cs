@@ -35,7 +35,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         public VoertuigToevoegen(Managers managers)
         {
             InitializeComponent();
-
+            FormVoertuig.Content = "Nieuw voertuig aanmaken";
             _managers = managers;
             SetDefault();
         }
