@@ -35,8 +35,8 @@ namespace FleetManagement.Model
                 NummerPlaat = nummerplaat;
             }
 
-            AutoModel = autoModel;
-            Brandstof = brandstof;
+            AutoModel = autoModel ?? throw new VoertuigException($"{nameof(AutoModel)} mag niet leeg zijn"); ;
+            Brandstof = brandstof ?? throw new VoertuigException($"{nameof(Brandstof)} mag niet leeg zijn");
         }
 
         public Voertuig(int voertuigId, AutoModel autoModel, string chassisnummer, string nummerplaat, 

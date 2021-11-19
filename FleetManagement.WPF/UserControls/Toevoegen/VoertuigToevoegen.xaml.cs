@@ -87,7 +87,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     ChassisNummer.Text,
                     Nummerplaat.Text,
                     new BrandstofVoertuig(
-                        Brandstof.SelectedItem.ToString() != DisplayFirst ? Brandstof.SelectedItem.ToString() : null,
+                        Brandstof.SelectedItem.ToString(),
                         HybrideJa.IsChecked.HasValue && (bool)HybrideJa.IsChecked
                     )
                 );
