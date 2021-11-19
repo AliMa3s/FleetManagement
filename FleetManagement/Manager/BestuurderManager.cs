@@ -114,9 +114,21 @@ namespace FleetManagement.Manager {
             throw new NotImplementedException();
         }
 
-        public PaginaLijst<Bestuurder> FilterOpBestuurdersNaam(string voornaam, string achternaam)
+        public IReadOnlyList<Bestuurder> FilterOpBestuurdersNaam(string achterNaamEnVoornaam, bool bestuurdersZonderVoertuig)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (achterNaamEnVoornaam == null)
+                {
+                    throw new BestuurderManagerException("filteren op naam mag niet null zijn");
+                }
+
+                return _repo.FilterOpBestuurdersNaam(achterNaamEnVoornaam, bestuurdersZonderVoertuig);
+            }
+            catch (Exception ex)
+            {
+                throw new BestuurderManagerException(ex.Message);
+            }
         }
 
         public Bestuurder ZoekBestuurder(string rijksRegisterNummer)
@@ -128,7 +140,7 @@ namespace FleetManagement.Manager {
             }
             else
             {
-                throw new BestuurderManagerException("Rijksregister bevat geen 17 digits");
+                throw new BestuurderManagerException("Rijksregister bevat geen 11 digits");
             }
         }
     }

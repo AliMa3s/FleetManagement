@@ -1,5 +1,4 @@
-﻿using FleetManagement.Bouwers;
-using FleetManagement.Manager;
+﻿using FleetManagement.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,18 +21,12 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     /// </summary>
     public partial class TankkaartToevoegen : UserControl
     {
-        private readonly Managers _manager;
-        private readonly TankkaartOpbouw _tankkaart;
+        private readonly Managers _managers;
 
-        public TankkaartToevoegen(Managers unitOfManager)
+        public TankkaartToevoegen(Managers managers)
         {
             InitializeComponent();
-            _manager = unitOfManager;
-
-            _tankkaart = new TankkaartOpbouw(_manager.TankkaartManager)
-            {
-                Bestuurder = null
-            };
+            _managers = managers;
         }
 
         private void SluitTankkaartForm_Click(object sender, RoutedEventArgs e)

@@ -21,15 +21,15 @@ namespace FleetManagement.WPF
     /// </summary>
     public partial class ToevoegWindow : Window
     {          
-        public ToevoegWindow(Managers unitOfManager)
+        public ToevoegWindow(Managers managers)
         {
             InitializeComponent();
             Title = "FleetManagement Toevoegscherm";
             Title = "Toevoegbeheer";
 
-            VoertuigToevoegTab.Content = new VoertuigToevoegen(unitOfManager);
-            BestuurderToevoegTab.Content = new BestuurderToevoegen(unitOfManager);
-            TankkaartToevoegTab.Content = new TankkaartToevoegen(unitOfManager);
+            VoertuigToevoegTab.Content = new VoertuigToevoegen(managers);
+            BestuurderToevoegTab.Content = new BestuurderToevoegen(managers);
+            TankkaartToevoegTab.Content = new TankkaartToevoegen(managers);
         }
     }
 }

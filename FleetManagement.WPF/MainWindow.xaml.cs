@@ -1,5 +1,4 @@
-﻿using FleetManagement.Bouwers;
-using FleetManagement.Manager;
+﻿using FleetManagement.Manager;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -23,20 +22,20 @@ namespace FleetManagement.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly Managers _manager;
+        private readonly Managers _managers;
 
         #region ctor & dependency injection
         public MainWindow(Managers managers)
         {
             InitializeComponent(); 
-            _manager = managers;
+            _managers = managers;
         }
         #endregion
 
         #region nieuwe windowschermen na klikken
         private void Zoeken_Click(object sender, RoutedEventArgs e)
         {
-            Window window = new ZoekWindow(_manager)
+            Window window = new ZoekWindow(_managers)
             {
                 Owner = this
             };
@@ -46,7 +45,7 @@ namespace FleetManagement.WPF
 
         private void Toevoegen_Click(object sender, RoutedEventArgs e)
         {
-            Window window = new ToevoegWindow(_manager)
+            Window window = new ToevoegWindow(_managers)
             {
                 Owner = this
             };
@@ -56,7 +55,7 @@ namespace FleetManagement.WPF
 
         private void WagenparBeheer_Click(object sender, RoutedEventArgs e)
         {
-            Window window = new WagenparkBeheer(_manager)
+            Window window = new WagenparkBeheer(_managers)
             {
                 Owner = this
             };

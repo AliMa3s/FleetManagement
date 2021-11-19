@@ -20,5 +20,7 @@ namespace FleetManagement.Interfaces {
 
         //bezig idee uitwerking Filip
         Bestuurder ZoekBestuurder(string RijksRegisterNummer);
+
+        IReadOnlyList<Bestuurder> FilterOpBestuurdersNaam(string achterNaamEnVoornaam, bool bestuurdersZonderVoertuig);
     }
 }

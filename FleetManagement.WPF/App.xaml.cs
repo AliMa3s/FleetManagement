@@ -25,7 +25,7 @@ namespace FleetManagement.WPF
             string connectionString = config.GetConnectionString("FleetManagementConnectionString");
 
             //ADO instantie aanmaken
-            Interfaces.IRepositories repositories = new ADO.Repositories.UnitOfRepository(connectionString);
+            Interfaces.IRepositories repositories = new ADO.Repositories.Repositories(connectionString);
 
             //Manager instantie aamaken & Autotypes inladen
             Manager = new Managers(repositories)

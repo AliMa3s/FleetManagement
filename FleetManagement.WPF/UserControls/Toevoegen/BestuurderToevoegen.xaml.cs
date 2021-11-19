@@ -1,5 +1,4 @@
-﻿using FleetManagement.Bouwers;
-using FleetManagement.Manager;
+﻿using FleetManagement.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,20 +21,12 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     /// </summary>
     public partial class BestuurderToevoegen : UserControl
     {
-        private readonly Managers _manager;
-        private readonly BestuurderOpbouw _bestuurder; 
+        private readonly Managers _managers;
 
-        public BestuurderToevoegen(Managers unitOfManager)
+        public BestuurderToevoegen(Managers managers)
         {
             InitializeComponent();
-            _manager = unitOfManager;
-
-            _bestuurder = new BestuurderOpbouw(_manager.BestuurderManager)
-            {
-               Adres = null,
-               Voertuig = null,
-               TankKaart = null,
-            };
+            _managers = managers;
         }
 
         private void SluitBestuurderForm_Click(object sender, RoutedEventArgs e)

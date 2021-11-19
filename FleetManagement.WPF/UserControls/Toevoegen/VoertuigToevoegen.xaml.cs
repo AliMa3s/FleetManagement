@@ -1,6 +1,7 @@
 ﻿using FleetManagement.Manager;
 using FleetManagement.Model;
 using FleetManagement.WPF.exceptions;
+using FleetManagement.WPF.SelecteerWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,7 +87,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     ChassisNummer.Text,
                     Nummerplaat.Text,
                     new BrandstofVoertuig(
-                        Brandstof.SelectedItem.ToString() != DisplayFirst ? Brandstof.SelectedItem.ToString() : "",
+                        Brandstof.SelectedItem.ToString() != DisplayFirst ? Brandstof.SelectedItem.ToString() : null,
                         HybrideJa.IsChecked.HasValue && (bool)HybrideJa.IsChecked
                     )
                 );
@@ -124,7 +125,19 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         //Voeg bestuurder toe uit een bestaande lijst
         private void KiesBestuurder_Click(object sender, RoutedEventArgs e)
         {
+            SelecteerBestuurder selecteerBestuurder = new(_managers.BestuurderManager)
+            {
+                Owner = Window.GetWindow(this),
+                Bestuurder = Bestuurder
+            };
 
+            bool? geslecteerd = selecteerBestuurder.ShowDialog();
+            if (geslecteerd == true)
+            {
+                Bestuurder = selecteerBestuurder.Bestuurder;
+                GekozenBestuurderNaam.Text = Bestuurder.Achternaam + " " + Bestuurder.Voornaam;
+                KiesBestuurder.Content = "Bestuurder wijzigen";
+            }
         }
 
         //Voeg AutoModel toe uit een bestaande lijst

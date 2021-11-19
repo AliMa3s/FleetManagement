@@ -323,118 +323,56 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-        //public PaginaLijst<Bestuurder> FilterOpBestuurdersNaam(string voornaam, string achternaam) {
-        //    throw new NotImplementedException();
-        //}
+        public IReadOnlyList<Bestuurder> FilterOpBestuurdersNaam(string achterNaamEnVoornaam, bool bestuurdersZonderVoertuig)
+        {
+            string zonderVoertuig = bestuurdersZonderVoertuig ? " b.voertuigid IS NULL AND " : null;
 
-        //public PaginaLijst<Bestuurder> AlleBestuurders(SorteerOptie sorteerOptie) {
+            string query = "SELECT * FROM Bestuurder AS b " +
+                   " LEFT JOIN adres AS a " +
+                   " ON b.adresId = a.adresId " +
+                   $" WHERE {zonderVoertuig} concat(b.achternaam, ' ', b.voornaam) LIKE @achterNaamEnVoornaam + '%'";
 
-        //    if(sorteerOptie == null)
-        //    {
-        //        throw new BestuurderRepositoryADOException("SorteerOptie mag niet null zijn");
-        //    }
+            List<Bestuurder> bestuurders = new();
 
-        //    string concatQuery = "";
-        //    concatQuery += sorteerOptie.OrderBy switch
-        //    {
-        //        "bestuurderId" => "ORDER BY bestuurderId ",
-        //        "voornaam" => "ORDER BY voornaam ",
-        //        "achternaam" => "ORDER BY achternaam ",
-        //        "geboorteDatum" => "ORDER BY geboorteDatum ",
-        //        "AanmaakDatum" => "ORDER BY AanmaakDatum ",
-        //        _ => "ORDER BY bestuurderId ",
-        //    };
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@achterNaamEnVoornaam", achterNaamEnVoornaam);
+                    Connection.Open();
 
-        //    concatQuery += sorteerOptie.Sort;
-        //    concatQuery += $" LIMIT {sorteerOptie.AantalPerPagina * (sorteerOptie.HuidigePaginaNummer - 1)}, " +
-        //        $"{sorteerOptie.AantalPerPagina}";
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read())
+                            {                         
+                                Bestuurder bestuurderDB = new(
+                                    (int)dataReader["bestuurderid"],
+                                    (string)dataReader["voornaam"],
+                                    (string)dataReader["achternaam"],
+                                    (string)dataReader["geboortedatum"],
+                                    (string)dataReader["rijbewijstype"],
+                                    (string)dataReader["rijbewijsnummer"],
+                                    (string)dataReader["rijksregisternummer"]
+                                );
 
-        //    string queryBestuurder = "SELECT * FROM bestuurders b" +
-        //    "LEFT JOIN adressen a ON b.adresId = a.adresId" +
-        //    "LEFT JOIN voertuigen v ON b.bestuurderId = v.bestuurderId" +
-        //    "LEFT JOIN automodellen a ON v.autoModelId = a.autoModelId" +
-        //    "LEFT JOIN tankkaarten t ON b.bestuurderId = t.bestuurderId" +
-        //    concatQuery;
+                                bestuurders.Add(bestuurderDB);
+                            }
+                        }
 
-        //    string totalCount = "SELECT count(bestuurderId) AS totaal FROM Bestuurders"; 
-
-        //    SqlConnection connection = getConnection();
-
-        //    using (SqlCommand command = new(totalCount, connection))
-        //    {
-        //        try
-        //        {
-        //            connection.Open();
-
-        //            using (SqlDataReader dataReaderCount = command.ExecuteReader())
-        //            {
-        //                dataReaderCount.Read();
-
-        //                int totaalResulaten = (int)dataReaderCount["totaal"];
-        //                List<Bestuurder> bestuurdersDB = new();
-
-        //                if (totaalResulaten > 0)
-        //                {
-        //                    command.CommandText = queryBestuurder;
-        //                    using (SqlDataReader dataReader = command.ExecuteReader())
-        //                    {
-        //                        while (dataReader.Read())
-        //                        {
-        //                            //Bestuurder gevonden
-        //                            Bestuurder bestuurderDB = BouwInstance.BestuurderInstance(dataReader);
-
-        //                            //Heeft bestuurder Adres
-        //                            if (dataReader["adresId"] != null)
-        //                            {
-        //                                Adres adresDB = BouwInstance.AdresInstance(dataReader);
-        //                                bestuurderDB.Adres = adresDB;
-        //                            }
-
-        //                            //Is bestuurder gekoppeld aan een voertuig
-        //                            if (dataReader["voertuigId"] != null)
-        //                            {
-        //                                Voertuig voertuigDB = BouwInstance.VoertuigInstance(dataReader);
-        //                                bestuurderDB.VoegVoertuigToe(voertuigDB);
-        //                            }
-
-        //                            //Heeft de bestuurder een Tankkaart
-        //                            if (dataReader["tankkaartNummer"] != null)
-        //                            {
-        //                                TankKaart tankKaartDB = BouwInstance.TankkaartInstance(dataReader);
-
-        //                                //voeg toe aan bestuurder / zonder opvulling tankkaart anders te veel connecties
-        //                                //Vraag brandstoffen op stuk voor stuk indien nodig in detail
-        //                                bestuurderDB.VoegTankKaartToe(tankKaartDB);
-        //                            }
-
-        //                            connection.Close();
-
-        //                            //Bestuurder toevoegen aan lijst
-        //                            bestuurdersDB.Add(bestuurderDB);
-        //                        }
-
-        //                        //Geef List<T> terug met info over de resultaten
-        //                        return new PaginaLijst<Bestuurder>(bestuurdersDB, totaalResulaten, sorteerOptie.HuidigePaginaNummer, 
-        //                            sorteerOptie.AantalPerPagina);
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    return new PaginaLijst<Bestuurder>(bestuurdersDB, totaalResulaten, sorteerOptie.HuidigePaginaNummer, 
-        //                        sorteerOptie.AantalPerPagina);
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            throw new BestuurderRepositoryADOException("Zoek bestuurders met sorteerOptie - gefaald", ex);
-        //        }
-        //        finally
-        //        {
-        //            connection?.Dispose();
-        //            connection = null;
-        //        }
-        //    }
-        //}
+                        return bestuurders;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new BestuurderRepositoryADOException("Filteren op naam - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
+        }
     }
 }
