@@ -327,7 +327,8 @@ namespace FleetManagement.ADO.Repositories {
         {
             string zonderVoertuig = bestuurdersZonderVoertuig ? " b.voertuigid IS NULL AND " : null;
 
-            string query = "SELECT b.*, a.gemeente, a.nummer, a.postcode, a.straat FROM Bestuurder AS b " +
+            string query = "SELECT b.bestuurderid, b.achternaam, b.voornaam, b.geboortedatum, b.rijksregisternummer, " +
+                "b.rijbewijsnummer, b.rijbewijstype, b.aanmaakDatum, a.* FROM Bestuurder AS b " +
                    " LEFT JOIN adres AS a " +
                    " ON b.adresId = a.adresId " +
                    $" WHERE {zonderVoertuig} concat(b.achternaam, ' ', b.voornaam) LIKE @achterNaamEnVoornaam + '%'";
@@ -346,7 +347,7 @@ namespace FleetManagement.ADO.Repositories {
                         if (dataReader.HasRows)
                         {
                             while (dataReader.Read())
-                            {                         
+                            {                    
                                 Bestuurder bestuurderDB = new(
                                     (int)dataReader["bestuurderid"],
                                     (string)dataReader["voornaam"],
@@ -356,6 +357,18 @@ namespace FleetManagement.ADO.Repositories {
                                     (string)dataReader["rijbewijsnummer"],
                                     (string)dataReader["rijksregisternummer"]
                                 );
+
+                                if(!dataReader.IsDBNull(dataReader.GetOrdinal("adresId")))
+                                {
+                                    Adres adresDB = new(
+                                        (int)dataReader["adresId"],
+                                        (string)dataReader["straat"],
+                                        (string)dataReader["nummer"],
+                                        (string)dataReader["postcode"],
+                                        (string)dataReader["gemeente"]
+                                    );
+                                    bestuurderDB.Adres = adresDB;
+                                }
 
                                 bestuurders.Add(bestuurderDB);
                             }

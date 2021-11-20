@@ -37,7 +37,7 @@ namespace FleetManagement.WPF
         {
             Window window = new ZoekWindow(_managers)
             {
-                Owner = this
+                Owner = GetWindow(this)
             };
 
             window.Show();
@@ -47,7 +47,7 @@ namespace FleetManagement.WPF
         {
             Window window = new ToevoegWindow(_managers)
             {
-                Owner = this
+                Owner = GetWindow(this)
             };
 
             window.Show();
@@ -57,7 +57,7 @@ namespace FleetManagement.WPF
         {
             Window window = new WagenparkBeheer(_managers)
             {
-                Owner = this
+                Owner = GetWindow(this)
             };
 
             window.Show();
@@ -66,7 +66,7 @@ namespace FleetManagement.WPF
 
         private void Afsluiten_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            GetWindow(this).Close();
         }
     }
 }

@@ -28,9 +28,9 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
         public string DisplayFirst { get; set; } = "Selecteer";
 
-        //Bewaar het object dat geslecteerd is
-        private AutoModel AutoModel { get; set; }
-        private Bestuurder Bestuurder { get; set; }
+        //Bewaar het object dat geselecteerd is
+        private AutoModel GekozenAutoModel { get; set; }
+        private Bestuurder GekozenBestuurder { get; set; }
 
         public VoertuigToevoegen(Managers managers)
         {
@@ -83,7 +83,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             try
             {
                 Voertuig nieuwVoertuig = new(
-                    AutoModel,
+                    GekozenAutoModel,
                     ChassisNummer.Text,
                     Nummerplaat.Text,
                     new BrandstofVoertuig(
@@ -91,6 +91,12 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                         HybrideJa.IsChecked.HasValue && (bool)HybrideJa.IsChecked
                     )
                 );
+
+                //Voeg bestuurder toe indien ingevuld in het formulier
+                if(GekozenBestuurder != null)
+                {
+                    nieuwVoertuig.VoegBestuurderToe(GekozenBestuurder);
+                }
 
                 //Indien ingevuld checken en casten
                 if (Deuren.SelectedItem.ToString() != DisplayFirst)
@@ -113,7 +119,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                 ResetForm();
 
                 InfoVoertuigMess.Foreground = Brushes.Green;
-                InfoVoertuigMess.Text = $"Voertuig voertuigDB is succesvol aangemaakt";
+                InfoVoertuigMess.Text = $"Voertuig is succesvol aangemaakt";
             }
             catch (Exception ex)
             {
@@ -128,14 +134,14 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             SelecteerBestuurder selecteerBestuurder = new(_managers.BestuurderManager)
             {
                 Owner = Window.GetWindow(this),
-                Bestuurder = Bestuurder
+                Bestuurder = GekozenBestuurder
             };
 
             bool? geslecteerd = selecteerBestuurder.ShowDialog();
             if (geslecteerd == true)
             {
-                Bestuurder = selecteerBestuurder.Bestuurder;
-                GekozenBestuurderNaam.Text = Bestuurder.Achternaam + " " + Bestuurder.Voornaam;
+                GekozenBestuurder = selecteerBestuurder.Bestuurder;
+                GekozenBestuurderNaam.Text = GekozenBestuurder.Achternaam + " " + GekozenBestuurder.Voornaam;
                 KiesBestuurder.Content = "Bestuurder wijzigen";
             }
         }
@@ -159,12 +165,13 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             VoertuigKleur.SelectedIndex = 0;
             Deuren.SelectedIndex = 0;
             GekozenBestuurderNaam.Text = string.Empty;
+            KiesBestuurder.Content = "Bestuurder selecteren";
 
-            AutoModel = null;
-            Bestuurder = null;
+            GekozenAutoModel = null;
+            GekozenBestuurder = null;
         }
 
-        //sluit vernster
+        //sluit venster
         private void SluitVoertuigForm_Click(object sender, RoutedEventArgs e)
         {
             Window.GetWindow(this).Close();

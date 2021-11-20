@@ -12,7 +12,7 @@
             <DockPanel DockPanel.Dock="Bottom" Height="60" VerticalAlignment="Bottom" LastChildFill="False">
                 
                 <Label  Height="36" VerticalAlignment="Center" FontSize="15" VerticalContentAlignment="Center" Margin="20,0,0,0" Width="52" HorizontalAlignment="Left">Naam:</Label>
-                <TextBox x:Name="TextBoxFilterOpNaam" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Center" Margin="20,0,0,0" Width="410" HorizontalAlignment="Left" Height="36"></TextBox>
+                <TextBox x:Name="TextBoxFilterOpNaam" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Center" Margin="20,0,0,0" MinWidth="410" HorizontalAlignment="Stretch" Height="36"></TextBox>
                 <Button x:Name="AnnuleerBestuurder" Content="Annuleer" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonAnnuleer_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
                 <Button x:Name="VoegBestuurderToe" Content="Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonKiesToevoegen_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
             </DockPanel>
@@ -28,7 +28,8 @@
                     <DataGridTextColumn Header=" Geboortedatum " Binding="{Binding GeboorteDatum}"/>
                     <DataGridTextColumn Header=" Rijbewijs " Binding="{Binding TypeRijbewijs}"/>
                     <DataGridTextColumn Header=" Rijksregisternummer " Binding="{Binding RijksRegisterNummer}"/>
-                    <DataGridTextColumn Header=" Adresgegevens " Binding="{Binding Adres}"/>
+                    <DataGridTextColumn Header=" Postcode " Binding="{Binding Adres.Postcode}"/>
+                    <DataGridTextColumn Header=" Aanmaakdatum " Binding="{Binding AanMaakDatum}"/>
                 </DataGrid.Columns>
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}" >
