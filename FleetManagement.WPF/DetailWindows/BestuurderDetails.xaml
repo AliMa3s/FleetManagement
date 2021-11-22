@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF.DetailWindows"
         mc:Ignorable="d"
-        Title="BestuurderDetails" Height="450" Width="800">
+        Title="BestuurderDetails" Height="600" Width="800">
     <DockPanel Background="LightSteelBlue"  Margin="0">
         <DockPanel.Children>
             <DataGrid  x:Name="BestuurdersLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
