@@ -6,7 +6,43 @@
         xmlns:local="clr-namespace:FleetManagement.WPF.SelecteerWindows"
         mc:Ignorable="d"
         Title="SdelecteerTankkaart" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <DockPanel Background="LightSteelBlue"  Margin="0">
+        <DockPanel.Children>
+
+            <DockPanel DockPanel.Dock="Bottom" Height="60" VerticalAlignment="Bottom" LastChildFill="False">
+
+                <Label  Height="36" VerticalAlignment="Center" FontSize="15" VerticalContentAlignment="Center" Margin="20,0,0,0" Width="52" HorizontalAlignment="Left">Naam:</Label>
+                <TextBox x:Name="TextBoxFilterOpNaam" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Center" Margin="20,0,0,0" MinWidth="410" HorizontalAlignment="Stretch" Height="36"></TextBox>
+                <Button x:Name="AnnuleerBestuurder" Content="Annuleer" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonAnnuleer_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                <Button x:Name="VoegBestuurderToe" Content="Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonKiesToevoegen_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+            </DockPanel>
+            <DataGrid  x:Name="BestuurdersLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
+                          SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
+                          HeadersVisibility="Column" SelectionChanged="BewaarBestuurder_SelectionChanged"
+                          MouseDoubleClick="BestuurderToevoegenDoubleClick"
+                          Background="LightBlue" 
+                         DockPanel.Dock="Top">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header=" Tankkaartnummer " Binding="{Binding tankkaartnummer}"/>
+                    <DataGridTextColumn Header=" BestuurderId " Binding="{Binding bestuurderid}"/>
+                    <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding geldigheidsdatum}"/>
+                    <DataGridTextColumn Header=" Pincode " Binding="{Binding pincode}"/>
+                    <DataGridTextColumn Header=" Actief " Binding="{Binding actief}"/>
+                    <DataGridTextColumn Header=" Uitgeefdatum " Binding="{Binding uitgeefdatum}"/>
+                </DataGrid.Columns>
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="{x:Type DataGridColumnHeader}" >
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="FontSize" Value="14"></Setter>
+                        <Setter Property="FontWeight" Value="bold"></Setter>
+                        <Setter Property="FontStyle" Value="Normal" ></Setter>
+                        <Setter Property="BorderBrush" Value="Beige" />
+                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="Background"  Value="CornflowerBlue" />
+                        <Setter Property="BorderThickness" Value="0.50" />
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+            </DataGrid>
+        </DockPanel.Children>
+    </DockPanel>
 </Window>
