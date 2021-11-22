@@ -23,5 +23,26 @@ namespace FleetManagement.WPF.SelecteerWindows
         {
             InitializeComponent();
         }
+        //Automodel bewaren telkens een Bestuurder wordt geselecteerd
+        private void BewaarAutoModel_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        }
+
+        //Ga terug wanneer een automodel is gekozen
+        private void ButtonKiesToevoegen_Click(object sender, RoutedEventArgs e) {
+       
+        }
+
+        //Ga terug bij dubbelklik op een rij in de lijst 
+        private void AutoModelToevoegenDoubleClick(object sender, MouseButtonEventArgs e) {
+           
+        }
+
+        private void ButtonAnnuleer_Click(object sender, RoutedEventArgs e) {
+            DialogResult = false;
+        }
+
+        //Filteren van naam
+        private void TextBoxFilterTextChanged(object sender, TextChangedEventArgs e) {
+        }
     }
 }

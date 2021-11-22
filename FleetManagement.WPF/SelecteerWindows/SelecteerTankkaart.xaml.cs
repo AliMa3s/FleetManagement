@@ -17,11 +17,32 @@ namespace FleetManagement.WPF.SelecteerWindows
     /// <summary>
     /// Interaction logic for SdelecteerTankkaart.xaml
     /// </summary>
-    public partial class SdelecteerTankkaart : Window
+    public partial class SelecteerTankkaart : Window
     {
-        public SdelecteerTankkaart()
+        public SelecteerTankkaart()
         {
             InitializeComponent();
+        }
+        //tankkaart bewaren telkens een Bestuurder wordt geselecteerd
+        private void BewaarTankkaart_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+        }
+
+        //Ga terug wanneer een tankkaart is gekozen
+        private void ButtonKiesToevoegen_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        //Ga terug bij dubbelklik op een rij in de lijst 
+        private void TankkaartToevoegenDoubleClick(object sender, MouseButtonEventArgs e) {
+
+        }
+
+        private void ButtonAnnuleer_Click(object sender, RoutedEventArgs e) {
+            DialogResult = false;
+        }
+
+        //Filteren van naam
+        private void TextBoxFilterTextChanged(object sender, TextChangedEventArgs e) {
         }
     }
 }
