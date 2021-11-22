@@ -68,8 +68,8 @@ namespace FleetManagement.ADO.Repositories {
 
         public void UpdateVoertuig(Voertuig voertuig) {
 
-            string query = "UPDATE Voertuig" +
-                           "SET aantal_deuren=@aantal_deuren, chassisnummer=@chassisnummer, nummerplaat=@nummerplaat, " +
+            string query = "UPDATE Voertuig " +
+                           " SET aantal_deuren=@aantal_deuren, chassisnummer=@chassisnummer, nummerplaat=@nummerplaat, " +
                            " WHERE voertuigid=@voertuigid";
 
             using (SqlCommand command = Connection.CreateCommand()) {
@@ -123,8 +123,8 @@ namespace FleetManagement.ADO.Repositories {
         */
         public int VoegVoertuigToe(Voertuig voertuig) {
 
-            string query = "INSERT INTO Voertuig (aantal_deuren,chassisnummer,nummerplaat)" +
-                           "OUTPUT INSERTED.ID VALUES (@aantal_deuren,@chassisnummer,@nummerplaat)";
+            string query = "INSERT INTO Voertuig (aantal_deuren,chassisnummer,nummerplaat) " +
+                           " OUTPUT INSERTED.ID VALUES (@aantal_deuren,@chassisnummer,@nummerplaat)";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
@@ -190,7 +190,7 @@ namespace FleetManagement.ADO.Repositories {
         //Vergeet niet: DB => Voertuigen (en niet Voertuig)
         public bool bestaatChassisOfNummerplaat(string chassisNummer, string nummerPlaat) {
             string queryVoertuig = "SELECT chassisnummer, nummperplaat FROM voertuigen " +
-                "WHERE chassisnummer = @chassisNummer || nummerplaat = @nummerPlaat";
+                " WHERE chassisnummer = @chassisNummer || nummerplaat = @nummerPlaat";
 
             using (SqlCommand command = new(queryVoertuig, Connection)) {
                 try {

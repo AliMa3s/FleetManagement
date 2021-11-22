@@ -142,8 +142,8 @@ namespace FleetManagement.ADO.Repositories {
 
         public void VoegTankKaartToe(TankKaart tankkaart) {
 
-            string query = "INSERT INTO Tankkaart (kaartnummer, geldigheidsdatum, pincode, actief, uitgeefdatum)" +
-                           "VALUES (@kaartnummer, @geldigheidsdatum, @pincode, @actief, @uitgeefdatum)";
+            string query = "INSERT INTO Tankkaart (kaartnummer, geldigheidsdatum, pincode, actief, uitgeefdatum) " +
+                           " VALUES (@kaartnummer, @geldigheidsdatum, @pincode, @actief, @uitgeefdatum)";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
@@ -179,7 +179,7 @@ namespace FleetManagement.ADO.Repositories {
 
             List<TankKaart> kaartLijst = new List<TankKaart>();
 
-            string query = "SELECT Tankkaart.kaartnummer, Brandstoftype.brandstofnaam FROM Tankkaart" +
+            string query = "SELECT Tankkaart.kaartnummer, Brandstoftype.brandstofnaam FROM Tankkaart " +
                 " INNER JOIN Brandstoftype ON Tankkaart.kaartnummer=@Tankkaart.kaartnummer ";
 
             using (SqlCommand command = Connection.CreateCommand()) {
