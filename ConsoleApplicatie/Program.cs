@@ -26,6 +26,9 @@ namespace ConsoleApplicatie
             } else {
                 Console.WriteLine("Bestuurder bestaat niet!");
             }//checked
+
+            bsd.Dispose();
+
             AdresRepositoryADO ado = new AdresRepositoryADO(connectionstring);
             Adres ad = new Adres("stratenstraat", "2", "5000", "Hasselt");
             //ado.VoegAdresToe(ad);
@@ -40,6 +43,8 @@ namespace ConsoleApplicatie
             } else {
                 Console.WriteLine("Adres bestaat niet!");
             }//checked
+
+            ado.Dispose();
         }
     }
 }

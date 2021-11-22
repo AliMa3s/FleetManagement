@@ -23,10 +23,12 @@ namespace FleetManagement.Model
         public string RijksRegisterNummer { get; }
         public Voertuig Voertuig { get; private set; }
         public TankKaart TankKaart { get; private set; }
-        public DateTime AanMaakDatum { get; set; }
+        public DateTime AanmaakDatum { get; set; }
         public bool HeeftBestuurderVoertuig => Voertuig != null;
         public bool HeeftBestuurderTankKaart => TankKaart != null;
         #endregion
+
+        //Mag hier een property komen om een date format te geven ToString("dd MMMM yyyy")? 
 
         #region Ctors
         //Nieuw Bestuurder: Enkel verplichte velden

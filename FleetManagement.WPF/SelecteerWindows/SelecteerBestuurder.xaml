@@ -29,7 +29,7 @@
                     <DataGridTextColumn Header=" Rijbewijs " Binding="{Binding TypeRijbewijs}"/>
                     <DataGridTextColumn Header=" Rijksregisternummer " Binding="{Binding RijksRegisterNummer}"/>
                     <DataGridTextColumn Header=" Postcode " Binding="{Binding Adres.Postcode}"/>
-                    <DataGridTextColumn Header=" Aanmaakdatum " Binding="{Binding AanMaakDatum}"/>
+                    <DataGridTextColumn Header=" Aanmaakdatum " Binding="{Binding AanmaakDatum}"/>
                 </DataGrid.Columns>
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}" >

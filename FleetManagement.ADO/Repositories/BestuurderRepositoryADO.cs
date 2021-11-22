@@ -1,5 +1,4 @@
 ﻿using FleetManagement.ADO.RepositoryExceptions;
-using FleetManagement.Helpers;
 using FleetManagement.Interfaces;
 using FleetManagement.Model;
 using Microsoft.Data.SqlClient;
@@ -233,7 +232,7 @@ namespace FleetManagement.ADO.Repositories {
                                 (string)dataReader["rijbewijsNummer"],
                                 (string)dataReader["rijksRegisterNummer"]
                             ) {
-                                AanMaakDatum = (DateTime)dataReader["aanmaakDatum"]
+                                AanmaakDatum = (DateTime)dataReader["aanmaakDatum"]
                             };
 
                             //Heeft bestuurder Adres

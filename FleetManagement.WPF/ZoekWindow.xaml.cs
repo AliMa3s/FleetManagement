@@ -1,4 +1,5 @@
 ﻿using FleetManagement.Manager;
+using FleetManagement.WPF.UserControls.Zoeken;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,10 @@ namespace FleetManagement.WPF
             InitializeComponent();
             Title = "FleetManagement Zoekscherm";
             _managers = managers;
+
+            VoertuigZoekTab.Content = new VoertuigZoeken(managers);
+            BestuurderZoekTab.Content = new BestuurderZoeken(managers);
+            TankkaartZoekTab.Content = new TankkaartZoeken(managers);
         }
     }
 }
