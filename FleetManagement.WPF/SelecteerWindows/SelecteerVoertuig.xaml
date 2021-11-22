@@ -13,13 +13,13 @@
 
                 <Label  Height="36" VerticalAlignment="Center" FontSize="15" VerticalContentAlignment="Center" Margin="20,0,0,0" Width="52" HorizontalAlignment="Left">Naam:</Label>
                 <TextBox x:Name="TextBoxFilterOpNaam" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Center" Margin="20,0,0,0" MinWidth="410" HorizontalAlignment="Stretch" Height="36"></TextBox>
-                <Button x:Name="AnnuleerBestuurder" Content="Annuleer" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonAnnuleer_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
-                <Button x:Name="VoegBestuurderToe" Content="Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonKiesToevoegen_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                <Button x:Name="AnnuleerVoertuig" Content="Annuleer" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonAnnuleer_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                <Button x:Name="VoegVoertuigToe" Content="Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonKiesToevoegen_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
             </DockPanel>
-            <DataGrid  x:Name="BestuurdersLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
+            <DataGrid  x:Name="VoertuigLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
                           SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
-                          HeadersVisibility="Column" SelectionChanged="BewaarBestuurder_SelectionChanged"
-                          MouseDoubleClick="BestuurderToevoegenDoubleClick"
+                          HeadersVisibility="Column" SelectionChanged="BewaarVoertuig_SelectionChanged"
+                          MouseDoubleClick="VoertuigToevoegenDoubleClick"
                           Background="LightBlue" 
                          DockPanel.Dock="Top">
                 <DataGrid.Columns>
