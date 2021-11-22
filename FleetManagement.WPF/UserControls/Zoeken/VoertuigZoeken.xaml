@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Zoeken"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800">
 
     <DockPanel Background="LightSteelBlue"  Margin="-2">
         <DockPanel.Children>
@@ -22,18 +22,25 @@
                           FontStyle="Normal"
                           DockPanel.Dock="Top">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header=" Naam " Binding="{Binding Naam}"/>
-
+                    <DataGridTextColumn Header=" Model " Binding="{Binding AutoModel.AutoModelNaam}"/>
+                    <DataGridTextColumn Header=" Merk " Binding="{Binding AutoModel.Merk}"/>
+                    <DataGridTextColumn Header=" AutoType " Binding="{Binding AutoModel.AutoType}"/>
+                    <DataGridTextColumn Header=" Brandstof " Binding="{Binding Brandstof.BrandstofNaam}"/>
+                    <DataGridTextColumn Header=" Kleur " Binding="{Binding kleurnaam}"/>
+                    <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding nummerplaat}"/>
+                    <DataGridTextColumn Header=" Chassisnummer " Binding="{Binding chassisnummer}"/>
+                    <DataGridTextColumn Header=" Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
                 </DataGrid.Columns>
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}" >
                         <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="FontWeight" Value="bold"></Setter>
                         <Setter Property="FontSize" Value="14"></Setter>
                         <Setter Property="FontStyle" Value="Normal" ></Setter>
-                        <Setter Property="BorderBrush" Value="DarkGray"    />
+                        <Setter Property="BorderBrush" Value="Beige" />
                         <Setter Property="Foreground" Value="Black" />
-                        <Setter Property="Background"  Value="CornflowerBlue"   />
-                        <Setter Property="BorderThickness" Value="0.75" />
+                        <Setter Property="Background"  Value="CornflowerBlue" />
+                        <Setter Property="BorderThickness" Value="0.50" />
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
             </DataGrid>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FleetManagement.Manager;
+using FleetManagement.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +19,23 @@ namespace FleetManagement.WPF.DetailWindows {
     /// Interaction logic for BestuurderDetails.xaml
     /// </summary>
     public partial class BestuurderDetails : Window {
-        public BestuurderDetails() {
+
+        public BestuurderDetails(Managers managers, Bestuurder bestuurder) {
             InitializeComponent();
+            
+            //Controleer bestuurder om extra info op te vragen aan manager
+            if(!bestuurder.HeeftBestuurderVoertuig || !bestuurder.HeeftBestuurderTankKaart)
+            {
+                //Bestuurder bestuurder = managers.BestuurderManager.GeefBestuurderInfo();
+            }
+
+            //bind de bestuurder
+            DataContext = bestuurder;
+        }
+
+        private void SluitenDetail_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

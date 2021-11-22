@@ -21,18 +21,23 @@
                           FontStyle="Normal"
                           DockPanel.Dock="Top">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header=" Naam " Binding="{Binding Naam}"/>
+                    <DataGridTextColumn Header=" Tankkaartnummer " Binding="{Binding tankkaartnummer}"/>
+                    <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding geldigheidsdatum}"/>
+                    <DataGridTextColumn Header=" Actief " Binding="{Binding actief}"/>
+                    <DataGridTextColumn Header=" Pincode " Binding="{Binding pincode}"/>
+                    <DataGridTextColumn Header=" Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
 
                 </DataGrid.Columns>
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}" >
                         <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="FontWeight" Value="bold"></Setter>
                         <Setter Property="FontSize" Value="14"></Setter>
                         <Setter Property="FontStyle" Value="Normal" ></Setter>
-                        <Setter Property="BorderBrush" Value="DarkGray"    />
+                        <Setter Property="BorderBrush" Value="Beige" />
                         <Setter Property="Foreground" Value="Black" />
-                        <Setter Property="Background"  Value="CornflowerBlue"   />
-                        <Setter Property="BorderThickness" Value="0.75" />
+                        <Setter Property="Background"  Value="CornflowerBlue" />
+                        <Setter Property="BorderThickness" Value="0.50" />
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
             </DataGrid>

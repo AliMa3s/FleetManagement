@@ -22,10 +22,10 @@ namespace FleetManagement.Model
         public string RijBewijsNummer { get; }
         public string RijksRegisterNummer { get; }
         public Voertuig Voertuig { get; private set; }
-        public TankKaart TankKaart { get; private set; }
+        public TankKaart Tankkaart { get; private set; }
         public DateTime AanmaakDatum { get; set; }
         public bool HeeftBestuurderVoertuig => Voertuig != null;
-        public bool HeeftBestuurderTankKaart => TankKaart != null;
+        public bool HeeftBestuurderTankKaart => Tankkaart != null;
         #endregion
 
         //Mag hier een property komen om een date format te geven ToString("dd MMMM yyyy")? 
@@ -176,17 +176,17 @@ namespace FleetManagement.Model
         {
             if (ingegevenTankKaart == null)
             {
-                throw new BestuurderException($"Ingegeven {nameof(TankKaart)} mag niet null zijn.");
+                throw new BestuurderException($"Ingegeven {nameof(Tankkaart)} mag niet null zijn.");
             }
 
             if (!HeeftBestuurderTankKaart)
             {
-                TankKaart = ingegevenTankKaart;
-                TankKaart.VoegBestuurderToe(BestuurderId, this); //Plaatst Bestuurder
+                Tankkaart = ingegevenTankKaart;
+                Tankkaart.VoegBestuurderToe(BestuurderId, this); //Plaatst Bestuurder
             }
             else
             {
-                throw new BestuurderException($"{nameof(Bestuurder)} heeft al een {nameof(TankKaart)}");
+                throw new BestuurderException($"{nameof(Bestuurder)} heeft al een {nameof(Tankkaart)}");
             }
         }
 
@@ -195,16 +195,16 @@ namespace FleetManagement.Model
         {
             if (ingegevenTankKaart == null)
             {
-                throw new BestuurderException($"Ingegeven {nameof(TankKaart)} mag niet null zijn.");
+                throw new BestuurderException($"Ingegeven {nameof(Tankkaart)} mag niet null zijn.");
             }
 
             if (!HeeftBestuurderTankKaart)
             {
-                TankKaart = ingegevenTankKaart;
+                Tankkaart = ingegevenTankKaart;
             }
             else
             {
-                throw new BestuurderException($"{nameof(Bestuurder)} heeft al een {nameof(TankKaart)}");
+                throw new BestuurderException($"{nameof(Bestuurder)} heeft al een {nameof(Tankkaart)}");
             }
         }
 
@@ -213,24 +213,24 @@ namespace FleetManagement.Model
         {
             if (ingegevenTankKaart == null)
             {
-                throw new BestuurderException($"{nameof(TankKaart)} mag niet null zijn");
+                throw new BestuurderException($"{nameof(Tankkaart)} mag niet null zijn");
             }
 
             if (HeeftBestuurderTankKaart)
             {
-                if (TankKaart.Equals(ingegevenTankKaart))
+                if (Tankkaart.Equals(ingegevenTankKaart))
                 {
-                    TankKaart.VerwijderBestuurder(BestuurderId, this);
-                    TankKaart = null;
+                    Tankkaart.VerwijderBestuurder(BestuurderId, this);
+                    Tankkaart = null;
                 }
                 else
                 {
-                    throw new BestuurderException($"{nameof(TankKaart)} kan niet verwijderd worden");
+                    throw new BestuurderException($"{nameof(Tankkaart)} kan niet verwijderd worden");
                 }
             }
             else
             {
-                throw new BestuurderException($"Er is geen {nameof(TankKaart)} om te verwijderen");
+                throw new BestuurderException($"Er is geen {nameof(Tankkaart)} om te verwijderen");
             }
         }
 
@@ -239,23 +239,23 @@ namespace FleetManagement.Model
         {
             if (ingegevenTankKaart == null)
             {
-                throw new BestuurderException($"{nameof(TankKaart)} mag niet null zijn");
+                throw new BestuurderException($"{nameof(Tankkaart)} mag niet null zijn");
             }
 
             if (HeeftBestuurderTankKaart)
             {
-                if (TankKaart.Equals(ingegevenTankKaart) && tankKaartNummer != null)
+                if (Tankkaart.Equals(ingegevenTankKaart) && tankKaartNummer != null)
                 { 
-                    TankKaart = null;
+                    Tankkaart = null;
                 }
                 else
                 {
-                    throw new BestuurderException($"{nameof(TankKaart)} kan niet verwijderd worden");
+                    throw new BestuurderException($"{nameof(Tankkaart)} kan niet verwijderd worden");
                 }
             }
             else
             {
-                throw new BestuurderException($"Er is geen {nameof(TankKaart)} om te verwijderen");
+                throw new BestuurderException($"Er is geen {nameof(Tankkaart)} om te verwijderen");
             }
         }
         #endregion

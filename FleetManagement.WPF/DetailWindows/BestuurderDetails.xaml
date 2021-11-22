@@ -6,35 +6,61 @@
         xmlns:local="clr-namespace:FleetManagement.WPF.DetailWindows"
         mc:Ignorable="d"
         Title="BestuurderDetails" Height="600" Width="800">
+
     <DockPanel Background="LightSteelBlue"  Margin="0">
         <DockPanel.Children>
-            <DataGrid  x:Name="BestuurdersLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
-                          SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
-                          HeadersVisibility="Column" 
-                          Background="LightBlue" 
-                         DockPanel.Dock="Top">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header=" Achternaam " Binding="{Binding Achternaam}"/>
-                    <DataGridTextColumn Header=" Voornaam " Binding="{Binding Voornaam}"/>
-                    <DataGridTextColumn Header=" Geboortedatum " Binding="{Binding GeboorteDatum}"/>
-                    <DataGridTextColumn Header=" Rijbewijs " Binding="{Binding TypeRijbewijs}"/>
-                    <DataGridTextColumn Header=" Rijksregisternummer " Binding="{Binding RijksRegisterNummer}"/>
-                    <DataGridTextColumn Header=" Postcode " Binding="{Binding Adres.Postcode}"/>
-                    <DataGridTextColumn Header=" Aanmaakdatum " Binding="{Binding AanMaakDatum}"/>
-                </DataGrid.Columns>
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="{x:Type DataGridColumnHeader}" >
-                        <Setter Property="Height" Value="30"></Setter>
-                        <Setter Property="FontSize" Value="14"></Setter>
-                        <Setter Property="FontWeight" Value="bold"></Setter>
-                        <Setter Property="FontStyle" Value="Normal" ></Setter>
-                        <Setter Property="BorderBrush" Value="Beige" />
-                        <Setter Property="Foreground" Value="Black" />
-                        <Setter Property="Background"  Value="CornflowerBlue" />
-                        <Setter Property="BorderThickness" Value="0.50" />
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
-            </DataGrid>
+            <DockPanel DockPanel.Dock="Bottom" Height="60" VerticalAlignment="Stretch" LastChildFill="False">
+                <Button x:Name="reservatieAnnuleren" Content="Sluiten" Background="#FFCAD5EA" VerticalAlignment="Stretch" Height="37" Margin="20,5,20,7.6" Width="86" DockPanel.Dock="Left" HorizontalAlignment="Left" Click="SluitenDetail_Click"/>
+            </DockPanel>
+
+            <Grid x:Name="DetailScherm"></Grid>
+
+                <Grid Background="LightBlue" HorizontalAlignment="Left" VerticalAlignment="Top" ShowGridLines="False" Height="505" Width="800" Margin="0,0,0,0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid/>
+
+                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" VerticalAlignment="Center">111111111111111</TextBlock>
+                </Grid>
+
+                <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40*"/>
+                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="7*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" VerticalAlignment="Center">222222222222222</TextBlock>
+                </Grid>
+                
+            </Grid>
         </DockPanel.Children>
     </DockPanel>
 </Window>
