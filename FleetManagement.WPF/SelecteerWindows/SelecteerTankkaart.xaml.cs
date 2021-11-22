@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FleetManagement.Manager;
+using FleetManagement.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,21 @@ namespace FleetManagement.WPF.SelecteerWindows
     /// </summary>
     public partial class SelecteerTankkaart : Window
     {
-        public SelecteerTankkaart()
+        private readonly TankkaartManager _tankkaartManager;
+        private TankKaart _tankkaart;
+        public TankKaart Tankkaart {
+            get => _tankkaart;
+            set {
+                _tankkaart = value;
+                TankkaartLijst.SelectedItem = value;
+            }
+        }
+        public SelecteerTankkaart(TankkaartManager manager)
         {
             InitializeComponent();
+            _tankkaartManager = manager;
+
+            TankkaartLijst.ItemsSource = _tankkaartManager.GeefAlleTankkaart();
         }
         //tankkaart bewaren telkens een Bestuurder wordt geselecteerd
         private void BewaarTankkaart_SelectionChanged(object sender, SelectionChangedEventArgs e) {

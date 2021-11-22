@@ -54,7 +54,7 @@
                 <Button Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Content="Adres ingeven" HorizontalAlignment="left" Width="150" Background="LightSkyBlue" Height="30" Margin="5,0,15,0"/>
                 <TextBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text=""  Height="25"/>
                 <TextBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text=""  Height="25"/>
-                <Button Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="left" Width="150" Content="Tankkaart selecteren" Background="LightSkyBlue" Height="30" Margin="5,0,15,0"/>
+                <Button Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="left" Width="150" Content="Tankkaart selecteren" Background="LightSkyBlue" Click="KiesTankkaart_Click" Height="30" Margin="5,0,15,0"/>
             </Grid>
         </DockPanel.Children>
     </DockPanel>

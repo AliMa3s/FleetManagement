@@ -1,4 +1,5 @@
 ﻿using FleetManagement.Manager;
+using FleetManagement.WPF.SelecteerWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,19 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         private void SluitBestuurderForm_Click(object sender, RoutedEventArgs e)
         {
             Window.GetWindow(this).Close();
+        }
+
+        private void KiesTankkaart_Click(object sender, RoutedEventArgs e) {
+            SelecteerTankkaart selecteerTankkaart = new(_managers.TankkaartManager) {
+                Owner = Window.GetWindow(this)
+            };
+
+            bool? geslecteerd = selecteerTankkaart.ShowDialog();
+            if (geslecteerd == true) {
+                //GekozenBestuurder = selecteerBestuurder.Bestuurder;
+                //GekozenBestuurderNaam.Text = GekozenBestuurder.Achternaam + " " + GekozenBestuurder.Voornaam;
+                //KiesBestuurder.Content = "Bestuurder wijzigen";
+            }
         }
     }
 }
