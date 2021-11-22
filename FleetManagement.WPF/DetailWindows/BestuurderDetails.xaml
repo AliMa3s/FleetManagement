@@ -1,0 +1,40 @@
+﻿<Window x:Class="FleetManagement.WPF.DetailWindows.BestuurderDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FleetManagement.WPF.DetailWindows"
+        mc:Ignorable="d"
+        Title="BestuurderDetails" Height="450" Width="800">
+    <DockPanel Background="LightSteelBlue"  Margin="0">
+        <DockPanel.Children>
+            <DataGrid  x:Name="BestuurdersLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
+                          SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
+                          HeadersVisibility="Column" 
+                          Background="LightBlue" 
+                         DockPanel.Dock="Top">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header=" Achternaam " Binding="{Binding Achternaam}"/>
+                    <DataGridTextColumn Header=" Voornaam " Binding="{Binding Voornaam}"/>
+                    <DataGridTextColumn Header=" Geboortedatum " Binding="{Binding GeboorteDatum}"/>
+                    <DataGridTextColumn Header=" Rijbewijs " Binding="{Binding TypeRijbewijs}"/>
+                    <DataGridTextColumn Header=" Rijksregisternummer " Binding="{Binding RijksRegisterNummer}"/>
+                    <DataGridTextColumn Header=" Postcode " Binding="{Binding Adres.Postcode}"/>
+                    <DataGridTextColumn Header=" Aanmaakdatum " Binding="{Binding AanMaakDatum}"/>
+                </DataGrid.Columns>
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="{x:Type DataGridColumnHeader}" >
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="FontSize" Value="14"></Setter>
+                        <Setter Property="FontWeight" Value="bold"></Setter>
+                        <Setter Property="FontStyle" Value="Normal" ></Setter>
+                        <Setter Property="BorderBrush" Value="Beige" />
+                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="Background"  Value="CornflowerBlue" />
+                        <Setter Property="BorderThickness" Value="0.50" />
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+            </DataGrid>
+        </DockPanel.Children>
+    </DockPanel>
+</Window>

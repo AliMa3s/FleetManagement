@@ -37,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DetailWindows\" />
     <Folder Include="UpdateWindows\" />
     <Folder Include="UserControls\Zoeken\" />
   </ItemGroup>
