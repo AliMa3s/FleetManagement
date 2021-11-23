@@ -99,9 +99,12 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
         private void BrandstofToevoegenButton_Click(object sender, RoutedEventArgs e)
         {
-            _keuzeBrandstoffen.Add(BrandstofNamenComboBox.SelectedItem.ToString());
-            BrandstofNamenComboBox.Items.Remove(BrandstofNamenComboBox.SelectedItem.ToString());
-            BrandstofNamenComboBox.SelectedIndex = 0;
+            if(BrandstofNamenComboBox.SelectedItem.ToString() != "Selecteer")
+            {
+                _keuzeBrandstoffen.Add(BrandstofNamenComboBox.SelectedItem.ToString());
+                BrandstofNamenComboBox.Items.Remove(BrandstofNamenComboBox.SelectedItem.ToString());
+                BrandstofNamenComboBox.SelectedIndex = 0;
+            }
 
             GekozenbrandstoffenString.Text = string.Join(", ", _keuzeBrandstoffen);
         }
