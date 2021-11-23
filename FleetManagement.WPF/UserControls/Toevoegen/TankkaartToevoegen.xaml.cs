@@ -24,11 +24,9 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     public partial class TankkaartToevoegen : UserControl
     {
         private readonly Managers _managers;
-        TankKaart tankkaart;
-
-         
-        private List<string> _optieBrandstoffen = new();
         private List<string> _keuzeBrandstoffen = new();
+
+        public string DisplayFirst { get; set; } = "Selecteer";
 
         public TankkaartToevoegen(Managers managers)
         {
@@ -36,17 +34,10 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             _managers = managers;
             FormTankkaart.Content = "Tankkaart ingeven";
 
-            //Zodra Brandstofanager werkt schakel deze dan in en all de add's uit
-            //_optieBrandstoffen.AddRange(_managers.BrandstofManager.brabdstoffen);
-            _optieBrandstoffen.Add("Selecteer");
-            _optieBrandstoffen.Add("Diesel");
-            _optieBrandstoffen.Add("Gas");
-            _optieBrandstoffen.Add("Benzine");
-            _optieBrandstoffen.Add("Elektrich");
+            BrandstofNamenComboBox.Items.Add(DisplayFirst);
+            _managers.Brandstoffen.ToList().ForEach(brandstof => {
 
-            _optieBrandstoffen.ForEach(brandstof => {
-
-                BrandstofNamenComboBox.Items.Add(brandstof);
+                BrandstofNamenComboBox.Items.Add(brandstof.BrandstofNaam);
             });
         }
 
@@ -59,21 +50,23 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             try
             {
-                tankkaart = new TankKaart(TankKaartTextBox.Text, DateTime.Parse(GeldigheidsDatumDatePicker.Text));
+                if (DateTime.TryParse(GeldigheidsDatumDatePicker.SelectedDate?.ToString(), out DateTime geldigheidsDatum)
+                    && DateTime.TryParse(UitgeefDatumDatePicker.SelectedDate?.ToString(), out DateTime uitgeefDatum))
+                {
+                    TankKaart tankkaart = new TankKaart(TankKaartTextBox.Text, DateTime.Parse(GeldigheidsDatumDatePicker.Text));
 
-                if(!string.IsNullOrWhiteSpace(PincodeTextBox.Text))
-                    tankkaart.VoegPincodeToe(PincodeTextBox.Text);
+                    if(!string.IsNullOrWhiteSpace(PincodeTextBox.Text))
+                        tankkaart.VoegPincodeToe(PincodeTextBox.Text);
 
+                    tankkaart.UitgeefDatum = DateTime.Parse(UitgeefDatumDatePicker.Text);
 
-                tankkaart.UitgeefDatum = DateTime.Parse(UitgeefDatumDatePicker.Text);
-
-                //if (TankKaartTextBox.Text == null) infoTankkaartMess.Text = "TankkaartNummer niet ingevuld";
-                //if (PincodeTextBox.Text == null) infoTankkaartMess.Text = "Pincode niet ingevuld";
-                //if (UitgeefDatumDatePicker.SelectedDate == null) infoTankkaartMess.Text = "UitgeefDatum niet ingevuld";
-                //if (GeldigheidsDatumDatePicker.SelectedDate == null) infoTankkaartMess.Text = "geldigheidsDatum niet ingevuld";
-                //else
-
-                _managers.TankkaartManager.VoegTankKaartToe(tankkaart); //deze lijn code is fout.
+                    _managers.TankkaartManager.VoegTankKaartToe(tankkaart); //deze lijn code is fout.          
+                }
+                else
+                {
+                    infoTankkaartMess.Foreground = Brushes.Red;
+                    infoTankkaartMess.Text = "UitgeefDatum -en Geldigheidsdatum moet ingevuld zijn";
+                }
             }
             catch(Exception ex)
             {
@@ -99,7 +92,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
         private void BrandstofToevoegenButton_Click(object sender, RoutedEventArgs e)
         {
-            if(BrandstofNamenComboBox.SelectedItem.ToString() != "Selecteer")
+            if(BrandstofNamenComboBox.SelectedItem.ToString() != DisplayFirst)
             {
                 _keuzeBrandstoffen.Add(BrandstofNamenComboBox.SelectedItem.ToString());
                 BrandstofNamenComboBox.Items.Remove(BrandstofNamenComboBox.SelectedItem.ToString());
@@ -123,9 +116,10 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             BrandstofNamenComboBox.Items.Clear();
 
-            _optieBrandstoffen.ForEach(brandstof => {
+            BrandstofNamenComboBox.Items.Add(DisplayFirst);
+            _managers.Brandstoffen.ToList().ForEach(brandstof => {
 
-                BrandstofNamenComboBox.Items.Add(brandstof);
+                BrandstofNamenComboBox.Items.Add(brandstof.BrandstofNaam);
             });
 
             BrandstofNamenComboBox.SelectedIndex = 0;

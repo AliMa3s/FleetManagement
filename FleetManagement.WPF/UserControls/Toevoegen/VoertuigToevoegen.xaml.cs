@@ -55,17 +55,17 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                 _ = Deuren.Items.Add(aantal);
             });
 
-            //set dropdown Kleuren (DB)
-            //VoertuigManager.Kleuren.ToList().ForEach(kleur =>
-            //{
-            //    _ = VoertuigKleur.Items.Add(kleur);
-            //});
+            //set dropdown Kleuren(DB)
+            _managers.Kleuren.ToList().ForEach(kleur =>
+            {
+                _ = VoertuigKleur.Items.Add(kleur.KleurNaam);
+            });
 
-            //set dropdown Aantal Deuren (DB)
-            //VoertuigManager.Brandstoffen.ToList().ForEach(kleur =>
-            //{
-            //    _ = Brandstof.Items.Add(kleur);
-            //});
+            //set dropdown Brandstof(DB)
+            _managers.Brandstoffen.ToList().ForEach(brandstof =>
+            {
+                _ = Brandstof.Items.Add(brandstof.BrandstofNaam);
+            });
         }
 
         //Wis het formulier en begin opnieuw

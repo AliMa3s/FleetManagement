@@ -13,13 +13,18 @@ namespace FleetManagement.ADO.Repositories
         public IBestuurderRepository BestuurderRepo { get; private set; }
         public IVoertuigRepository VoertuigRepo { get; private set; }
         public ITankkaartRepository TankkaartRepo { get; private set; }
+        public IAutoModelRepository AutoModelRepo { get; private set; }
+        public IVoertuigKleurRepository KleurRepo { get; private set; }
+        public IBrandstofRepository BrandstofRepo { get; private set; }
 
         public Repositories(string connectionString)
         {
             AdresRepo = new AdresRepositoryADO(connectionString);
             BestuurderRepo = new BestuurderRepositoryADO(connectionString);
             VoertuigRepo = new VoertuigRepositoryADO(connectionString);
-            TankkaartRepo = new TankkaartRepositoryADO(connectionString);
+            AutoModelRepo = new AutoModelRepositoryADO(connectionString);
+            KleurRepo = new KleurRepositoryADO(connectionString);
+            BrandstofRepo = new  BrandstofRepositoryADO(connectionString);
         }
     }
 }

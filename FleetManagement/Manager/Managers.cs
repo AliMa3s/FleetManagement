@@ -16,11 +16,18 @@ namespace FleetManagement.Manager
         public BestuurderManager BestuurderManager { get; private set; }
         public VoertuigManager VoertuigManager { get; private set; }
         public TankkaartManager TankkaartManager { get; private set; }
+        public KleurManager KleurManager { get; private set; }
+        public AutoModelManager AutoModelManager { get; private set; }
+        public BrandstofManager BrandstofManager { get; private set; }
 
         //Klaarzetten voor Autotype in te laden via configFile
         public IEnumerable<KeyValuePair<string, string>> AutoTypes { get; set; }
 
-        //Klaarzetten voor Kleur
+        //Kleur
+        public IReadOnlyList<Kleur> Kleuren { get; set; }
+
+        //Brabdstoffen
+        public IReadOnlyList<BrandstofType> Brandstoffen { get; set; }
 
         public Managers(IRepositories repos)
         {
@@ -29,6 +36,15 @@ namespace FleetManagement.Manager
             BestuurderManager = new BestuurderManager(repos.BestuurderRepo);
             VoertuigManager = new VoertuigManager(repos.VoertuigRepo);
             TankkaartManager = new TankkaartManager(repos.TankkaartRepo);
+            KleurManager = new KleurManager(repos.KleurRepo);
+            AutoModelManager = new AutoModelManager(repos.AutoModelRepo);
+            BrandstofManager = new BrandstofManager(repos.BrandstofRepo);
+
+            //Kleuren éénmaal inladen
+            Kleuren = repos.KleurRepo.GeefAlleVoertuigKleuren();
+
+            //Brandstoffen éénmaal inladen
+            Brandstoffen = repos.BrandstofRepo.GeeAlleBrandstoffen();
         }
     }
 }
