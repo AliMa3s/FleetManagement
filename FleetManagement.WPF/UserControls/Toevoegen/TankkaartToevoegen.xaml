@@ -44,7 +44,14 @@
 
                 <TextBox Name="TankKaartTextBox"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" MaxLength="20" Height="25"/>
                 <TextBox Name="PincodeTextBox" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" Height="25" MaxLength="5"/>
-                <Button Name="BrandstofToevoegenButton" Click="BrandstofToevoegenButton_Click" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Content="Brandstof toevoegen" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="left" Width="150" Background="LightSkyBlue" Height="30" Margin="5,0,15,0"/>
+                <ComboBox Name="BrandstofNamenComboBox" Grid.Column="1" Grid.Row="6" Margin="5,0,0,0" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="146" >
+                    <ComboBoxItem>Brandstof 01</ComboBoxItem>
+                    <ComboBoxItem>Brandstof 02</ComboBoxItem>
+                    <ComboBoxItem>Brandstof 03</ComboBoxItem>
+                    <ComboBoxItem>Brandstof 04</ComboBoxItem>
+                </ComboBox>
+                <Button Name="ResetGekozenBrandstofButton" Click="ResetGekozenBrandstofButton_Click" Content="Reset Brandstof" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="8" Grid.Column="1" Margin="5" Grid.ColumnSpan="1" Width="150" />
+                <Button Name="BrandstofToevoegenButton" Click="BrandstofToevoegenButton_Click" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Content="Brandstof toevoegen" VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Background="LightSkyBlue" Height="22" Margin="5,0,0,0" />
                 <DatePicker Name="UitgeefDatumDatePicker" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center" />
                 <DatePicker Name="GeldigheidsDatumDatePicker" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center" />
             </Grid>
