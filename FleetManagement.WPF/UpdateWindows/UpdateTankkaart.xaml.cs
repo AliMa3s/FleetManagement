@@ -24,7 +24,9 @@ namespace FleetManagement.WPF.UpdateWindows
             InitializeComponent();
         }
 
-        private void UpdateTankkaartButton_Click(object sender, RoutedEventArgs e)
+        
+
+        private void TankKaartUpdateButton_Click(object sender, RoutedEventArgs e)
         {
 
         }

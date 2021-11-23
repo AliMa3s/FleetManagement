@@ -1,64 +1,66 @@
-﻿<UserControl x:Class="FleetManagement.WPF.UserControls.Toevoegen.VoertuigToevoegen"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="550" d:DesignWidth="800">
+﻿<Window x:Class="FleetManagement.WPF.UpdateWindows.UpdateVoertuig"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FleetManagement.WPF.UpdateWindows"
+        mc:Ignorable="d"
+        Title="UpdateVoertuig" Height="450" Width="800">
+    <Grid>
+        <DockPanel Background="LightBlue" Margin="-2">
+            <DockPanel.Children>
+                <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
+                    <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click"/>
+                    <Button x:Name="ResetFormulierButton" Content="_Reset" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="ResetFormulierButton_Click"/>
+                    <Button x:Name="UpdateVoertuigButton" Content="Update Voertuig" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="150" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="UpdateVoertuigButton_Click"/>
+                    <TextBlock x:Name="InfoVoertuigMess" HorizontalAlignment="Left" Height="95" Margin="20,5,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="350" FontSize="13" Foreground="DarkRed"/>
+                </DockPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="20*"/>
+                    </Grid.ColumnDefinitions>
 
-    <DockPanel Background="LightBlue" Margin="-2">
-        <DockPanel.Children>
-            <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
-                <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click"/>
-                <Button x:Name="ResetFormulierButton" Content="_Reset" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="ResetFormulierButton_Click"/>
-                <Button x:Name="VoertuigUpdatenButton" Content="Voertuig Updaten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="150" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="VoertuigAanmakenButton_Click"/>
-                <TextBlock x:Name="InfoVoertuigMess" HorizontalAlignment="Left" Height="95" Margin="20,5,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="350" FontSize="13" Foreground="DarkRed"/>
-            </DockPanel>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="50*"/>
-                    <ColumnDefinition Width="20*"/>
-                </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40*"/>
+                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="37*"/>
+                        <RowDefinition Height="7*"/>
+                    </Grid.RowDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40*"/>
-                    <RowDefinition Height="7*"/>
-                    <RowDefinition Height="37*"/>
-                    <RowDefinition Height="37*"/>
-                    <RowDefinition Height="37*"/>
-                    <RowDefinition Height="37*"/>
-                    <RowDefinition Height="37*"/>
-                    <RowDefinition Height="37*"/>
-                    <RowDefinition Height="37*"/>
-                    <RowDefinition Height="37*"/>
-                    <RowDefinition Height="7*"/>
-                </Grid.RowDefinitions>
+                    <Label x:Name="FormVoertuig" Grid.Row="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
+                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Automodel:</Label>
+                    <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Chassisnummer:</Label>
+                    <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Nummerplaat:</Label>
+                    <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Hybride:</Label>
+                    <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Brandstof:</Label>
+                    <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Kleur:</Label>
+                    <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Aantal deuren:</Label>
+                    <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Bestuurder:</Label>
 
-                <Label x:Name="FormVoertuig" Grid.Row="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
-                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Automodel:</Label>
-                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Chassisnummer:</Label>
-                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Nummerplaat:</Label>
-                <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Hybride:</Label>
-                <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Brandstof:</Label>
-                <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Kleur:</Label>
-                <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Aantal deuren:</Label>
-                <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Bestuurder:</Label>
+                    <Button x:Name="KiesAutoModel" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Content="Automodel kiezen" HorizontalAlignment="Left" Width="150" Background="LightSkyBlue" Height="30" Margin="5,0,0,0" Click="KiesAutoModel_Click"/>
+                    <TextBlock x:Name="GekozenAutoModelNaam" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
+                    <TextBox x:Name="ChassisNummer" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,0,0"  Text="" Height="25"/>
+                    <TextBox x:Name="Nummerplaat" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,0,0"  Text=""  Height="25"/>
+                    <RadioButton x:Name="HybrideNeen" GroupName="HybrideCheck" Content="Neen" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="5,0,0,0"/>
+                    <RadioButton x:Name="HybrideJa" GroupName="HybrideCheck" Content="Ja" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="65,0,0,0"/>
+                    <ComboBox Name="Brandstof" Grid.Row="6" Grid.Column="1" Grid.RowSpan="1" VerticalAlignment="Center" Height="25"  HorizontalAlignment="Stretch" Margin="5,0,0,0" SelectedIndex="0" />
+                    <ComboBox Name="VoertuigKleur" Grid.Row="7" Grid.Column="1" Grid.RowSpan="1" VerticalAlignment="Center"  Height="25" HorizontalAlignment="Stretch" Margin="5,0,0,0" SelectedIndex="0"/>
+                    <ComboBox Name="Deuren" Grid.Row="8" Grid.Column="1" Grid.RowSpan="1" VerticalAlignment="Center" Height="25"  HorizontalAlignment="Stretch" Margin="5,0,0,0" SelectedIndex="0"/>
+                    <Button x:Name="KiesBestuurder" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Content="Bestuurder selecteren" HorizontalAlignment="Left" Width="150" Background="LightSkyBlue" Height="30" Margin="5,0,0,0" Click="KiesBestuurder_Click"/>
+                    <TextBlock x:Name="GekozenBestuurderNaam" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
 
-                <Button x:Name="KiesAutoModel" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Content="Automodel kiezen" HorizontalAlignment="Left" Width="150" Background="LightSkyBlue" Height="30" Margin="5,0,0,0" Click="KiesAutoModel_Click"/>
-                <TextBlock x:Name="GekozenAutoModelNaam" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
-                <TextBox x:Name="ChassisNummer" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,0,0"  Text="" Height="25"/>
-                <TextBox x:Name="Nummerplaat" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,0,0"  Text=""  Height="25"/>
-                <RadioButton x:Name="HybrideNeen" GroupName="HybrideCheck" Content="Neen" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="5,0,0,0"/>
-                <RadioButton x:Name="HybrideJa" GroupName="HybrideCheck" Content="Ja" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="65,0,0,0"/>
-                <ComboBox Name="Brandstof" Grid.Row="6" Grid.Column="1" Grid.RowSpan="1" VerticalAlignment="Center" Height="25"  HorizontalAlignment="Stretch" Margin="5,0,0,0" SelectedIndex="0" />
-                <ComboBox Name="VoertuigKleur" Grid.Row="7" Grid.Column="1" Grid.RowSpan="1" VerticalAlignment="Center"  Height="25" HorizontalAlignment="Stretch" Margin="5,0,0,0" SelectedIndex="0"/>
-                <ComboBox Name="Deuren" Grid.Row="8" Grid.Column="1" Grid.RowSpan="1" VerticalAlignment="Center" Height="25"  HorizontalAlignment="Stretch" Margin="5,0,0,0" SelectedIndex="0"/>
-                <Button x:Name="KiesBestuurder" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Content="Bestuurder selecteren" HorizontalAlignment="Left" Width="150" Background="LightSkyBlue" Height="30" Margin="5,0,0,0" Click="KiesBestuurder_Click"/>
-                <TextBlock x:Name="GekozenBestuurderNaam" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
+                </Grid>
 
-            </Grid>
-
-        </DockPanel.Children>
-    </DockPanel>
-</UserControl>
+            </DockPanel.Children>
+        </DockPanel>
+    </Grid>
+</Window>

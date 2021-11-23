@@ -23,5 +23,10 @@ namespace FleetManagement.WPF.UpdateWindows
         {
             InitializeComponent();
         }
+
+        private void UpdateVoertuigButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
