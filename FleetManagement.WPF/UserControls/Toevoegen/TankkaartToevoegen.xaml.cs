@@ -82,14 +82,14 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
         private void BrandstofToevoegenButton_Click(object sender, RoutedEventArgs e)
         {
-            
-            BrandstofType brandstof = (BrandstofType)BrandstofNamenComboBox.SelectedItem;
+
+            _brandstofToevoegen.Add(BrandstofNamenComboBox.SelectedItem.ToString());
 
         }
 
         private void ResetGekozenBrandstofButton_Click(object sender, RoutedEventArgs e)
         {
-            BrandstofNamenComboBox.SelectedItem = string.Empty;
+            BrandstofNamenComboBox.SelectedItem = null;
         }
     }
 }

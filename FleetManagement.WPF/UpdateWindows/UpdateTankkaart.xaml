@@ -11,8 +11,9 @@
             <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
                 <Button Name="SluitTankKaartWindow" Click="SluitTankKaartWindow_Click" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" />
                 <Button Name="ResetVeldenButton" Click="ResetVeldenButton_Click" Content="_Reset" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
-                <Button Click="TankkaartAanmakenButton_Click" x:Name="TankkaartAanmakenButton" Content="_Tankkaart aanmaken" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="150" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+
                 <TextBlock x:Name="infoTankkaartMess" HorizontalAlignment="Left" Height="95" Margin="20,5,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="350" FontSize="13" Foreground="#FFE51E1E"/>
+                <Button x:Name="_brandstofToevoegen" Click="BrandstofToevoegenButton_Click" Content="Brandstof toevoegen" Background="LightSkyBlue" DockPanel.Dock="Left" Width="212" Height="38" />
             </DockPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -50,8 +51,7 @@
                     <ComboBoxItem>Brandstof 03</ComboBoxItem>
                     <ComboBoxItem>Brandstof 04</ComboBoxItem>
                 </ComboBox>
-                <Button Name="ResetGekozenBrandstofButton" Click="ResetGekozenBrandstofButton_Click" Content="Reset Brandstof" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="8" Grid.Column="1" Margin="5" Grid.ColumnSpan="1" Width="150" />
-                <Button Name="_brandstofToevoegen" Click="BrandstofToevoegenButton_Click" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Content="Brandstof toevoegen" VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Background="LightSkyBlue" Height="22" Margin="5,0,0,0" />
+                <Button Name="ResetGekozenBrandstofButton" Click="ResetGekozenBrandstofButton_Click" Content="Reset Brandstof" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="7" Grid.Column="1" Margin="5" Grid.ColumnSpan="1" Width="150" />
                 <DatePicker Name="UitgeefDatumDatePicker" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center" />
                 <DatePicker Name="GeldigheidsDatumDatePicker" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center" />
             </Grid>
