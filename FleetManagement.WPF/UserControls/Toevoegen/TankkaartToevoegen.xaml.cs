@@ -43,18 +43,27 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             try
             {
                 tankkaart = new TankKaart(TankKaartTextBox.Text, DateTime.Parse(GeldigheidsDatumDatePicker.Text));
-                if (TankKaartTextBox.Text == null) infoTankkaartMess.Text = "TankkaartNummer niet ingevuld";
-                if (PincodeTextBox.Text == null) infoTankkaartMess.Text = "Pincode niet ingevuld";
-                if (UitgeefDatumDatePicker.SelectedDate == null) infoTankkaartMess.Text = "UitgeefDatum niet ingevuld";
-                if (GeldigheidsDatumDatePicker.SelectedDate == null) infoTankkaartMess.Text = "geldigheidsDatum niet ingevuld";
-                else
-                _managers.TankkaartManager.VoegTankKaartToe(tankkaart);//deze lijn code is fout.
+
+                if(!string.IsNullOrWhiteSpace(PincodeTextBox.Text))
+                    tankkaart.VoegPincodeToe(PincodeTextBox.Text);
+
+
+                tankkaart.UitgeefDatum = DateTime.Parse(UitgeefDatumDatePicker.Text);
+
+                //if (TankKaartTextBox.Text == null) infoTankkaartMess.Text = "TankkaartNummer niet ingevuld";
+                //if (PincodeTextBox.Text == null) infoTankkaartMess.Text = "Pincode niet ingevuld";
+                //if (UitgeefDatumDatePicker.SelectedDate == null) infoTankkaartMess.Text = "UitgeefDatum niet ingevuld";
+                //if (GeldigheidsDatumDatePicker.SelectedDate == null) infoTankkaartMess.Text = "geldigheidsDatum niet ingevuld";
+                //else
+
+                _managers.TankkaartManager.VoegTankKaartToe(tankkaart); //deze lijn code is fout.
             }
             catch(Exception ex)
             {
-                throw new TankKaartManagerException("aanmaken van nieuwe tankkaart gefaald",ex);
-            }
-            
+                infoTankkaartMess.Foreground = Brushes.Red;
+                infoTankkaartMess.Text = ex.Message;
+                //throw new TankKaartManagerException("aanmaken van nieuwe tankkaart gefaald",ex);
+            } 
         }
 
         private void ResetVeldenButton_Click(object sender, RoutedEventArgs e)

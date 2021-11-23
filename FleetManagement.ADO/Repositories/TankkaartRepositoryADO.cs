@@ -16,13 +16,13 @@ namespace FleetManagement.ADO.Repositories {
 
         public bool BestaatTankKaart(TankKaart tankkaart) {
 
-            string query = "SELECT count(*) FROM Tankkaart WHERE kaartnummer=@kaatnummer";
+            string query = "SELECT count(*) FROM Tankkaart WHERE tankkaartnummer=@tankkaartnummer";
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
                     Connection.Open();
-                    command.Parameters.Add(new SqlParameter("@kaartnummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
 
-                    command.Parameters["@kaartnummer"].Value = tankkaart.TankKaartNummer;
+                    command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
 
                     command.CommandText = query;
                     int n = (int)command.ExecuteScalar();
@@ -142,23 +142,23 @@ namespace FleetManagement.ADO.Repositories {
 
         public void VoegTankKaartToe(TankKaart tankkaart) {
 
-            string query = "INSERT INTO Tankkaart (kaartnummer, geldigheidsdatum, pincode, actief, uitgeefdatum) " +
-                           " VALUES (@kaartnummer, @geldigheidsdatum, @pincode, @actief, @uitgeefdatum)";
+            string query = "INSERT INTO Tankkaart (tankkaartnummer, geldigheidsdatum, pincode, actief, uitgeefdatum) " +
+                           " VALUES (@tankkaartnummer, @geldigheidsdatum, @pincode, @actief, @uitgeefdatum)";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
                     Connection.Open();
-                    command.Parameters.Add(new SqlParameter("@kaartnummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.DateTime));
                     command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@actief", SqlDbType.Bit));
-                    //command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Timestamp));
+                    command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Timestamp));
 
-                    command.Parameters["@kaartnummer"].Value = tankkaart.TankKaartNummer;
+                    command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
                     command.Parameters["@geldigheidsdatum"].Value = tankkaart.GeldigheidsDatum;
                     command.Parameters["@pincode"].Value = tankkaart.Pincode;
                     command.Parameters["@actief"].Value = tankkaart.Actief;
-                    //command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum;
+                    command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum;
 
                     command.CommandText = query;
                     command.ExecuteNonQuery();
