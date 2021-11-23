@@ -17,11 +17,11 @@
             </DockPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="161*"/>
-                    <ColumnDefinition Width="362*"/>
-                    <ColumnDefinition Width="24.12"/>
-                    <ColumnDefinition Width="233*"/>
-                    <ColumnDefinition Width="24*"/>
+                    <ColumnDefinition Width="28*"/>
+                    <ColumnDefinition Width="42*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -67,12 +67,12 @@
                 <TextBlock TextWrapping="Wrap" Text="" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2" VerticalAlignment="Stretch" FontSize="14" Padding="5,10,0,0">L.Schuermanstraat 20 <LineBreak/>9040 Sint-Amandsberg</TextBlock>
 
                 <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Tankkaart:</Label>
-                <Grid Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="2" Background="#FFE7E8EC">
+                <Grid Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="5" Background="#FFE7E8EC" Height="155" Margin="24,51,0,0" VerticalAlignment="Top">
                     <TextBlock TextWrapping="Wrap" Padding="10"><Run Language="nl-be" Text="N"/><Run Text="ummer: 5987465321205698756"/><LineBreak/><Run Text="Geldigheidstdatum: 23/04/2022"/><LineBreak/><Run Text="Actief"/></TextBlock>
                 </Grid>
 
-                <Button x:Name="Tankkaartverwijderen" Content="_Tankkaart verwijderen" Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="1" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,0,0" Width="135" Click="Tankkaartverwijderen_Click"/>
-                <Button x:Name="AdresWijzigen" Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="1" Content="Adres wijzigen " HorizontalAlignment="Center" Width="135" Background="#FFCAD5EA" Height="30"  Margin="0,0,0,0" Click="AdresWijzigen_Click"/>
+                <Button x:Name="Tankkaartverwijderen" Content="_Verwijder kaart" Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="1" Background="#FFCAD5EA" VerticalAlignment="Bottom" Height="36" Margin="0,0,0,0" Width="100" Click="Tankkaartverwijderen_Click"/>
+                <Button x:Name="AdresWijzigen" Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="1" Content="Wijzig adres" HorizontalAlignment="Center" Width="100" Background="#FFCAD5EA" Height="30"  Margin="0,0,0,0" Click="AdresWijzigen_Click"/>
 
             </Grid>
         </DockPanel.Children>
