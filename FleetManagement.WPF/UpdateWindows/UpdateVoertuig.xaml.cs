@@ -28,5 +28,25 @@ namespace FleetManagement.WPF.UpdateWindows
         {
 
         }
+
+        private void ResetFormulierButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SluitVoertuigForm_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void KiesBestuurder_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void KiesAutoModel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

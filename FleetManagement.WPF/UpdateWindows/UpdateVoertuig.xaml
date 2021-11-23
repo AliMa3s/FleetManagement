@@ -46,7 +46,7 @@
                     <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Aantal deuren:</Label>
                     <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Bestuurder:</Label>
 
-                    <Button x:Name="KiesAutoModel" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Content="Automodel kiezen" HorizontalAlignment="Left" Width="150" Background="LightSkyBlue" Height="30" Margin="5,0,0,0" Click="KiesAutoModel_Click"/>
+                    <Button x:Name="KiesAutoModel" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Content="Automodel kiezen" HorizontalAlignment="Left" Width="150" Background="LightSkyBlue" Height="30" Margin="5,3,0,0" Click="KiesAutoModel_Click" VerticalAlignment="Top"/>
                     <TextBlock x:Name="GekozenAutoModelNaam" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
                     <TextBox x:Name="ChassisNummer" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,0,0"  Text="" Height="25"/>
                     <TextBox x:Name="Nummerplaat" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,0,0"  Text=""  Height="25"/>

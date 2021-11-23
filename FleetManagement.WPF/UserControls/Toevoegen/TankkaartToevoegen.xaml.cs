@@ -26,11 +26,28 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         private readonly Managers _managers;
         TankKaart tankkaart;
 
+         
+        private List<string> _optieBrandstoffen = new();
+        private List<string> _keuzeBrandstoffen = new();
+
         public TankkaartToevoegen(Managers managers)
         {
             InitializeComponent();
             _managers = managers;
             FormTankkaart.Content = "Tankkaart ingeven";
+
+            //Zodra Brandstofanager werkt schakel deze dan in en all de add's uit
+            //_optieBrandstoffen.AddRange(_managers.BrandstofManager.brabdstoffen);
+            _optieBrandstoffen.Add("Selecteer");
+            _optieBrandstoffen.Add("Diesel");
+            _optieBrandstoffen.Add("Gas");
+            _optieBrandstoffen.Add("Benzine");
+            _optieBrandstoffen.Add("Elektrich");
+
+            _optieBrandstoffen.ForEach(brandstof => {
+
+                BrandstofNamenComboBox.Items.Add(brandstof);
+            });
         }
 
         private void SluitTankkaartForm_Click(object sender, RoutedEventArgs e)
@@ -82,14 +99,26 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
         private void BrandstofToevoegenButton_Click(object sender, RoutedEventArgs e)
         {
+            _keuzeBrandstoffen.Add(BrandstofNamenComboBox.SelectedItem.ToString());
+            BrandstofNamenComboBox.Items.Remove(BrandstofNamenComboBox.SelectedItem.ToString());
+            BrandstofNamenComboBox.SelectedIndex = 0;
 
-            _brandstofToevoegen.Add(BrandstofNamenComboBox.SelectedItem.ToString());
-
+            GekozenbrandstoffenString.Text = string.Join(", ", _keuzeBrandstoffen);
         }
 
         private void ResetGekozenBrandstofButton_Click(object sender, RoutedEventArgs e)
         {
-            BrandstofNamenComboBox.SelectedItem = null;
+            BrandstofNamenComboBox.Items.Clear();
+
+            _optieBrandstoffen.ForEach(brandstof => {
+
+                BrandstofNamenComboBox.Items.Add(brandstof);
+            });
+
+            BrandstofNamenComboBox.SelectedIndex = 0;
+            GekozenbrandstoffenString.Text = string.Empty;
+
+            _keuzeBrandstoffen = new();
         }
     }
 }

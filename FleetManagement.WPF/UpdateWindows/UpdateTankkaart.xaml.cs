@@ -30,5 +30,25 @@ namespace FleetManagement.WPF.UpdateWindows
         {
 
         }
+
+        private void ResetVeldenButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SluitTankKaartWindow_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ResetGekozenBrandstofButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BrandstofToevoegenButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
