@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF"
         mc:Ignorable="d"
-        Title="ZoekWindow" Height="450" Width="800">
+        Title="ZoekWindow" Height="550" Width="800">
     <Grid>
         <TabControl>
             <TabItem x:Name="VoertuigZoekTab" Header="Voertuigen" FontSize="14"></TabItem>

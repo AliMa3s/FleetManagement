@@ -16,6 +16,7 @@ namespace FleetManagement.Test
         [InlineData("2FEG830")]
         [InlineData("9FEG830")]
         [InlineData("1tgp520")]
+        [InlineData("ztgp520")]
         public void Nummerplaat_Valid(string nummerplaat)
         {
             Assert.True(CheckFormat.IsNummerplaatGeldig(nummerplaat));

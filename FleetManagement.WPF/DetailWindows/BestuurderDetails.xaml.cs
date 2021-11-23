@@ -1,5 +1,6 @@
 ﻿using FleetManagement.Manager;
 using FleetManagement.Model;
+using FleetManagement.WPF.UpdateWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,23 +20,43 @@ namespace FleetManagement.WPF.DetailWindows {
     /// Interaction logic for BestuurderDetails.xaml
     /// </summary>
     public partial class BestuurderDetails : Window {
+        private readonly Managers _managers;
+
+        Adres GekozenAdres { get; set; }
 
         public BestuurderDetails(Managers managers, Bestuurder bestuurder) {
             InitializeComponent();
+
+            _managers = managers;
             
             //Controleer bestuurder om extra info op te vragen aan manager
-            if(!bestuurder.HeeftBestuurderVoertuig || !bestuurder.HeeftBestuurderTankKaart)
-            {
-                //Bestuurder bestuurder = managers.BestuurderManager.GeefBestuurderInfo();
-            }
+            //if(!bestuurder.HeeftBestuurderVoertuig || !bestuurder.HeeftBestuurderTankKaart)
+            //{
+            //    //Bestuurder bestuurder = managers.BestuurderManager.GeefBestuurderInfo();
+            //}
 
             //bind de bestuurder
             DataContext = bestuurder;
         }
 
-        private void SluitenDetail_Click(object sender, RoutedEventArgs e)
+        private void SluitForm_Click(object sender, RoutedEventArgs e)
         {
+            Window.GetWindow(this).Close();
+        }
 
+        private void WijzigButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateBestuurder updateBestuurder = new(_managers)
+            {
+                Owner = Window.GetWindow(this),
+                //Adres = GekozenAdres
+            };
+
+            bool? geslecteerd = updateBestuurder.ShowDialog();
+            if (geslecteerd == true)
+            {
+                //GekozenBestuurder = UpdateBestuurder.Adres;
+            }
         }
     }
 }

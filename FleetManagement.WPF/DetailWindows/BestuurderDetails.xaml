@@ -7,60 +7,73 @@
         mc:Ignorable="d"
         Title="BestuurderDetails" Height="600" Width="800">
 
-    <DockPanel Background="LightSteelBlue"  Margin="0">
+    <DockPanel Background="LightBlue" Margin="-2">
         <DockPanel.Children>
-            <DockPanel DockPanel.Dock="Bottom" Height="60" VerticalAlignment="Stretch" LastChildFill="False">
-                <Button x:Name="reservatieAnnuleren" Content="Sluiten" Background="#FFCAD5EA" VerticalAlignment="Stretch" Height="37" Margin="20,5,20,7.6" Width="86" DockPanel.Dock="Left" HorizontalAlignment="Left" Click="SluitenDetail_Click"/>
+            <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
+                <Button x:Name="SluitForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitForm_Click"/>
+                <Button x:Name="WijzigButton" Content="_Wijzigen" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="WijzigButton_Click"/>
+
+                <TextBlock x:Name="infoBestuurderMess" HorizontalAlignment="Left" Height="95" Margin="20,5,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="350" FontSize="13" Foreground="#FFE51E1E"/>
             </DockPanel>
-
-            <Grid x:Name="DetailScherm"></Grid>
-
-                <Grid Background="LightBlue" HorizontalAlignment="Left" VerticalAlignment="Top" ShowGridLines="False" Height="505" Width="800" Margin="0,0,0,0">
-
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50*"/>
-                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="45*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="29*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
-                
-                <Grid/>
 
-                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="7*"/>
+                </Grid.RowDefinitions>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                    </Grid.RowDefinitions>
+                <Label x:Name="FormBestuurder" Grid.Row="0" Grid.ColumnSpan="5" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue" Content="Detail Bestuurder"/>
+                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Voornaam:</Label>
+                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Achternaam:</Label>
+                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Geboortedatum:</Label>
+                <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Rijksregisternummer:</Label>
+                <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Adres:</Label>
+                <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Rijbewijs:</Label>
+                <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Rijbewijsnummer:</Label>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" VerticalAlignment="Center">111111111111111</TextBlock>
+                <TextBlock x:Name="VoornaamTextBlock" Text="Filip" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock x:Name="AchternaamTextBlock" Text="Rigoir" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock x:Name="GeboorteDatumTextBlock" Text="31-03-1976" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock x:Name="RijksRegisterTextBlock" Text="76033101986" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock x:Name="RijbewijsTextBlock" Text="A, B" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock x:Name="RijbewijsNummerTexbl" Text="5631056987" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock TextWrapping="Wrap" Text="" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2" VerticalAlignment="Stretch" FontSize="14" Padding="5,10,0,0">L.Schuermanstraat 20 <LineBreak/>9040 Sint-Amandsberg</TextBlock>
+
+                <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Voertuig:</Label>
+                <Grid Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="2" Background="#FFE7E8EC">
+                    <TextBlock TextWrapping="Wrap" Padding="10"><Run Text="Toyota Celica"/><LineBreak/><Run Language="nl-be" Text="C"/><Run Text="hassisnummer: 12365478542123056"/><LineBreak/><Run Text="Nummerplaat: 1-FEG-830"/></TextBlock>
                 </Grid>
 
-                <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1">
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40*"/>
-                        <RowDefinition Height="7*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="37*"/>
-                        <RowDefinition Height="7*"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" VerticalAlignment="Center">222222222222222</TextBlock>
+                <Label Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Tankkaart:</Label>
+                <Grid Grid.Column="3" Grid.Row="6" Grid.ColumnSpan="1" Grid.RowSpan="2" Background="#FFE7E8EC">
+                    <TextBlock TextWrapping="Wrap" Padding="10"><Run Language="nl-be" Text="N"/><Run Text="ummer: 5987465321205698756"/><LineBreak/><Run Text="Geldigheidstdatum: 23/04/2022"/><LineBreak/><Run Text="Actief"/></TextBlock>
                 </Grid>
-                
+
             </Grid>
         </DockPanel.Children>
     </DockPanel>
+
 </Window>

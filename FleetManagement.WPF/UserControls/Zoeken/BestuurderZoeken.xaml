@@ -11,7 +11,8 @@
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Height="120" VerticalAlignment="Bottom" LastChildFill="False">
 
-                
+                                <TextBlock x:Name="infoBestuurderMess" HorizontalAlignment="Left" Height="95" Margin="20,5,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="350" FontSize="13" Foreground="#FFE51E1E"/>
+
             </DockPanel>
             <DataGrid  x:Name="ZoekWeergave" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
                           SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 

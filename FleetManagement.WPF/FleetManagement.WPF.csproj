@@ -36,10 +36,6 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UpdateWindows\" />
-  </ItemGroup>
-
   <ProjectExtensions><VisualStudio><UserProperties app_1json__JsonSchema="https://json.schemastore.org/appsettings.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -27,7 +27,7 @@ namespace FleetManagement.CheckFormats
 
         public static bool IsNummerplaatGeldig(string nummerPlaat)
         {
-            return Regex.IsMatch(nummerPlaat.ToUpper(), @"^[1-9]{1}[A-Z]{3}[0-9]{3}$")
+            return Regex.IsMatch(nummerPlaat.ToUpper(), @"^[1-9AZ]{1}[A-Z]{3}[0-9]{3}$")
                 ? true : throw new NummerPlaatException($"{nameof(nummerPlaat)} moet format [1-9][a-z][0-9] zijn");
         }
 

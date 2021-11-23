@@ -1,5 +1,6 @@
 ﻿using FleetManagement.Manager;
 using FleetManagement.Model;
+using FleetManagement.WPF.DetailWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace FleetManagement.WPF
 
         private void WagenparBeheer_Click(object sender, RoutedEventArgs e)
         {
-            Window window = new WagenparkBeheer(_managers)
+            Window window = new BestuurderDetails(_managers, null)
             {
                 Owner = GetWindow(this)
             };
