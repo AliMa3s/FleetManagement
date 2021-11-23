@@ -20,5 +20,14 @@ namespace FleetManagement.WPF.DetailWindows {
         public VoertuigDetails() {
             InitializeComponent();
         }
+
+        private void SluitForm_Click(object sender, RoutedEventArgs e) {
+            Window.GetWindow(this).Close();
+        }
+
+        private void WijzigButton_Click(object sender, RoutedEventArgs e) {
+
+
+        }
     }
 }
