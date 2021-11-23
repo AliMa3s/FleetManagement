@@ -1,4 +1,5 @@
 ﻿using FleetManagement.Manager;
+using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,22 @@ namespace FleetManagement.WPF.UpdateWindows
     public partial class UpdateBestuurder : Window
     {
         private readonly Managers _managers;
+        private Bestuurder _bestuurder;
 
-        public UpdateBestuurder(Managers managers)
+        public Bestuurder BestuurderDetail
+        {
+            get => _bestuurder;
+            set
+            {
+                _bestuurder = value;
+            }
+        }
+
+        public UpdateBestuurder(Managers managers, Bestuurder bestuurder)
         {
             InitializeComponent();
             _managers = managers;
+            _bestuurder = bestuurder;
         }
 
         private void Tankkaartverwijderen_Click(object sender, RoutedEventArgs e)

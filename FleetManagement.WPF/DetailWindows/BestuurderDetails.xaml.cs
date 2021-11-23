@@ -20,20 +20,49 @@ namespace FleetManagement.WPF.DetailWindows {
     /// Interaction logic for BestuurderDetails.xaml
     /// </summary>
     public partial class BestuurderDetails : Window {
+
         private readonly Managers _managers;
 
-        Adres GekozenAdres { get; set; }
+        private Bestuurder _bestuurderDetail;
 
         public BestuurderDetails(Managers managers, Bestuurder bestuurder) {
-            InitializeComponent();
 
+            InitializeComponent();
             _managers = managers;
-            
+            _bestuurderDetail = bestuurder;
+
             //Controleer bestuurder om extra info op te vragen aan manager
-            //if(!bestuurder.HeeftBestuurderVoertuig || !bestuurder.HeeftBestuurderTankKaart)
-            //{
-            //    //Bestuurder bestuurder = managers.BestuurderManager.GeefBestuurderInfo();
-            //}
+            if (!bestuurder.HeeftBestuurderVoertuig || !bestuurder.HeeftBestuurderTankKaart)
+            {
+                //bestuurder = managers.BestuurderManager.BestuurderIncludes(bestuurder);  //interface 
+            }
+
+            if(bestuurder.HeeftBestuurderVoertuig)
+            {
+                StringBuilder stringBuilder = new(bestuurder.Voertuig.AutoModel.Merk + bestuurder.Voertuig.AutoModel.AutoModelNaam);
+                stringBuilder.AppendLine("Chassisnr.: " + bestuurder.Voertuig.ChassisNummer);
+                stringBuilder.AppendLine("Nummerplaat: " + bestuurder.Voertuig.NummerPlaat);
+
+                HeeftVoertuig.Text = stringBuilder.ToString();
+            }
+
+            if(bestuurder.HeeftBestuurderTankKaart)
+            {
+                StringBuilder stringBuilder = new(" Kaartnr.: " + bestuurder.Tankkaart.TankKaartNummer);
+                stringBuilder.AppendLine("Geldigheidsdatum: " + bestuurder.Tankkaart.GeldigheidsDatum.ToString("d/MM/yyyy"));
+
+                if(bestuurder.Tankkaart.Actief) 
+                { 
+                    stringBuilder.AppendLine("Tankkaart is actief"); 
+                }
+                else
+                {
+                    if (bestuurder.Tankkaart.IsGeldigheidsDatumVervallen) { stringBuilder.AppendLine("Tankkaart is vervallen"); }
+                    else { stringBuilder.AppendLine("Tankkaart is geblokkeerd"); } 
+                }
+   
+                HeeftTankkaart.Text = stringBuilder.ToString();
+            }
 
             //bind de bestuurder
             DataContext = bestuurder;
@@ -46,16 +75,16 @@ namespace FleetManagement.WPF.DetailWindows {
 
         private void WijzigButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateBestuurder updateBestuurder = new(_managers)
+            UpdateBestuurder updateBestuurder = new(_managers, _bestuurderDetail)
             {
                 Owner = Window.GetWindow(this),
-                //Adres = GekozenAdres
+                BestuurderDetail = _bestuurderDetail
             };
 
-            bool? geslecteerd = updateBestuurder.ShowDialog();
-            if (geslecteerd == true)
+            bool? updatetet = updateBestuurder.ShowDialog();
+            if (updatetet == true)
             {
-                //GekozenBestuurder = UpdateBestuurder.Adres;
+                _bestuurderDetail = updateBestuurder.BestuurderDetail;
             }
         }
     }

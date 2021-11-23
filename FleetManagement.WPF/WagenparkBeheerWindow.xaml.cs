@@ -18,11 +18,11 @@ namespace FleetManagement.WPF
     /// <summary>
     /// Interaction logic for WagenparkBeheer.xaml
     /// </summary>
-    public partial class WagenparkBeheer : Window
+    public partial class WagenparkBeheerWindow : Window
     {
         private readonly Managers _managers;
 
-        public WagenparkBeheer(Managers managers)
+        public WagenparkBeheerWindow(Managers managers)
         {
             InitializeComponent();
             _managers = managers;

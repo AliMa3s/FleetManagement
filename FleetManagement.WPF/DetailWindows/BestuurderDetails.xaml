@@ -47,31 +47,31 @@
                 <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Rijbewijs:</Label>
                 <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Rijbewijsnummer:</Label>
 
-                <TextBlock x:Name="VoornaamTextBlock" Text="Filip" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="VoornaamTextBlock" Text="{Binding Path=Voornaam}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
-                <TextBlock x:Name="AchternaamTextBlock" Text="Rigoir" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="AchternaamTextBlock" Text="{Binding Path=Achternaam}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
-                <TextBlock x:Name="GeboorteDatumTextBlock" Text="31-03-1976" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="GeboorteDatumTextBlock" Text="{Binding Path=GeboorteDatum, StringFormat= d/MM/yyyy}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
-                <TextBlock x:Name="RijksRegisterTextBlock" Text="76033101986" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="RijksRegisterTextBlock" Text="{Binding Path=RijksRegisterNummer}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
-                <TextBlock x:Name="RijbewijsTextBlock" Text="A, B" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="RijbewijsTextBlock" Text="{Binding Path=TypeRijbewijs}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
-                <TextBlock x:Name="RijbewijsNummerTexbl" Text="5631056987" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="RijbewijsNummerTexbl" Text="{Binding Path=RijbewijsNummer}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
-                <TextBlock TextWrapping="Wrap" Text="" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2" VerticalAlignment="Stretch" FontSize="14" Padding="5,10,0,0">L.Schuermanstraat 20 <LineBreak/>9040 Sint-Amandsberg</TextBlock>
+                <TextBlock TextWrapping="Wrap" Text="{Binding Path=Adres}" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2" VerticalAlignment="Stretch" FontSize="14" Padding="5,10,0,0"></TextBlock>
 
                 <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Voertuig:</Label>
                 <Grid Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="#FFE7E8EC">
-     
-                    <TextBlock ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Text="Toyota Celica"/><LineBreak/><Run Language="nl-be" Text="C"/><Run Text="hassisnummer: 12365478542123056"/><LineBreak/><Run Text="Nummerplaat: 1-FEG-830"/></TextBlock>
+
+                    <TextBlock x:Name="HeeftVoertuig" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2" Text="Geen Voertuig"></TextBlock>
                 </Grid>
 
 
                 <Label Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Tankkaart:</Label>
                 <Grid Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="#FFE7E8EC">
 
-                    <TextBlock TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Language="nl-be" Text="N"/><Run Text="ummer: 5987465321205698756"/><LineBreak/><Run Text="Geldigheidstdatum: 23/04/2022"/><LineBreak/><Run Text="Actief"/></TextBlock>
+                    <TextBlock x:Name="HeeftTankkaart" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2" Text="Geen Tankkaart"></TextBlock>
                 </Grid>
 
             </Grid>

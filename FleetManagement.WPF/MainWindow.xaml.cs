@@ -56,7 +56,7 @@ namespace FleetManagement.WPF
 
         private void WagenparBeheer_Click(object sender, RoutedEventArgs e)
         {
-            Window window = new BestuurderDetails(_managers, null)
+            Window window = new WagenparkBeheerWindow(_managers)
             {
                 Owner = GetWindow(this)
             };
