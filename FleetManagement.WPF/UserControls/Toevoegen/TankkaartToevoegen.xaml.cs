@@ -89,7 +89,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             TankKaartTextBox.Text = null;
             GeldigheidsDatumDatePicker.SelectedDate = null;
             PincodeTextBox.Text = null;
-
+            ResestDropown();
         }
 
         private void SluitTankKaartWindow_Click(object sender, RoutedEventArgs e)
@@ -107,9 +107,19 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             }
 
             GekozenbrandstoffenString.Text = string.Join(", ", _keuzeBrandstoffen);
+
+            if(_keuzeBrandstoffen.Count > 0)
+            {
+                ResetGekozenBrandstofButton.Visibility = Visibility.Visible;
+            }
         }
 
         private void ResetGekozenBrandstofButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResestDropown();
+        }
+
+        private void ResestDropown()
         {
             BrandstofNamenComboBox.Items.Clear();
 
@@ -122,6 +132,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             GekozenbrandstoffenString.Text = string.Empty;
 
             _keuzeBrandstoffen = new();
+            ResetGekozenBrandstofButton.Visibility = Visibility.Hidden;
         }
     }
 }
