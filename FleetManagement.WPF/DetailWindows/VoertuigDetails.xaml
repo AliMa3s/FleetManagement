@@ -6,37 +6,78 @@
         xmlns:local="clr-namespace:FleetManagement.WPF.DetailWindows"
         mc:Ignorable="d"
         Title="VoertuigDetails" Height="600" Width="800">
-    <DockPanel Background="LightSteelBlue"  Margin="0">
+    <DockPanel Background="LightBlue" Margin="-2">
         <DockPanel.Children>
+            <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
+                <Button x:Name="SluitForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitForm_Click"/>
+                <Button x:Name="WijzigButton" Content="_Wijzigen" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="WijzigButton_Click"/>
 
-            <DataGrid  x:Name="VoertuigLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
-                          SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
-                          HeadersVisibility="Column" 
-                          Background="LightBlue" 
-                         DockPanel.Dock="Top">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header=" VoertuigId " Binding="{Binding voertuigid}"/>
-                    <DataGridTextColumn Header=" AutoModelId " Binding="{Binding automodelid}"/>
-                    <DataGridTextColumn Header=" BrandstoftypeId " Binding="{Binding brandstoftypeid}"/>
-                    <DataGridTextColumn Header=" Kleur " Binding="{Binding kleurnaam}"/>
-                    <DataGridTextColumn Header=" Aantal Deuren " Binding="{Binding aantal_deuren}"/>
-                    <DataGridTextColumn Header=" Chassisnummer " Binding="{Binding chassisnummer}"/>
-                    <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding nummerplaat}"/>
-                    <DataGridTextColumn Header=" Inboekdatum " Binding="{Binding inboekdatum}"/>
-                </DataGrid.Columns>
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="{x:Type DataGridColumnHeader}" >
-                        <Setter Property="Height" Value="30"></Setter>
-                        <Setter Property="FontSize" Value="14"></Setter>
-                        <Setter Property="FontWeight" Value="bold"></Setter>
-                        <Setter Property="FontStyle" Value="Normal" ></Setter>
-                        <Setter Property="BorderBrush" Value="Beige" />
-                        <Setter Property="Foreground" Value="Black" />
-                        <Setter Property="Background"  Value="CornflowerBlue" />
-                        <Setter Property="BorderThickness" Value="0.50" />
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
-            </DataGrid>
+                <TextBlock x:Name="infoVoertuigMess" HorizontalAlignment="Left" Height="95" Margin="20,5,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="350" FontSize="13" Foreground="#FFE51E1E"/>
+            </DockPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="20*"/>
+                </Grid.RowDefinitions>
+
+                <Label x:Name="FormVoertuig" Grid.Row="0" Grid.ColumnSpan="5" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue" Content="Detail Voertuig"/>
+                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Merk :</Label>
+                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">AutoModel :</Label>
+                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Type :</Label>
+                <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Kleur :</Label>
+                <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">ChassisNr :</Label>
+                <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Nummerplaat:</Label>
+                <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Inboekdatum:</Label>
+                <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Aantaldeuren:</Label>
+
+                <TextBlock x:Name="MerkTextBlock" Text="Toyota" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock x:Name="AutoModelTextBlock" Text="Correla" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock x:Name="AutoTypeTextBlock" Text="sedan" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock x:Name="KleurTextBlock" Text="Blue" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock x:Name="NummerplaatTextBlock" Text="1-ABC-001" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock x:Name="InboekdatumTexbl" Text="15/9/2018" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <TextBlock TextWrapping="Wrap" Text="" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2" VerticalAlignment="Stretch" FontSize="14" Padding="5,10,0,0">313165464321321</TextBlock>
+
+                <TextBlock x:Name="AantaldeurenTexbl" Text="5" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+
+                <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Bestuurder:</Label>
+                <Grid Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="#FFE7E8EC">
+
+                    <TextBlock TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Language="nl-be" Text="Bestuurder"/><Run Text=" : Tom van de wiele"/><LineBreak/><Run Text="RijksRegisterNr: 70110298536"/><LineBreak/><Run Text="Geboortedatum : 29/01/1970"/><LineBreak/><Run Text="Adres: hogentstraat 99"/><LineBreak/>
+                        <Run Text="RijbewijsNr: 1234568796465"/><LineBreak/><Run Text="RijbewijsType: A-B"/><LineBreak/></TextBlock>
+                </Grid>
+
+
+                <Label Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Tankkaart:</Label>
+                <Grid Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="#FFE7E8EC">
+
+                    <TextBlock TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Language="nl-be" Text="N"/><Run Text="ummer: 5987465321205698756"/><LineBreak/><Run Text="Geldigheidstdatum: 23/04/2022"/><LineBreak/><Run Text="Actief"/></TextBlock>
+                </Grid>
+
+            </Grid>
         </DockPanel.Children>
     </DockPanel>
 </Window>
