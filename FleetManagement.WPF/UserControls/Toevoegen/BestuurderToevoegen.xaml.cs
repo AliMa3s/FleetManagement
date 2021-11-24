@@ -1,5 +1,7 @@
 ﻿using FleetManagement.Manager;
+using FleetManagement.Model;
 using FleetManagement.WPF.SelecteerWindows;
+using FleetManagement.WPF.UpdateWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     {
         private readonly Managers _managers;
 
+        private Adres _gekozenAdres;
+
         public BestuurderToevoegen(Managers managers)
         {
             InitializeComponent();
@@ -46,6 +50,22 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                 //GekozenBestuurder = selecteerBestuurder.Bestuurder;
                 //GekozenBestuurderNaam.Text = GekozenBestuurder.Achternaam + " " + GekozenBestuurder.Voornaam;
                 //KiesBestuurder.Content = "Bestuurder wijzigen";
+            }
+        }
+
+        private void AdresInvoegen_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateAdres UpdateAdres = new(_gekozenAdres)
+            {
+                Owner = Window.GetWindow(this),
+                AdresGegevens = _gekozenAdres
+            };
+
+            bool? geslecteerd = UpdateAdres.ShowDialog();
+            if (geslecteerd == true)
+            {
+                _gekozenAdres = UpdateAdres.AdresGegevens;
+                GekozenAdres.Text = _gekozenAdres.Straat + " " + _gekozenAdres.Nr;
             }
         }
     }

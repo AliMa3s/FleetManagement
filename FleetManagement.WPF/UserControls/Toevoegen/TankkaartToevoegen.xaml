@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="550" d:DesignWidth="800">
 
     <DockPanel Background="LightBlue" Margin="-2">
         <DockPanel.Children>
@@ -36,9 +36,9 @@
                 </Grid.RowDefinitions>
 
                 <Label x:Name="FormTankkaart" Grid.Row="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
-                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Uitgeefdatum:</Label>
-                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Tankkaartnummer:</Label>
-                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Geldigheidsdatum:</Label>
+                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Uitgeefdatum: *</Label>
+                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Tankkaartnummer: *</Label>
+                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Geldigheidsdatum: *</Label>
                 <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Pincode:</Label>
                 <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Brandstoffen:</Label>
 
@@ -51,7 +51,7 @@
                 <DatePicker x:Name="UitgeefDatumDatePicker" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center" />
                 <DatePicker x:Name="GeldigheidsDatumDatePicker" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center" />
 
-                <TextBlock x:Name="GekozenbrandstoffenString" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="0,0,0,0"  Height="auto"/>
+                <TextBlock x:Name="GekozenbrandstoffenString" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="5,0,0,0"  Height="auto"/>
 
             </Grid>
 

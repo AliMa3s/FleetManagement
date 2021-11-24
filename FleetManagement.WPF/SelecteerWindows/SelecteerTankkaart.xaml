@@ -23,13 +23,21 @@
                           Background="LightBlue" 
                          DockPanel.Dock="Top">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header=" Tankkaartnummer " Binding="{Binding tankkaartnummer}"/>
-                    <DataGridTextColumn Header=" BestuurderId " Binding="{Binding bestuurderid}"/>
-                    <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding geldigheidsdatum}"/>
-                    <DataGridTextColumn Header=" Pincode " Binding="{Binding pincode}"/>
-                    <DataGridTextColumn Header=" Actief " Binding="{Binding actief}"/>
-                    <DataGridTextColumn Header=" Uitgeefdatum " Binding="{Binding uitgeefdatum}"/>
+                    <DataGridTextColumn Header=" Tankkaartnummer " Binding="{Binding TankKaartNummer}"/>
+                    <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding GeldigheidsDatum, StringFormat= d/MM/yyyy}"/>
+                    <DataGridTextColumn Header=" Pincode " Binding="{Binding Pincode}"/>
+                    <DataGridTextColumn Header=" Actief " Binding="{Binding Actief}"/>
+                    <DataGridTextColumn Header=" Uitgeefdatum " Binding="{Binding UitgeefDatum, StringFormat= d/MM/yyyy}"/>
                 </DataGrid.Columns>
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="VerticalContentAlignment" Value="center"/>
+                    </Style>
+                </DataGrid.RowStyle>
+
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}" >
                         <Setter Property="Height" Value="30"></Setter>

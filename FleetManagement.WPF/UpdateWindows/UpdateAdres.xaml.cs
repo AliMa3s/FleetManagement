@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FleetManagement.Manager;
+using FleetManagement.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,15 +19,42 @@ namespace FleetManagement.WPF.UpdateWindows {
     /// Interaction logic for UpdateAdres.xaml
     /// </summary>
     public partial class UpdateAdres : Window {
-        public UpdateAdres() {
-            InitializeComponent();
-        }
-        private void UpdateButton_Click(object sender, RoutedEventArgs e) {
 
+        private Adres _adres;
+
+        public Adres AdresGegevens
+        {
+            get => _adres;
+            set
+            {
+                _adres = value;
+            }
+        }
+
+        public UpdateAdres(Adres adres) {
+
+            InitializeComponent();
+            _adres = adres;
+
+            if(_adres != null)
+            {
+                FormAdres.Content = "Update Adres";
+                invoegEnUpdateButton.Content = "Updaten";
+            }
+            else
+            {
+                FormAdres.Content = "Nieuw Adres ingeven";
+                invoegEnUpdateButton.Content = "Aanmaken";
+            } 
         }
 
         private void SluitForm_Click(object sender, RoutedEventArgs e) {
             Window.GetWindow(this).Close();
+        }
+
+        private void InvoegEnUpdateButton(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

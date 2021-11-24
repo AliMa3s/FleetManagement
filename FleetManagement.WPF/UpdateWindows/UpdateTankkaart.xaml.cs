@@ -22,7 +22,6 @@ namespace FleetManagement.WPF.UpdateWindows
     public partial class UpdateTankkaart : Window
     {
         private readonly object _managers;
-
         private TankKaart _tankaart;
 
         public TankKaart TankkaartDetail
@@ -38,6 +37,7 @@ namespace FleetManagement.WPF.UpdateWindows
         {
             InitializeComponent();
             _managers = managers;
+            _tankaart = tankkaart;
         }
 
         private void TankKaartUpdateButton_Click(object sender, RoutedEventArgs e)
@@ -61,6 +61,11 @@ namespace FleetManagement.WPF.UpdateWindows
         }
 
         private void BrandstofToevoegenButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TankkaartAanmakenButton_Click(object sender, RoutedEventArgs e)
         {
 
         }

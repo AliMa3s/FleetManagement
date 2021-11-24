@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Zoeken"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800">
     <DockPanel Background="LightSteelBlue"  Margin="-2">
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Height="120" VerticalAlignment="Bottom" LastChildFill="False">
@@ -28,6 +28,15 @@
                     <DataGridTextColumn Header=" Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
 
                 </DataGrid.Columns>
+                
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="VerticalContentAlignment" Value="center"/>
+                    </Style>
+                </DataGrid.RowStyle>
+                
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}" >
                         <Setter Property="Height" Value="30"></Setter>

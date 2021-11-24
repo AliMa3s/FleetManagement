@@ -32,6 +32,15 @@
                     <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding nummerplaat}"/>
                     <DataGridTextColumn Header=" Inboekdatum " Binding="{Binding inboekdatum}"/>
                 </DataGrid.Columns>
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="VerticalContentAlignment" Value="center"/>
+                    </Style>
+                </DataGrid.RowStyle>
+                
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}" >
                         <Setter Property="Height" Value="30"></Setter>

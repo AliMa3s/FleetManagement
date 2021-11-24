@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF.UpdateWindows"
         mc:Ignorable="d"
-        Title="UpdateBestuurder" Height="600" Width="800">
-    <DockPanel Background="LightBlue" Margin="-2">
+        Title="Update Bestuurder" Height="600" Width="800">
+    <DockPanel Background="LightBlue" Margin="0">
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
                 <Button x:Name="SluitForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitForm_Click"/>
