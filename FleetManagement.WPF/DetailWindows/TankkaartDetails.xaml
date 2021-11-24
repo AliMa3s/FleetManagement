@@ -6,6 +6,17 @@
         xmlns:local="clr-namespace:FleetManagement.WPF.DetailWindows"
         mc:Ignorable="d"
         Title="TankkaartDetails" Height="600" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+    </Window.Resources>
+    
     <DockPanel Background="LightBlue" Margin="-2">
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
@@ -47,7 +58,7 @@
                 <TextBlock x:Name="UitgeefdatumTextBlock" Text="{Binding Path=UitgeefDatum, StringFormat= d/MM/yyyy}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
                 <TextBlock x:Name="kaartnummerTextBlock" Text="{Binding Path=TankkaartNummer}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
                 <TextBlock x:Name="GeldigheidsdatumTextBlock" Text="{Binding Path=GeldigheidsDatum, StringFormat= d/MM/yyyy}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
-                <TextBlock x:Name="Pincode" Text="Geen pincode opgegeven" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="Pincode" Text="" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
                 <TextBlock x:Name="ActiefTextBlock" Text="Niet meer actief" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
                 <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Brandstoffen:</Label>

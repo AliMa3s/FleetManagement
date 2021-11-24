@@ -47,7 +47,7 @@
                 <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Rijbewijs:</Label>
                 <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Rijbewijsnummer:</Label>
 
-                <TextBox x:Name="VoornaamTextBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1"  TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="Filip" Height="25"/>
+                <TextBox x:Name="VoornaamTextBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center"  HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="Filip" Height="25"/>
 
                 <TextBox x:Name="AchternaamTextBox" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="Rigoir" Height="25"/>
 

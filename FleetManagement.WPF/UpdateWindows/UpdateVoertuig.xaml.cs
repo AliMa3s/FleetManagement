@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FleetManagement.Manager;
+using FleetManagement.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,23 @@ namespace FleetManagement.WPF.UpdateWindows
     /// </summary>
     public partial class UpdateVoertuig : Window
     {
-        public UpdateVoertuig()
+        private readonly Managers _managers;
+        private Voertuig _voertuig;
+
+        public Voertuig VoertuigDetail
+        {
+            get => _voertuig;
+            set
+            {
+                _voertuig = value;
+            }
+        }
+
+        public UpdateVoertuig(Managers managers, Voertuig voertuig)
         {
             InitializeComponent();
+            _managers = managers;
+            _voertuig = voertuig;
         }
 
         private void UpdateVoertuigButton_Click(object sender, RoutedEventArgs e)

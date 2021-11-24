@@ -1,4 +1,7 @@
-﻿using System;
+﻿using FleetManagement.Manager;
+using FleetManagement.Model;
+using FleetManagement.WPF.UpdateWindows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +20,41 @@ namespace FleetManagement.WPF.DetailWindows {
     /// Interaction logic for VoertuigDetails.xaml
     /// </summary>
     public partial class VoertuigDetails : Window {
-        public VoertuigDetails() {
+
+        private readonly Managers _managers;
+        private Voertuig _voertuigDetail;
+
+        public VoertuigDetails(Managers managers, Voertuig voertuig) {
+
             InitializeComponent();
+            _managers = managers;
+            _voertuigDetail = voertuig;
+
+            //Controleer bestuurder om extra info op te vragen aan manager
+            if (!_voertuigDetail.HeeftVoertuigBestuurder)
+            {
+                //_voertuigDetail = managers.VoertuigManager.VoertuigIncludes(_voertuigDetail);  //interface 
+            }
+
+            if (_voertuigDetail.HeeftVoertuigBestuurder)
+            {
+                StringBuilder stringBuilder = new("Naam: " + _voertuigDetail.Bestuurder.Achternaam + "" + _voertuigDetail.Bestuurder.Voornaam);
+                stringBuilder.AppendLine("Rijksregisternr.: " + _voertuigDetail.Bestuurder.RijksRegisterNummer);
+                HeeftBestuurder.Text = stringBuilder.ToString();
+            }
+
+            AutoModelGegevens.Text = _voertuigDetail.AutoModel.Merk + " "
+                + _voertuigDetail.AutoModel.AutoModelNaam + " "
+                + _voertuigDetail.AutoModel;
+
+            if(_voertuigDetail.AantalDeuren.HasValue)
+            {
+                AutoModelGegevens.Text += "(" + _voertuigDetail.AantalDeuren.Value + " deurs)";
+            }
+
+            //bind het voertuig
+            DataContext = _voertuigDetail;
+
         }
 
         private void SluitForm_Click(object sender, RoutedEventArgs e) {
@@ -27,7 +63,19 @@ namespace FleetManagement.WPF.DetailWindows {
 
         private void WijzigButton_Click(object sender, RoutedEventArgs e) {
 
+            UpdateVoertuig updateVoertuig = new(_managers, _voertuigDetail)
+            {
+                Owner = Window.GetWindow(this),
+                VoertuigDetail = _voertuigDetail
+            };
 
+            bool? updatetet = updateVoertuig.ShowDialog();
+            if (updatetet == true)
+            {
+                _voertuigDetail = updateVoertuig.VoertuigDetail;
+
+                //Changer aanspreken indien nodig
+            }
         }
     }
 }

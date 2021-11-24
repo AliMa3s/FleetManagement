@@ -29,43 +29,41 @@ namespace FleetManagement.WPF.DetailWindows {
             _managers = managers;
             _tankkaartDetail = tankkaart;
 
-            //Controleer bestuurder om extra info op te vragen aan manager
-            if (!tankkaart.HeeftTankKaartBestuurder || tankkaart.Brandstoffen.Count < 1)
+            //Controleer tankkaart om extra info op te vragen aan manager
+            if (!_tankkaartDetail.HeeftTankKaartBestuurder || _tankkaartDetail.Brandstoffen.Count < 1)
             {
-                //tankkaart = managers.TankkaartManager.TankkaartIncludes(tankkaart);  //interface 
+                //_tankkaartDetail = managers.TankkaartManager.TankkaartIncludes(_tankkaartDetail);  //interface 
             }
 
-            if(tankkaart.HeeftTankKaartBestuurder)
+            if (_tankkaartDetail.HeeftTankKaartBestuurder)
             {
-                StringBuilder stringBuilder = new("Naam: " + tankkaart.Bestuurder.Achternaam + "" + tankkaart.Bestuurder.Voornaam);
-                stringBuilder.AppendLine("Rijksregisternr.: " + tankkaart.Bestuurder.RijksRegisterNummer);
+                StringBuilder stringBuilder = new("Naam: " + _tankkaartDetail.Bestuurder.Achternaam + "" + _tankkaartDetail.Bestuurder.Voornaam);
+                stringBuilder.AppendLine("Rijksregisternr.: " + _tankkaartDetail.Bestuurder.RijksRegisterNummer);
                 BestuurderDetail.Text = stringBuilder.ToString();
             }
 
-            if(tankkaart.Brandstoffen.Count > 0)
+            if(_tankkaartDetail.Brandstoffen.Count > 0)
             {
                 StringBuilder stringBuilder = new("Geldig voor deze brandstoffen:");
 
-                tankkaart.Brandstoffen.ForEach(brandstof => {
+                _tankkaartDetail.Brandstoffen.ForEach(brandstof => {
                     stringBuilder.AppendLine(brandstof.BrandstofNaam);
                 });
 
                 Brandstoffen.Text = stringBuilder.ToString();
             }
 
-            if(tankkaart.Pincode != null)
-            {
-                Pincode.Text = tankkaart.Pincode;
-            }
-
-            if(tankkaart.Actief)
+            if(_tankkaartDetail.Actief)
             {
                 ActiefTextBlock.Text = "Kaart is actief";
             }
             else
             {
-                ActiefTextBlock.Text = tankkaart.IsGeldigheidsDatumVervallen ? "Datum is verstreken" : "Geblokkeerd";
+                ActiefTextBlock.Text = _tankkaartDetail.IsGeldigheidsDatumVervallen ? "Datum is verstreken" : "Geblokkeerd";
             }
+
+            //bind de tankaart
+            DataContext = _tankkaartDetail;
         }
 
         private void SluitForm_Click(object sender, RoutedEventArgs e) {

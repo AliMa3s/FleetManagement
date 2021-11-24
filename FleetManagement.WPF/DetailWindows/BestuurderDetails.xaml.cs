@@ -32,32 +32,32 @@ namespace FleetManagement.WPF.DetailWindows {
             _bestuurderDetail = bestuurder;
 
             //Controleer bestuurder om extra info op te vragen aan manager
-            if (!bestuurder.HeeftBestuurderVoertuig || !bestuurder.HeeftBestuurderTankKaart)
+            if (!_bestuurderDetail.HeeftBestuurderVoertuig || !_bestuurderDetail.HeeftBestuurderTankKaart)
             {
-                //bestuurder = managers.BestuurderManager.BestuurderIncludes(bestuurder);  //interface 
+                //_bestuurderDetail = managers.BestuurderManager.BestuurderIncludes(_bestuurderDetail);  //interface 
             }
 
-            if(bestuurder.HeeftBestuurderVoertuig)
+            if (_bestuurderDetail.HeeftBestuurderVoertuig)
             {
-                StringBuilder stringBuilder = new(bestuurder.Voertuig.AutoModel.Merk + bestuurder.Voertuig.AutoModel.AutoModelNaam);
-                stringBuilder.AppendLine("Chassisnr.: " + bestuurder.Voertuig.ChassisNummer);
-                stringBuilder.AppendLine("Nummerplaat: " + bestuurder.Voertuig.NummerPlaat);
+                StringBuilder stringBuilder = new(_bestuurderDetail.Voertuig.AutoModel.Merk + _bestuurderDetail.Voertuig.AutoModel.AutoModelNaam);
+                stringBuilder.AppendLine("Chassisnr.: " + _bestuurderDetail.Voertuig.ChassisNummer);
+                stringBuilder.AppendLine("Nummerplaat: " + _bestuurderDetail.Voertuig.NummerPlaat);
 
                 HeeftVoertuig.Text = stringBuilder.ToString();
             }
 
-            if(bestuurder.HeeftBestuurderTankKaart)
+            if(_bestuurderDetail.HeeftBestuurderTankKaart)
             {
-                StringBuilder stringBuilder = new(" Kaartnr.: " + bestuurder.Tankkaart.TankKaartNummer);
-                stringBuilder.AppendLine("Geldigheidsdatum: " + bestuurder.Tankkaart.GeldigheidsDatum.ToString("d/MM/yyyy"));
+                StringBuilder stringBuilder = new(" Kaartnr.: " + _bestuurderDetail.Tankkaart.TankKaartNummer);
+                stringBuilder.AppendLine("Geldigheidsdatum: " + _bestuurderDetail.Tankkaart.GeldigheidsDatum.ToString("d/MM/yyyy"));
 
-                if(bestuurder.Tankkaart.Actief) 
+                if(_bestuurderDetail.Tankkaart.Actief) 
                 { 
                     stringBuilder.AppendLine("Tankkaart is actief"); 
                 }
                 else
                 {
-                    if (bestuurder.Tankkaart.IsGeldigheidsDatumVervallen) { stringBuilder.AppendLine("Tankkaart is vervallen"); }
+                    if (_bestuurderDetail.Tankkaart.IsGeldigheidsDatumVervallen) { stringBuilder.AppendLine("Tankkaart is vervallen"); }
                     else { stringBuilder.AppendLine("Tankkaart is geblokkeerd"); } 
                 }
    
@@ -65,7 +65,7 @@ namespace FleetManagement.WPF.DetailWindows {
             }
 
             //bind de bestuurder
-            DataContext = bestuurder;
+            DataContext = _bestuurderDetail;
         }
 
         private void SluitForm_Click(object sender, RoutedEventArgs e)
