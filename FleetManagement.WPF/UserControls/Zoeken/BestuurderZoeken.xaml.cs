@@ -36,5 +36,15 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private void ZoekenMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
         }
+
+        private void TextBoxFilterTextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void SluitVoertuigForm_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

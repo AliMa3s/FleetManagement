@@ -7,18 +7,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <DockPanel Background="LightSteelBlue"  Margin="-2">
-        
+
         <DockPanel.Children>
-            
-            <DockPanel DockPanel.Dock="Bottom" Height="120" VerticalAlignment="Bottom" LastChildFill="False">
 
-                <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="20,20,0,0" Width="100" HorizontalAlignment="Left">Tankkaartnr.:</Label>
-                <TextBox x:Name="TextBoxFilterOpNaam"  VerticalContentAlignment="Top" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Top" Margin="10,20,0,0" MinWidth="250" HorizontalAlignment="Left" Height="36"></TextBox>
+            <DockPanel DockPanel.Dock="Bottom" Height="140" VerticalAlignment="Bottom" LastChildFill="False">
 
+                <Button x:Name="KiesDetail" Content="_Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click"/>
+                <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click"/>
 
-                <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click"/>
-                <Button x:Name="ResetFormulierButton" Content="_Reset" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="ResetFormulierButton_Click"/>
-                <Button x:Name="Verwijderen" Content="_Zoek" Background="#FFCAD5EA" VerticalAlignment="top" Height="36" Margin="15,20,0,0" Width="86" DockPanel.Dock="left" HorizontalAlignment="Right" Click="Verwijderen_Click" />
+                <Grid Width="540">
+                    <Button x:Name="ZoekNummerplaat" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="36" Margin="456,77,-2,0" Width="86" DockPanel.Dock="Right"/>
+                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="32,32,0,0" Width="228" HorizontalAlignment="Left" Content="Tankkaartnummer:"/>
+                    <TextBox x:Name="Nummerplaat" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Top" Margin="30,77,100,0" MinWidth="410" Height="36" RenderTransformOrigin="0.582,0.4"/>
+                </Grid>
             </DockPanel>
             <DataGrid  x:Name="ZoekWeergave" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
                           SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
@@ -36,7 +37,7 @@
                     <DataGridTextColumn Header=" Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
 
                 </DataGrid.Columns>
-                
+
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
                         <Setter Property="Height" Value="25"/>
@@ -44,7 +45,7 @@
                         <Setter Property="VerticalContentAlignment" Value="center"/>
                     </Style>
                 </DataGrid.RowStyle>
-                
+
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}" >
                         <Setter Property="Height" Value="30"></Setter>
@@ -57,8 +58,8 @@
                         <Setter Property="BorderThickness" Value="0.50" />
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
-                
-                
+
+
             </DataGrid>
         </DockPanel.Children>
     </DockPanel>

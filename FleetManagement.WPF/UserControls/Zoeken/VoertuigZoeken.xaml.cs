@@ -50,5 +50,10 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
 
         }
+
+        private void KiesButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
