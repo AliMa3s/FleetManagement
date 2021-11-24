@@ -45,7 +45,9 @@ namespace FleetManagement.WPF.UpdateWindows {
             {
                 FormAdres.Content = "Nieuw Adres ingeven";
                 invoegEnUpdateButton.Content = "Aanmaken";
-            } 
+            }
+
+            DataContext = AdresGegevens;
         }
 
         private void SluitForm_Click(object sender, RoutedEventArgs e) {
@@ -54,7 +56,23 @@ namespace FleetManagement.WPF.UpdateWindows {
 
         private void InvoegEnUpdateButton(object sender, RoutedEventArgs e)
         {
+            if(!string.IsNullOrWhiteSpace(StraatTextBox.Text) || !string.IsNullOrWhiteSpace(NummerTextBox.Text) 
+                || !string.IsNullOrWhiteSpace(PostcodeTextBox.Text)
+                || !string.IsNullOrWhiteSpace(GemeenteTextBox.Text))
+            {
+                _adres = new Adres(
+                    StraatTextBox.Text ?? "",
+                    NummerTextBox.Text ?? "",
+                    PostcodeTextBox.Text ?? "",
+                    GemeenteTextBox.Text ?? ""
+                );
 
+                DialogResult = true;
+            }
+            else
+            {
+                DialogResult = false;
+            }
         }
     }
 }
