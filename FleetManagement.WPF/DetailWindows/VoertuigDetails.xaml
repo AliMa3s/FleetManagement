@@ -66,17 +66,8 @@
                 <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Bestuurder:</Label>
                 <Grid Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="#FFE7E8EC">
 
-                    <TextBlock TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Language="nl-be" Text="Bestuurder"/><Run Text=" : Tom van de wiele"/><LineBreak/><Run Text="RijksRegisterNr: 70110298536"/><LineBreak/><Run Text="Geboortedatum : 29/01/1970"/><LineBreak/><Run Text="Adres: hogentstraat 99"/><LineBreak/>
-                        <Run Text="RijbewijsNr: 1234568796465"/><LineBreak/><Run Text="RijbewijsType: A-B"/><LineBreak/></TextBlock>
+                    <TextBlock TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Language="nl-be" Text="Geen bestuurder"/></TextBlock>
                 </Grid>
-
-
-                <Label Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Tankkaart:</Label>
-                <Grid Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="#FFE7E8EC">
-
-                    <TextBlock TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Language="nl-be" Text="N"/><Run Text="ummer: 5987465321205698756"/><LineBreak/><Run Text="Geldigheidstdatum: 23/04/2022"/><LineBreak/><Run Text="Actief"/></TextBlock>
-                </Grid>
-
             </Grid>
         </DockPanel.Children>
     </DockPanel>

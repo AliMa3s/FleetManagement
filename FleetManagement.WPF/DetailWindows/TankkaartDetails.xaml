@@ -38,36 +38,28 @@
                 </Grid.RowDefinitions>
 
                 <Label x:Name="FormTankkaart" Grid.Row="0" Grid.ColumnSpan="5" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue" Content="Detail Tankkaart"/>
-                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Tankkaartnummer:</Label>
-                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Geldigheidsdatum:</Label>
-                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Pincode:</Label>
-                <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Actief:</Label>
-                <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Uitgeefdatum:</Label>
+                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Uitgeefdatum:</Label>
+                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Tankkaartnummer:</Label>
+                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Geldigheidsdatum:</Label>
+                <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Pincode:</Label>
+                <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Actief:</Label>
 
-                <TextBlock x:Name="kaartnummerTextBlock" Text="597865646523" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="UitgeefdatumTextBlock" Text="{Binding Path=UitgeefDatum, StringFormat= d/MM/yyyy}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="kaartnummerTextBlock" Text="{Binding Path=TankkaartNummer}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="GeldigheidsdatumTextBlock" Text="{Binding Path=GeldigheidsDatum, StringFormat= d/MM/yyyy}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="Pincode" Text="Geen pincode opgegeven" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="ActiefTextBlock" Text="Niet meer actief" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
-                <TextBlock x:Name="GeldigheidsdatumTextBlock" Text="21/04/2025" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
-
-                <TextBlock x:Name="PincodeTextBlock" Text="1000" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
-
-                <TextBlock x:Name="ActiefTextBlock" Text="True" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
-
-                <TextBlock x:Name="UitgeefdatumTextBlock" Text="19/9/2019" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
-
-
-
-                <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Voertuig:</Label>
+                <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Brandstoffen:</Label>
                 <Grid Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="#FFE7E8EC">
 
-                    <TextBlock ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Text="Toyota Celica"/><LineBreak/><Run Language="nl-be" Text="C"/><Run Text="hassisnummer: 12365478542123056"/><LineBreak/><Run Text="Nummerplaat: 1-FEG-830"/></TextBlock>
+                    <TextBlock x:Name="Brandstoffen" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Language="nl-be" Text="Geen brandstoffen"/></TextBlock>
                 </Grid>
-
 
                 <Label Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Bestuurder:</Label>
                 <Grid Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="#FFE7E8EC">
 
-                    <TextBlock TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Language="nl-be" Text="Bestuurder"/><Run Text=" : Tom van de wiele"/><LineBreak/><Run Text="RijksRegisterNr: 70110298536"/><LineBreak/><Run Text="Geboortedatum : 29/01/1970"/><LineBreak/><Run Text="Adres: hogentstraat 99"/><LineBreak/>
-                        <Run Text="RijbewijsNr: 1234568796465"/><LineBreak/><Run Text="RijbewijsType: A-B"/><LineBreak/></TextBlock>
+                    <TextBlock x:Name="BestuurderDetail" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Language="nl-be" Text="Geen bestuurder"/></TextBlock>
                 </Grid>
 
             </Grid>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FleetManagement.Manager;
+using FleetManagement.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,12 +21,24 @@ namespace FleetManagement.WPF.UpdateWindows
     /// </summary>
     public partial class UpdateTankkaart : Window
     {
-        public UpdateTankkaart()
+        private readonly object _managers;
+
+        private TankKaart _tankaart;
+
+        public TankKaart TankkaartDetail
         {
-            InitializeComponent();
+            get => _tankaart;
+            set
+            {
+                _tankaart = value;
+            }
         }
 
-        
+        public UpdateTankkaart(Managers managers, TankKaart tankkaart)
+        {
+            InitializeComponent();
+            _managers = managers;
+        }
 
         private void TankKaartUpdateButton_Click(object sender, RoutedEventArgs e)
         {
