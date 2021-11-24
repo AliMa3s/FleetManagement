@@ -12,8 +12,8 @@
 
             <DockPanel DockPanel.Dock="Bottom" Height="140" VerticalAlignment="Bottom" LastChildFill="False">
 
-                <Button x:Name="KiesDetail" Content="_Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click"/>
-                <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click"/>
+                <Button x:Name="KiesDetail" Content="_Details" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesDetail_Click"/>
+                <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click_1"/>
 
                 <Grid Width="540">
                     <Button x:Name="ZoekNummerplaat" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="36" Margin="456,77,-2,0" Width="86" DockPanel.Dock="Right"/>
@@ -21,7 +21,7 @@
                     <TextBox x:Name="Nummerplaat" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Top" Margin="30,77,100,0" MinWidth="410" Height="36" RenderTransformOrigin="0.582,0.4"/>
                 </Grid>
             </DockPanel>
-            <DataGrid  x:Name="ZoekWeergave" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
+            <DataGrid  x:Name="ZoekweergaveTankkaart" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
                           SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
                           HeadersVisibility="Column" SelectionChanged="ZoekWeergave_SelectionChanged"
                           MouseDoubleClick="ZoekenMouseDoubleClick"
@@ -30,10 +30,10 @@
                           FontStyle="Normal"
                           DockPanel.Dock="Top">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header=" Tankkaartnummer " Binding="{Binding tankkaartnummer}"/>
-                    <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding geldigheidsdatum}"/>
-                    <DataGridTextColumn Header=" Actief " Binding="{Binding actief}"/>
-                    <DataGridTextColumn Header=" Pincode " Binding="{Binding pincode}"/>
+                    <DataGridTextColumn Header=" Tankkaartnummer " Binding="{Binding TankKaartNummer}"/>
+                    <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding GeldigheidsDatum}"/>
+                    <DataGridTextColumn Header=" Actief " Binding="{Binding Actief}"/>
+                    <DataGridTextColumn Header=" Pincode " Binding="{Binding Pincode}"/>
                     <DataGridTextColumn Header=" Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
 
                 </DataGrid.Columns>
