@@ -35,7 +35,7 @@ namespace FleetManagement.WPF.SelecteerWindows
             InitializeComponent();
             _tankkaartManager = manager;
 
-            TankkaartLijst.ItemsSource = _tankkaartManager.GeefAlleTankkaart();
+            TankkaartLijst.ItemsSource = _tankkaartManager.GeefAlleTankkaart().ToList().FindAll(e => e.Actief);
         }
         //tankkaart bewaren telkens een Bestuurder wordt geselecteerd
         private void BewaarTankkaart_SelectionChanged(object sender, SelectionChangedEventArgs e) 

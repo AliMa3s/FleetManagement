@@ -10,8 +10,18 @@
     <DockPanel Background="LightSteelBlue"  Margin="-2">
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Height="120" VerticalAlignment="Bottom" LastChildFill="False">
+
+                <Grid>
+                    
+                    
+                </Grid>
                 
-                
+                <Label  Height="36" VerticalAlignment="Center" FontSize="15" VerticalContentAlignment="Center" Margin="20,-50,0,0" Width="100" HorizontalAlignment="Left">ChassisNr.:</Label>
+                <TextBox x:Name="TextBoxFilterOp"  VerticalContentAlignment="Center" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Center" Margin="10,-50,0,0" MinWidth="300" HorizontalAlignment="Left" Height="36"></TextBox>
+
+                <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click"/>
+                <Button x:Name="Verwijderen" Content="_Verwijderen" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="Verwijderen_Click" />
+
             </DockPanel>
             <DataGrid x:Name="ZoekWeergave" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
                           SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
