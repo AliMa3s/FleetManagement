@@ -7,7 +7,7 @@
     [rijksregisternummer] NVARCHAR (15)  NOT NULL,
     [rijbewijstype]       NVARCHAR (100) NOT NULL,
     [rijbewijsnummer]     NVARCHAR (25)  NOT NULL,
-    [aanmaakDatum]        TIMESTAMP      NOT NULL,
+    [aanmaakDatum]        ROWVERSION      NOT NULL,
     [voertuigid]          INT            NULL,
     PRIMARY KEY CLUSTERED ([bestuurderid] ASC),
     UNIQUE NONCLUSTERED ([rijksregisternummer] ASC),

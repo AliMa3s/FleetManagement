@@ -26,6 +26,9 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         private readonly Managers _managers;
         private List<string> _keuzeBrandstoffen = new();
 
+        //Veld code behind
+        private Bestuurder GekozenBestuurder { get; set; }
+
         public string DisplayFirst { get; set; } = "Selecteer";
 
         public TankkaartToevoegen(Managers managers)
@@ -48,19 +51,54 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
         private void TankkaartAanmakenButton_Click(object sender, RoutedEventArgs e)
         {
+            //Wis bij elke nieuw poging de message info
+            infoTankkaartMess.Text = string.Empty;
+
             try
             {
+                //Ctor verwacht een datum, om zelf een foutmelding te geven checken we dit
                 if (DateTime.TryParse(GeldigheidsDatumDatePicker.SelectedDate?.ToString(), out DateTime geldigheidsDatum)
                     && DateTime.TryParse(UitgeefDatumDatePicker.SelectedDate?.ToString(), out DateTime uitgeefDatum))
                 {
-                    TankKaart tankkaart = new TankKaart(TankKaartTextBox.Text, DateTime.Parse(GeldigheidsDatumDatePicker.Text));
+                    TankKaart tankkaart = new TankKaart(TankKaartTextBox.Text, geldigheidsDatum) 
+                    { 
+                         UitgeefDatum = uitgeefDatum
+                    };
 
+                    //Pincode is niet verplicht
                     if(!string.IsNullOrWhiteSpace(PincodeTextBox.Text))
                         tankkaart.VoegPincodeToe(PincodeTextBox.Text);
 
-                    tankkaart.UitgeefDatum = DateTime.Parse(UitgeefDatumDatePicker.Text);
+                    //Wanneer een bestuurder is geselecteerd toevoegen
+                    if(GekozenBestuurder != null)
+                    {
+                        tankkaart.VoegBestuurderToe(GekozenBestuurder);
+                    }
 
-                    _managers.TankkaartManager.VoegTankKaartToe(tankkaart); //deze lijn code is fout.          
+                    //Wanneer brandstof is ingegeven
+                    if (_keuzeBrandstoffen.Count > 0)
+                    {
+                        _keuzeBrandstoffen.ForEach(naam =>
+                        {
+                            //Haal ID op via manager
+                            BrandstofType brandstofType = _managers.Brandstoffen.ToList().Find(e => e.BrandstofNaam == naam);
+                            if (brandstofType != null)
+                            {
+                                //Conroleren of deze al niet in de lijst staat en dan plaatsen
+                                if (tankkaart.IsBrandstofAanwezig(brandstofType))
+                                {
+                                    tankkaart.VoegBrandstofToe(brandstofType);
+                                };
+                            }
+                        });
+                    }
+
+#warning Wie is verantwoordelijk voor het toevoegen van de brandstof? Mag datalaag dat doen via VoegTankaart?
+                    //Kaart kan toegevoegd worden
+                    _managers.TankkaartManager.VoegTankKaartToe(tankkaart);
+                    ResetVelden();
+                    infoTankkaartMess.Text = "Tankkaart succesvol toegevoegd";
+                    infoTankkaartMess.Foreground = Brushes.Green;
                 }
                 else
                 {
@@ -72,17 +110,12 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             {
                 infoTankkaartMess.Foreground = Brushes.Red;
                 infoTankkaartMess.Text = ex.Message;
-                //throw new TankKaartManagerException("aanmaken van nieuwe tankkaart gefaald",ex);
             } 
         }
 
         private void ResetVeldenButton_Click(object sender, RoutedEventArgs e)
         {
-            UitgeefDatumDatePicker.SelectedDate = null;
-            TankKaartTextBox.Text = null;
-            GeldigheidsDatumDatePicker.SelectedDate = null;
-            PincodeTextBox.Text = null;
-            ResestDropown();
+            ResetVelden();
         }
 
         private void SluitTankKaartWindow_Click(object sender, RoutedEventArgs e)
@@ -127,6 +160,17 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
             _keuzeBrandstoffen = new();
             ResetGekozenBrandstofButton.Visibility = Visibility.Hidden;
+        }
+
+        private void ResetVelden()
+        {
+            UitgeefDatumDatePicker.SelectedDate = null;
+            TankKaartTextBox.Text = null;
+            GeldigheidsDatumDatePicker.SelectedDate = null;
+            PincodeTextBox.Text = null;
+            ResestDropown();
+
+            infoTankkaartMess.Text = string.Empty;
         }
     }
 }

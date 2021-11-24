@@ -18,7 +18,7 @@ namespace FleetManagement.Manager {
         public bool BestaatTankKaart(TankKaart tankkaart) {
             try {
                 if (tankkaart == null) throw new TankKaartManagerException("Tankkaart mag niet null zijn");
-                if (!_repo.BestaatTankKaart(tankkaart)) {
+                if (_repo.BestaatTankKaart(tankkaart)) {
                     return false;
                 } else {
                     return true;

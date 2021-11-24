@@ -28,7 +28,7 @@ namespace FleetManagement.ADO.Repositories {
                     int n = (int)command.ExecuteScalar();
                     if (n > 0) return true; else return false;
                 } catch (Exception ex) {
-                    throw new TankkaarRepositoryADOException("BestaatTankkaart- gefaald", ex);
+                    throw new TankkaartRepositoryADOException("BestaatTankkaart- gefaald", ex);
                 } finally {
                     Connection.Close();
                 }
@@ -51,7 +51,7 @@ namespace FleetManagement.ADO.Repositories {
                     }
                     dataReader.Close();
                 } catch (Exception ex) {
-                    throw new TankkaarRepositoryADOException("GetAlleTankkaart niet gelukt", ex);
+                    throw new TankkaartRepositoryADOException("GetAlleTankkaart niet gelukt", ex);
                 } finally {
                     Connection.Close();
                 }
@@ -82,7 +82,7 @@ namespace FleetManagement.ADO.Repositories {
                     dataReader.Close();
                     return tankkaart;
                 } catch (Exception ex) {
-                    throw new TankkaarRepositoryADOException("GetTankkaart - gefaald", ex);
+                    throw new TankkaartRepositoryADOException("GetTankkaart - gefaald", ex);
                 } finally {
                     Connection.Close();
                 }
@@ -114,7 +114,7 @@ namespace FleetManagement.ADO.Repositories {
                     command.ExecuteNonQuery();
 
                 } catch (Exception ex) {
-                    throw new TankkaarRepositoryADOException("UpdateTankkaart - gefaald", ex);
+                    throw new TankkaartRepositoryADOException("UpdateTankkaart - gefaald", ex);
                 } finally {
                     Connection.Close();
                 }
@@ -133,7 +133,7 @@ namespace FleetManagement.ADO.Repositories {
                     command.CommandText = query;
                     command.ExecuteNonQuery();
                 } catch (Exception ex) {
-                    throw new TankkaarRepositoryADOException("VerwijderTankkaart - gefaald", ex);
+                    throw new TankkaartRepositoryADOException("VerwijderTankkaart - gefaald", ex);
                 } finally {
                     Connection.Close();
                 }
@@ -149,22 +149,30 @@ namespace FleetManagement.ADO.Repositories {
                 try {
                     Connection.Open();
                     command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.DateTime));
+                    command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.Date));
                     command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@actief", SqlDbType.Bit));
-                    command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Timestamp));
+                    command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Date));
 
                     command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
                     command.Parameters["@geldigheidsdatum"].Value = tankkaart.GeldigheidsDatum;
-                    command.Parameters["@pincode"].Value = tankkaart.Pincode;
                     command.Parameters["@actief"].Value = tankkaart.Actief;
                     command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum;
+
+                    if(tankkaart.Pincode == null)
+                    {
+                        command.Parameters["@pincode"].Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters["@pincode"].Value = tankkaart.Pincode;
+                    }
 
                     command.CommandText = query;
                     command.ExecuteNonQuery();
 
                 } catch (Exception ex) {
-                    throw new TankkaarRepositoryADOException("VoegTankkaarttoe - gefaald", ex);
+                    throw new TankkaartRepositoryADOException("VoegTankkaarttoe - gefaald", ex);
                 } finally {
                     Connection.Close();
                 }
@@ -200,7 +208,7 @@ namespace FleetManagement.ADO.Repositories {
                         kaartLijst.Add(k);
                     }
                 } catch (Exception ex) {
-                    throw new TankkaarRepositoryADOException("ZoekTankKaarten niet gelukt", ex);
+                    throw new TankkaartRepositoryADOException("ZoekTankKaarten niet gelukt", ex);
                 } finally {
                     Connection.Close();
                 }

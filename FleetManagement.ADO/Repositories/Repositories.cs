@@ -22,6 +22,7 @@ namespace FleetManagement.ADO.Repositories
             AdresRepo = new AdresRepositoryADO(connectionString);
             BestuurderRepo = new BestuurderRepositoryADO(connectionString);
             VoertuigRepo = new VoertuigRepositoryADO(connectionString);
+            TankkaartRepo = new TankkaartRepositoryADO(connectionString);
             AutoModelRepo = new AutoModelRepositoryADO(connectionString);
             KleurRepo = new KleurRepositoryADO(connectionString);
             BrandstofRepo = new  BrandstofRepositoryADO(connectionString);
