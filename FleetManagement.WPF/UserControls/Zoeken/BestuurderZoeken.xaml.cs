@@ -29,6 +29,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             InitializeComponent();
             _managers = managers;
+
+            FilterOpNaam.Text = "Achternaam + Voornaam";
         }
 
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -49,21 +51,21 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         }
 
-        private void FilterOpNaam_GotFus(object sender, RoutedEventArgs e)
+        private void FilterOpNaam_GotFocus(object sender, RoutedEventArgs e)
         {
-           if(filterOpNaam.Text == PlaceholderName)
+           if(FilterOpNaam.Text == PlaceholderName)
             {
-                filterOpNaam.Text = string.Empty;
-                filterOpNaam.Foreground = Brushes.Black;
+                FilterOpNaam.Text = string.Empty;
+                FilterOpNaam.Foreground = Brushes.Black;
             }
         }
 
         private void FiliterOpNaam_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(filterOpNaam.Text))
+            if (string.IsNullOrWhiteSpace(FilterOpNaam.Text))
             {
-                filterOpNaam.Text = PlaceholderName;
-                filterOpNaam.Foreground = Brushes.LightGray;
+                FilterOpNaam.Text = PlaceholderName;
+                FilterOpNaam.Foreground = Brushes.LightSlateGray;
             }
         }
     }

@@ -18,7 +18,7 @@
                 <Grid Width="540">
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,21,0,0" Width="54" HorizontalAlignment="Left" Content="Naam:"/>
 
-                    <TextBox x:Name="filterOpNaam" VerticalContentAlignment="Center" Text="Achternaam + Voornaam" Foreground="LightGray" VerticalAlignment="Top" Margin="81,21,112,0" Height="30" GotFocus="FilterOpNaam_GotFus" LostFocus="FiliterOpNaam_LostFocus"/>
+                    <TextBox x:Name="FilterOpNaam" VerticalContentAlignment="Center" Text="" Foreground="LightSlateGray" VerticalAlignment="Top" Margin="81,21,112,0" Height="30" GotFocus="FilterOpNaam_GotFocus" LostFocus="FiliterOpNaam_LostFocus"/>
                     <Button x:Name="ZoekRijksregister" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="283,91,171,0" Width="86" DockPanel.Dock="Right" Click="ZoekRijksregister_Click"/>
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,56,0,0" Width="228" HorizontalAlignment="Left" Content="Rijksregisternummer:"/>
                     <TextBox x:Name="Rijksregister" VerticalAlignment="Top" Margin="22,91,270,0" Height="30" RenderTransformOrigin="0.582,0.4"/>

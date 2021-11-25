@@ -24,7 +24,7 @@ namespace FleetManagement.WPF.SelecteerWindows
         private readonly BestuurderManager _bestuurderManager;
         private Bestuurder _bestuurder;
 
-        public string PlaceholderName { get; }
+        public string PlaceholderName { get; } = "Achternaam + Voornaam";
 
         public Bestuurder Bestuurder
         {
@@ -42,8 +42,8 @@ namespace FleetManagement.WPF.SelecteerWindows
             _bestuurderManager = manager;
 
             BestuurdersLijst.ItemsSource = _bestuurderManager.FilterOpBestuurdersNaam("", true);
-
             TextBoxFilterOpNaam.Text = PlaceholderName;
+            
         }
 
         //Bestuurder bewaren telkens een Bestuurder wordt geselecteerd
@@ -80,24 +80,27 @@ namespace FleetManagement.WPF.SelecteerWindows
         //Filteren van naam
         private void TextBoxFilterTextChanged(object sender, TextChangedEventArgs e)
         {
-            BestuurdersLijst.ItemsSource = _bestuurderManager.FilterOpBestuurdersNaam(TextBoxFilterOpNaam.Text, true);
+            if(TextBoxFilterOpNaam.Text != PlaceholderName)
+            {
+                BestuurdersLijst.ItemsSource = _bestuurderManager.FilterOpBestuurdersNaam(TextBoxFilterOpNaam.Text, true);
+            }
         }
 
-        private void FilterOpNaam_GotFus(object sender, RoutedEventArgs e)
+        private void TextBoxFilterOpNaam_GotFocus(object sender, RoutedEventArgs e)
         {
             if (TextBoxFilterOpNaam.Text == PlaceholderName)
             {
-                TextBoxFilterOpNaam.Text = "";
+                TextBoxFilterOpNaam.Text = string.Empty;
                 TextBoxFilterOpNaam.Foreground = Brushes.Black;
             }
         }
 
-        private void FiliterOpNaam_LostFocus(object sender, RoutedEventArgs e)
+        private void TextBoxFilterOpNaam_LostFocus(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TextBoxFilterOpNaam.Text))
             {
                 TextBoxFilterOpNaam.Text = PlaceholderName;
-                TextBoxFilterOpNaam.Foreground = Brushes.LightGray;
+                TextBoxFilterOpNaam.Foreground = Brushes.LightSlateGray;
             }
         }
     }
