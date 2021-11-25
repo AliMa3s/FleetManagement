@@ -16,9 +16,9 @@
         <Label x:Name="Title_FleetManegent" Content="Fleet Management App" HorizontalAlignment="Center" Margin="20,-275,0,0" VerticalAlignment="Center" Width="233" Height="39" Grid.Column="0" FontSize="20" FontWeight="Bold"/>
         <Image Source="/fleetmanagement_logo.png" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="350" Margin="20,0,0,0" Grid.RowSpan="2" Grid.Row="0" MaxHeight="230" />
 
-        <Button x:Name="WagenparkBeheer" Content="_Wagenparkbeheer" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-250,0,0" Width="150" Height="40" Padding ="10" Background="LightSkyBlue" Grid.Column="1" Click="WagenparBeheer_Click"/>
-        <Button x:Name="Toevoegen" Content="_Toevoegen" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-125,0,0" Width="150" Height="40" Padding ="10" Background="LightSkyBlue" Grid.Column="1" Click="Toevoegen_Click"/>
-        <Button x:Name="Zoeken" Content="_Zoeken" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" Width="150" Height="40" Background="LightSkyBlue" Grid.Column="1" Click="Zoeken_Click"/>
+        <Button x:Name="WagenparkBeheer" Content="_Instellingen beheren" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" Width="150" Height="40" Padding ="10" Background="LightSkyBlue" Grid.Column="1" Click="WagenparBeheer_Click"/>
+        <Button x:Name="Toevoegen" Content="_Nieuw toevoegen" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-250,0,0" Width="150" Height="40" Padding ="10" Background="LightSkyBlue" Grid.Column="1" Click="Toevoegen_Click"/>
+        <Button x:Name="Zoeken" Content="Zoeken -en Updaten" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-140,0,0" Width="150" Height="40" Background="LightSkyBlue" Grid.Column="1" Click="Zoeken_Click"/>
         <Button x:Name="Afsluiten" Content="_Afsluiten" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,200,0,0" Width="150" Height="40" Background="LightSkyBlue" Grid.Column="1" Click="Afsluiten_Click"/>
     </Grid>
 </Window>

@@ -26,6 +26,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
     {
         private readonly Managers _managers;
 
+        //VELD !! code behind
         private Adres _gekozenAdres;
 
         public BestuurderToevoegen(Managers managers)
