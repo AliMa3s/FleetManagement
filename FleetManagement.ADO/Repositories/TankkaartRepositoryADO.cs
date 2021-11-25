@@ -137,13 +137,13 @@ namespace FleetManagement.ADO.Repositories {
 
         public void VerwijderTankKaart(TankKaart tankkaart) {
 
-            string query = "DELETE FROM Tankkaart WHERE kaartnummer=@kaartnummer";
+            string query = "DELETE FROM Tankkaart WHERE tankkaartnummer=@tankkaartnummer";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
                     Connection.Open();
-                    command.Parameters.Add(new SqlParameter("@kaartnummer", SqlDbType.NVarChar));
-                    command.Parameters["@kaartnummer"].Value = tankkaart.TankKaartNummer;
+                    command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
+                    command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
                     command.CommandText = query;
                     command.ExecuteNonQuery();
                 } catch (Exception ex) {

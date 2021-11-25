@@ -60,7 +60,14 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                     Owner = Window.GetWindow(this),
                 };
 
-                detailWindow.Show();
+                //Uitgezet anders geen update status mogelijk
+                //detailWindow.Show();
+
+                bool? verwijderd = detailWindow.ShowDialog();
+                if(verwijderd == true)
+                {
+                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaart();
+                }
             }
         }
 

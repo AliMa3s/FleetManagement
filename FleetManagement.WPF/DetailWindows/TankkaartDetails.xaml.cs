@@ -67,7 +67,7 @@ namespace FleetManagement.WPF.DetailWindows {
         }
 
         private void SluitForm_Click(object sender, RoutedEventArgs e) {
-            Window.GetWindow(this).Close();
+            DialogResult = false;
         }
 
         private void WijzigButton_Click(object sender, RoutedEventArgs e) {
@@ -84,6 +84,21 @@ namespace FleetManagement.WPF.DetailWindows {
                 _tankkaartDetail = updateTankkaart.TankkaartDetail;
 
                 //Changer aanspreken indien nodig
+            }
+        }
+
+        private void VerwijderButton_Click(object sender, RoutedEventArgs e)
+        {
+            BevestigingWindow bevestigingWindow = new()
+            {
+                Owner = Window.GetWindow(this),
+            };
+
+            bool? verwijderen = bevestigingWindow.ShowDialog();
+            if (verwijderen == true)
+            {
+                _managers.TankkaartManager.VerwijderTankKaart(_tankkaartDetail);
+                DialogResult = true;
             }
         }
     }

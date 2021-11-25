@@ -54,10 +54,12 @@ namespace FleetManagement.Manager {
         public void VerwijderTankKaart(TankKaart tankkaart) {
             try {
                 if (tankkaart == null) throw new TankKaartManagerException("Tankkaart - tankkaart mag niet null zijn");
+                if (tankkaart.TankKaartNummer == null) throw new TankKaartManagerException("Tankkaart - moet een kaartnummer hebben");
+
                 if (_repo.BestaatTankKaart(tankkaart)) {
                     _repo.VerwijderTankKaart(tankkaart);
                 } else {
-                    throw new TankKaartManagerException("Bestuurder - Bestuurder bestaat niet!");
+                    throw new TankKaartManagerException("Tankkaart - Tankkaart bestaat niet!");
                 }
             } catch (Exception ex) {
 

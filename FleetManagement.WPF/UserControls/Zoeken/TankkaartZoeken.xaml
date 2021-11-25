@@ -16,9 +16,10 @@
                 <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click_1"/>
 
                 <Grid Width="540">
-                    <Button x:Name="ZoekNummerplaat" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="36" Margin="456,77,-2,0" Width="86" DockPanel.Dock="Right"/>
-                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="32,32,0,0" Width="228" HorizontalAlignment="Left" Content="Tankkaartnummer:"/>
-                    <TextBox x:Name="Nummerplaat" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Top" Margin="30,77,100,0" MinWidth="410" Height="36" RenderTransformOrigin="0.582,0.4"/>
+                    <Button x:Name="ZoekNummerplaat" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="400,67,54,0" Width="86" DockPanel.Dock="Right"/>
+                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="20,32,0,0" Width="228" HorizontalAlignment="Left" Content="Tankkaartnummer:"/>
+                    <TextBox x:Name="Nummerplaat" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Top" Margin="22,67,162,0" Height="30" RenderTransformOrigin="0.582,0.4"/>
+
                 </Grid>
             </DockPanel>
             <DataGrid  x:Name="ZoekweergaveTankkaart" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  

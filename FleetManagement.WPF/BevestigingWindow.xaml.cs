@@ -26,12 +26,12 @@ namespace FleetManagement.WPF
 
         private void JaVerwijder_Click(object sender, RoutedEventArgs e)
         {
-            
+            DialogResult = true;
         }
 
         private void VerwijderNiet_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogResult = false;
         }
     }
 }

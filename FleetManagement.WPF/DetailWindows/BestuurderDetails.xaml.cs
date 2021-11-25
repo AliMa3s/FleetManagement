@@ -87,5 +87,24 @@ namespace FleetManagement.WPF.DetailWindows {
                 _bestuurderDetail = updateBestuurder.BestuurderDetail;
             }
         }
+
+        private void VerwijderButton_Click(object sender, RoutedEventArgs e)
+        {
+            BevestigingWindow bevestigingWindow = new()
+            {
+                Owner = Window.GetWindow(this),
+            };
+
+            bool? verwijderen = bevestigingWindow.ShowDialog();
+            if (verwijderen == true)
+            {
+                //_managers.BestuurderManager.VerwijderBestuurder(_bestuurderDetail);
+
+                Window.GetWindow(this).Close();
+
+                //Verwijder via manager; bij succes sluit scherm
+                //+ update list en verwijder uit de lijst of vraag terug result aan manager
+            }
+        }
     }
 }
