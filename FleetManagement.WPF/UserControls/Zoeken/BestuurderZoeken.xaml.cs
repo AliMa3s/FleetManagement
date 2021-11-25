@@ -23,6 +23,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
     {
         private readonly Managers _managers;
 
+        public string PlaceholderName { get; } = "Achternaam + Voornaam";
+
         public BestuurderZoeken(Managers managers)
         {
             InitializeComponent();
@@ -37,14 +39,32 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
         }
 
-        private void TextBoxFilterTextChanged(object sender, TextChangedEventArgs e)
+        private void ZoekRijksregister_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void ZoekRijksregister_Click(object sender, RoutedEventArgs e)
+        private void FilterOpNaam_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void FilterOpNaam_GotFus(object sender, RoutedEventArgs e)
+        {
+           if(filterOpNaam.Text == PlaceholderName)
+            {
+                filterOpNaam.Text = string.Empty;
+                filterOpNaam.Foreground = Brushes.Black;
+            }
+        }
+
+        private void FiliterOpNaam_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(filterOpNaam.Text))
+            {
+                filterOpNaam.Text = PlaceholderName;
+                filterOpNaam.Foreground = Brushes.LightGray;
+            }
         }
     }
 }

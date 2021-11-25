@@ -1,6 +1,6 @@
 ﻿using FleetManagement.Manager;
 using FleetManagement.Model;
-using FleetManagement.WPF.exceptions;
+using FleetManagement.WPF.Exceptions;
 using FleetManagement.WPF.SelecteerWindows;
 using System;
 using System.Collections.Generic;

@@ -109,7 +109,7 @@ namespace FleetManagement.Manager {
             }
         }
         //check voor zekerheid 'return voertuig.VoertuigId;'
-        public int VoegVoertuigToe(Voertuig voertuig) {
+        public void VoegVoertuigToe(Voertuig voertuig) {
             try {
 
                 //Controle dat AutoType in de lijst staat  (zie static lijst bovenaan)
@@ -122,7 +122,7 @@ namespace FleetManagement.Manager {
                 } else {
                     throw new VoertuigManagerException("Voertuig Bestaat al");
                 }
-                return voertuig.VoertuigId;
+
             } catch (Exception ex) {
 
                 throw new VoertuigManagerException(ex.Message);

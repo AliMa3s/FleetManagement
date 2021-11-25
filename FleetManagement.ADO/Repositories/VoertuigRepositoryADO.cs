@@ -121,10 +121,10 @@ namespace FleetManagement.ADO.Repositories {
          * Idee: We zouden OUTPUT INSERTED.voertuigId kunnen toevoegen 
          * We krijgen dan de nieuwe VoertuigId terug
         */
-        public int VoegVoertuigToe(Voertuig voertuig) {
+        public void VoegVoertuigToe(Voertuig voertuig) {
 
             string query = "INSERT INTO Voertuig (aantal_deuren,chassisnummer,nummerplaat) " +
-                           " OUTPUT INSERTED.ID VALUES (@aantal_deuren,@chassisnummer,@nummerplaat)";
+                           "VALUES (@aantal_deuren,@chassisnummer,@nummerplaat)";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
@@ -140,10 +140,8 @@ namespace FleetManagement.ADO.Repositories {
                     //command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
 
                     command.CommandText = query;
-
-                    return (int)command.ExecuteScalar();
+                    command.ExecuteNonQuery();
                     
-
                 } catch (Exception ex) {
                     throw new VoertuigRepositoryADOException("VoegVoertuig - gefaald", ex);
                 } finally {

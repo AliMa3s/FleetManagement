@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Manager
 {
-    //Global Manager met apart beheer van repos & bouwers
     public class Managers
     {
         //Managers
@@ -16,18 +15,18 @@ namespace FleetManagement.Manager
         public BestuurderManager BestuurderManager { get; private set; }
         public VoertuigManager VoertuigManager { get; private set; }
         public TankkaartManager TankkaartManager { get; private set; }
-        public KleurManager KleurManager { get; private set; }
         public AutoModelManager AutoModelManager { get; private set; }
-        public BrandstofManager BrandstofManager { get; private set; }
+        private KleurManager KleurManager { get; set; }
+        private BrandstofManager BrandstofManager { get; set; }
 
         //Klaarzetten voor Autotype in te laden via configFile
         public IEnumerable<KeyValuePair<string, string>> AutoTypes { get; set; }
 
         //Kleur
-        public IReadOnlyList<Kleur> Kleuren { get; set; }
+        public IList<Kleur> Kleuren { get; set; }
 
-        //Brabdstoffen
-        public IReadOnlyList<BrandstofType> Brandstoffen { get; set; }
+        //Brandstoffen
+        public IList<BrandstofType> Brandstoffen { get; set; }
 
         public Managers(IRepositories repos)
         {
@@ -41,10 +40,10 @@ namespace FleetManagement.Manager
             BrandstofManager = new BrandstofManager(repos.BrandstofRepo);
 
             //Kleuren éénmaal inladen
-            Kleuren = KleurManager.GeefAlleVoertuigKleuren();
+            Kleuren = KleurManager.GeefAlleVoertuigKleuren().ToList();
 
             //Brandstoffen éénmaal inladen
-            Brandstoffen = BrandstofManager.GeeAlleBrandstoffen();
+            Brandstoffen = BrandstofManager.GeeAlleBrandstoffen().ToList();
         }
     }
 }

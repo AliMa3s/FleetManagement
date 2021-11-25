@@ -108,5 +108,11 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             Window.GetWindow(this).Close();
         }
+
+        private void TextBoxFilterTextChanged(object sender, TextCompositionEventArgs e)
+        {
+
+
+        }
     }
 }

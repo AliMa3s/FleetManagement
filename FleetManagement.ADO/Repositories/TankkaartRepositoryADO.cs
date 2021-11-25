@@ -157,7 +157,7 @@ namespace FleetManagement.ADO.Repositories {
         public void VoegTankKaartToe(TankKaart tankkaart) {
 
             string query = "INSERT INTO Tankkaart (tankkaartnummer, geldigheidsdatum, pincode, actief, uitgeefdatum) " +
-                           " VALUES (@tankkaartnummer, @geldigheidsdatum, @pincode, @actief, @uitgeefdatum)";
+                           "VALUES (@tankkaartnummer, @geldigheidsdatum, @pincode, @actief, @uitgeefdatum)";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {

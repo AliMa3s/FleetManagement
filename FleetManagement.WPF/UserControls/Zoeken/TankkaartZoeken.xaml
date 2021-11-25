@@ -18,7 +18,7 @@
                 <Grid Width="540">
                     <Button x:Name="ZoekNummerplaat" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="400,67,54,0" Width="86" DockPanel.Dock="Right"/>
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="20,32,0,0" Width="228" HorizontalAlignment="Left" Content="Tankkaartnummer:"/>
-                    <TextBox x:Name="Nummerplaat" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Top" Margin="22,67,162,0" Height="30" RenderTransformOrigin="0.582,0.4"/>
+                    <TextBox x:Name="Nummerplaat" VerticalAlignment="Top" Margin="22,67,162,0" Height="30" RenderTransformOrigin="0.582,0.4" TextInput="TextBoxFilterTextChanged"/>
 
                 </Grid>
             </DockPanel>

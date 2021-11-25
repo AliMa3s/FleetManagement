@@ -26,9 +26,6 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         private readonly Managers _managers;
         private List<string> _keuzeBrandstoffen = new();
 
-        //Veld code behind
-        private Bestuurder GekozenBestuurder { get; set; }
-
         public string DisplayFirst { get; set; } = "Selecteer";
 
         public TankkaartToevoegen(Managers managers)
@@ -69,22 +66,17 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     if(!string.IsNullOrWhiteSpace(PincodeTextBox.Text))
                         tankkaart.VoegPincodeToe(PincodeTextBox.Text);
 
-                    //Wanneer een bestuurder is geselecteerd toevoegen
-                    if(GekozenBestuurder != null)
-                    {
-                        tankkaart.VoegBestuurderToe(GekozenBestuurder);
-                    }
-
                     //Wanneer brandstof is ingegeven
                     if (_keuzeBrandstoffen.Count > 0)
                     {
                         _keuzeBrandstoffen.ForEach(naam =>
                         {
-                            //Haal ID op via manager
+                            //Haal BrandstofType op (met ID) via manager
                             BrandstofType brandstofType = _managers.Brandstoffen.ToList().Find(e => e.BrandstofNaam == naam);
+
                             if (brandstofType != null)
                             {
-                                //Conroleren of deze al niet in de lijst staat en dan plaatsen
+                                //Controleer of deze al niet in de lijst staat en dan toevoegen
                                 if (tankkaart.IsBrandstofAanwezig(brandstofType))
                                 {
                                     tankkaart.VoegBrandstofToe(brandstofType);
@@ -93,7 +85,6 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                         });
                     }
 
-#warning Wie is verantwoordelijk voor het toevoegen van de brandstof? Mag datalaag dat doen via VoegTankaart?
                     //Kaart kan toegevoegd worden
                     _managers.TankkaartManager.VoegTankKaartToe(tankkaart);
                     ResetVelden();
