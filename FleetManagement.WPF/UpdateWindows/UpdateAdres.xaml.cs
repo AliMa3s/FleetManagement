@@ -71,6 +71,7 @@ namespace FleetManagement.WPF.UpdateWindows {
             }
             else
             {
+                _adres = null;
                 DialogResult = false;
             }
         }

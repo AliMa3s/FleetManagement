@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:FleetManagement.WPF"
         mc:Ignorable="d"
         Title="BevestigingWindow" Height="200" Width="250">
-    <Grid Background="LightBlue">
+    <Grid Background="LightSteelBlue">
 
-        <Button x:Name="JaVerwijder" Content="_Ja" Background="#FFCAD5EA" VerticalAlignment="Top" Height="36" Margin="33,48,0,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Left" Grid.Row="1"/>
-        <Button x:Name="VerwijderNiet" Content="_Neen" Background="#FFCAD5EA" VerticalAlignment="Top" Height="36" Margin="141,50,0,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Left" Grid.Row="1"/>
+        <Button x:Name="JaVerwijder" Content="_Ja" Background="#FFCAD5EA" VerticalAlignment="Top" Height="36" Margin="33,48,0,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Left" Grid.Row="1" Click="JaVerwijder_Click"/>
+        <Button x:Name="VerwijderNiet" Content="_Neen" Background="#FFCAD5EA" VerticalAlignment="Top" Height="36" Margin="141,48,0,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Left" Grid.Row="1" Click="VerwijderNiet_Click"/>
         <Label Background="CornflowerBlue" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="0" Margin="0,0,0,0" FontWeight="Bold">Bevestig verwijderen:</Label>
 
         <Grid.RowDefinitions>

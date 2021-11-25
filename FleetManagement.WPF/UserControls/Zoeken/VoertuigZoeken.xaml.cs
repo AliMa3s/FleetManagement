@@ -23,6 +23,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
     {
         private readonly Managers _managers;
 
+        //private string _filter; 
+
         public VoertuigZoeken(Managers managers)
         {
             InitializeComponent();
@@ -48,12 +50,34 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void SluitVoertuigForm_Click(object sender, RoutedEventArgs e)
         {
-
+            Window.GetWindow(this).Close();
         }
 
-        private void KiesButton_Click(object sender, RoutedEventArgs e)
+        private void KiesFilter_Click(object sender, RoutedEventArgs e)
         {
+            FilterWindow filterWindow = new(_managers)
+            {
+                Owner = Window.GetWindow(this),
+                //Filter = _filter
+            };
 
+            bool? geslecteerd = filterWindow.ShowDialog();
+            if (geslecteerd == true)
+            {
+                //_filter = filterWindow.Filter;
+
+                StringBuilder stringBuilder = new("Filteren op:");
+
+                //if (filterWindow.EnableAutopType)
+                //    stringBuilder.AppendLine("Autotypes");
+                //if (filterWindow.EnableBrandstof)
+                //    stringBuilder.AppendLine("Brandstoffen");
+                //if (filterWindow.EnableKleur)
+                //    stringBuilder.AppendLine("Kleuren");
+
+                //GekozenFilter.Text = stringBuilder;
+                //KiesFilter.Content = "Filter wijzigen";
+            }
         }
     }
 }

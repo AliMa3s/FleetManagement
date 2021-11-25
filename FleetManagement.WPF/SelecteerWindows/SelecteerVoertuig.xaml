@@ -30,7 +30,7 @@
                     <DataGridTextColumn Header=" Aantal Deuren " Binding="{Binding aantal_deuren}"/>
                     <DataGridTextColumn Header=" Chassisnummer " Binding="{Binding chassisnummer}"/>
                     <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding nummerplaat}"/>
-                    <DataGridTextColumn Header=" Inboekdatum " Binding="{Binding inboekdatum}"/>
+                    <DataGridTextColumn Header=" Inboekdatum " Binding="{Binding inboekdatum, StringFormat= d/MM/yyyy}"/>
                 </DataGrid.Columns>
 
                 <DataGrid.RowStyle>

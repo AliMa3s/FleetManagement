@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FleetManagement.Manager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,23 +16,16 @@ using System.Windows.Shapes;
 namespace FleetManagement.WPF
 {
     /// <summary>
-    /// Interaction logic for BevestigingWindow.xaml
+    /// Interaction logic for Filter.xaml
     /// </summary>
-    public partial class BevestigingWindow : Window
+    public partial class FilterWindow : Window
     {
-        public BevestigingWindow()
+        private readonly Managers _managers;
+
+        public FilterWindow(Managers managers)
         {
             InitializeComponent();
-        }
-
-        private void JaVerwijder_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void VerwijderNiet_Click(object sender, RoutedEventArgs e)
-        {
-
+            _managers = managers;
         }
     }
 }

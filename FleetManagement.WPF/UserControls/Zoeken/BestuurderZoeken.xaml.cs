@@ -42,7 +42,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         }
 
-        private void SluitVoertuigForm_Click(object sender, RoutedEventArgs e)
+        private void ZoekRijksregister_Click(object sender, RoutedEventArgs e)
         {
 
         }

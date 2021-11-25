@@ -72,6 +72,11 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     + " " + _gekozenAdres.Postcode
                     + " " + _gekozenAdres.Gemeente;
             }
+            else
+            {
+                _gekozenAdres = UpdateAdres.AdresGegevens;
+                GekozenAdres.Text = string.Empty;
+            }
         }
     }
 }

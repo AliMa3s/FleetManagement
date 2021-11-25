@@ -12,16 +12,17 @@
             <DockPanel DockPanel.Dock="Bottom" Height="140" VerticalAlignment="Bottom" LastChildFill="False">
 
 
-                <Button x:Name="KiesDetail" Content="_Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click"/>
-                <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click"/>
+                <Button x:Name="KiesDetail" Content="_Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
 
                 <Grid Width="540">
-                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="26,21,0,0" Width="52" HorizontalAlignment="Left">Naam:</Label>
+                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="16,21,0,0" Width="161" HorizontalAlignment="Left" Content="Achter en Voornaam:"/>
 
-                    <TextBox x:Name="Chassisnummer" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Top" Margin="92,17,1,0" MinWidth="410" Height="36"/>
-                    <Button x:Name="ZoekNummerplaat" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="36" Margin="456,90,-2,0" Width="86" DockPanel.Dock="Right"/>
-                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="26,58,0,0" Width="228" HorizontalAlignment="Left" Content="Rijksregisternummer:"/>
-                    <TextBox x:Name="Nummerplaat" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Top" Margin="30,89,100,0" MinWidth="410" Height="36" RenderTransformOrigin="0.582,0.4"/>
+                    <TextBox x:Name="filterOpNaam" VerticalAlignment="Top" Margin="183,21,10,0" Height="30"/>
+                    <Button x:Name="ZoekRijksregister" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="283,91,171,0" Width="86" DockPanel.Dock="Right" Click="ZoekRijksregister_Click"/>
+                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,58,0,0" Width="228" HorizontalAlignment="Left" Content="Rijksregisternummer:"/>
+                    <TextBox x:Name="Rijksregister" VerticalAlignment="Top" Margin="22,91,270,0" Height="30" RenderTransformOrigin="0.582,0.4"/>
+
                 </Grid>
             </DockPanel>
             <DataGrid  x:Name="ZoekWeergave" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
