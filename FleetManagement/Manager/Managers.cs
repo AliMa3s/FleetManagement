@@ -41,10 +41,10 @@ namespace FleetManagement.Manager
             BrandstofManager = new BrandstofManager(repos.BrandstofRepo);
 
             //Kleuren éénmaal inladen
-            Kleuren = repos.KleurRepo.GeefAlleVoertuigKleuren();
+            Kleuren = KleurManager.GeefAlleVoertuigKleuren();
 
             //Brandstoffen éénmaal inladen
-            Brandstoffen = repos.BrandstofRepo.GeeAlleBrandstoffen();
+            Brandstoffen = BrandstofManager.GeeAlleBrandstoffen();
         }
     }
 }

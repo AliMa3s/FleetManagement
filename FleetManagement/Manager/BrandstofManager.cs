@@ -19,7 +19,7 @@ namespace FleetManagement.Manager
 
         public IReadOnlyList<BrandstofType> GeeAlleBrandstoffen()
         {
-            throw new NotImplementedException();
+            return _repo.GeeAlleBrandstoffen();
         }
     }
 }
