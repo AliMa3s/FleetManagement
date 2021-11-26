@@ -25,7 +25,7 @@ namespace FleetManagement.Model {
         {
             if(string.IsNullOrEmpty(kaartnummer) || string.IsNullOrWhiteSpace(kaartnummer))
             {
-                throw new TankKaartException($"{nameof(TankKaart)} Kan niet null of leeg zijn");
+                throw new TankKaartException($"{nameof(TankKaartNummer)} Kan niet null of leeg zijn");
             }
 
             //Static class die tankkaartnummer controleert

@@ -62,10 +62,6 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                          UitgeefDatum = uitgeefDatum
                     };
 
-                    //Pincode is niet verplicht
-                    if(!string.IsNullOrWhiteSpace(PincodeTextBox.Text))
-                        tankkaart.VoegPincodeToe(PincodeTextBox.Text);
-
                     //Wanneer brandstof is ingegeven
                     if (_keuzeBrandstoffen.Count > 0)
                     {
@@ -85,11 +81,23 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                         });
                     }
 
-                    //Kaart kan toegevoegd worden
-                    _managers.TankkaartManager.VoegTankKaartToe(tankkaart);
-                    ResetVelden();
-                    infoTankkaartMess.Text = "Tankkaart succesvol toegevoegd";
-                    infoTankkaartMess.Foreground = Brushes.Green;
+                    if(tankkaart.IsGeldigheidsDatumVervallen)
+                    {
+                        infoTankkaartMess.Text = "Kan niet toevoegen want tankkaart is reeds vervallen";
+                        infoTankkaartMess.Foreground = Brushes.Red;
+                    }
+                    else
+                    {
+                        //Pincode is niet verplicht
+                        if (!string.IsNullOrWhiteSpace(PincodeTextBox.Text))
+                            tankkaart.VoegPincodeToe(PincodeTextBox.Text);
+
+                        //Kaart kan toegevoegd worden
+                        _managers.TankkaartManager.VoegTankKaartToe(tankkaart);
+                        ResetVelden();
+                        infoTankkaartMess.Text = "Tankkaart succesvol toegevoegd";
+                        infoTankkaartMess.Foreground = Brushes.Green;
+                    }
                 }
                 else
                 {

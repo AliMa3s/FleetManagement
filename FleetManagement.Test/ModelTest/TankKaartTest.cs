@@ -84,7 +84,7 @@ namespace FleetManagement.Test.ModelTest {
                new TankKaart("", false, geldigheidsDatum, "52374"); 
             });
 
-            Assert.Equal($"{nameof(TankKaart)} Kan niet null of leeg zijn", e.Message);
+            Assert.Equal($"TankKaartNummer Kan niet null of leeg zijn", e.Message);
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace FleetManagement.Test.ModelTest {
                 new TankKaart(null, false, geldigheidsDatum, "52374");
             });
 
-            Assert.Equal($"{nameof(TankKaart)} Kan niet null of leeg zijn", e.Message);
+            Assert.Equal($"TankKaartNummer Kan niet null of leeg zijn", e.Message);
         }
 
         [Fact]
