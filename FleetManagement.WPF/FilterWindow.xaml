@@ -6,7 +6,13 @@
         xmlns:local="clr-namespace:FleetManagement.WPF"
         mc:Ignorable="d"
         Title="Filter" Height="450" Width="800">
-    <Grid>
+
+    <DockPanel>
+
+        <StackPanel x:Name="FirstDynamicCheckBoxes">
+            
+        </StackPanel>
         
-    </Grid>
+    </DockPanel>
+    
 </Window>

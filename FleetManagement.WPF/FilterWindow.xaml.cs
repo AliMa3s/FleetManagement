@@ -1,4 +1,5 @@
 ﻿using FleetManagement.Manager;
+using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,17 @@ namespace FleetManagement.WPF
         {
             InitializeComponent();
             _managers = managers;
+
+            var lijst = _managers.Brandstoffen.ToList();
+            lijst.Add(new BrandstofType("Hybride"));
+            lijst.Sort();
+
+            lijst.ForEach(brandstof => {
+
+                CheckBox checkBox = new();
+                checkBox.Content = brandstof.BrandstofNaam;
+                FirstDynamicCheckBoxes.Children.Add(checkBox);
+            });
         }
     }
 }

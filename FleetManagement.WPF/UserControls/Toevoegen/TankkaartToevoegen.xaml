@@ -16,9 +16,11 @@
             </DockPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="50*"/>
-                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="28*"/>
+                    <ColumnDefinition Width="32*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="28*"/>
+                    <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -35,7 +37,7 @@
                     <RowDefinition Height="7*"/>
                 </Grid.RowDefinitions>
 
-                <Label x:Name="FormTankkaart" Grid.Row="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
+                <Label x:Name="FormTankkaart" Grid.Row="0" Grid.ColumnSpan="5" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
                 <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Uitgeefdatum: *</Label>
                 <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Tankkaartnummer: *</Label>
                 <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Geldigheidsdatum: *</Label>
@@ -43,15 +45,19 @@
                 <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Brandstoffen:</Label>
 
                 <TextBox x:Name="TankKaartTextBox"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" MaxLength="20" Height="25"/>
-                <TextBox x:Name="PincodeTextBox" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" Height="25" MaxLength="5"/>
+                <TextBox x:Name="PincodeTextBox" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="5,0,15,0" Text="" Height="25" Width="50" MaxLength="5"/>
                 <ComboBox x:Name="BrandstofNamenComboBox" Grid.Column="1" Grid.Row="6" Margin="5,0,0,0" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="146" SelectedIndex="0" >
                 </ComboBox>
-                <Button x:Name="ResetGekozenBrandstofButton" Click="ResetGekozenBrandstofButton_Click" Content="Wissen" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="7" Grid.Column="1" Background="LightSkyBlue" Height="30" Grid.ColumnSpan="1" Width="65" Margin="170,0,0,0" Visibility="Hidden"/>
+                <Button x:Name="ResetGekozenBrandstofButton" Click="ResetGekozenBrandstofButton_Click" Content="Brandstoflijst legen" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="6" Grid.Column="3" Background="LightSkyBlue" Height="30" Grid.ColumnSpan="1" Width="150" Margin="0,0,0,0" Visibility="Hidden"/>
                 <Button x:Name="BrandstofToevoegen" Click="BrandstofToevoegenButton_Click" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Content="Brandstof toevoegen" VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Background="LightSkyBlue" Height="30" Margin="5,0,0,0" />
                 <DatePicker x:Name="UitgeefDatumDatePicker" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center" />
                 <DatePicker x:Name="GeldigheidsDatumDatePicker" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center" />
 
-                <TextBlock x:Name="GekozenbrandstoffenString" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="5,0,0,0"  Height="auto"/>
+                <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Brandstoffen:</Label>
+                <Grid Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="#FFE7E8EC">
+                    <TextBlock x:Name="GekozenbrandstoffenString" TextWrapping="Wrap" Text="Geen brandstof" Padding="10" Grid.ColumnSpan="2"></TextBlock>
+                </Grid>
+
 
             </Grid>
 

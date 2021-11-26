@@ -144,10 +144,11 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             _managers.Brandstoffen.ToList().ForEach(brandstof => {
 
                 BrandstofNamenComboBox.Items.Add(brandstof.BrandstofNaam);
+
             });
 
             BrandstofNamenComboBox.SelectedIndex = 0;
-            GekozenbrandstoffenString.Text = string.Empty;
+            GekozenbrandstoffenString.Text = "Geen brandstof";
 
             _keuzeBrandstoffen = new();
             ResetGekozenBrandstofButton.Visibility = Visibility.Hidden;
