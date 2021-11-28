@@ -78,5 +78,27 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                 GekozenAdres.Text = string.Empty;
             }
         }
+
+        private void ResetFormulierButton_Click(object sender, RoutedEventArgs e) {
+            ResetForm();
+        }
+
+        //reset Formulier
+        private void ResetForm() {
+            Voornaam.Text = string.Empty;
+            Achternaam.Text = string.Empty;
+            Geboortedatum.Text = string.Empty;
+            Geboortemaand.Text = string.Empty;
+            Geboortejaar.Text= string.Empty;
+            RijksRegisterNummer.Text = string.Empty;
+            RijBewijs.Text = string.Empty;
+            RijBewijsNummer.Text = string.Empty;
+            GekozenAdres.Text = string.Empty;
+            AdresInvoegen.Content = "Adres Invoegen";
+            TankkaarSelecteren.Content = "Tankkaart Selecteren";
+
+            GekozenAdres = null;
+            GekozenTankkaart = null;
+        }
     }
 }
