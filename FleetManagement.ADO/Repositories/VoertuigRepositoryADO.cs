@@ -123,21 +123,18 @@ namespace FleetManagement.ADO.Repositories {
         */
         public void VoegVoertuigToe(Voertuig voertuig) {
 
-            string query = "INSERT INTO Voertuig (aantal_deuren,chassisnummer,nummerplaat) " +
-                           "VALUES (@aantal_deuren,@chassisnummer,@nummerplaat)";
+            string query = "INSERT INTO Voertuig (automodelid,brandstoftypeid,aantal_deuren,chassisnummer,nummerplaat) " +
+                           " VALUES (@automodelid,@brandstoftypeid,@aantal_deuren,@chassisnummer,@nummerplaat)";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
                     Connection.Open();
-                    command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
-                    //command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.Timestamp));
+                    command.Parameters.AddWithValue("@automodelid", voertuig.AutoModel.AutoModelId);
+                    command.Parameters.AddWithValue("@brandstoftypeid", voertuig.BrandstofType.BrandstofTypeId);
+                    command.Parameters.AddWithValue("@aantal_deuren", voertuig.AantalDeuren);
+                    command.Parameters.AddWithValue("@chassisnummer", voertuig.ChassisNummer);
+                    command.Parameters.AddWithValue("@nummerplaat", voertuig.NummerPlaat);
 
-                    command.Parameters["@aantal_deuren"].Value = voertuig.AantalDeuren;
-                    command.Parameters["@chassisnummer"].Value = voertuig.ChassisNummer;
-                    command.Parameters["@nummerplaat"].Value = voertuig.NummerPlaat;
-                    //command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
 
                     command.CommandText = query;
                     command.ExecuteNonQuery();

@@ -3,7 +3,7 @@
     [automodelid]     INT           NOT NULL,
     [brandstoftypeid] INT           NOT NULL,
     [kleurnaam]       NVARCHAR (250) NULL,
-    [aantal_deuren]   NVARCHAR (10)  NULL,
+    [aantal_deuren]   NVARCHAR (16)  NULL,
     [chassisnummer]   NVARCHAR (25) NOT NULL,
     [nummerplaat]     NVARCHAR (19)  NOT NULL,
     [inboekdatum]     ROWVERSION    NOT NULL,

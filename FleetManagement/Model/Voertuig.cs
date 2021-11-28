@@ -22,7 +22,7 @@ namespace FleetManagement.Model
         public AantalDeuren? AantalDeuren { get; set; }
         public Bestuurder Bestuurder { get; private set; }
         public bool HeeftVoertuigBestuurder => Bestuurder != null;
-
+        public BrandstofType BrandstofType { get; private set; }
         public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofVoertuig brandstof)
         {
             AutoModel = autoModel ?? throw new VoertuigException($"{nameof(AutoModel)} mag niet leeg zijn");
@@ -52,6 +52,21 @@ namespace FleetManagement.Model
                 throw new VoertuigException("VoertuigId moet meer zijn dan 0");
             }
         }
+
+        public Voertuig(int voertuigId, AutoModel autoModel, string chassisNummer, string nummerPlaat, BrandstofVoertuig brandstof, AantalDeuren? aantalDeuren) : this(voertuigId, autoModel, chassisNummer, nummerPlaat, brandstof) {
+            AantalDeuren = aantalDeuren;
+        }
+
+        public Voertuig(AutoModel autoModel, string chassisNummer, string nummerPlaat, AantalDeuren? aantalDeuren, BrandstofType brandstofType) {
+            AutoModel = autoModel;
+            ChassisNummer = chassisNummer;
+            NummerPlaat = nummerPlaat;
+            AantalDeuren = aantalDeuren;
+            BrandstofType = brandstofType;
+        }
+
+
+
 
         //Maakt de relatie en plaatst entiteit
         public virtual void VoegBestuurderToe(Bestuurder ingegevenBestuurder)

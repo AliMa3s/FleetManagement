@@ -12,7 +12,6 @@ namespace ConsoleApplicatie
         {
             Console.WriteLine("Hello World!");
 
-#warning Gelieve eerst toe te voegen zonder ID. Daarna ophalen via rijksregisternummer en dan dit object verwijderen. Dan verwijder je altijd de juiste ID 
             string connectionstring = @"Data Source=.\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True";
             BestuurderRepositoryADO bsd = new BestuurderRepositoryADO(connectionstring);
             //Bestuurder b = new Bestuurder(4, "Ahmeti", "Yilmaiz", "1976-03-10", "B", "1514081390", "76031010956");//teammeeting bespreken
@@ -32,12 +31,12 @@ namespace ConsoleApplicatie
 
             AdresRepositoryADO ado = new AdresRepositoryADO(connectionstring);
             Adres ad = new Adres("stratenstraat", "2", "5000", "Hasselt");
-            ado.VoegAdresToe(ad);
+            //ado.VoegAdresToe(ad);
             Console.WriteLine("Adres toegvoegd!");//done
             Adres upAd = new Adres(1,"stationstraat", "5", "3500", "Hasselt");
-            ado.UpdateAdres(upAd);
+            //ado.UpdateAdres(upAd);
             Console.WriteLine("Adres Geüpdatet!");//done
-            ado.VerwijderAdres(upAd);
+            //ado.VerwijderAdres(upAd);
             Console.WriteLine("Adres Geüpdatet!");//done
             if (ado.BestaatAdres(upAd)) {
                 Console.WriteLine("Adres bestaat!");
@@ -45,7 +44,16 @@ namespace ConsoleApplicatie
                 Console.WriteLine("Adres bestaat niet!");
             }//checked
 
-            ado.Dispose();
+            //ado.Dispose();
+
+            VoertuigRepositoryADO vrt = new VoertuigRepositoryADO(connectionstring);
+            AutoType autotype = new AutoType("Sedan");
+            bool ishybride = true;
+            BrandstofType brandstof = new BrandstofType(1,"Benzin");
+            AutoModel automodel = new AutoModel(1,"BMW", "X1", autotype);
+            Voertuig v1 = new Voertuig(automodel, "WAUZZZ8V5KA106598","1ALI007" ,AantalDeuren.Drie, brandstof);
+            vrt.VoegVoertuigToe(v1);
+            Console.WriteLine("Voertuig toegevoegd!");
         }
     }
 }
