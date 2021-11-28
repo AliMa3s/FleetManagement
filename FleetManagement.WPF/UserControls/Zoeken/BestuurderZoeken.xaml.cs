@@ -68,5 +68,9 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 FilterOpNaam.Foreground = Brushes.LightSlateGray;
             }
         }
+
+        private void SluitWindow_Click(object sender, RoutedEventArgs e) {
+            Window.GetWindow(this).Close();
+        }
     }
 }

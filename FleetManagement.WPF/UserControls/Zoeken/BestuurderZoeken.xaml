@@ -13,7 +13,7 @@
 
 
                 <Button x:Name="KiesDetail" Content="_Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
-                <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitWindow_Click"/>
 
                 <Grid Width="540">
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,21,0,0" Width="54" HorizontalAlignment="Left" Content="Naam:"/>
