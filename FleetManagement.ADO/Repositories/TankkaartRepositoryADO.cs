@@ -35,69 +35,96 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-        public IReadOnlyList<TankKaart> GeefAlleTankkaart() {
-            string query = "SELECT * FROM Tankkaart";
+        public IReadOnlyList<TankKaart> GeefAlleTankkaarten() {
+            string query = "SELECT * FROM Tankkaart " +
+                "ORDER BY tankkaartnummer ASC " +
+                "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
+
             List<TankKaart> kaartLijst = new List<TankKaart>();
 
-            using (SqlCommand command = new SqlCommand(query, Connection)) {
-                try {
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
                     Connection.Open();
-                    IDataReader dataReader = command.ExecuteReader();
-                    
-                    while (dataReader.Read()) {
 
-                        string pincode = null;
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read())
+                            {
+                                string pincode = null;
 
-                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
 
-                            TankKaart tankKaartDB = new TankKaart(
-                                (string)dataReader["tankkaartnummer"],
-                                (bool)dataReader["actief"],
-                                dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
-                                pincode
-                            ) {
-                               UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"))
-                            };
+                                TankKaart tankKaartDB = new TankKaart(
+                                    (string)dataReader["tankkaartnummer"],
+                                    (bool)dataReader["actief"],
+                                    dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
+                                    pincode
+                                )
+                                {
+                                    UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"))
+                                };
 
-                        kaartLijst.Add(tankKaartDB);
+                                kaartLijst.Add(tankKaartDB);
+                            }
+                        }
+
+                        return kaartLijst;
                     }
-                    dataReader.Close();
-
-                    return kaartLijst;
-
-                } catch (Exception ex) {
-                    throw new TankkaartRepositoryADOException("GetAlleTankkaart niet gelukt", ex);
-                } finally {
+                }
+                catch (Exception ex)
+                {
+                    throw new TankkaartRepositoryADOException("Tankkaarten - gefaald", ex);
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }
+           
         }
 
         public TankKaart GetTankKaart(string tankkaartNr) {
-            string query = "SELECT * FROM Tankkart WHERE kaartnummer=@kaartnummer";
+            string query = "SELECT * FROM Tankkaart WHERE tankkaartnummer=@tankkaartnummer";
 
-            using (SqlCommand command = new SqlCommand(query, Connection)) {
-                try {
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@tankkaartnummer", tankkaartNr);
                     Connection.Open();
-                    command.CommandText = query;
-                    SqlParameter paramId = new SqlParameter();
-                    paramId.ParameterName = "@kaartnummer";
-                    paramId.SqlDbType = SqlDbType.NVarChar;
-                    paramId.Value = tankkaartNr;
-                    command.Parameters.Add(paramId);
 
-                    SqlDataReader dataReader = command.ExecuteReader();
-                    dataReader.Read();
-                    string kaartnummer = (string)dataReader["kaartnummer"];
-                    DateTime geldigheidsdatum = (DateTime)dataReader["geldigheidsdatum"];
-                    string pin = (string)dataReader["pincode"];
-                    bool isactief = (bool)dataReader["isactief"];
-                    TankKaart tankkaart = new TankKaart(kaartnummer, isactief, geldigheidsdatum, pin);
-                    dataReader.Close();
-                    return tankkaart;
-                } catch (Exception ex) {
-                    throw new TankkaartRepositoryADOException("GetTankkaart - gefaald", ex);
-                } finally {
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            dataReader.Read();
+
+                            string pincode = null;
+                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
+
+                            TankKaart tankkaart = new TankKaart(
+                                (string)dataReader["tankkaartnummer"],
+                                (bool)dataReader["actief"],
+                                (DateTime)dataReader["geldigheidsdatum"],
+                                pincode
+                            );
+
+                            return tankkaart;
+                        }
+
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new TankkaartRepositoryADOException("Geef tankkaart - gefaald", ex);
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }
@@ -197,37 +224,58 @@ namespace FleetManagement.ADO.Repositories {
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<TankKaart> ZoekTankKaarten(string tankkaartNr, BrandstofType brandstof) {
+        public IReadOnlyList<TankKaart> ZoekTankKaarten(bool isGeldig)
+        {
+            string query = "SELECT * FROM Tankkaart " +
+                "WHERE actief = @isGeldig " +
+                "ORDER BY tankkaartnummer ASC " +
+                "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
 
-            List<TankKaart> kaartLijst = new List<TankKaart>();
+            List<TankKaart> tankaartenDB = new List<TankKaart>();
 
-            string query = "SELECT Tankkaart.kaartnummer, Brandstoftype.brandstofnaam FROM Tankkaart " +
-                " INNER JOIN Brandstoftype ON Tankkaart.kaartnummer=@Tankkaart.kaartnummer ";
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@isGeldig", isGeldig);
+                    Connection.Open();
 
-            using (SqlCommand command = Connection.CreateCommand()) {
-                Connection.Open();
-                try {
-                    command.Parameters.Add(new SqlParameter("@Tankkaart.kaartnummer ", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@Brandstoftype.brandstofnaam", SqlDbType.NVarChar));
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read())
+                            {
+                                string pincode = null;
 
-                    command.Parameters["@Tankkaart.kaartnummer"].Value = tankkaartNr;
-                    command.Parameters["@Brandstoftype.brandstofnaam"].Value = brandstof;
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
 
-                    command.CommandText = query;
-                    IDataReader dataReader = command.ExecuteReader();
-                    TankKaart k = null;
-                    while (dataReader.Read()) {
-                        if (k == null) k = new TankKaart((string)dataReader["kaartnummer"], (bool)dataReader["actief"], (DateTime)dataReader["geldigheidsdatum"],
-                        (string)dataReader["pincode"]);
-                        kaartLijst.Add(k);
+                                TankKaart tankKaartDB = new TankKaart(
+                                    (string)dataReader["tankkaartnummer"],
+                                    (bool)dataReader["actief"],
+                                    dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
+                                    pincode
+                                )
+                                {
+                                    UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"))
+                                };
+
+                                tankaartenDB.Add(tankKaartDB);
+                            }
+                        }
+
+                        return tankaartenDB;
                     }
-                } catch (Exception ex) {
-                    throw new TankkaartRepositoryADOException("ZoekTankKaarten niet gelukt", ex);
-                } finally {
+                }
+                catch (Exception ex)
+                {
+                    throw new BrandstofRepositoryADOException("Brandstoffen - gefaald", ex);
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }
-            return kaartLijst.AsReadOnly();
         }
     }
 }

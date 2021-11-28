@@ -36,14 +36,18 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 ZoekweergaveTankkaart.SelectedItem = value;
             }
         }
-        
-
+  
         public TankkaartZoeken(Managers managers)
         {
             InitializeComponent();
-            _managers = managers;
+            _managers = managers; 
 
-            ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaart();
+            ZoekcriteriaComboBox.Items.Add("Alle tankkaarten");
+            ZoekcriteriaComboBox.Items.Add("Nieuwe tankkaarten");
+            ZoekcriteriaComboBox.Items.Add("Inactieve tankkaarten");
+
+            ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
+
         }
 
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -66,14 +70,9 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 bool? verwijderd = detailWindow.ShowDialog();
                 if(verwijderd == true)
                 {
-                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaart();
+                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
                 }
             }
-        }
-
-        private void SluitVoertuigForm_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void ResetFormulierButton_Click(object sender, RoutedEventArgs e)
@@ -104,15 +103,51 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             }
         }
 
-        private void SluitVoertuigForm_Click_1(object sender, RoutedEventArgs e)
+        private void CriteriaComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Window.GetWindow(this).Close();
+            infoTankkaartMess.Text = "";
+
+            switch (ZoekcriteriaComboBox.SelectedIndex)
+            {
+                case 1:
+                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.ZoekTankKaarten(true);
+                    break;
+
+                case 2:
+                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.ZoekTankKaarten(false);
+                    break;
+
+                default:
+                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
+                    break;
+            }
         }
 
-        private void TextBoxFilterTextChanged(object sender, TextCompositionEventArgs e)
+        private void ZoektankkaartNummer_Click(object sender, RoutedEventArgs e)
         {
+            infoTankkaartMess.Text = "";
 
+            if (!string.IsNullOrWhiteSpace(TankkaartNummer.Text))
+            {
+                List<TankKaart> tankkaarten = new();
+                TankKaart tankkaart = _managers.TankkaartManager.GetTankKaart(TankkaartNummer.Text);
+                
+                if(tankkaart != null)
+                {
+                    tankkaarten.Add(tankkaart);
+                    ZoekweergaveTankkaart.ItemsSource = tankkaarten;
+                }
+                else
+                {
+                    infoTankkaartMess.Foreground = Brushes.Red;
+                    infoTankkaartMess.Text = "Geen tankkaart gevonden!";
+                }
+            }
+        }
 
+        private void SluitWindow_Click(object sender, RoutedEventArgs e)
+        {
+            Window.GetWindow(this).Close();
         }
     }
 }

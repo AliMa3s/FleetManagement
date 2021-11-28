@@ -28,12 +28,13 @@ namespace FleetManagement.Manager {
             }
         }
 
-        public IReadOnlyList<TankKaart> GeefAlleTankkaart() {
-            return _repo.GeefAlleTankkaart();
+        public IReadOnlyList<TankKaart> GeefAlleTankkaarten() {
+            return _repo.GeefAlleTankkaarten();
         }
 
         public TankKaart GetTankKaart(string tankkaartNr) {
             if (string.IsNullOrWhiteSpace(tankkaartNr)) throw new TankKaartManagerException("TankkaartNr - Foutief");
+
             return _repo.GetTankKaart(tankkaartNr);
         }
 
@@ -88,8 +89,8 @@ namespace FleetManagement.Manager {
 
         }
 
-        public IReadOnlyList<TankKaart> ZoekTankKaarten(string tankkaartNr, BrandstofType brandstof) {
-            throw new NotImplementedException();
+        public IReadOnlyList<TankKaart> ZoekTankKaarten(bool isGeldig) {
+            return _repo.ZoekTankKaarten(isGeldig).Where(t => t.Actief == isGeldig).ToList();
         }
     }
 }

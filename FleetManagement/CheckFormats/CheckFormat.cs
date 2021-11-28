@@ -66,7 +66,7 @@ namespace FleetManagement.CheckFormats
 
         public static bool IsTankKaartNummerGeldig(string tankKaartNummer)
         {
-            return Regex.IsMatch(tankKaartNummer.ToUpper(), @"^[0-9]{18,19}$")
+            return Regex.IsMatch(tankKaartNummer.ToUpper(), @"^[0-9]{16,20}$")
                 ? true : throw new TankKaartException($" {nameof(tankKaartNummer)} is niet het juiste format");
         }
 

@@ -13,12 +13,18 @@
             <DockPanel DockPanel.Dock="Bottom" Height="140" VerticalAlignment="Bottom" LastChildFill="False">
 
                 <Button x:Name="KiesDetail" Content="_Details" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesDetail_Click"/>
-                <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click_1"/>
+                <Button x:Name="SluitWindow" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitWindow_Click"/>
 
-                <Grid Width="540">
-                    <Button x:Name="ZoekNummerplaat" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="400,67,54,0" Width="86" DockPanel.Dock="Right"/>
-                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="20,32,0,0" Width="228" HorizontalAlignment="Left" Content="Tankkaartnummer:"/>
-                    <TextBox x:Name="Nummerplaat" VerticalAlignment="Top" Margin="22,67,162,0" Height="30" RenderTransformOrigin="0.582,0.4" TextInput="TextBoxFilterTextChanged"/>
+                <TextBlock x:Name="infoTankkaartMess" Height="34" Margin="20,0,50,0" TextWrapping="Wrap" Width="184" FontSize="13" Foreground="#FFE51E1E" DockPanel.Dock="Right" />
+
+                <Grid Width="450">
+                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,22,294,0" Content="Zoekcriteria:"/>
+
+                    <ComboBox x:Name="ZoekcriteriaComboBox" Margin="115,24,0,0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Width="255" SelectedIndex="0" Height="30" SelectionChanged="CriteriaComboBox_SelectionChanged" />
+                    <Button x:Name="ZoektankkaartNumer" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="317,92,47,0" Width="86" DockPanel.Dock="Right" Click="ZoektankkaartNummer_Click"/>
+                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,58,294,0" Content="Tankkaartnummer:"/>
+
+                    <TextBox x:Name="TankkaartNummer" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Top" Margin="22,91,0,0" Height="30" Width="275"/>
 
                 </Grid>
             </DockPanel>

@@ -129,9 +129,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                 _keuzeBrandstoffen.Add(BrandstofNamenComboBox.SelectedItem.ToString());
                 BrandstofNamenComboBox.Items.Remove(BrandstofNamenComboBox.SelectedItem.ToString());
                 BrandstofNamenComboBox.SelectedIndex = 0;
+                GekozenbrandstoffenString.Text = string.Join(", ", _keuzeBrandstoffen);
             }
-
-            GekozenbrandstoffenString.Text = string.Join(", ", _keuzeBrandstoffen);
 
             if(_keuzeBrandstoffen.Count > 0)
             {
@@ -156,7 +155,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             });
 
             BrandstofNamenComboBox.SelectedIndex = 0;
-            GekozenbrandstoffenString.Text = "Geen brandstof";
+            GekozenbrandstoffenString.Text = "Geen brandstoffen";
 
             _keuzeBrandstoffen = new();
             ResetGekozenBrandstofButton.Visibility = Visibility.Hidden;

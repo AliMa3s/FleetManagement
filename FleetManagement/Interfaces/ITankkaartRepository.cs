@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Interfaces {
     public interface ITankkaartRepository {
-        IReadOnlyList<TankKaart> GeefAlleTankkaart();
-        IReadOnlyList<TankKaart> ZoekTankKaarten(string tankkaartNr, BrandstofType brandstof);
+        IReadOnlyList<TankKaart> GeefAlleTankkaarten();
+        IReadOnlyList<TankKaart> ZoekTankKaarten(bool isGeldig);
         TankKaart GetTankKaart(string tankkaartNr);
         TankKaart ZoekTankKaart(string tankkaartNr, BrandstofType branstof);
         bool BestaatTankKaart(TankKaart tankkaart);
