@@ -21,7 +21,7 @@
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,22,294,0" Content="Zoekcriteria:"/>
 
                     <ComboBox x:Name="ZoekTankkaartFilter" Margin="115,24,0,0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Width="255" SelectedIndex="0" Height="30" SelectionChanged="ZoekTankkaartFilter_SelectionChanged"/>
-                    <Button x:Name="ZoektankkaartNumer" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="317,92,47,0" Width="86" DockPanel.Dock="Right" Click="ZoektankkaartNummer_Click"/>
+                    <Button x:Name="ZoektankkaartNumer" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="315,92,49,0" Width="86" DockPanel.Dock="Right" Click="ZoektankkaartNummer_Click"/>
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,58,294,0" Content="Tankkaartnummer:"/>
 
                     <TextBox x:Name="TankkaartNummer" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Top" Margin="22,91,0,0" Height="30" Width="275"/>

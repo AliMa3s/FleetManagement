@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Model {
     public class Adres {
-        public int AdresId { get; }
+        public int AdresId { get; private set; }
         public string Straat { get; set; }
         public string Nr { get; set; }
         public string Postcode { get; set; }
@@ -20,13 +20,11 @@ namespace FleetManagement.Model {
             Gemeente = gemeente;
         }
 
-        public Adres(int adresId, string straat, string nr, string postcode, string gemeente)
-            : this(straat, nr, postcode, gemeente) {
-            if (adresId > 0) {
-                AdresId = adresId;
-            } else {
-                throw new AdresException($"{nameof(AdresId)} moet meer zijn dan 0");
-            }
+       public void VoegIdToe(int adresid)
+        {
+            if(adresid < 1) throw new AdresException($"{nameof(AdresId)} moet meer zijn dan 0");
+
+            AdresId = adresid;
         }
 
         public override string ToString() {

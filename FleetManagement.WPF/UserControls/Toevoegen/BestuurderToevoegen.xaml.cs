@@ -29,6 +29,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         //VELD !! code behind
         private Adres _gekozenAdres;
 
+        private TankKaart _gekozenTankkaart;
+
         public BestuurderToevoegen(Managers managers)
         {
             InitializeComponent();
@@ -67,7 +69,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             {
                 _gekozenAdres = UpdateAdres.AdresGegevens;
 
-                GekozenAdres.Text = _gekozenAdres.Straat
+                GekozenAdresText.Text = _gekozenAdres.Straat
                     + " " + _gekozenAdres.Nr
                     + " " + _gekozenAdres.Postcode
                     + " " + _gekozenAdres.Gemeente;
@@ -75,7 +77,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             else
             {
                 _gekozenAdres = UpdateAdres.AdresGegevens;
-                GekozenAdres.Text = string.Empty;
+                GekozenAdresText.Text = string.Empty;
             }
         }
 
@@ -87,18 +89,24 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         private void ResetForm() {
             Voornaam.Text = string.Empty;
             Achternaam.Text = string.Empty;
-            Geboortedatum.Text = string.Empty;
+            Geboortedag.Text = string.Empty;
             Geboortemaand.Text = string.Empty;
             Geboortejaar.Text= string.Empty;
             RijksRegisterNummer.Text = string.Empty;
             RijBewijs.Text = string.Empty;
             RijBewijsNummer.Text = string.Empty;
-            GekozenAdres.Text = string.Empty;
+            GekozenAdresText.Text = string.Empty;
             AdresInvoegen.Content = "Adres Invoegen";
             TankkaarSelecteren.Content = "Tankkaart Selecteren";
 
-            GekozenAdres = null;
-            GekozenTankkaart = null;
+            _gekozenAdres = null;
+            _gekozenTankkaart = null;
+        }
+
+        private void BestuurderAanmakenButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Wis bij elke nieuw poging de message info
+            infoBestuurderMess.Text = string.Empty;
         }
     }
 }

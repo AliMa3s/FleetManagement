@@ -117,7 +117,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
                     _managers.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
 
-                    ResetForm();
+                    
 
                     InfoVoertuigMess.Foreground = Brushes.Green;
                     InfoVoertuigMess.Text = $"Voertuig is succesvol aangemaakt";
@@ -132,6 +132,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                         //    _managers.BestuurderManager.UpdateBestuurder(nieuwVoertuig.Bestuurder);
                         //}
                     }
+
+                    ResetForm();
                 }
                 catch (Exception ex)
                 {
@@ -177,7 +179,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             if (geslecteerd == true)
             {
                 GekozenAutoModel = selecteerAutoModdel.AutoModel;
-                GekozenAutoModelNaam.Text = selecteerAutoModdel.AutoModel.AutoModelNaam;
+                GekozenAutoModelNaam.Text = GekozenAutoModel.AutoModelNaam;
                 KiesBestuurder.Content = "AutoModel wijzigen";
             }
         }

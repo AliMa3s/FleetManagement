@@ -32,25 +32,34 @@ namespace FleetManagement.Manager {
 
         public bool BestaatRijksRegisterNummer(string rijksRegisterNr) {
             try {
-                if (string.IsNullOrWhiteSpace(rijksRegisterNr)) throw new BestuurderManagerException("RijksRegiserNr mag niet leeg of On-nodige spaties hebben!");
-                if (!_repo.BestaatRijksRegisterNummer(rijksRegisterNr)) {
-                    return false;
-                } else {
-                    return true;
+
+                //Controleer rijksregisternummer op aantal digits
+                if (!Regex.IsMatch(rijksRegisterNr.ToUpper(), @"^[0-9]{11}$"))
+                {
+                    if (!_repo.BestaatRijksRegisterNummer(rijksRegisterNr)) {
+                        return false;
+                    } else {
+                        return true;
+                    }    
                 }
+                else
+                {
+                    throw new BestuurderManagerException("Rijksregisternummer is niet juist");
+                }
+
             } catch (Exception ex) {
                 throw new BestuurderManagerException("RijksRegisterNr - BestaatRijksRegisterNummer - Foutief", ex);
             }
         }
  
-        public IReadOnlyList<Bestuurder> GeefAlleBestuurder() {
-            return _repo.GeefAlleBestuurder();
-        }
+        //public IReadOnlyList<Bestuurder> GeefAlleBestuurder() {
+        //    return _repo.GeefAlleBestuurder();
+        //}
 
-        public Bestuurder GetBestuurderId(int bestuuderId) {
-            if (bestuuderId < 1) throw new BestuurderManagerException("Bestuurder id mag niet 0 of kleiner zijn.");
-            return _repo.GetBestuurderId(bestuuderId);
-        }
+        //public Bestuurder GetBestuurderId(int bestuuderId) {
+        //    if (bestuuderId < 1) throw new BestuurderManagerException("Bestuurder id mag niet 0 of kleiner zijn.");
+        //    return _repo.GetBestuurderId(bestuuderId);
+        //}
 
         public void UpdateBestuurder(Bestuurder bestuurder) {
             try {
@@ -83,10 +92,11 @@ namespace FleetManagement.Manager {
         public void VoegBestuurderToe(Bestuurder bestuurder) {
             try {
                 if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
-                if (!_repo.BestaatBestuurder(bestuurder.BestuurderId)) {
+
+                if (!_repo.BestaatRijksRegisterNummer(bestuurder.RijksRegisterNummer)) {
                     _repo.VoegBestuurderToe(bestuurder);
                 } else {
-                    throw new BestuurderManagerException("Bestuurder Bestaat al");
+                    throw new BestuurderManagerException("Rijksregisternummer bestaat al");
                 }
             } catch (Exception ex) {
 
@@ -94,24 +104,24 @@ namespace FleetManagement.Manager {
             }
         }
 
-        public Bestuurder ZoekBestuurder(int bestuurderid) {
-            try {
-                if (bestuurderid < 1) throw new BestuurderManagerException("Bestuurder id kan niet kleiner dan 0 zijn");
-                if (_repo.BestaatBestuurder(bestuurderid)) {
-                    return _repo.ZoekBestuurder(bestuurderid);
-                } else {
-                    throw new BestuurderManagerException("Bestuurder - Bestaat niet!");
-                }
-            } catch (Exception ex) {
+        //public Bestuurder ZoekBestuurder(int bestuurderid) {
+        //    try {
+        //        if (bestuurderid < 1) throw new BestuurderManagerException("Bestuurder id kan niet kleiner dan 0 zijn");
+        //        if (_repo.BestaatBestuurder(bestuurderid)) {
+        //            return _repo.ZoekBestuurder(bestuurderid);
+        //        } else {
+        //            throw new BestuurderManagerException("Bestuurder - Bestaat niet!");
+        //        }
+        //    } catch (Exception ex) {
 
-                throw new BestuurderManagerException(ex.Message);
-            }
+        //        throw new BestuurderManagerException(ex.Message);
+        //    }
 
-        }
+        //}
 
-        public IReadOnlyList<Bestuurder> ZoekBestuurders(int? id, string voornaam, string achternaam, string geboortedatum, Adres adres) {
-            throw new NotImplementedException();
-        }
+        //public IReadOnlyList<Bestuurder> ZoekBestuurders(int? id, string voornaam, string achternaam, string geboortedatum, Adres adres) {
+        //    throw new NotImplementedException();
+        //}
 
         public IReadOnlyList<Bestuurder> FilterOpBestuurdersNaam(string achterNaamEnVoornaam, bool bestuurdersZonderVoertuig)
         {
@@ -139,7 +149,7 @@ namespace FleetManagement.Manager {
             }
             else
             {
-                throw new BestuurderManagerException("Rijksregister bevat geen 11 digits");
+                throw new BestuurderManagerException("Rijksregisternummer is niet juist");
             }
         }
     }

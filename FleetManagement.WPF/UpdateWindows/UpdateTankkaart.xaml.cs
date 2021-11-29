@@ -89,7 +89,6 @@ namespace FleetManagement.WPF.UpdateWindows
 
         private void TankkaartAanmakenButton_Click(object sender, RoutedEventArgs e)
         {
-            _tankaart.VoegPincodeToe("1234");
             DialogResult = true;
         }
     }

@@ -42,7 +42,7 @@ namespace FleetManagement.WPF.SelecteerWindows
             AutoModellenLijst.ItemsSource = _manager.FilterOpAutoModelNaam("");
         }
 
-        //Bestuurder bewaren telkens een Bestuurder wordt geselecteerd
+        //Automodel bewaren telkens een Model wordt geselecteerd
         private void BewaarAutoModel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AutoModel = AutoModellenLijst.SelectedItem as AutoModel;
@@ -50,7 +50,7 @@ namespace FleetManagement.WPF.SelecteerWindows
 
         private void AutomodelToevoegenDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //_bestuurder mag niet leeg zijn anders geen terugkeer
+            //_automodel mag niet leeg zijn anders geen terugkeer
             if (AutoModel != null)
             {
                 DialogResult = true;
@@ -74,7 +74,11 @@ namespace FleetManagement.WPF.SelecteerWindows
 
         private void VoegAutomodelToe_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = false;
+            //_automodel mag niet leeg zijn anders geen terugkeer
+            if (AutoModel != null)
+            {
+                DialogResult = true;
+            }
         }
 
         private void TextBoxFilterAutonaam_TextChanged(object sender, TextChangedEventArgs e)
