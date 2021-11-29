@@ -73,7 +73,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                             if (brandstofType != null)
                             {
                                 //Controleer of deze al niet in de lijst staat en dan toevoegen
-                                if (tankkaart.IsBrandstofAanwezig(brandstofType))
+                                if (!tankkaart.IsBrandstofAanwezig(brandstofType))
                                 {
                                     tankkaart.VoegBrandstofToe(brandstofType);
                                 };

@@ -1,6 +1,6 @@
 ﻿{
   "connectionStrings": {
-    "FleetManagementConnectionString": "Data Source=.\\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True"
+    "FleetManagementConnectionString": "Data Source=.\\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True; MultipleActiveResultSets=True"
   },
   "autotypes": {
     "0": "Cabriolet",

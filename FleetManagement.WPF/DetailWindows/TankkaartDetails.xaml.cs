@@ -29,16 +29,11 @@ namespace FleetManagement.WPF.DetailWindows {
             _managers = managers;
             _tankkaartDetail = tankkaart;
 
-            //Controleer tankkaart om extra info op te vragen aan manager
-            if (!_tankkaartDetail.HeeftTankKaartBestuurder || _tankkaartDetail.Brandstoffen.Count < 1)
-            {
-                //_tankkaartDetail = managers.TankkaartManager.TankkaartIncludes(_tankkaartDetail);  //interface 
-            }
-
             if (_tankkaartDetail.HeeftTankKaartBestuurder)
             {
-                StringBuilder stringBuilder = new("Naam: " + _tankkaartDetail.Bestuurder.Achternaam + "" + _tankkaartDetail.Bestuurder.Voornaam);
-                stringBuilder.AppendLine("Rijksregisternr.: " + _tankkaartDetail.Bestuurder.RijksRegisterNummer);
+                StringBuilder stringBuilder = new("Naam: " + _tankkaartDetail.Bestuurder.Achternaam);
+                stringBuilder.Append(" " + _tankkaartDetail.Bestuurder.Voornaam);
+                stringBuilder.AppendLine(Environment.NewLine + "Rijksregister.: " + _tankkaartDetail.Bestuurder.RijksRegisterNummer);
                 BestuurderDetail.Text = stringBuilder.ToString();
             }
 

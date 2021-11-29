@@ -32,10 +32,10 @@ namespace FleetManagement.Manager {
             return _repo.GeefAlleTankkaarten();
         }
 
-        public TankKaart GetTankKaart(string tankkaartNr) {
+        public TankKaart ZoekTankKaart(string tankkaartNr) {
             if (string.IsNullOrWhiteSpace(tankkaartNr)) throw new TankKaartManagerException("TankkaartNr - Foutief");
 
-            return _repo.GetTankKaart(tankkaartNr);
+            return _repo.ZoekTankKaart(tankkaartNr);
         }
 
         public void UpdateTankKaart(TankKaart tankkaart) {
@@ -82,11 +82,9 @@ namespace FleetManagement.Manager {
             }
         }
 
-        public TankKaart ZoekTankKaart(string tankkaartNr, BrandstofType branstof) {
-            if (string.IsNullOrWhiteSpace(tankkaartNr)) throw new TankKaartManagerException("TankkaartNr - Foutief");
-            if (string.IsNullOrWhiteSpace(branstof.BrandstofNaam)) throw new TankKaartManagerException("BrandstofNaam - Foutief");
-            return _repo.ZoekTankKaart(tankkaartNr, branstof);
-
+        public IReadOnlyList<TankKaart> TankaartenZonderBestuurder()
+        {
+            return _repo.TankaartenZonderBestuurder();
         }
 
         public IReadOnlyList<TankKaart> ZoekTankKaarten(bool isGeldig) {

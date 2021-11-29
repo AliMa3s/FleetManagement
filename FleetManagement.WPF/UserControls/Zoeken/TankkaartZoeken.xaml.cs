@@ -43,7 +43,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             _managers = managers; 
 
             ZoekcriteriaComboBox.Items.Add("Alle tankkaarten");
-            ZoekcriteriaComboBox.Items.Add("Nieuwe tankkaarten");
+            ZoekcriteriaComboBox.Items.Add("Actieve tankkaarten");
             ZoekcriteriaComboBox.Items.Add("Inactieve tankkaarten");
 
             ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
@@ -130,7 +130,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             if (!string.IsNullOrWhiteSpace(TankkaartNummer.Text))
             {
                 List<TankKaart> tankkaarten = new();
-                TankKaart tankkaart = _managers.TankkaartManager.GetTankKaart(TankkaartNummer.Text);
+                TankKaart tankkaart = _managers.TankkaartManager.ZoekTankKaart(TankkaartNummer.Text);
                 
                 if(tankkaart != null)
                 {

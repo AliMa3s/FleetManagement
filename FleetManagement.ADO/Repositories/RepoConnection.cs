@@ -31,6 +31,7 @@ namespace FleetManagement.ADO.Repositories
 
                 return _conn;
             }
+            set { _conn = value; }
         }
 
         public void Dispose()
