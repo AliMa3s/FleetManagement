@@ -471,10 +471,12 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
+        //
         public IReadOnlyList<TankKaart> TankaartenZonderBestuurder() {
+
             string query = "SELECT * FROM Tankkaart t " +
                 "LEFT JOIN Bestuurder b ON t.bestuurderid = b.bestuurderid " +
-                "WHERE t.actief == true AND t.bestuurderid IS NULL" +
+                "WHERE t.actief = 1 AND t.bestuurderid IS NULL " +
                 "ORDER BY tankkaartnummer ASC " +
                 "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
 

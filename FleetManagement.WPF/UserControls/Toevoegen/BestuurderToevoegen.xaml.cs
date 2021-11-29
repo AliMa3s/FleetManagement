@@ -27,8 +27,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         private readonly Managers _managers;
 
         //VELD !! code behind
-        private Adres _gekozenAdres;
-
+        private Adres _ingevoegdAdres;
         private TankKaart _gekozenTankkaart;
 
         public BestuurderToevoegen(Managers managers)
@@ -44,39 +43,41 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         }
 
         private void KiesTankkaart_Click(object sender, RoutedEventArgs e) {
-            SelecteerTankkaart selecteerTankkaart = new(_managers.TankkaartManager) {
-                Owner = Window.GetWindow(this)
+            SelecteerTankkaart selecteerTankkaart = new(_managers.TankkaartManager)
+            {
+                Owner = Window.GetWindow(this),
+                Tankkaart = _gekozenTankkaart
             };
 
             bool? geslecteerd = selecteerTankkaart.ShowDialog();
             if (geslecteerd == true) {
-                //GekozenBestuurder = selecteerBestuurder.Bestuurder;
-                //GekozenBestuurderNaam.Text = GekozenBestuurder.Achternaam + " " + GekozenBestuurder.Voornaam;
-                //KiesBestuurder.Content = "Bestuurder wijzigen";
+                _gekozenTankkaart = selecteerTankkaart.Tankkaart;
+                GekozenTankkaartText.Text = _gekozenTankkaart.TankKaartNummer;
+                TankkaarSelecteren.Content = "Tankkaart wijzigen";
             }
         }
 
         private void AdresInvoegen_Click(object sender, RoutedEventArgs e)
         {
-            UpdateAdres UpdateAdres = new(_gekozenAdres)
+            UpdateAdres UpdateAdres = new(_ingevoegdAdres)
             {
                 Owner = Window.GetWindow(this),
-                AdresGegevens = _gekozenAdres
+                AdresGegevens = _ingevoegdAdres
             };
 
             bool? geslecteerd = UpdateAdres.ShowDialog();
             if (geslecteerd == true)
             {
-                _gekozenAdres = UpdateAdres.AdresGegevens;
+                _ingevoegdAdres = UpdateAdres.AdresGegevens;
 
-                GekozenAdresText.Text = _gekozenAdres.Straat
-                    + " " + _gekozenAdres.Nr
-                    + " " + _gekozenAdres.Postcode
-                    + " " + _gekozenAdres.Gemeente;
+                GekozenAdresText.Text = _ingevoegdAdres.Straat
+                    + " " + _ingevoegdAdres.Nr
+                    + " " + _ingevoegdAdres.Postcode
+                    + " " + _ingevoegdAdres.Gemeente;
             }
             else
             {
-                _gekozenAdres = UpdateAdres.AdresGegevens;
+                _ingevoegdAdres = UpdateAdres.AdresGegevens;
                 GekozenAdresText.Text = string.Empty;
             }
         }
@@ -96,10 +97,11 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             RijBewijs.Text = string.Empty;
             RijBewijsNummer.Text = string.Empty;
             GekozenAdresText.Text = string.Empty;
-            AdresInvoegen.Content = "Adres Invoegen";
+            GekozenTankkaartText.Text = string.Empty;
+            AdresInvoegen.Content = "Adres ingeven";
             TankkaarSelecteren.Content = "Tankkaart Selecteren";
 
-            _gekozenAdres = null;
+            _ingevoegdAdres = null;
             _gekozenTankkaart = null;
         }
 
@@ -107,6 +109,35 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             //Wis bij elke nieuw poging de message info
             infoBestuurderMess.Text = string.Empty;
+
+            try
+            {
+                string geboortedatum = Geboortejaar.Text + "-" + Geboortemaand.Text + "-" + Geboortedag.Text;
+
+                Bestuurder nieuwBestuurder = new(
+                    Voornaam.Text,
+                    Achternaam.Text,
+                    geboortedatum,
+                    RijBewijs.Text,
+                    RijBewijsNummer.Text,
+                    RijksRegisterNummer.Text
+                );
+
+                if(_ingevoegdAdres != null)
+                {
+                    nieuwBestuurder.Adres = _ingevoegdAdres;
+                }
+
+                _managers.BestuurderManager.VoegBestuurderToe(nieuwBestuurder);
+
+                infoBestuurderMess.Foreground = Brushes.Green;
+                infoBestuurderMess.Text = "Bestuurder succesvol toegevoegd";
+            }
+            catch (Exception ex)
+            {
+                infoBestuurderMess.Foreground = Brushes.Red;
+                infoBestuurderMess.Text = ex.Message;
+            }
         }
     }
 }

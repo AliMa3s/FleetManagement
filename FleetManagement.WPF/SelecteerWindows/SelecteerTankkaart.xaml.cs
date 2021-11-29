@@ -23,6 +23,7 @@ namespace FleetManagement.WPF.SelecteerWindows
     {
         private readonly TankkaartManager _tankkaartManager;
         private TankKaart _tankkaart;
+
         public TankKaart Tankkaart {
             get => _tankkaart;
             set {
@@ -35,30 +36,36 @@ namespace FleetManagement.WPF.SelecteerWindows
             InitializeComponent();
             _tankkaartManager = manager;
 
-            TankkaartLijst.ItemsSource = _tankkaartManager.GeefAlleTankkaarten().ToList().FindAll(e => e.Actief);
+            TankkaartLijst.ItemsSource = _tankkaartManager.TankaartenZonderBestuurder();
         }
         //tankkaart bewaren telkens een Bestuurder wordt geselecteerd
         private void BewaarTankkaart_SelectionChanged(object sender, SelectionChangedEventArgs e) 
         {
-
+            Tankkaart = TankkaartLijst.SelectedItem as TankKaart; 
         }
 
         //Ga terug wanneer een tankkaart is gekozen
-        private void ButtonKiesToevoegen_Click(object sender, RoutedEventArgs e) {
-
+        private void ButtonKiesToevoegen_Click(object sender, RoutedEventArgs e) 
+        {
+            //_bestuurder mag niet leeg zijn anders geen terugkeer
+            if (Tankkaart!= null)
+            {
+                DialogResult = true;
+            }
         }
 
         //Ga terug bij dubbelklik op een rij in de lijst 
-        private void TankkaartToevoegenDoubleClick(object sender, MouseButtonEventArgs e) {
-
+        private void TankkaartToevoegenDoubleClick(object sender, MouseButtonEventArgs e) 
+        {
+            //_bestuurder mag niet leeg zijn anders geen terugkeer
+            if (Tankkaart != null)
+            {
+                DialogResult = true;
+            }
         }
 
         private void ButtonAnnuleer_Click(object sender, RoutedEventArgs e) {
             DialogResult = false;
-        }
-
-        //Filteren van naam
-        private void TextBoxFilterTextChanged(object sender, TextChangedEventArgs e) {
         }
     }
 }

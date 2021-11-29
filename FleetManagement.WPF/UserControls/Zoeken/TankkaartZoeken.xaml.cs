@@ -42,7 +42,6 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             InitializeComponent();
             _managers = managers; 
 
-            
             ZoekTankkaartFilter.Items.Add("Alle tankkaarten");
             ZoekTankkaartFilter.Items.Add("Actieve tankkaarten");
             ZoekTankkaartFilter.Items.Add("Inactieve tankkaarten");
@@ -74,23 +73,6 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                     ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
                 }
             }
-        }
-
-        private void ResetFormulierButton_Click(object sender, RoutedEventArgs e)
-        {
-            // ????
-            ZoekTankkaartFilter.SelectedIndex = 0;
-            TankkaartNummer.Text = null;
-        }
-
-        private void Verwijderen_Click(object sender, RoutedEventArgs e)
-        {
-            _managers.TankkaartManager.VerwijderTankKaart(_tankkaart);
-        }
-
-        private void TextBoxFilterTextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
 
         private void KiesDetail_Click(object sender, RoutedEventArgs e)
@@ -125,26 +107,6 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             }
         }
 
-        //private void CriteriaComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    infoTankkaartMess.Text = "";
-
-        //    switch (ZoekTankkaartFilter.SelectedIndex)
-        //    {
-        //        case 1:
-        //            ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.ZoekTankKaarten(true);
-        //            break;
-
-        //        case 2:
-        //            ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.ZoekTankKaarten(false);
-        //            break;
-
-        //        default:
-        //            ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
-        //            break;
-        //    }
-        //}
-
         private void ZoektankkaartNummer_Click(object sender, RoutedEventArgs e)
         {
             infoTankkaartMess.Text = "";
@@ -170,8 +132,6 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private void SluitWindow_Click(object sender, RoutedEventArgs e)
         {
             Window.GetWindow(this).Close();
-        }
-
-        
+        }        
     }
 }

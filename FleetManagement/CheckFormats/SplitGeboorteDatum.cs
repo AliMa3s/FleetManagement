@@ -30,8 +30,7 @@ namespace FleetManagement.CheckFormats
             }
             else
             {
-                throw new RijksRegisterNummerException(" GeboorteDatum kan alleen bestaan uit cijfers: " +
-                    "'jaartal', 'jaartal-maand', 'jaartal/maand', 'jaartal-maand-dag', 'jaartal/maand/dag'");
+                throw new RijksRegisterNummerException("GeboorteDatum is niet het juiste formaat");
             }
         }
     }

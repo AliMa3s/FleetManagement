@@ -37,7 +37,7 @@ namespace FleetManagement.ADO.Repositories {
 
         public bool BestaatRijksRegisterNummer(string rijksRegisterNr) {
 
-            string query = "SELECT * FROM Bestuurder WHERE rijksregisternummer=@rijksregisternummer;";
+            string query = "SELECT count(*) FROM Bestuurder WHERE rijksregisternummer=@rijksregisternummer;";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {

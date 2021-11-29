@@ -9,26 +9,26 @@ namespace FleetManagement.CheckFormats
         public static bool IsPincodeGeldig(string pincode)
         {
             return Regex.IsMatch(pincode, @"^[0-9]{4,5}$")
-                ? true : throw new PincodeException($"{nameof(pincode)} moet een string zijn met 4 of 5 cijfers");
+                ? true : throw new PincodeException("pincode moet een string zijn met 4 of 5 cijfers");
         }
 
         public static bool IsRijbewijsNummerGeldig(string rijBewijsNummer)
         {
             return Regex.IsMatch(rijBewijsNummer, @"^[1-9]{1}[0-9]{9}$")
-                ? true : throw new RijBewijsNummerException($"rijBewijsNummer moet een string zijn van 10 cijfers");
+                ? true : throw new RijBewijsNummerException("Rijbewijsnummer moet een string zijn van 10 cijfers");
         }
 
         public static bool IsChassisNummerGeldig(string chassisNummer)
         {
             return Regex.IsMatch(chassisNummer.ToUpper(), @"^[0-9A-HJ-NPR-Z]{17}$")
-                ? true : throw new ChassisNummerException($"Chassisnummer moet string zijn van 17 cijfers/letters maar " +
-                $"letter I/i, O/o en Q/q mag niet voorkomen");
+                ? true : throw new ChassisNummerException("Chassisnummer moet string zijn van 17 cijfers/letters maar " +
+                $"letter I/i, O/o en Q/q mag er niet in voorkomen");
         }
 
         public static bool IsNummerplaatGeldig(string nummerPlaat)
         {
             return Regex.IsMatch(nummerPlaat.ToUpper(), @"^[1-9A-Z]{1}[A-Z]{3}[0-9]{3}$")
-                ? true : throw new NummerPlaatException($"{nameof(nummerPlaat)} moet format [1-9AZ][a-z][0-9] zijn");
+                ? true : throw new NummerPlaatException("Nummerplaat moet format [1-9AZ][a-z][0-9] zijn");
         }
 
         public static bool IsRijksRegisterGeldig(string rijksRegisterNummer, string ingegevenGeboorteDatum)
@@ -60,14 +60,14 @@ namespace FleetManagement.CheckFormats
             }
             else
             {
-                throw new RijksRegisterNummerException($" {nameof(rijksRegisterNummer)} is niet het juiste format");
+                throw new RijksRegisterNummerException("Rijksregisternummer is niet het juiste format");
             }
         }
 
         public static bool IsTankKaartNummerGeldig(string tankKaartNummer)
         {
             return Regex.IsMatch(tankKaartNummer.ToUpper(), @"^[0-9]{16,20}$")
-                ? true : throw new TankKaartException($" {nameof(tankKaartNummer)} is niet het juiste format");
+                ? true : throw new TankKaartException($"Tankkaartnummer is niet het juiste format");
         }
 
         private static bool IsNummerBinnenBereik(string nummer, int min, int max)
