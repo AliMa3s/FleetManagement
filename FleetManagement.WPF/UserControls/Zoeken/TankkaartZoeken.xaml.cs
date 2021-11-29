@@ -42,9 +42,10 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             InitializeComponent();
             _managers = managers; 
 
-            ZoekcriteriaComboBox.Items.Add("Alle tankkaarten");
-            ZoekcriteriaComboBox.Items.Add("Actieve tankkaarten");
-            ZoekcriteriaComboBox.Items.Add("Inactieve tankkaarten");
+            
+            ZoekTankkaartFilter.Items.Add("Alle tankkaarten");
+            ZoekTankkaartFilter.Items.Add("Actieve tankkaarten");
+            ZoekTankkaartFilter.Items.Add("Inactieve tankkaarten");
 
             ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
 
@@ -107,7 +108,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             infoTankkaartMess.Text = "";
 
-            switch (ZoekcriteriaComboBox.SelectedIndex)
+            switch (ZoekTankkaartFilter.SelectedIndex)
             {
                 case 1:
                     ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.ZoekTankKaarten(true);
