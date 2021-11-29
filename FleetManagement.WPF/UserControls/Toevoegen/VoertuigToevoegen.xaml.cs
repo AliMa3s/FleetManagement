@@ -149,7 +149,19 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         //Voeg AutoModel toe uit een bestaande lijst
         private void KiesAutoModel_Click(object sender, RoutedEventArgs e)
         {
+            SelecteerAutoModel selecteerAutoModdel = new(_managers.AutoModelManager)
+            {
+                Owner = Window.GetWindow(this),
+                AutoModel = GekozenAutoModel
+            };
 
+            bool? geslecteerd = selecteerAutoModdel.ShowDialog();
+            if (geslecteerd == true)
+            {
+                GekozenAutoModel = selecteerAutoModdel.AutoModel;
+                GekozenAutoModelNaam.Text = selecteerAutoModdel.AutoModel.AutoModelNaam;
+                KiesBestuurder.Content = "AutoModel wijzigen";
+            }
         }
 
         //reset Formulier

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FleetManagement.Manager;
+using FleetManagement.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,25 @@ namespace FleetManagement.WPF.SelecteerWindows
     /// </summary>
     public partial class SelecteerAutoModel : Window
     {
-        public SelecteerAutoModel()
+        private readonly AutoModelManager _manager;
+        private AutoModel _autoModel;
+
+        public AutoModel AutoModel
+        {
+            get => _autoModel;
+            set
+            {
+                _autoModel = value;
+                AutomodellenLijst.SelectedItem = value;
+            }
+        }
+
+        public SelecteerAutoModel(AutoModelManager autoModelManager)
         {
             InitializeComponent();
+            _manager = autoModelManager;
+
+            AutomodellenLijst.ItemsSource = _manager.FilterOpAutoModelNaam("");
         }
         //Automodel bewaren telkens een Bestuurder wordt geselecteerd
         private void BewaarAutoModel_SelectionChanged(object sender, SelectionChangedEventArgs e) {

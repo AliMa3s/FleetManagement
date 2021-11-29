@@ -17,17 +17,16 @@
                 <Button x:Name="AnnuleerAutoModel" Content="Annuleer" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonAnnuleer_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
                 <Button x:Name="VoegAutoModelToe" Content="Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonKiesToevoegen_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
             </DockPanel>
-            <DataGrid  x:Name="AutoModelLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
+            <DataGrid  x:Name="AutomodellenLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
                           SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
                           HeadersVisibility="Column" SelectionChanged="BewaarAutoModel_SelectionChanged"
                           MouseDoubleClick="AutoModelToevoegenDoubleClick"
                           Background="LightBlue" 
                          DockPanel.Dock="Top">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header=" AutoModelId " Binding="{Binding automodelid}"/>
-                    <DataGridTextColumn Header=" Merk Naam " Binding="{Binding merk_naam}"/>
-                    <DataGridTextColumn Header=" AutoModel Naam " Binding="{Binding automodel_naam}"/>
-                    <DataGridTextColumn Header=" AutoType " Binding="{Binding autotype}"/>
+                    <DataGridTextColumn Header=" Merk " Binding="{Binding Merk}"/>
+                    <DataGridTextColumn Header=" Automodel " Binding="{Binding AutoModelNaam}"/>
+                    <DataGridTextColumn Header=" Auto type " Binding="{Binding AutoType.AutoTypeNaam}"/>
                 </DataGrid.Columns>
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">

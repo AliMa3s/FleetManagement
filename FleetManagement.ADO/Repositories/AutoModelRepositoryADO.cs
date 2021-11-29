@@ -1,5 +1,6 @@
 ﻿using FleetManagement.Interfaces;
 using FleetManagement.Model;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,41 @@ namespace FleetManagement.ADO.Repositories
     {
         public AutoModelRepositoryADO(string connectionstring) : base(connectionstring) { }
 
-        public AutoModel FilterOpAutoModelNaam(string autoModelNaam)
+        public IReadOnlyList<AutoModel> FilterOpAutoModelNaam(string autoModelNaam)
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM Brandstoftype ORDER BY brandstofnaam ASC";
+
+            List<AutoModel> autoModellen = new();
+
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
+                    Connection.Open();
+
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read())
+                            {
+                                
+                            }
+                        }
+
+                        return autoModellen;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return null; //exception nog aanmaken
+                    //throw new AutoModelRepositoryADOException("AutoModellen - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
         }
     }
 }

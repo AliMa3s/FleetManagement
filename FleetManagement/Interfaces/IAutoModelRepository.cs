@@ -9,6 +9,6 @@ namespace FleetManagement.Interfaces
 {
     public interface IAutoModelRepository
     {
-        public AutoModel FilterOpAutoModelNaam(string autoModelNaam);
+        public IReadOnlyList<AutoModel> FilterOpAutoModelNaam(string autoModelNaam);
     }
 }

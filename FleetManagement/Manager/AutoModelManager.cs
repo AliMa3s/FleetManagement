@@ -17,9 +17,9 @@ namespace FleetManagement.Manager
             _repo = repo;
         }
 
-        public AutoModel FilterOpAutoModelNaam(string autoModelNaam)
+        public IReadOnlyList<AutoModel> FilterOpAutoModelNaam(string autoModelNaam)
         {
-            throw new NotImplementedException();
+            return _repo.FilterOpAutoModelNaam(autoModelNaam);
         }
     }
 }
