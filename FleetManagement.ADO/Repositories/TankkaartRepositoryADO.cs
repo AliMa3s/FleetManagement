@@ -117,10 +117,10 @@ namespace FleetManagement.ADO.Repositories {
                 });
             }
 
-            //Verwijder alle overbodige brandstoffen in DB
+            //Verwijder alle overbodige brandstoffen in DB van deze tankkaart
             int removes = VerwijderBrandstoffen(verwijderBrandstofDB, tankKaart.TankKaartNummer, sqlConnection, transaction);
 
-            //voeg nieuwe brandstof toe dat nog niet in DB staat
+            //voeg nieuwe brandstof toe dat nog niet in DB staat van deze tankkaart
             VoegBrandstoffenToe(tankKaart.Brandstoffen, tankKaart.TankKaartNummer, sqlConnection, transaction);
         }
 
@@ -226,15 +226,6 @@ namespace FleetManagement.ADO.Repositories {
             return 0;
         }
 
-
-
-
-
-
-
-
-
-
         public bool BestaatTankKaart(TankKaart tankkaart) {
 
             string query = "SELECT count(*) FROM Tankkaart WHERE tankkaartnummer=@tankkaartnummer";
@@ -324,12 +315,51 @@ namespace FleetManagement.ADO.Repositories {
            
         }
 
-
-#warning add bij interfaces
-        public IReadOnlyList<BrandstofType> BrandstoffenTankaart(TankKaart tankkaart)
+        public IReadOnlyList<BrandstofType> BrandstoffenVoorTankaart(TankKaart tankkaart)
         {
-            //quey ophalen
-            return null;
+            //ophalen van brandstoffen voor detailweergave
+            string query = "SELECT * FROM Tankkaart_Brandstoftype t " +
+                "JOIN Brandstoftype b ON t.brandstoftypeid = b.brandstofid " +
+                "WHERE t.tankkaartnummer=@tankkaartnummer";
+
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@tankkaartnummer", tankkaart.TankKaartNummer);
+                    Connection.Open();
+
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            List<BrandstofType> brandstofTypesDB = new();
+
+                            while (dataReader.Read())
+                            { 
+                                BrandstofType brandstofType = new BrandstofType(
+                                    (int)dataReader["brandstoftypeid"],
+                                    (string)dataReader["brandstofnaam"]
+                                );
+
+                                brandstofTypesDB.Add(brandstofType);
+                            }
+
+                            return brandstofTypesDB;
+                        }
+
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new TankkaartRepositoryADOException("Geef tankkaart - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
         }
 
         public TankKaart ZoekTankKaart(string tankkaartNr) {

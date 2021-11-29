@@ -389,7 +389,7 @@ namespace FleetManagement.Test.ModelTest {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             bool actief = true;
             var ex = Assert.Throws<TankKaartException>(() => new TankKaart(kaartNummer, actief, GeldigheidsDatum));
-            Assert.Equal($"TankKaart Kan niet null of leeg zijn", ex.Message);
+            Assert.Equal($"TankKaartNummer Kan niet null of leeg zijn", ex.Message);
         }
         [Fact]
         public void verwijderTankKaart_Van_Bestuurder_Valid()

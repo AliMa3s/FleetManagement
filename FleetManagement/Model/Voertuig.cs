@@ -53,19 +53,7 @@ namespace FleetManagement.Model
             }
         }
 
-        public Voertuig(int voertuigId, AutoModel autoModel, string chassisNummer, string nummerPlaat, BrandstofVoertuig brandstof, AantalDeuren? aantalDeuren) : this(voertuigId, autoModel, chassisNummer, nummerPlaat, brandstof) {
-            AantalDeuren = aantalDeuren;
-        }
-
-        public Voertuig(AutoModel autoModel, string chassisNummer, string nummerPlaat, AantalDeuren? aantalDeuren, BrandstofType brandstofType) {
-            AutoModel = autoModel;
-            ChassisNummer = chassisNummer;
-            NummerPlaat = nummerPlaat;
-            AantalDeuren = aantalDeuren;
-            BrandstofType = brandstofType;
-        }
-
-
+#warning ctor verwijderd want chassis & nummerplaat worden hier niet gecheckt. Dat maakt onze app minder goed
 
 
         //Maakt de relatie en plaatst entiteit

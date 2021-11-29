@@ -29,6 +29,17 @@ namespace FleetManagement.WPF.DetailWindows {
             _managers = managers;
             _tankkaartDetail = tankkaart;
 
+            var brandstoffen = _managers.TankkaartManager.BrandstoffenVoorTankaart(tankkaart).ToList();
+
+            if(brandstoffen.Count > 0)
+            {
+                brandstoffen.ForEach(brandstof => {
+
+                    if(!_tankkaartDetail.IsBrandstofAanwezig(brandstof))
+                        _tankkaartDetail.Brandstoffen.Add(brandstof);
+                });
+            }
+
             if (_tankkaartDetail.HeeftTankKaartBestuurder)
             {
                 StringBuilder stringBuilder = new("Naam: " + _tankkaartDetail.Bestuurder.Achternaam);

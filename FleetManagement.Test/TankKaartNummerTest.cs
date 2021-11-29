@@ -23,7 +23,8 @@ namespace FleetManagement.Test
         }
 
         [Theory]
-        [InlineData("12305641059874563256")]
+        [InlineData("123056410598745632561")]
+        [InlineData("123056410598745")]
         [InlineData("M001")]
         [InlineData("231045698")]
         [InlineData("-1231")]

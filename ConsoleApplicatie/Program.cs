@@ -27,9 +27,7 @@ namespace ConsoleApplicatie
                 Console.WriteLine("Bestuurder bestaat niet!");
             }//checked
 
-            bsd.Dispose();
-
-            AdresRepositoryADO ado = new AdresRepositoryADO(connectionstring);
+             AdresRepositoryADO ado = new AdresRepositoryADO(connectionstring);
             Adres ad = new Adres("stratenstraat", "2", "5000", "Hasselt");
             //ado.VoegAdresToe(ad);
             Console.WriteLine("Adres toegvoegd!");//done
@@ -44,16 +42,42 @@ namespace ConsoleApplicatie
                 Console.WriteLine("Adres bestaat niet!");
             }//checked
 
-            //ado.Dispose();
+            //Het probleem is hier, je checkt chassis & nummerplaat niet meer in de ctor door te de class te hebben aangepast
+            //VoertuigRepositoryADO vrt = new VoertuigRepositoryADO(connectionstring);
+            //AutoType autotype = new AutoType("Sedan");
+            //bool ishybride = true;
+            //BrandstofType brandstof = new BrandstofType(1,"Benzin");
+            //AutoModel automodel = new AutoModel(1,"BMW", "X1", autotype);
+            //Voertuig v1 = new Voertuig(automodel, "WAUZZZ8V5KA106598","1ALI007" ,AantalDeuren.Drie, brandstof);
+            //vrt.VoegVoertuigToe(v1);
+            //Console.WriteLine("Voertuig toegevoegd!");
+
+            //Kijk eens hoe het moet Ali
 
             VoertuigRepositoryADO vrt = new VoertuigRepositoryADO(connectionstring);
+
             AutoType autotype = new AutoType("Sedan");
+            AutoModel automodel = new AutoModel("BMW", "X1", autotype);
+
+            //Dit ali is brandstof voor Voertuig. Er zijn één of twee brandstoffen mogelijk maar ook niet meer. Daarom deze oplossing
             bool ishybride = true;
-            BrandstofType brandstof = new BrandstofType(1,"Benzin");
-            AutoModel automodel = new AutoModel(1,"BMW", "X1", autotype);
-            Voertuig v1 = new Voertuig(automodel, "WAUZZZ8V5KA106598","1ALI007" ,AantalDeuren.Drie, brandstof);
-            vrt.VoegVoertuigToe(v1);
-            Console.WriteLine("Voertuig toegevoegd!");
+            BrandstofVoertuig brandstof = new("Benzine", ishybride);
+
+            //Ali: op het einde onze brandstof class
+            string chassisnummer = "WAUZZZ8V5KA106598";
+            Voertuig v1 = new Voertuig(automodel, "WAUZZZ8V5KA106598", "1ALI007", brandstof);
+
+            //Altijd checken dat Voertuig bestaat, hetzelfde chassisnummer & nummerplaat gooit een exception in DB
+            //Deze manager doet nog niet wat hij zou moeten doen: dat is toDo
+            bool isVoertuigOK = vrt.BestaatVoertuig(v1);
+
+            if (isVoertuigOK)
+                vrt.VoegVoertuigToe(v1);
+
+            //Helaas test je iets wat nog niet naar behoren werkt in Manager & DB
+            //
+            //Voertuig haalVoertuig = vrt.GetVoertuig(chassisnummer);
+            //verwijderVoertuig = vrt.VerwijderVoertuig(haalVoertuig);  //nu ben je zeker dat je de juiste verwijdert
         }
     }
 }

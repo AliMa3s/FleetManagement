@@ -84,11 +84,16 @@ namespace FleetManagement.Manager {
 
         public IReadOnlyList<TankKaart> TankaartenZonderBestuurder()
         {
-            return _repo.TankaartenZonderBestuurder();
+            return _repo.TankaartenZonderBestuurder().Where(t => t.Actief == true).ToList();
         }
 
         public IReadOnlyList<TankKaart> ZoekTankKaarten(bool isGeldig) {
             return _repo.ZoekTankKaarten(isGeldig).Where(t => t.Actief == isGeldig).ToList();
+        }
+
+        public IReadOnlyList<BrandstofType> BrandstoffenVoorTankaart(TankKaart tankkaart)
+        {
+            return _repo.BrandstoffenVoorTankaart(tankkaart);
         }
     }
 }

@@ -10,10 +10,11 @@ namespace FleetManagement.Interfaces {
         IReadOnlyList<TankKaart> GeefAlleTankkaarten();
         IReadOnlyList<TankKaart> ZoekTankKaarten(bool isTankkaartGeldig);
         TankKaart ZoekTankKaart(string tankkaartNr);
-        IReadOnlyList<TankKaart> TankaartenZonderBestuurder();
+        IReadOnlyList<TankKaart> TankaartenZonderBestuurder(); 
         bool BestaatTankKaart(TankKaart tankkaart);
         void VoegTankKaartToe(TankKaart tankkaart);
         void UpdateTankKaart(TankKaart tankkaart);
         void VerwijderTankKaart(TankKaart tankkaart);
+        public IReadOnlyList<BrandstofType> BrandstoffenVoorTankaart(TankKaart tankkaart);
     }
 }
