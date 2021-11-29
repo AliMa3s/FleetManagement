@@ -78,12 +78,14 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void ResetFormulierButton_Click(object sender, RoutedEventArgs e)
         {
-
+            // ????
+            ZoekTankkaartFilter.SelectedIndex = 0;
+            TankkaartNummer.Text = null;
         }
 
         private void Verwijderen_Click(object sender, RoutedEventArgs e)
         {
-
+            _managers.TankkaartManager.VerwijderTankKaart(_tankkaart);
         }
 
         private void TextBoxFilterTextChanged(object sender, TextChangedEventArgs e)
@@ -103,8 +105,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 detailWindow.Show();
             }
         }
-
-        private void CriteriaComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ZoekTankkaartFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             infoTankkaartMess.Text = "";
 
@@ -123,6 +124,26 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                     break;
             }
         }
+
+        //private void CriteriaComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    infoTankkaartMess.Text = "";
+
+        //    switch (ZoekTankkaartFilter.SelectedIndex)
+        //    {
+        //        case 1:
+        //            ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.ZoekTankKaarten(true);
+        //            break;
+
+        //        case 2:
+        //            ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.ZoekTankKaarten(false);
+        //            break;
+
+        //        default:
+        //            ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
+        //            break;
+        //    }
+        //}
 
         private void ZoektankkaartNummer_Click(object sender, RoutedEventArgs e)
         {
@@ -150,5 +171,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             Window.GetWindow(this).Close();
         }
+
+        
     }
 }
