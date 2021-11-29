@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FleetManagement.Exceptions;
+using System;
 namespace FleetManagement.Model
 {
     public class Kleur
@@ -8,22 +9,16 @@ namespace FleetManagement.Model
 
         public Kleur(string kleurNaam)
         {
-            if (kleurNaam == null)
-            {
-                //exception te maken
-            }
+            if (kleurNaam == null) throw new VoertuigKleurException("kleur mag niet null zijn");
 
             KleurNaam = kleurNaam;
         }
 
-        public Kleur(int kleureId, string kleurNaam) : this(kleurNaam)
+        public Kleur(int kleurId, string kleurNaam) : this(kleurNaam)
         {
-            if (kleureId < 1)
-            {
-                //exception te maken
-            }
+            if (kleurId < 1) throw new VoertuigKleurException("id mag niet kleiner zijn dan 1");
 
-            KleurId = kleureId;
+            KleurId = kleurId;
         }
 
         #region Overridables
