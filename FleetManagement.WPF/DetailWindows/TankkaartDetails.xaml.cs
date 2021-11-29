@@ -29,16 +29,21 @@ namespace FleetManagement.WPF.DetailWindows {
             _managers = managers;
             _tankkaartDetail = tankkaart;
 
-            var brandstoffen = _managers.TankkaartManager.BrandstoffenVoorTankaart(tankkaart).ToList();
-
-            if(brandstoffen.Count > 0)
+            //Checken anders wordt dat telkens bijgewerkt
+            if(tankkaart.Brandstoffen.Count < 1)
             {
-                brandstoffen.ForEach(brandstof => {
+                var brandstoffen = _managers.TankkaartManager.BrandstoffenVoorTankaart(tankkaart).ToList();
 
-                    if(!_tankkaartDetail.IsBrandstofAanwezig(brandstof))
-                        _tankkaartDetail.Brandstoffen.Add(brandstof);
-                });
+                if(brandstoffen.Count > 0)
+                {
+                    brandstoffen.ForEach(brandstof => {
+
+                        if(!_tankkaartDetail.IsBrandstofAanwezig(brandstof))
+                            _tankkaartDetail.Brandstoffen.Add(brandstof);
+                    });
+                }
             }
+
 
             if (_tankkaartDetail.HeeftTankKaartBestuurder)
             {
@@ -50,7 +55,7 @@ namespace FleetManagement.WPF.DetailWindows {
 
             if(_tankkaartDetail.Brandstoffen.Count > 0)
             {
-                StringBuilder stringBuilder = new("Geldig voor deze brandstoffen:");
+                StringBuilder stringBuilder = new("");
 
                 _tankkaartDetail.Brandstoffen.ForEach(brandstof => {
                     stringBuilder.AppendLine(brandstof.BrandstofNaam);
@@ -87,7 +92,9 @@ namespace FleetManagement.WPF.DetailWindows {
             bool? updatetet = updateTankkaart.ShowDialog();
             if (updatetet == true)
             {
+               
                 _tankkaartDetail = updateTankkaart.TankkaartDetail;
+                Pincode.Text = _tankkaartDetail.Pincode;
 
                 //Changer aanspreken indien nodig
             }

@@ -319,13 +319,15 @@ namespace FleetManagement.ADO.Repositories {
         {
             //ophalen van brandstoffen voor detailweergave
             string query = "SELECT * FROM Tankkaart_Brandstoftype t " +
-                "JOIN Brandstoftype b ON t.brandstoftypeid = b.brandstofid " +
+                "LEFT JOIN Brandstoftype b ON t.brandstoftypeid = b.brandstofid " +
                 "WHERE t.tankkaartnummer=@tankkaartnummer";
 
             using (SqlCommand command = new(query, Connection))
             {
                 try
                 {
+                    List<BrandstofType> brandstofTypesDB = new();
+
                     command.Parameters.AddWithValue("@tankkaartnummer", tankkaart.TankKaartNummer);
                     Connection.Open();
 
@@ -333,8 +335,6 @@ namespace FleetManagement.ADO.Repositories {
                     {
                         if (dataReader.HasRows)
                         {
-                            List<BrandstofType> brandstofTypesDB = new();
-
                             while (dataReader.Read())
                             { 
                                 BrandstofType brandstofType = new BrandstofType(
@@ -343,12 +343,9 @@ namespace FleetManagement.ADO.Repositories {
                                 );
 
                                 brandstofTypesDB.Add(brandstofType);
-                            }
-
-                            return brandstofTypesDB;
+                            }  
                         }
-
-                        return null;
+                        return brandstofTypesDB;
                     }
                 }
                 catch (Exception ex)

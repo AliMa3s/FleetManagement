@@ -21,7 +21,11 @@ namespace FleetManagement.WPF.UpdateWindows
     /// </summary>
     public partial class UpdateTankkaart : Window
     {
-        private readonly object _managers;
+        private readonly Managers _managers;
+        private List<string> _keuzeBrandstoffen;
+
+        public string DisplayFirst { get; set; } = "Selecteer";
+
         private TankKaart _tankaart;
 
         public TankKaart TankkaartDetail
@@ -38,6 +42,24 @@ namespace FleetManagement.WPF.UpdateWindows
             InitializeComponent();
             _managers = managers;
             _tankaart = tankkaart;
+
+            FormTankkaart.Content = "Tankkaart Updaten";
+
+
+            BrandstofNamenComboBox.Items.Add(DisplayFirst);
+            _managers.Brandstoffen.ToList().ForEach(brandstof => {
+
+                
+                if(tankkaart.Brandstoffen.Count > 0)
+                {
+                    if (!tankkaart.IsBrandstofAanwezig(brandstof))
+                    {
+                        BrandstofNamenComboBox.Items.Add(brandstof.BrandstofNaam);
+                    }
+                }
+            });
+
+            PincodeUpdate.Text = _tankaart.Pincode;
         }
 
         private void TankKaartUpdateButton_Click(object sender, RoutedEventArgs e)
@@ -67,7 +89,15 @@ namespace FleetManagement.WPF.UpdateWindows
 
         private void TankkaartAanmakenButton_Click(object sender, RoutedEventArgs e)
         {
-
+            _tankaart.VoegPincodeToe("1234");
+            DialogResult = true;
         }
     }
 }
+
+
+
+
+
+
+
