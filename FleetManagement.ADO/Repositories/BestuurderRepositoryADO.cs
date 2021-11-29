@@ -161,7 +161,7 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-        public void VoegBestuurderToe(Bestuurder bestuurder, SqlConnection sqlConnection = null, SqlTransaction transaction = null) {
+        private void VoegBestuurderToe(Bestuurder bestuurder, SqlConnection sqlConnection = null, SqlTransaction transaction = null) {
 
             if (sqlConnection != null)
             {
@@ -208,7 +208,7 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-        public int TransactionAdres(Bestuurder bestuurder, SqlConnection sqlConnection = null, SqlTransaction transaction = null)
+        private int TransactionAdres(Bestuurder bestuurder, SqlConnection sqlConnection = null, SqlTransaction transaction = null)
         {
             if (bestuurder.Adres != null)
             {
