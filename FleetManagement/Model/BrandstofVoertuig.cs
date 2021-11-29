@@ -8,11 +8,17 @@ namespace FleetManagement.Model
 {
     public class BrandstofVoertuig : BrandstofType
     {
+        public override int BrandstofTypeId { get; }
+
         public bool Hybride { get; set; }
 
         public BrandstofVoertuig(string brandstofNaam, bool isHybride) : base(brandstofNaam)
         {
             Hybride = isHybride;
+        }
+        public BrandstofVoertuig(int brandstofid, string brandstofNaam, bool isHybride) : this(brandstofNaam, isHybride)
+        {
+            BrandstofTypeId = brandstofid;
         }
     }
 }

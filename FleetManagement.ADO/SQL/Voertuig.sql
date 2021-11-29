@@ -2,7 +2,7 @@
     [voertuigid]      INT           IDENTITY (1, 1) NOT NULL,
     [automodelid]     INT           NOT NULL,
     [brandstoftypeid] INT           NOT NULL,
-    [Hybride]         BIT           NOT NULL,
+    [hybride]         BIT           NOT NULL,
     [kleurnaam]       NVARCHAR (250) NULL,
     [aantal_deuren]   NVARCHAR (16)  NULL,
     [chassisnummer]   NVARCHAR (25) NOT NULL,

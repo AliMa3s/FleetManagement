@@ -20,8 +20,6 @@ namespace FleetManagement.ADO.Repositories
                 "ORDER BY merknaam ASC " +
                 "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
 
-            //string query = "SELECT * FROM AutoModel ORDER BY merknaam ASC";
-
             List<AutoModel> autoModellen = new();
 
             using (SqlCommand command = new(query, Connection))
@@ -39,6 +37,7 @@ namespace FleetManagement.ADO.Repositories
                             {
                                 autoModellen.Add(
                                     new(
+                                        (int)dataReader["automodelid"],
                                         (string)dataReader["merknaam"],
                                         (string)dataReader["automodelnaam"],
                                         new AutoType((string)dataReader["autotype"])

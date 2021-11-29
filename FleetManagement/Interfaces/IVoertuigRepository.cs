@@ -1,4 +1,5 @@
-﻿using FleetManagement.Model;
+﻿using FleetManagement.Filters;
+using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,16 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Interfaces {
     public interface IVoertuigRepository {
-        IReadOnlyList<Voertuig> GeefAlleVoerTuig();
-        IReadOnlyList<Voertuig> ZoekVoertuigen(int? voertuigId, AutoModel automodel, string chassisNumber, string nummerPlaat, BrandstofType brandstof, Kleur kleur, AantalDeuren aantalDeuren, Bestuurder bestuurder);
-        Voertuig GetVoertuig(int voertuigId);
-        Voertuig ZoekVoertuig(int? voertuigId, AutoModel automodel, string chassisNumber, string nummerPlaat, BrandstofType brandstof, Kleur kleur, AantalDeuren aantalDeuren, Bestuurder bestuurder);
-        public bool BestaatVoertuig(Voertuig voertuig);
-        public bool BestaatVoertuig(Voertuig voertuig, string chasisnummer, string nummerplaat);
-        void VoegVoertuigToe(Voertuig voertuig);
-        void UpdateVoertuig(Voertuig voertuig);
-        void VerwijderVoertuig(Voertuig voertuig);
 
-        //toevegoegd filip
-        public bool bestaatChassisOfNummerplaat(string chassisnummer, string nummerplaat);
+        public bool BestaatVoertuig(Voertuig voertuig);
+        public bool BestaatNummerplaat(string nummerPlaat);
+        public bool BestaatChassisnummer(string chassisNummer);
+        public void VoegVoertuigToe(Voertuig voertuig);
+        public void UpdateVoertuig(Voertuig voertuig);
+        public void VerwijderVoertuig(Voertuig voertuig);
+        public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam);
+        public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam, Filter filter);
+        public Voertuig ZoekOpNummerplaat(string plaatnummer);
+        public Voertuig ZoekOpChassisNummer(string chassisnummer);
     }
 }

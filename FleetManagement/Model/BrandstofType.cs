@@ -10,7 +10,7 @@ namespace FleetManagement.Model {
 
     public class BrandstofType : IComparable {
 
-        public int BrandstofTypeId { get; }
+        public virtual int BrandstofTypeId { get; }
         public string BrandstofNaam { get; }
 
         public BrandstofType(string brandstofNaam) {

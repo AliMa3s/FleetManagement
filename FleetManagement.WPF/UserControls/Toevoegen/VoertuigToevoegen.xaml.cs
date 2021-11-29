@@ -80,51 +80,69 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             //Wis bij elke nieuw poging de message info
             InfoVoertuigMess.Text = string.Empty;
 
-            try
+            //Haal BrandstofType op (met ID) via manager
+            BrandstofType brandstofType = _managers.Brandstoffen.ToList().Find(e => e.BrandstofNaam == Brandstof.SelectedItem.ToString());
+
+            if (brandstofType != null)
             {
-                Voertuig nieuwVoertuig = new(
-                    GekozenAutoModel,
-                    ChassisNummer.Text,
-                    Nummerplaat.Text,
-                    new BrandstofVoertuig(
-                        Brandstof.SelectedItem.ToString(),
-                        HybrideJa.IsChecked.HasValue && (bool)HybrideJa.IsChecked
-                    )
-                );
-
-                //Voeg bestuurder toe indien ingevuld in het formulier
-                if(GekozenBestuurder != null)
+                try
                 {
-                    nieuwVoertuig.VoegBestuurderToe(GekozenBestuurder);
-                }
+                    Voertuig nieuwVoertuig = new(
+                        GekozenAutoModel,
+                        ChassisNummer.Text,
+                        Nummerplaat.Text,
+                        new BrandstofVoertuig(
+                            brandstofType.BrandstofTypeId,
+                            Brandstof.SelectedItem.ToString(),
+                            HybrideJa.IsChecked.HasValue && (bool)HybrideJa.IsChecked
+                        )
+                    );
+                    System.Diagnostics.Debug.WriteLine(nieuwVoertuig.Brandstof.BrandstofTypeId);
 
-                //Indien ingevuld checken en casten
-                if (Deuren.SelectedItem.ToString() != DisplayFirst)
+                    //Indien ingevuld checken en casten
+                    if (Deuren.SelectedItem.ToString() != DisplayFirst)
+                    {
+                        string selected = Deuren.SelectedItem.ToString();
+
+                        nieuwVoertuig.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), selected)
+                            ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), selected)
+                            : throw new AantalDeurenException("Aantal deuren staat niet in de lijst");
+                    }
+
+                    //Indien ingevuld checken en casten
+                    if (VoertuigKleur.SelectedItem.ToString() != DisplayFirst)
+                    {
+                        nieuwVoertuig.VoertuigKleur = new Kleur(VoertuigKleur.SelectedItem.ToString());
+                    }
+
+                    _managers.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
+
+                    ResetForm();
+
+                    InfoVoertuigMess.Foreground = Brushes.Green;
+                    InfoVoertuigMess.Text = $"Voertuig is succesvol aangemaakt";
+
+                    //Voeg bestuurder toe indien ingevuld in het formulier
+                    //(Hier is dat heel belangrijk dat een Bestuurder ook het voertuig kent)
+                    if (GekozenBestuurder != null)
+                    {
+                        //if(_managers.BestuurderManager. BestaatBestuurder(GekozenBestuurder))
+                        //{
+                        //    nieuwVoertuig.VoegBestuurderToe(GekozenBestuurder);
+                        //    _managers.BestuurderManager.UpdateBestuurder(nieuwVoertuig.Bestuurder);
+                        //}
+                    }
+                }
+                catch (Exception ex)
                 {
-                    string selected = Deuren.SelectedItem.ToString();
-
-                    nieuwVoertuig.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), selected)
-                        ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), selected)
-                        : throw new AantalDeurenException("Aantal deuren staat niet in de lijst");
+                    InfoVoertuigMess.Foreground = Brushes.Red;
+                    InfoVoertuigMess.Text = ex.Message;
                 }
-
-                //Indien ingevuld checken en casten
-                if (VoertuigKleur.SelectedItem.ToString() != DisplayFirst)
-                {
-                    nieuwVoertuig.VoertuigKleur = new Kleur(VoertuigKleur.SelectedItem.ToString());
-                }
-
-                _managers.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
-
-                ResetForm();
-
-                InfoVoertuigMess.Foreground = Brushes.Green;
-                InfoVoertuigMess.Text = $"Voertuig is succesvol aangemaakt";
             }
-            catch (Exception ex)
+            else
             {
                 InfoVoertuigMess.Foreground = Brushes.Red;
-                InfoVoertuigMess.Text = ex.Message;
+                InfoVoertuigMess.Text = "BrandstofType staat niet in de lijst";
             }
         }
 
