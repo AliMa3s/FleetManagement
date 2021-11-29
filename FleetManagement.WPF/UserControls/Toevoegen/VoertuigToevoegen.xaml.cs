@@ -114,7 +114,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     nieuwVoertuig.VoertuigKleur = new Kleur(VoertuigKleur.SelectedItem.ToString());
                 }
 
-                //Voertuig voertuigDB = _managers.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
+                _managers.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
 
                 ResetForm();
 

@@ -30,7 +30,7 @@ namespace FleetManagement.WPF.SelecteerWindows
             set
             {
                 _autoModel = value;
-                AutomodellenLijst.SelectedItem = value;
+                AutoModellenLijst.SelectedItem = value;
             }
         }
 
@@ -39,28 +39,47 @@ namespace FleetManagement.WPF.SelecteerWindows
             InitializeComponent();
             _manager = autoModelManager;
 
-            AutomodellenLijst.ItemsSource = _manager.FilterOpAutoModelNaam("");
-        }
-        //Automodel bewaren telkens een Bestuurder wordt geselecteerd
-        private void BewaarAutoModel_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            AutoModellenLijst.ItemsSource = _manager.FilterOpAutoModelNaam("");
         }
 
-        //Ga terug wanneer een automodel is gekozen
-        private void ButtonKiesToevoegen_Click(object sender, RoutedEventArgs e) {
-       
+        //Bestuurder bewaren telkens een Bestuurder wordt geselecteerd
+        private void BewaarAutoModel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AutoModel = AutoModellenLijst.SelectedItem as AutoModel;
         }
 
-        //Ga terug bij dubbelklik op een rij in de lijst 
-        private void AutoModelToevoegenDoubleClick(object sender, MouseButtonEventArgs e) {
-           
+        private void AutomodelToevoegenDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            //_bestuurder mag niet leeg zijn anders geen terugkeer
+            if (AutoModel != null)
+            {
+                DialogResult = true;
+            }
         }
 
-        private void ButtonAnnuleer_Click(object sender, RoutedEventArgs e) {
+        private void ButtonAnnuleer_Click(object sender, RoutedEventArgs e)
+        {
             DialogResult = false;
         }
 
-        //Filteren van naam
-        private void TextBoxFilterTextChanged(object sender, TextChangedEventArgs e) {
+        private void TextBoxFilterOpAutoModel_GotFocus(object sender, RoutedEventArgs e)
+        {
+            //placeholder
+        }
+
+        private void TextBoxFilterOpAutoModel_LostFocus(object sender, RoutedEventArgs e)
+        {
+            //placeholder
+        }
+
+        private void VoegAutomodelToe_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
+
+        private void TextBoxFilterAutonaam_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            AutoModellenLijst.ItemsSource = _manager.FilterOpAutoModelNaam(TextBoxFilterAutonaam.Text);
         }
     }
 }

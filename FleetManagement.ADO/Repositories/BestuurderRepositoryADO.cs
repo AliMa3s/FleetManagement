@@ -326,11 +326,12 @@ namespace FleetManagement.ADO.Repositories {
         {
             string zonderVoertuig = bestuurdersZonderVoertuig ? " b.voertuigid IS NULL AND " : null;
 
-            string query = "SELECT b.bestuurderid, b.achternaam, b.voornaam, b.geboortedatum, b.rijksregisternummer, " +
-                "b.rijbewijsnummer, b.rijbewijstype, b.aanmaakDatum, a.* FROM Bestuurder AS b " +
+            string query = "SELECT * FROM Bestuurder AS b " +
                    " LEFT JOIN adres AS a " +
                    " ON b.adresId = a.adresId " +
-                   $" WHERE {zonderVoertuig} concat(b.achternaam, ' ', b.voornaam) LIKE @achterNaamEnVoornaam + '%'";
+                   $" WHERE {zonderVoertuig} concat(b.achternaam, ' ', b.voornaam) LIKE @achterNaamEnVoornaam + '%' " +
+                   "ORDER BY achternaam ASC " +
+                   "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
 
             List<Bestuurder> bestuurders = new();
 

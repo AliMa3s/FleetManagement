@@ -123,18 +123,18 @@ namespace FleetManagement.ADO.Repositories {
         */
         public void VoegVoertuigToe(Voertuig voertuig) {
 
-            string query = "INSERT INTO Voertuig (automodelid,brandstoftypeid,aantal_deuren,chassisnummer,nummerplaat) " +
-                           " VALUES (@automodelid,@brandstoftypeid,@aantal_deuren,@chassisnummer,@nummerplaat)";
+            string query = "INSERT INTO Voertuig (automodelid,brandstoftypeid,kleurnaam,aantal_deuren,chassisnummer,nummerplaat) " +
+               " VALUES (@automodelid,@brandstoftypeid,@kleurnaam,@aantal_deuren,@chassisnummer,@nummerplaat)";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
                     Connection.Open();
                     command.Parameters.AddWithValue("@automodelid", voertuig.AutoModel.AutoModelId);
-                    command.Parameters.AddWithValue("@brandstoftypeid", voertuig.BrandstofType.BrandstofTypeId);
-                    command.Parameters.AddWithValue("@aantal_deuren", voertuig.AantalDeuren);
+                    command.Parameters.AddWithValue("@brandstoftypeid", voertuig.Brandstof.BrandstofTypeId);
+                    command.Parameters.AddWithValue("@kleurnaam", voertuig.VoertuigKleur);
+                    command.Parameters.AddWithValue("@aantal_deuren", voertuig.AantalDeuren.Value.ToString());
                     command.Parameters.AddWithValue("@chassisnummer", voertuig.ChassisNummer);
                     command.Parameters.AddWithValue("@nummerplaat", voertuig.NummerPlaat);
-
 
                     command.CommandText = query;
                     command.ExecuteNonQuery();

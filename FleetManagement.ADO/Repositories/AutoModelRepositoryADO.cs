@@ -13,9 +13,14 @@ namespace FleetManagement.ADO.Repositories
     {
         public AutoModelRepositoryADO(string connectionstring) : base(connectionstring) { }
 
-        public IReadOnlyList<AutoModel> FilterOpAutoModelNaam(string autoModelNaam)
+        public IReadOnlyList<AutoModel> FilterOpAutoModelNaam(string autonaam)
         {
-            string query = "SELECT * FROM Brandstoftype ORDER BY brandstofnaam ASC";
+            string query = "SELECT * FROM AutoModel " +
+                "WHERE concat(merknaam, ' ', automodelnaam)  LIKE @autonaam + '%' " +
+                "ORDER BY merknaam ASC " +
+                "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
+
+            //string query = "SELECT * FROM AutoModel ORDER BY merknaam ASC";
 
             List<AutoModel> autoModellen = new();
 
@@ -23,6 +28,7 @@ namespace FleetManagement.ADO.Repositories
             {
                 try
                 {
+                    command.Parameters.AddWithValue("@autonaam", autonaam);
                     Connection.Open();
 
                     using (SqlDataReader dataReader = command.ExecuteReader())
@@ -31,10 +37,16 @@ namespace FleetManagement.ADO.Repositories
                         {
                             while (dataReader.Read())
                             {
-                                
+                                autoModellen.Add(
+                                    new(
+                                        (string)dataReader["merknaam"],
+                                        (string)dataReader["automodelnaam"],
+                                        new AutoType((string)dataReader["autotype"])
+                                    )
+                                );
                             }
                         }
-
+  
                         return autoModellen;
                     }
                 }
