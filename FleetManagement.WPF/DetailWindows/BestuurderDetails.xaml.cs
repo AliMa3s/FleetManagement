@@ -31,25 +31,19 @@ namespace FleetManagement.WPF.DetailWindows {
             _managers = managers;
             _bestuurderDetail = bestuurder;
 
-            //Controleer bestuurder om extra info op te vragen aan manager
-            if (!_bestuurderDetail.HeeftBestuurderVoertuig || !_bestuurderDetail.HeeftBestuurderTankKaart)
-            {
-                //_bestuurderDetail = managers.BestuurderManager.BestuurderIncludes(_bestuurderDetail);  //interface 
-            }
-
             if (_bestuurderDetail.HeeftBestuurderVoertuig)
             {
                 StringBuilder stringBuilder = new(_bestuurderDetail.Voertuig.AutoModel.Merk + _bestuurderDetail.Voertuig.AutoModel.AutoModelNaam);
-                stringBuilder.AppendLine("Chassisnr.: " + _bestuurderDetail.Voertuig.ChassisNummer);
-                stringBuilder.AppendLine("Nummerplaat: " + _bestuurderDetail.Voertuig.NummerPlaat);
+                stringBuilder.AppendLine(Environment.NewLine + "Chassisnr.: " + _bestuurderDetail.Voertuig.ChassisNummer);
+                stringBuilder.AppendLine(Environment.NewLine + "Nummerplaat: " + _bestuurderDetail.Voertuig.NummerPlaat);
 
                 HeeftVoertuig.Text = stringBuilder.ToString();
             }
 
             if(_bestuurderDetail.HeeftBestuurderTankKaart)
             {
-                StringBuilder stringBuilder = new(" Kaartnr.: " + _bestuurderDetail.Tankkaart.TankKaartNummer);
-                stringBuilder.AppendLine("Geldigheidsdatum: " + _bestuurderDetail.Tankkaart.GeldigheidsDatum.ToString("d/MM/yyyy"));
+                StringBuilder stringBuilder = new(_bestuurderDetail.Tankkaart.TankKaartNummer);
+                stringBuilder.AppendLine(Environment.NewLine + _bestuurderDetail.Tankkaart.GeldigheidsDatum.ToString("dd/MM/yyyy"));
 
                 if(_bestuurderDetail.Tankkaart.Actief) 
                 { 
@@ -62,6 +56,15 @@ namespace FleetManagement.WPF.DetailWindows {
                 }
    
                 HeeftTankkaart.Text = stringBuilder.ToString();
+            }
+
+            if(_bestuurderDetail.Adres != null)
+            {
+                StringBuilder stringBuilder = new(_bestuurderDetail.Adres.Straat + _bestuurderDetail.Adres.Nr);
+                stringBuilder.AppendLine(Environment.NewLine + _bestuurderDetail.Adres.Postcode);
+                stringBuilder.AppendLine(Environment.NewLine + _bestuurderDetail.Adres.Gemeente);
+
+                Adresgegevens.Text = stringBuilder.ToString();
             }
 
             //bind de bestuurder

@@ -68,7 +68,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 //detailWindow.Show();
 
                 bool? verwijderd = detailWindow.ShowDialog();
-                if(verwijderd == true)
+                if (verwijderd == true)
                 {
                     ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
                 }
@@ -84,7 +84,14 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                     Owner = Window.GetWindow(this),
                 };
 
-                detailWindow.Show();
+                //Uitgezet anders geen update status mogelijk
+                //detailWindow.Show();
+
+                bool? verwijderd = detailWindow.ShowDialog();
+                if (verwijderd == true)
+                {
+                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
+                }
             }
         }
         private void ZoekTankkaartFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)

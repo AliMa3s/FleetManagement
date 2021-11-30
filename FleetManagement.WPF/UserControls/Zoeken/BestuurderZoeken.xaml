@@ -12,7 +12,7 @@
             <DockPanel DockPanel.Dock="Bottom" Height="140" VerticalAlignment="Bottom" LastChildFill="False">
 
 
-                <Button x:Name="KiesDetail" Content="_Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                <Button x:Name="KiesDetail" Content="_Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesDetail_Click"/>
                 <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitWindow_Click"/>
 
                 <Grid Width="540">
@@ -25,7 +25,7 @@
 
                 </Grid>
             </DockPanel>
-            <DataGrid  x:Name="ZoekWeergave" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
+            <DataGrid  x:Name="BestuurderZoekWeergave" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
                           SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
                           HeadersVisibility="Column" SelectionChanged="ZoekWeergave_SelectionChanged"
                           MouseDoubleClick="ZoekenMouseDoubleClick"
@@ -38,8 +38,8 @@
                     <DataGridTextColumn Header=" Voornaam " Binding="{Binding Voornaam}"/>
                     <DataGridTextColumn Header=" Geboortedatum " Binding="{Binding GeboorteDatum}"/>
                     <DataGridTextColumn Header=" Rijbewijs " Binding="{Binding TypeRijbewijs}"/>
-                    <DataGridTextColumn Header=" Rijksregisternummer " Binding="{Binding RijksRegisterNummer}"/>
-                    <DataGridTextColumn Header=" Tankkaart " Binding="{Binding Tankkaart.TankkaartNummer}"/>
+                    <DataGridTextColumn Header=" Rijksregister " Binding="{Binding RijksRegisterNummer}"/>
+                    <DataGridTextColumn Header=" Tankkaart " Binding="{Binding Tankkaart.TankKaartNummer}"/>
                     <DataGridTextColumn Header=" Voertuig " Binding="{Binding Voertuig.ChassisNummer}"/>
 
                 </DataGrid.Columns>

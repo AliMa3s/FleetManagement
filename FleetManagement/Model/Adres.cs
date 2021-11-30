@@ -29,7 +29,7 @@ namespace FleetManagement.Model {
 
         public override string ToString() {
             StringBuilder build = new($"{Straat} {Nr}");
-            build.Append("{Postcode} {Gemeente}");
+            build.Append($"{Environment.NewLine} {Postcode} {Gemeente}");
             return build.ToString();
         }
     }

@@ -237,22 +237,22 @@ namespace FleetManagement.ADO.Repositories {
                         if (bestuurder.Adres.Straat == null)
                             command.Parameters["@straat"].Value = DBNull.Value;
                         else
-                            command.Parameters["@straat"].Value = bestuurder.Voornaam;
+                            command.Parameters["@straat"].Value = bestuurder.Adres.Straat;
 
                         if (bestuurder.Adres.Nr == null)
                             command.Parameters["@nummer"].Value = DBNull.Value;
                         else
-                            command.Parameters["@nummer"].Value = bestuurder.Voornaam;
+                            command.Parameters["@nummer"].Value = bestuurder.Adres.Nr;
 
                         if (bestuurder.Adres.Postcode == null)
                             command.Parameters["@postcode"].Value = DBNull.Value;
                         else
-                            command.Parameters["@postcode"].Value = bestuurder.Voornaam;
+                            command.Parameters["@postcode"].Value = bestuurder.Adres.Postcode;
 
                         if (bestuurder.Adres.Gemeente == null)
                             command.Parameters["@gemeente"].Value = DBNull.Value;
                         else
-                            command.Parameters["@gemeente"].Value = bestuurder.Voornaam;
+                            command.Parameters["@gemeente"].Value = bestuurder.Adres.Gemeente;
 
                         command.CommandText = query;
                         return (int)command.ExecuteScalar();
@@ -442,64 +442,67 @@ namespace FleetManagement.ADO.Repositories {
                                     bestuurderDB.Adres = adresDB;
                                 }
 
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("voertuigid")) 
-                                    && !dataReader.IsDBNull(dataReader.GetOrdinal("automodelid")) 
-                                    && !dataReader.IsDBNull(dataReader.GetOrdinal("brandstoftypeid")))
+                                if(!bestuurdersZonderVoertuig)
                                 {
-
-                                    //Maak AutoModeL
-                                    AutoModel autoModelDB = new(
-                                        (string)dataReader["automodelid"],
-                                        (string)dataReader["automodelnaam"],
-                                        new AutoType((string)dataReader["autotype"])
-                                    );
-
-                                    //Maak brandstof
-                                    BrandstofVoertuig brandstofVoertuigDB = new(
-                                        (int)dataReader["brandstofid"],
-                                        (string)dataReader["brandstofnaam"],
-                                        (bool)dataReader["hybride"]
-                                    );
-
-                                    //Maak voertuig
-                                    Voertuig voertuigDB = new(
-                                           autoModelDB,
-                                           (string)dataReader["chassisnummer"],
-                                           (string)dataReader["nummerplaat"],
-                                           brandstofVoertuigDB
-                                    );
-
-                                    //is kleur aanwezig
-                                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("kleurnaam")))
+                                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("voertuigid"))
+                                            && !dataReader.IsDBNull(dataReader.GetOrdinal("automodelid"))
+                                            && !dataReader.IsDBNull(dataReader.GetOrdinal("brandstoftypeid")))
                                     {
-                                        voertuigDB.VoertuigKleur = new Kleur((string)dataReader["kleurnaam"]);
+
+                                        //Maak AutoModeL
+                                        AutoModel autoModelDB = new(
+                                            (string)dataReader["automodelid"],
+                                            (string)dataReader["automodelnaam"],
+                                            new AutoType((string)dataReader["autotype"])
+                                        );
+
+                                        //Maak brandstof
+                                        BrandstofVoertuig brandstofVoertuigDB = new(
+                                            (int)dataReader["brandstofid"],
+                                            (string)dataReader["brandstofnaam"],
+                                            (bool)dataReader["hybride"]
+                                        );
+
+                                        //Maak voertuig
+                                        Voertuig voertuigDB = new(
+                                               autoModelDB,
+                                               (string)dataReader["chassisnummer"],
+                                               (string)dataReader["nummerplaat"],
+                                               brandstofVoertuigDB
+                                        );
+
+                                        //is kleur aanwezig
+                                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("kleurnaam")))
+                                        {
+                                            voertuigDB.VoertuigKleur = new Kleur((string)dataReader["kleurnaam"]);
+                                        }
+
+                                        //is aantal deuren aanwezig + casting naar enum
+                                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("aantal_deuren")))
+                                        {
+                                            voertuigDB.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
+                                                ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
+                                                : throw new BrandstofRepositoryADOException("Aantal deuren - gefaald");
+                                        }
+
+                                        bestuurderDB.VoegVoertuigToe(voertuigDB);
                                     }
 
-                                    //is aantal deuren aanwezig + casting naar enum
-                                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("aantal_deuren")))
+                                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("tankkaartnummer")))
                                     {
-                                        voertuigDB.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
-                                            ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
-                                            : throw new BrandstofRepositoryADOException("Aantal deuren - gefaald");
+                                        TankKaart tankKaartDB = new(
+                                            (string)dataReader["tankkaartnummer"],
+                                            (bool)dataReader["actief"],
+                                            dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum"))
+                                        );
+
+                                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode")))
+                                        {
+                                            tankKaartDB.VoegPincodeToe((string)dataReader["pincode"]);
+                                        };
+
+                                        bestuurderDB.VoegTankKaartToe(tankKaartDB);
                                     }
-
-                                    bestuurderDB.VoegVoertuigToe(voertuigDB);
-                                }
-
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("tankkaartnummer")))
-                                {
-                                    TankKaart tankKaartDB = new(
-                                        (string)dataReader["tankkaartnummer"],
-                                        (bool)dataReader["actief"],
-                                        dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum"))
-                                    );
-
-                                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode")))
-                                    {
-                                        tankKaartDB.VoegPincodeToe((string)dataReader["pincode"]);
-                                    };
-
-                                    bestuurderDB.VoegTankKaartToe(tankKaartDB);
                                 }
 
                                bestuurders.Add(bestuurderDB);
