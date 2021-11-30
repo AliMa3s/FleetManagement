@@ -132,7 +132,7 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-        public void VoegBestuurderToe(Bestuurder bestuurder)
+        public Bestuurder VoegBestuurderToe(Bestuurder bestuurder)
         {
             Connection.Open();
             using (SqlTransaction transaction = Connection.BeginTransaction())
@@ -144,10 +144,10 @@ namespace FleetManagement.ADO.Repositories {
                     if (newId > 0)
                         bestuurder.Adres.VoegIdToe(newId);
 
-                    VoegBestuurderToe(bestuurder, Connection, transaction);
-
-  
+                    Bestuurder bestuurderDB = VoegBestuurderToe(bestuurder, Connection, transaction);
                     transaction.Commit();
+
+                    return bestuurderDB;
                 }
                 catch (Exception ex)
                 {
@@ -161,15 +161,15 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-        private void VoegBestuurderToe(Bestuurder bestuurder, SqlConnection sqlConnection = null, SqlTransaction transaction = null) {
+        private Bestuurder VoegBestuurderToe(Bestuurder bestuurder, SqlConnection sqlConnection = null, SqlTransaction transaction = null) {
 
             if (sqlConnection != null)
             {
                 Connection = sqlConnection;
             }
 
-            string query = "INSERT INTO Bestuurder (adresid, voornaam, achternaam, geboortedatum, rijksregisternummer,rijbewijstype, rijbewijsnummer)" +
-                           "VALUES (@adresid, @voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype, @rijbewijsnummer)";
+            string query = "INSERT INTO Bestuurder (adresid, voornaam, achternaam, geboortedatum, rijksregisternummer,rijbewijstype, rijbewijsnummer) " +
+                           "OUTPUT INSERTED.bestuurderid VALUES (@adresid, @voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype, @rijbewijsnummer)";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
@@ -198,7 +198,9 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters["@rijbewijsnummer"].Value = bestuurder.RijBewijsNummer;
 
                     command.CommandText = query;
-                    command.ExecuteNonQuery();
+
+                    bestuurder.VoegIdToe((int)command.ExecuteScalar());
+                    return bestuurder;
 
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("Voeg Bestuurder Toe - gefaald", ex);

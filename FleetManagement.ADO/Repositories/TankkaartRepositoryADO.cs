@@ -440,7 +440,7 @@ namespace FleetManagement.ADO.Repositories {
         public void UpdateTankKaart(TankKaart tankkaart) {
 
             string query = "UPDATE Tankkaart SET " +
-                           " bestuurderid=bestuurderid, geldigheidsdatum=@geldigheidsdatum, pincode=@pincode, actief=@actief " +
+                           " bestuurderid=@bestuurderid, geldigheidsdatum=@geldigheidsdatum, pincode=@pincode, actief=@actief " +
                            " WHERE tankkaartnummer=@tankkaartnummer";
 
             using (SqlCommand command = Connection.CreateCommand()) {
@@ -448,12 +448,11 @@ namespace FleetManagement.ADO.Repositories {
 
                     Connection.Open();
 
-                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
                     command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.Date));
                     command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@actief", SqlDbType.Bit));
-                    //command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Timestamp));
 
                     command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
                     command.Parameters["@geldigheidsdatum"].Value = tankkaart.GeldigheidsDatum;

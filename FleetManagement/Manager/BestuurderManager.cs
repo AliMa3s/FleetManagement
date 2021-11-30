@@ -89,12 +89,12 @@ namespace FleetManagement.Manager {
             }
         }
 
-        public void VoegBestuurderToe(Bestuurder bestuurder) {
+        public Bestuurder VoegBestuurderToe(Bestuurder bestuurder) {
             try {
                 if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
 
                 if (!_repo.BestaatRijksRegisterNummer(bestuurder.RijksRegisterNummer)) {
-                    _repo.VoegBestuurderToe(bestuurder);
+                    return _repo.VoegBestuurderToe(bestuurder);
                 } else {
                     throw new BestuurderManagerException("Rijksregisternummer bestaat al");
                 }
@@ -103,7 +103,7 @@ namespace FleetManagement.Manager {
                 throw new BestuurderManagerException(ex.Message);
             }
         }
-
+        
         //public Bestuurder ZoekBestuurder(int bestuurderid) {
         //    try {
         //        if (bestuurderid < 1) throw new BestuurderManagerException("Bestuurder id kan niet kleiner dan 0 zijn");

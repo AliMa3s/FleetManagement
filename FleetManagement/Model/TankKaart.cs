@@ -188,6 +188,11 @@ namespace FleetManagement.Model {
                 throw new TankKaartException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
+            if (bestuurderId < 0)
+            {
+                throw new TankKaartException($"De {nameof(Bestuurder)} is niet geslecteerd uit lijst bestuurders");
+            }
+
             if (!HeeftTankKaartBestuurder)
             {
                 Bestuurder = ingegevenBestuurder;

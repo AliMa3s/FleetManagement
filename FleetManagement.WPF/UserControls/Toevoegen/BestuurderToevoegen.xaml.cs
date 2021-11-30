@@ -128,20 +128,23 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     nieuwBestuurder.Adres = _ingevoegdAdres;
                 }
 
-                _managers.BestuurderManager.VoegBestuurderToe(nieuwBestuurder);
+                Bestuurder bestuurderDB = _managers.BestuurderManager.VoegBestuurderToe(nieuwBestuurder);
 
                 infoBestuurderMess.Foreground = Brushes.Green;
                 infoBestuurderMess.Text = "Bestuurder succesvol toegevoegd";
 
-                //Update tankkaart. Belangrijk is dat tankkaart eerst wordt toevoegoegd in Bestuurder, zodat Tankkaart ook bestuurder herkent
+                //Update tankkaart
                 if (_gekozenTankkaart != null)
                 {
-                    nieuwBestuurder.VoegTankKaartToe(_gekozenTankkaart);
-                    _managers.TankkaartManager.UpdateTankKaart(nieuwBestuurder.Tankkaart);
+                    System.Diagnostics.Debug.WriteLine(bestuurderDB.BestuurderId);
+                    bestuurderDB.VoegTankKaartToe(_gekozenTankkaart);
+                    _managers.TankkaartManager.UpdateTankKaart(bestuurderDB.Tankkaart);
 
                     infoBestuurderMess.Foreground = Brushes.Green;
                     infoBestuurderMess.Text = "Bestuurder succesvol toegevoegd & Tankkaart aan bestuurder gelinkt";
                 }
+
+                ResetForm();
             }
             catch (Exception ex)
             {
