@@ -240,7 +240,7 @@ namespace FleetManagement.Test.ModelTest {
             TankKaart t = new("1234567890123456789", GeldigheidsDatum);
 
             var e = Assert.Throws<TankKaartException>(() => {
-                t.VoegPincodeToe("");
+                t.VoegPincodeToe(null);
             });
 
             Assert.Equal("Ingegeven Pincode mag niet null zijn", e.Message);

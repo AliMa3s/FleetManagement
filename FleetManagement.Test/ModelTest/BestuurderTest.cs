@@ -73,9 +73,9 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void Bestuurder_Adres_NotNull_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder(1,"Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
 
-            bestuurder.Adres = new Adres(1,"L.Schuermanstraat","20","9040","Gent");
+            bestuurder.Adres = new Adres("L.Schuermanstraat","20","9040","Gent");
 
             Assert.NotNull(bestuurder.Adres);
         }
@@ -85,7 +85,7 @@ namespace FleetManagement.Test.ModelTest {
         {
             Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
 
-            bestuurder.Adres = new Adres(1, "L.Schuermanstraat", "20", "9040", "Gent");
+            bestuurder.Adres = new Adres("L.Schuermanstraat", "20", "9040", "Gent");
 
             bestuurder.VoegIdToe(1);
 
@@ -99,7 +99,7 @@ namespace FleetManagement.Test.ModelTest {
         {
             Bestuurder bestuurder = new Bestuurder(1,"Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
 
-            bestuurder.Adres = new Adres(1, "L.Schuermanstraat", "20", "9040", "Gent");
+            bestuurder.Adres = new Adres("L.Schuermanstraat", "20", "9040", "Gent");
 
             bestuurder.VoegTankKaartToe(_tankKaartRepo.GeefTankKaart("1234567890123456789"));
             Assert.True(bestuurder.HeeftBestuurderTankKaart);

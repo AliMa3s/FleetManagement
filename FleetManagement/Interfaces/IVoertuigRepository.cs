@@ -12,7 +12,7 @@ namespace FleetManagement.Interfaces {
         public bool BestaatVoertuig(Voertuig voertuig);
         public bool BestaatNummerplaat(string nummerPlaat);
         public bool BestaatChassisnummer(string chassisNummer);
-        public void VoegVoertuigToe(Voertuig voertuig);
+        public Voertuig VoegVoertuigToe(Voertuig voertuig);
         public void UpdateVoertuig(Voertuig voertuig);
         public void VerwijderVoertuig(Voertuig voertuig);
         public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam);

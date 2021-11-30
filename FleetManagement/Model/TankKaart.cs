@@ -81,7 +81,7 @@ namespace FleetManagement.Model {
         //Pincode enkel toevoegen wanneer pincode op null staat
         public virtual void VoegPincodeToe(string ingegevenPincode)
         {
-            if (String.IsNullOrEmpty(ingegevenPincode))
+            if (ingegevenPincode == null)
             {
                 throw new TankKaartException("Ingegeven Pincode mag niet null zijn");
             }
@@ -91,9 +91,16 @@ namespace FleetManagement.Model {
 
             if (Pincode == null)
             {
-                if (CheckFormat.IsPincodeGeldig(ingegevenPincode))
+                if (ingegevenPincode == string.Empty)
                 {
-                    Pincode = ingegevenPincode;
+                    Pincode = ingegevenPincode; //Pincode mag leeg zijn
+                }
+                else
+                {
+                    if (CheckFormat.IsPincodeGeldig(ingegevenPincode))
+                    {
+                        Pincode = ingegevenPincode;
+                    }
                 }
 
                 //Gooit exception in CheckFormat als Pincode verkeerd is

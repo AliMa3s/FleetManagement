@@ -179,8 +179,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             if (geslecteerd == true)
             {
                 GekozenAutoModel = selecteerAutoModdel.AutoModel;
-                GekozenAutoModelNaam.Text = GekozenAutoModel.AutoModelNaam;
-                KiesBestuurder.Content = "AutoModel wijzigen";
+                GekozenAutoModelNaam.Text = GekozenAutoModel.Merk + " " + GekozenAutoModel.AutoModelNaam;
+                KiesAutoModel.Content = "AutoModel wijzigen";
             }
         }
 

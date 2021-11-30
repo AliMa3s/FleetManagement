@@ -22,7 +22,7 @@ namespace FleetManagement.Manager {
             this._repo = repo;
         }
 
-        public void VoegVoertuigToe(Voertuig voertuig)
+        public Voertuig VoegVoertuigToe(Voertuig voertuig)
         {
             try
             {
@@ -38,13 +38,12 @@ namespace FleetManagement.Manager {
                     if (_repo.BestaatNummerplaat(voertuig.NummerPlaat))
                         throw new VoertuigManagerException("Nummerplaat bestaat al");
 
-                    _repo.VoegVoertuigToe(voertuig);
+                   return _repo.VoegVoertuigToe(voertuig);
                 }
                 else
                 {
                     throw new VoertuigManagerException("AutoModel is niet gelecteerd uit de lijst");
                 }
-
             }
             catch (Exception ex)
             {

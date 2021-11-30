@@ -31,7 +31,8 @@ namespace ConsoleApplicatie
             Adres ad = new Adres("stratenstraat", "2", "5000", "Hasselt");
             //ado.VoegAdresToe(ad);
             Console.WriteLine("Adres toegvoegd!");//done
-            Adres upAd = new Adres(1,"stationstraat", "5", "3500", "Hasselt");
+            Adres upAd = new Adres("stationstraat", "5", "3500", "Hasselt");
+            upAd.VoegIdToe(1);
             //ado.UpdateAdres(upAd);
             Console.WriteLine("Adres Geüpdatet!");//done
             //ado.VerwijderAdres(upAd);

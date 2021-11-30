@@ -12,7 +12,7 @@ namespace FleetManagement.Model
     public class Voertuig
     {
         //Zone properties
-        public int VoertuigId { get; }
+        public int VoertuigId { get; private set; }
         public AutoModel AutoModel { get; set; }
         public string ChassisNummer { get; }
         public string NummerPlaat { get; private set; }
@@ -52,8 +52,24 @@ namespace FleetManagement.Model
             }
         }
 
-#warning ctor verwijderd want chassis & nummerplaat worden hier niet gecheckt. Dat maakt onze app minder goed
-
+        public void VoegIdToe(int voertuigid)
+        {
+            if (voertuigid > 0)
+            {
+                if (VoertuigId == 0)
+                {
+                    VoertuigId = voertuigid;
+                }
+                else
+                {
+                    throw new BestuurderException($"{nameof(VoertuigId)} is al aanwezig en kan niet gewijzigd worden");
+                }
+            }
+            else
+            {
+                throw new BestuurderException($"{nameof(VoertuigId)} moet meer zijn dan 0");
+            }
+        }
 
         //Maakt de relatie en plaatst entiteit
         public virtual void VoegBestuurderToe(Bestuurder ingegevenBestuurder)

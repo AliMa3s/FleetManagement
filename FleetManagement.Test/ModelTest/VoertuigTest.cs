@@ -84,7 +84,7 @@ namespace FleetManagement.Test.ModelTest {
                 new AutoModel("ferrari", "ferrari enzo", new AutoType("Coupé")), "WAUZZZ8V5KA10659-5", "1ABC599", new("benzine", false))
             );
             Assert.Equal($"Chassisnummer moet string zijn van 17 cijfers/letters maar letter I/i, O/o en Q/q " +
-                $"mag niet voorkomen",ex.Message);
+                $"mag er niet in voorkomen",ex.Message);
         }
 
         [Fact]

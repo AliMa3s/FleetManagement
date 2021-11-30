@@ -136,7 +136,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                 //Update tankkaart
                 if (_gekozenTankkaart != null)
                 {
-                    System.Diagnostics.Debug.WriteLine(bestuurderDB.BestuurderId);
+                    //System.Diagnostics.Debug.WriteLine(bestuurderDB.BestuurderId);
+
                     bestuurderDB.VoegTankKaartToe(_gekozenTankkaart);
                     _managers.TankkaartManager.UpdateTankKaart(bestuurderDB.Tankkaart);
 

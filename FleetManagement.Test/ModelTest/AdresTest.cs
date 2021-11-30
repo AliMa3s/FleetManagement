@@ -22,13 +22,15 @@ namespace FleetManagement.Test.ModelTest {
 
         [Fact]
         public void Adres_Ctor_WithId() {
-            Adres adres = new(1, "", "", "", ""); //adres mag lege strings hebben
+            Adres adres = new("", "", "", ""); //adres mag lege strings hebben
+            adres.VoegIdToe(1);
             Assert.Equal(1, adres.AdresId);
         }
 
         [Fact]
         public void Adres_Ctor_Id_fout() {
-            var e = Assert.Throws<AdresException>(() => new Adres(-56, "", "20", "", "Gent"));
+            Adres adres = new("", "20", "", "Gent");
+            var e = Assert.Throws<AdresException>(() => adres.VoegIdToe(-56));
             Assert.Equal("AdresId moet meer zijn dan 0", e.Message);
         }
     }

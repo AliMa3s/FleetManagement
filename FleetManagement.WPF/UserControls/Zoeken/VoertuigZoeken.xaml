@@ -17,12 +17,12 @@
                 <Grid Width="603">
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="16,21,0,0" Width="112" HorizontalAlignment="Left" Content="Voertuig:"/>
 
-                    <TextBox x:Name="Chassisnummer" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Top" Margin="94,23,148,0" Height="30"/>
-                    <Button x:Name="ZoekNummerplaat" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="283,91,171,0" Width="86" DockPanel.Dock="Right"/>
+                    <TextBox x:Name="Chassisnummer" TextChanged="TextBoxFilterTextChanged" VerticalAlignment="Top" Margin="94,22,148,0" Height="30"/>
+                    <Button x:Name="ZoekNummerplaat" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="309,91,208,0" Width="86" DockPanel.Dock="Right"/>
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,58,0,0" Width="228" HorizontalAlignment="Left" Content="Chassisnumer of Nummerplaat:"/>
                     <TextBox x:Name="Nummerplaat" TextChanged="TextBoxFilterTextChanged" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="22,91,0,0" Width="275" Height="30"/>
 
-                    <Button x:Name="KiesFilter" Content="_Filter invoegen" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="0,24,6,0" Width="120" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesFilter_Click"/>
+                    <Button x:Name="KiesFilter" Content="_Filter invoegen" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="0,23,6,0" Width="120" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesFilter_Click"/>
 
                 </Grid>
 

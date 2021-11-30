@@ -100,45 +100,146 @@ namespace FleetManagement.ADO.Repositories {
 
         public Voertuig ZoekOpChassisNummer(string chassisnummer)
         {
-            //string query = "SELECT * FROM Voertuig WHERE chassisnummer=@chassisnummer";
+            string query = "SELECT * FROM Voertuig v" +
+                "JOIN AutoModel a ON v.automodelid" +
+                "JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstofid" +
+                "WHERE v.chassisnummer=@chassisnummer";
 
-            //using (SqlCommand command = new(query, Connection))
-            //{
-            //    try
-            //    {
-            //        command.Parameters.AddWithValue("@chassisnummer", chassisnummer);
-            //        Connection.Open();
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@chassisnummer", chassisnummer);
+                    Connection.Open();
 
-            //        using (SqlDataReader dataReader = command.ExecuteReader())
-            //        {
-            //            if (dataReader.HasRows)
-            //            {
-            //                return true;
-            //            }
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            //Maak AutoModeL
+                            AutoModel autoModelDB = new(
+                                (string)dataReader["automodelid"],
+                                (string)dataReader["automodelnaam"],
+                                new AutoType((string)dataReader["autotype"]) 
+                            );
 
-            //            return false;
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        throw new BrandstofRepositoryADOException("Brandstoffen - gefaald", ex);
-            //    }
-            //    finally
-            //    {
-            //        Connection.Close();
-            //    }
-            //}
+                            //Maak brandstof
+                            BrandstofVoertuig brandstofVoertuigDB = new(
+                                (int)dataReader["brandstofid"],
+                                (string)dataReader["brandstofnaam"],
+                                (bool)dataReader["hybride"]
+                            );
 
-            throw new NotImplementedException("");
+                            //Maak voertuig
+                            Voertuig voertuigDB = new(
+                                   autoModelDB,
+                                   (string)dataReader["chassisnummer"],
+                                   (string)dataReader["nummerplaat"],
+                                   brandstofVoertuigDB
+                            );
+
+                            //is kleur aanwezig
+                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("kleurnaam")))
+                            {
+                                voertuigDB.VoertuigKleur = new Kleur((string)dataReader["kleurnaam"]);
+                            } 
+
+                            //is aantal deuren aanwezig + casting naar enum
+                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("aantal_deuren")))
+                            {
+                                voertuigDB.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
+                                    ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
+                                    : throw new BrandstofRepositoryADOException("Aantal deuren - gefaald");
+                            }
+
+                            return voertuigDB;
+                        }
+
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new BrandstofRepositoryADOException("Zoek of chassis - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
         }
     
 
         public Voertuig ZoekOpNummerplaat(string nummerplaat)
         {
+            string query = "SELECT * FROM Voertuig v" +
+                "JOIN AutoModel a ON v.automodelid" +
+                "JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstofid" +
+                "WHERE v.nummerplaat=@nummerplaat";
 
-            throw new NotImplementedException("");
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@nummerplaat", nummerplaat);
+                    Connection.Open();
+
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            //Maak AutoModeL
+                            AutoModel autoModelDB = new(
+                                (string)dataReader["automodelid"],
+                                (string)dataReader["automodelnaam"],
+                                new AutoType((string)dataReader["autotype"])
+                            );
+
+                            //Maak brandstof
+                            BrandstofVoertuig brandstofVoertuigDB = new(
+                                (int)dataReader["brandstofid"],
+                                (string)dataReader["brandstofnaam"],
+                                (bool)dataReader["hybride"]
+                            );
+
+                            //Maak voertuig
+                            Voertuig voertuigDB = new(
+                                   autoModelDB,
+                                   (string)dataReader["chassisnummer"],
+                                   (string)dataReader["nummerplaat"],
+                                   brandstofVoertuigDB
+                            );
+
+                            //is kleur aanwezig
+                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("kleurnaam")))
+                            {
+                                voertuigDB.VoertuigKleur = new Kleur((string)dataReader["kleurnaam"]);
+                            }
+
+                            //is aantal deuren aanwezig + casting naar enum
+                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("aantal_deuren")))
+                            {
+                                voertuigDB.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
+                                    ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
+                                    : throw new BrandstofRepositoryADOException("Aantal deuren - gefaald");
+                            }
+
+                            return voertuigDB;
+                        }
+
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new BrandstofRepositoryADOException("Zoek of nummerplaat - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
         }
-         
 
 
         public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam)
@@ -202,14 +303,10 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-        /* 
-         * Idee: We zouden OUTPUT INSERTED.voertuigId kunnen toevoegen 
-         * We krijgen dan de nieuwe VoertuigId terug
-        */
-        public void VoegVoertuigToe(Voertuig voertuig) {
+        public Voertuig VoegVoertuigToe(Voertuig voertuig) {
 
             string query = "INSERT INTO Voertuig (automodelid,brandstoftypeid,hybride,kleurnaam,aantal_deuren,chassisnummer,nummerplaat) " +
-               " VALUES (@automodelid,@brandstoftypeid,@hybride,@kleurnaam,@aantaldeuren,@chassisnummer,@nummerplaat)";
+               " OUTPUT INSERTED.voertuigId VALUES (@automodelid,@brandstoftypeid,@hybride,@kleurnaam,@aantaldeuren,@chassisnummer,@nummerplaat)";
 
             Connection.Open();
 
@@ -250,7 +347,10 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters["@nummerplaat"].Value = voertuig.NummerPlaat;
 
                     command.CommandText = query;
-                    command.ExecuteNonQuery();
+
+                    int newID = (int)command.ExecuteScalar();
+                    voertuig.VoegIdToe(newID);
+                    return voertuig;
 
                 } catch (Exception ex) {
                     throw new VoertuigRepositoryADOException("VoegVoertuig - gefaald", ex);
