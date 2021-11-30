@@ -123,7 +123,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     RijksRegisterNummer.Text
                 );
 
-                if(_ingevoegdAdres != null)
+                if (_ingevoegdAdres != null)
                 {
                     nieuwBestuurder.Adres = _ingevoegdAdres;
                 }
@@ -132,6 +132,16 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
                 infoBestuurderMess.Foreground = Brushes.Green;
                 infoBestuurderMess.Text = "Bestuurder succesvol toegevoegd";
+
+                //Update tankkaart. Belangrijk is dat tankkaart eerst wordt toevoegoegd in Bestuurder, zodat Tankkaart ook bestuurder herkent
+                if (_gekozenTankkaart != null)
+                {
+                    nieuwBestuurder.VoegTankKaartToe(_gekozenTankkaart);
+                    _managers.TankkaartManager.UpdateTankKaart(nieuwBestuurder.Tankkaart);
+
+                    infoBestuurderMess.Foreground = Brushes.Green;
+                    infoBestuurderMess.Text = "Bestuurder succesvol toegevoegd & Tankkaart aan bestuurder gelinkt";
+                }
             }
             catch (Exception ex)
             {

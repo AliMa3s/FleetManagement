@@ -25,7 +25,7 @@ namespace FleetManagement.ADO.Repositories {
                 try
                 {
                     VoegTankKaartToe(tankkaart, Connection, transaction);
-                    TransactionBrandstoffen(brandstoffenInDB, tankkaart, Connection, transaction);
+                    VoegBrandstoffenToe(tankkaart, Connection, transaction);
                     transaction.Commit();
                 }
                 catch (Exception ex)
@@ -94,39 +94,9 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-        //tansaction van brandstoffen toevoegen en/of verwijderen
-        private void TransactionBrandstoffen(IReadOnlyList<BrandstofType> brandstofTypes, TankKaart tankKaart,
-            SqlConnection sqlConnection = null, SqlTransaction transaction = null)
+        private void VoegBrandstoffenToe(TankKaart tankkaart, SqlConnection sqlConnection = null, SqlTransaction transaction = null)
         {
-            List<BrandstofType> verwijderBrandstofDB = new List<BrandstofType>();
-
-            if (brandstofTypes.Count > 0)
-            {
-                //Calculeer het verschil van brandstof update vs brandstof in DB
-                brandstofTypes.ToList().ForEach(brandstof => {
-                    if (tankKaart.IsBrandstofAanwezig(brandstof))
-                    {
-                        //Zit in DB dus moet niet toegevoegd worden
-                        tankKaart.VerwijderBrandstof(brandstof);
-                    }
-                    else
-                    {
-                        //Staat overbodig in DB
-                        verwijderBrandstofDB.Add(brandstof);
-                    }
-                });
-            }
-
-            //Verwijder alle overbodige brandstoffen in DB van deze tankkaart
-            int removes = VerwijderBrandstoffen(verwijderBrandstofDB, tankKaart.TankKaartNummer, sqlConnection, transaction);
-
-            //voeg nieuwe brandstof toe dat nog niet in DB staat van deze tankkaart
-            VoegBrandstoffenToe(tankKaart.Brandstoffen, tankKaart.TankKaartNummer, sqlConnection, transaction);
-        }
-
-        private void VoegBrandstoffenToe(List<BrandstofType> brandstoffen, string tankkaartNummer, SqlConnection sqlConnection = null, SqlTransaction transaction = null)
-        {
-            if (brandstoffen.Count > 0)
+            if (tankkaart.Brandstoffen.Count > 0)
             {
                 if (sqlConnection != null)
                 {
@@ -143,14 +113,14 @@ namespace FleetManagement.ADO.Repositories {
                         if (Connection.State != ConnectionState.Open) Connection.Open();
 
                         int i = 1;
-                        brandstoffen.ForEach(brandstof => {
+                        tankkaart.Brandstoffen.ForEach(brandstof => {
 
                             query = "INSERT INTO Tankkaart_Brandstoftype (tankkaartnummer, brandstoftypeid) " +
-                            $"VALUES (@tankkaartnummer{i}, @brandstoftypeid{i}); ";
+                                $"VALUES (@tankkaartnummer{i}, @brandstoftypeid{i}); ";
 
                             command.Parameters.Add(new SqlParameter($"@tankkaartnummer{i}", SqlDbType.NVarChar));
                             command.Parameters.Add(new SqlParameter($"@brandstoftypeid{i}", SqlDbType.Int));
-                            command.Parameters[$"@tankkaartnummer{i}"].Value = tankkaartNummer;
+                            command.Parameters[$"@tankkaartnummer{i}"].Value = tankkaart.TankKaartNummer;
                             command.Parameters[$"@brandstoftypeid{i}"].Value = brandstof.BrandstofTypeId;
 
                             command.CommandText += query;
@@ -169,61 +139,109 @@ namespace FleetManagement.ADO.Repositories {
                         if (sqlConnection is null) Connection.Close();
                     }
                 }
-            }      
+            }
         }
 
-        private int VerwijderBrandstoffen(List<BrandstofType> brandstofTypes, string tankkaartNummer,
-            SqlConnection sqlConnection = null, SqlTransaction transaction = null)
+        public bool BestaatTankkaartBrandstof(TankKaart tankkaart, BrandstofType brandstof)
         {
-            if (brandstofTypes.Count > 0)
+            string query = "SELECT count(*) FROM Tankkaart_Brandstoftype " +
+                "WHERE tankkaartnummer=@tankkaartnummer AND brandstoftypeid = @brandstoftypeid";
+
+            using (SqlCommand command = Connection.CreateCommand())
             {
-                if (sqlConnection != null)
+                try
                 {
-                    Connection = sqlConnection;
+                    Connection.Open();
+                    command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@brandstoftypeid", SqlDbType.Int));
+
+                    command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
+                    command.Parameters["@brandstoftypeid"].Value = brandstof.BrandstofTypeId;
+
+                    command.CommandText = query;
+                    int n = (int)command.ExecuteScalar();
+                    if (n > 0) return true; else return false;
                 }
+                catch (Exception ex)
+                {
+                    throw new TankkaartRepositoryADOException("BestaatTankkaart- gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
+        }
 
-                string query = "";
+        public void VoegTankkaartBrandstofToe(TankKaart tankkaart, BrandstofType brandstof) 
+        {
+            string query = "INSERT INTO Tankkaart_Brandstoftype (tankkaartnummer, brandstoftypeid) " +
+                "VALUES (@tankkaartnummer, @brandstoftypeid); ";
 
+            Connection.Open();
+
+            try
+            {
                 using (SqlCommand command = Connection.CreateCommand())
                 {
-                    if (transaction != null) command.Transaction = transaction;
-                    if (Connection.State != ConnectionState.Open) Connection.Open();
-
                     try
                     {
-                        if (transaction != null) command.Transaction = transaction;
-                        if (Connection.State != ConnectionState.Open) Connection.Open();
+                        Connection.Open();
 
-                        int i = 1;
-                        brandstofTypes.ForEach(brandstof => {
+                        command.Parameters.Add(new SqlParameter($"@tankkaartnummer", SqlDbType.NVarChar));
+                        command.Parameters.Add(new SqlParameter($"@brandstoftypeid", SqlDbType.Int));
+                        command.Parameters[$"@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
+                        command.Parameters[$"@brandstoftypeid"].Value = brandstof.BrandstofTypeId;
 
-                            query = "DELETE FROM Tankkaart_Brandstoftype " +
-                                $"WHERE tankkaartnummer=@tankkaartnummer{i} AND brandstoftypeid=@brandstoftypeid{i}; ";
-
-                            command.Parameters.Add(new SqlParameter($"@tankkaartnummer{i}", SqlDbType.NVarChar));
-                            command.Parameters.Add(new SqlParameter($"@brandstoftypeid{i}", SqlDbType.Int));
-                            command.Parameters[$"@tankkaartnummer{i}"].Value = tankkaartNummer;
-                            command.Parameters[$"@brandstoftypeid{i}"].Value = brandstof.BrandstofTypeId;
-
-                            command.CommandText += query;
-
-                            i++;
-                        });
-
+                        command.CommandText = query;
                         command.ExecuteNonQuery();
                     }
                     catch (Exception ex)
                     {
-                        throw new TankkaartRepositoryADOException("Verwijder brandstof - gefaald", ex);
+                        throw new TankkaartRepositoryADOException("BestaatTankkaart- gefaald", ex);
                     }
                     finally
                     {
-                        if (sqlConnection is null) Connection.Close();
+                        Connection.Close();
                     }
-                } 
+                }
             }
-           
-            return 0;
+            catch (Exception ex)
+            {
+                throw new TankkaartRepositoryADOException("Verwijder brandstof - gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
+            }
+
+        }
+
+        public void VerwijderBrandstoffen(TankKaart tankKaart)
+        {
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                string query = "DELETE FROM Tankkaart_Brandstoftype WHERE tankkaartnummer=@tankkaartnummer ";
+
+                Connection.Open();
+
+                try
+                {
+                    command.Parameters.Add(new SqlParameter($"@tankkaartnummer", SqlDbType.NVarChar));
+                    command.Parameters[$"@tankkaartnummer"].Value = tankKaart.TankKaartNummer;
+
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new TankkaartRepositoryADOException("Verwijder brandstof - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            } 
         }
 
         public bool BestaatTankKaart(TankKaart tankkaart) {
@@ -422,23 +440,34 @@ namespace FleetManagement.ADO.Repositories {
         public void UpdateTankKaart(TankKaart tankkaart) {
 
             string query = "UPDATE Tankkaart SET " +
-                           " geldigheidsdatum=@geldigheidsdatum, pincode=@pincode, actief=@actief " +
-                           " WHERE kaartnummer=@kaartnummer";
+                           " bestuurderid=bestuurderid, geldigheidsdatum=@geldigheidsdatum, pincode=@pincode, actief=@actief " +
+                           " WHERE tankkaartnummer=@tankkaartnummer";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
+
                     Connection.Open();
-                    command.Parameters.Add(new SqlParameter("@kaartnummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.DateTime));
+
+                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.Date));
                     command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@actief", SqlDbType.Bit));
                     //command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Timestamp));
 
-                    command.Parameters["@kaartnummer"].Value = tankkaart.TankKaartNummer;
+                    command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
                     command.Parameters["@geldigheidsdatum"].Value = tankkaart.GeldigheidsDatum;
-                    command.Parameters["@pincode"].Value = tankkaart.Pincode;
                     command.Parameters["@actief"].Value = tankkaart.Actief;
-                    //command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum;
+
+                    if (tankkaart.Pincode == null)
+                        command.Parameters["@pincode"].Value = DBNull.Value;
+                    else
+                        command.Parameters["@pincode"].Value = tankkaart.Pincode;
+
+                    if (tankkaart.HeeftTankKaartBestuurder)
+                        command.Parameters["@bestuurderid"].Value = tankkaart.Bestuurder.BestuurderId;
+                    else
+                        command.Parameters["@bestuurderid"].Value = DBNull.Value;
 
                     command.CommandText = query;
                     command.ExecuteNonQuery();
@@ -451,7 +480,7 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-#warning tankkaart mag nooit verwijderd worden
+#warning tankkaart mag nooit verwijderd worden! Vragen aan Tom wat te doen
         public void VerwijderTankKaart(TankKaart tankkaart) {
 
             string query = "DELETE FROM Tankkaart WHERE tankkaartnummer=@tankkaartnummer";

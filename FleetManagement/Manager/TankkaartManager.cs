@@ -41,6 +41,7 @@ namespace FleetManagement.Manager {
         public void UpdateTankKaart(TankKaart tankkaart) {
             try {
                 if (tankkaart == null) throw new TankKaartManagerException("Tankkaart - tankkaart mag niet null zijn");
+
                 if (_repo.BestaatTankKaart(tankkaart)) {
                     _repo.UpdateTankKaart(tankkaart);
                 } else {
@@ -93,7 +94,34 @@ namespace FleetManagement.Manager {
 
         public IReadOnlyList<BrandstofType> BrandstoffenVoorTankaart(TankKaart tankkaart)
         {
+            if (tankkaart == null) throw new TankKaartManagerException("TankKaart - Tankkaart mag niet null zijn");
+
             return _repo.BrandstoffenVoorTankaart(tankkaart);
+        }
+
+        //Apart verwijderen en apart toevoegen maakt het eenvoudiger voor updaten
+        public void VerwijderBrandstoffen(TankKaart tankKaart)
+        {
+            if (tankKaart == null) throw new TankKaartManagerException("TankKaart - Tankkaart mag niet null zijn");
+
+            _repo.VerwijderBrandstoffen(tankKaart);
+        }
+
+        public void VoegTankkaartBrandstofToe(TankKaart tankkaart, BrandstofType brandstof)
+        {
+            if (tankkaart == null) throw new TankKaartManagerException("TankKaart - Tankkaart mag niet null zijn");
+            if (brandstof == null) throw new TankKaartManagerException("TankKaart - Brandstof mag niet null zijn");
+
+            _repo.VoegTankkaartBrandstofToe(tankkaart, brandstof);
+
+        }
+
+        public bool BestaatTankkaartBrandstof(TankKaart tankkaart, BrandstofType brandstof)
+        {
+            if (tankkaart == null) throw new TankKaartManagerException("TankKaart - Tankkaart mag niet null zijn");
+            if (brandstof == null) throw new TankKaartManagerException("TankKaart - Brandstof mag niet null zijn");
+
+            return _repo.BestaatTankkaartBrandstof(tankkaart, brandstof);
         }
     }
 }
