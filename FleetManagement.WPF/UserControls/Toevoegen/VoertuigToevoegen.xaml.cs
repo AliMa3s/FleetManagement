@@ -127,7 +127,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                         _managers.BestuurderManager.UpdateBestuurder(voertuigDB.Bestuurder);
 
                         InfoVoertuigMess.Foreground = Brushes.Green;
-                        InfoVoertuigMess.Text = "Voertuig succesvol aangemaakt en bestuurder succesvol aan Voertuig gelinkt";
+                        InfoVoertuigMess.Text = "Voertuig is succesvol aangemaakt en bestuurder is succesvol aan Voertuig gelinkt";
                     }
 
                     ResetForm();
@@ -200,6 +200,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         private void ResetForm()
         {
             GekozenAutoModelNaam.Text = string.Empty;
+            GekozenBestuurderNaam.Text = string.Empty;
             ChassisNummer.Text = string.Empty;
             Nummerplaat.Text = string.Empty;
             HybrideJa.IsChecked = false;

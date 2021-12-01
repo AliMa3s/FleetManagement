@@ -48,7 +48,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             NummerplaatOfChassisnummer.Text = PlaceHolderNummerplaatOfChassis;
             AutomodelNaam.Text = PlaceHolderAutomodelNaam;
 
-            //ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter("");
+            ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter("");
         }
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -57,14 +57,15 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void ZoekenMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+
         }
 
         private void FilterOpMerkEnAutomdel_Changed(object sender, TextChangedEventArgs e)
         {
-            //if (AutomodelNaam.Text == PlaceHolderAutomodelNaam)
-            //    ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter(AutomodelNaam.Text);
+            if (AutomodelNaam.Text == PlaceHolderAutomodelNaam)
+                ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter(AutomodelNaam.Text);
         }
-        
+
         private void Verwijderen_Click(object sender, RoutedEventArgs e)
         {
 

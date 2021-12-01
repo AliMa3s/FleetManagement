@@ -284,7 +284,7 @@ namespace FleetManagement.ADO.Repositories {
                    "LEFT JOIN adres AS a ON b.adresId = a.adresId " +
                    "LEFT JOIN Tankkaart t ON b.bestuurderId = t.bestuurderId " +
                    "WHERE b.voertuigid IS NULL AND concat(b.achternaam, ' ', b.voornaam) LIKE @achterNaamEnVoornaam + '%' " +
-                   "ORDER BY achternaam ASC , voornaam ASC " +
+                   "ORDER BY b.achternaam ASC , b.voornaam ASC " +
                    "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
 
             List<Bestuurder> bestuurders = new();
@@ -368,7 +368,7 @@ namespace FleetManagement.ADO.Repositories {
                    "LEFT JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstofid " +
                    "LEFT JOIN Tankkaart t ON b.bestuurderId = t.bestuurderId " +
                    "WHERE concat(b.achternaam, ' ', b.voornaam) LIKE @achterNaamEnVoornaam + '%' " +
-                   "ORDER BY achternaam ASC, voornaam ASC " +
+                   "ORDER BY b.achternaam ASC, b.voornaam ASC " +
                    "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
 
             List<Bestuurder> bestuurders = new();
