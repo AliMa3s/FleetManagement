@@ -68,15 +68,22 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             bool? geslecteerd = UpdateAdres.ShowDialog();
             if (geslecteerd == true)
             {
+                //Wis bij elke nieuw poging de message info
+                infoBestuurderMess.Text = string.Empty;
+
                 _ingevoegdAdres = UpdateAdres.AdresGegevens;
 
                 GekozenAdresText.Text = _ingevoegdAdres.Straat
                     + " " + _ingevoegdAdres.Nr
                     + " " + _ingevoegdAdres.Postcode
                     + " " + _ingevoegdAdres.Gemeente;
+                AdresInvoegen.Content = "Adres wijzigen";
             }
             else
             {
+                //Wis bij elke nieuw poging de message info
+                infoBestuurderMess.Text = string.Empty;
+
                 _ingevoegdAdres = UpdateAdres.AdresGegevens;
                 GekozenAdresText.Text = string.Empty;
             }

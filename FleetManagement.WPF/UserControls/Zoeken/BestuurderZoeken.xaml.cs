@@ -38,13 +38,13 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         }
 
         public string PlaceholderName { get; } = "Achternaam + Voornaam";
-        private string PlaceHolderRijksregister { get; } = "RijksregisterNummer";
+        private string PlaceHolderRijksregister { get; } = "Rijksregisternummer";
         public BestuurderZoeken(Managers managers)
         {
             InitializeComponent();
             _managers = managers;
 
-            FilterOpNaam.Text = "Achternaam + Voornaam";
+            FilterOpNaam.Text = PlaceholderName;
             Rijksregister.Text = PlaceHolderRijksregister;
             BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
         }

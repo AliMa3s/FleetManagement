@@ -97,7 +97,6 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                             HybrideJa.IsChecked.HasValue && (bool)HybrideJa.IsChecked
                         )
                     );
-                    System.Diagnostics.Debug.WriteLine(nieuwVoertuig.Brandstof.BrandstofTypeId);
 
                     //Indien ingevuld checken en casten
                     if (Deuren.SelectedItem.ToString() != DisplayFirst)
@@ -118,7 +117,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     Voertuig voertuigDB =_managers.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
 
                     InfoVoertuigMess.Foreground = Brushes.Green;
-                    InfoVoertuigMess.Text = $"Voertuig is succesvol aangemaakt";
+                    InfoVoertuigMess.Text = "Voertuig is succesvol aangemaakt";
 
                     //Voeg bestuurder toe indien ingevuld in het formulier
                     //(Hier is dat heel belangrijk dat een Bestuurder ook het voertuig kent)
@@ -128,7 +127,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                         _managers.BestuurderManager.UpdateBestuurder(voertuigDB.Bestuurder);
 
                         InfoVoertuigMess.Foreground = Brushes.Green;
-                        InfoVoertuigMess.Text = $"Voertuig succesvol aangemaakt en bestuurder succesvol aan Voertuig gelinkt";
+                        InfoVoertuigMess.Text = "Voertuig succesvol aangemaakt en bestuurder succesvol aan Voertuig gelinkt";
                     }
 
                     ResetForm();
@@ -163,8 +162,17 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
                 GekozenBestuurder = selecteerBestuurder.Bestuurder;
                 GekozenBestuurderNaam.Text = GekozenBestuurder.Achternaam + " " + GekozenBestuurder.Voornaam;
-                KiesBestuurder.Content = "Bestuurder wijzigen";
+                KiesBestuurder.Visibility = Visibility.Hidden;
+                VergeetBestuurder.Visibility = Visibility.Visible;
             }
+        }
+
+        private void VergeetBestuurder_Click(object sender, RoutedEventArgs e)
+        {
+            KiesBestuurder.Visibility = Visibility.Visible;
+            VergeetBestuurder.Visibility = Visibility.Hidden;
+            GekozenBestuurderNaam.Text = string.Empty;
+            GekozenBestuurder = null;
         }
 
         //Voeg AutoModel toe uit een bestaande lijst
@@ -191,7 +199,6 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         //reset Formulier
         private void ResetForm()
         {
-            InfoVoertuigMess.Text = string.Empty;
             GekozenAutoModelNaam.Text = string.Empty;
             ChassisNummer.Text = string.Empty;
             Nummerplaat.Text = string.Empty;
@@ -200,7 +207,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             Brandstof.SelectedIndex = 0;
             VoertuigKleur.SelectedIndex = 0;
             Deuren.SelectedIndex = 0;
-            KiesBestuurder.Content = "Bestuurder selecteren";
+            KiesBestuurder.Visibility = Visibility.Visible;
+            VergeetBestuurder.Visibility = Visibility.Hidden;
 
             GekozenAutoModel = null;
             GekozenBestuurder = null;

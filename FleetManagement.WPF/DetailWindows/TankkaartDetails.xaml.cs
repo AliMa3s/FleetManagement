@@ -44,7 +44,6 @@ namespace FleetManagement.WPF.DetailWindows {
                 }
             }
 
-
             if (_tankkaartDetail.HeeftTankKaartBestuurder)
             {
                 StringBuilder stringBuilder = new("Naam: " + _tankkaartDetail.Bestuurder.Achternaam);

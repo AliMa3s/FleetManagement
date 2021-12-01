@@ -21,8 +21,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
     /// </summary>
     public partial class VoertuigZoeken : UserControl
     {
-        public string PlaceHolder { get;} = "Nummerplaat of Chassisnummer";
-        public string PlaceHolderChassisnummer { get; } = "Chassisnummer";
+        public string PlaceHolderNummerplaatOfChassis { get;} = "Nummerplaat of Chassisnummer";
+        public string PlaceHolderAutomodelNaam { get; } = "Merk + Automodel";
         private readonly Managers _managers;
 
         //private string _filter; 
@@ -31,8 +31,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             InitializeComponent();
             _managers = managers;
-            Nummerplaat.Text = "Nummerplaat of Chassisnummer";
-            Chassisnummer.Text = "Chassisnummer";
+            NummerplaatOfChassisnummer.Text = PlaceHolderNummerplaatOfChassis;
+            AutomodelNaam.Text = PlaceHolderAutomodelNaam;
         }
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -87,37 +87,37 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private void Nummerplaat_GotFocus(object sender, RoutedEventArgs e)
         {
             
-            if(Nummerplaat.Text == PlaceHolder)
+            if(NummerplaatOfChassisnummer.Text == PlaceHolderNummerplaatOfChassis)
             {
-                Nummerplaat.Text = string.Empty;
-                Nummerplaat.Foreground = Brushes.LightSlateGray;
+                NummerplaatOfChassisnummer.Text = string.Empty;
+                NummerplaatOfChassisnummer.Foreground = Brushes.LightSlateGray;
             }
         }
 
         private void Nummerplaat_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(Nummerplaat.Text))
+            if (string.IsNullOrWhiteSpace(NummerplaatOfChassisnummer.Text))
             {
-                Nummerplaat.Text = PlaceHolder;
-                Nummerplaat.Foreground = Brushes.LightSlateGray;
+                NummerplaatOfChassisnummer.Text = PlaceHolderNummerplaatOfChassis;
+                NummerplaatOfChassisnummer.Foreground = Brushes.LightSlateGray;
             }
         }
 
         private void Chassisnummer_GotFocus(object sender, RoutedEventArgs e)
         {
-            if(Chassisnummer.Text == PlaceHolderChassisnummer)
+            if(AutomodelNaam.Text == PlaceHolderAutomodelNaam)
             {
-                Chassisnummer.Text = string.Empty;
-                Chassisnummer.Foreground = Brushes.LightSlateGray;
+                AutomodelNaam.Text = string.Empty;
+                AutomodelNaam.Foreground = Brushes.LightSlateGray;
             }
         }
 
         private void Chassisnummer_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(Chassisnummer.Text))
+            if (string.IsNullOrWhiteSpace(AutomodelNaam.Text))
             {
-                Chassisnummer.Text = PlaceHolderChassisnummer;
-                Chassisnummer.Foreground = Brushes.LightSlateGray;
+                AutomodelNaam.Text = PlaceHolderAutomodelNaam;
+                AutomodelNaam.Foreground = Brushes.LightSlateGray;
             }
         }
     }
