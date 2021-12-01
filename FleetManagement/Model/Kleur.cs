@@ -42,10 +42,4 @@ namespace FleetManagement.Model
         }
         #endregion
     }
-
-    //verhuist naar DB
-    //   public enum Kleur
-    //{
-    //	Wit, Zwart, Grijs, Zilver, Blauw, Rood, BruinBeige, GoudGeel, Groen
-    //}
 }

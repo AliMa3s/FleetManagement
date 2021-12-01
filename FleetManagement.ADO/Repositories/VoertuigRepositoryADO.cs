@@ -98,122 +98,60 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-        public Voertuig ZoekOpChassisNummer(string chassisnummer)
+        public Voertuig ZoekOpNummerplaatOfChassisNummer(string NummerplaatOfChassis)
         {
-            string query = "SELECT * FROM Voertuig v" +
-                "JOIN AutoModel a ON v.automodelid" +
-                "JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstofid" +
-                "WHERE v.chassisnummer=@chassisnummer";
+            string query = "SELECT * FROM Voertuig v " +
+                "JOIN AutoModel a ON v.automodelid = a.automodelid " +
+                "JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstofid " +
+                "LEFT JOIN Bestuurder b ON v.voertuigid = b.voertuigid " +
+                "LEFT JOIN adres ad ON b.adresId = ad.adresId " +
+                "WHERE v.nummerplaat=@NummerplaatOfChassis OR v.chassisnummer=@NummerplaatOfChassis " +
+                "ORDER BY achternaam ASC, voornaam ASC " +
+                "OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY";
 
             using (SqlCommand command = new(query, Connection))
             {
                 try
                 {
-                    command.Parameters.AddWithValue("@chassisnummer", chassisnummer);
+                    command.Parameters.AddWithValue("@NummerplaatOfChassis", NummerplaatOfChassis);
                     Connection.Open();
 
                     using (SqlDataReader dataReader = command.ExecuteReader())
                     {
                         if (dataReader.HasRows)
                         {
-                            //Maak AutoModeL
+                            dataReader.Read();
+
+                            //Instantieer AutoModeL
                             AutoModel autoModelDB = new(
-                                (string)dataReader["automodelid"],
-                                (string)dataReader["automodelnaam"],
-                                new AutoType((string)dataReader["autotype"]) 
-                            );
-
-                            //Maak brandstof
-                            BrandstofVoertuig brandstofVoertuigDB = new(
-                                (int)dataReader["brandstofid"],
-                                (string)dataReader["brandstofnaam"],
-                                (bool)dataReader["hybride"]
-                            );
-
-                            //Maak voertuig
-                            Voertuig voertuigDB = new(
-                                   autoModelDB,
-                                   (string)dataReader["chassisnummer"],
-                                   (string)dataReader["nummerplaat"],
-                                   brandstofVoertuigDB
-                            );
-
-                            //is kleur aanwezig
-                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("kleurnaam")))
-                            {
-                                voertuigDB.VoertuigKleur = new Kleur((string)dataReader["kleurnaam"]);
-                            } 
-
-                            //is aantal deuren aanwezig + casting naar enum
-                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("aantal_deuren")))
-                            {
-                                voertuigDB.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
-                                    ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
-                                    : throw new BrandstofRepositoryADOException("Aantal deuren - gefaald");
-                            }
-
-                            return voertuigDB;
-                        }
-
-                        return null;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new BrandstofRepositoryADOException("Zoek of chassis - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
-            }
-        }
-    
-
-        public Voertuig ZoekOpNummerplaat(string nummerplaat)
-        {
-            string query = "SELECT * FROM Voertuig v" +
-                "JOIN AutoModel a ON v.automodelid" +
-                "JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstofid" +
-                "WHERE v.nummerplaat=@nummerplaat";
-
-            using (SqlCommand command = new(query, Connection))
-            {
-                try
-                {
-                    command.Parameters.AddWithValue("@nummerplaat", nummerplaat);
-                    Connection.Open();
-
-                    using (SqlDataReader dataReader = command.ExecuteReader())
-                    {
-                        if (dataReader.HasRows)
-                        {
-                            //Maak AutoModeL
-                            AutoModel autoModelDB = new(
-                                (string)dataReader["automodelid"],
+                                (int)dataReader["automodelid"],
+                                (string)dataReader["merknaam"],
                                 (string)dataReader["automodelnaam"],
                                 new AutoType((string)dataReader["autotype"])
                             );
 
-                            //Maak brandstof
+                            //Instantieer brandstof
                             BrandstofVoertuig brandstofVoertuigDB = new(
                                 (int)dataReader["brandstofid"],
                                 (string)dataReader["brandstofnaam"],
                                 (bool)dataReader["hybride"]
                             );
 
-                            //Maak voertuig
+                            //Instantieer voertuig
                             Voertuig voertuigDB = new(
-                                   autoModelDB,
-                                   (string)dataReader["chassisnummer"],
-                                   (string)dataReader["nummerplaat"],
-                                   brandstofVoertuigDB
+                                    (int)dataReader["Voertuigid"],
+                                    autoModelDB,
+                                    (string)dataReader["chassisnummer"],
+                                    (string)dataReader["nummerplaat"],
+                                    brandstofVoertuigDB
                             );
 
                             //is kleur aanwezig
                             if (!dataReader.IsDBNull(dataReader.GetOrdinal("kleurnaam")))
                             {
-                                voertuigDB.VoertuigKleur = new Kleur((string)dataReader["kleurnaam"]);
+                                voertuigDB.VoertuigKleur = new Kleur(
+                                    (string)dataReader["kleurnaam"]
+                                );
                             }
 
                             //is aantal deuren aanwezig + casting naar enum
@@ -224,6 +162,33 @@ namespace FleetManagement.ADO.Repositories {
                                     : throw new BrandstofRepositoryADOException("Aantal deuren - gefaald");
                             }
 
+                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
+                            { 
+                                Bestuurder bestuurderDB = new(
+                                        (int)dataReader["bestuurderid"],
+                                        (string)dataReader["voornaam"],
+                                        (string)dataReader["achternaam"],
+                                        (string)dataReader["geboortedatum"],
+                                        (string)dataReader["rijbewijstype"],
+                                        (string)dataReader["rijbewijsnummer"],
+                                        (string)dataReader["rijksregisternummer"]
+                                    );
+
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("adresId")))
+                                {
+                                    Adres adresDB = new(
+                                        (string)dataReader["straat"],
+                                        (string)dataReader["nummer"],
+                                        (string)dataReader["postcode"],
+                                        (string)dataReader["gemeente"]
+                                    );
+                                    adresDB.VoegIdToe((int)dataReader["adresId"]);
+                                    bestuurderDB.Adres = adresDB;
+                                }
+
+                                voertuigDB.VoegBestuurderToe(bestuurderDB);
+                            }
+
                             return voertuigDB;
                         }
 
@@ -232,7 +197,7 @@ namespace FleetManagement.ADO.Repositories {
                 }
                 catch (Exception ex)
                 {
-                    throw new BrandstofRepositoryADOException("Zoek of nummerplaat - gefaald", ex);
+                    throw new BrandstofRepositoryADOException("Zoek op chassisnummer of nummerplaat - gefaald", ex);
                 }
                 finally
                 {

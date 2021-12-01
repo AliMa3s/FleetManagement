@@ -159,7 +159,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             if (string.IsNullOrWhiteSpace(TankkaartNummer.Text))
             {
                 TankkaartNummer.Text = PlaceHolderTankkaart;
-                TankkaartNummer.Foreground = Brushes.DarkSlateGray;
+                TankkaartNummer.Foreground = Brushes.LightSlateGray;
             }
         }
     }

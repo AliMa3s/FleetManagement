@@ -15,19 +15,19 @@
                 <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitVoertuigForm_Click"/>
 
                 <Grid Width="603">
-                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="16,21,0,0" Width="112" HorizontalAlignment="Left" Content="Voertuig:"/>
+                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="16,21,0,0" Width="70" HorizontalAlignment="Left" Content="Voertuig:"/>
 
-                    <TextBox x:Name="AutomodelNaam" TextChanged="TextBoxFilterTextChanged" Text="" VerticalContentAlignment="Center" Foreground="LightSlateGray" VerticalAlignment="Top" Margin="94,22,148,0" Height="30" GotFocus="Chassisnummer_GotFocus" LostFocus="Chassisnummer_LostFocus"/>
-                    <Button x:Name="ZoekNummerplaatOfChassisnummer" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="309,91,208,0" Width="86" DockPanel.Dock="Right"/>
+                    <TextBox x:Name="AutomodelNaam" TextChanged="FilterOpMerkEnAutomdel_Changed" Text="" VerticalContentAlignment="Center" Foreground="LightSlateGray" VerticalAlignment="Top" Margin="94,22,148,0" Height="30" GotFocus="Chassisnummer_GotFocus" LostFocus="Chassisnummer_LostFocus"/>
+                    <Button x:Name="ZoekNummerplaatOfChassisnummer" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="309,91,208,0" Width="86" DockPanel.Dock="Right" Click="ZoekNummerplaatOfChassisnummer_Click"/>
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,58,0,0" Width="228" HorizontalAlignment="Left" Content="Chassisnumer of Nummerplaat:"/>
-                    <TextBox x:Name="NummerplaatOfChassisnummer" TextChanged="TextBoxFilterTextChanged" Text="" Foreground="LightSlateGray" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="22,91,0,0" Width="275" Height="30" GotFocus="Nummerplaat_GotFocus" LostFocus="Nummerplaat_LostFocus"/>
+                    <TextBox x:Name="NummerplaatOfChassisnummer" TextChanged="FilterOpMerkEnAutomdel_Changed" Text="" Foreground="LightSlateGray" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="22,91,0,0" Width="275" Height="30" GotFocus="Nummerplaat_GotFocus" LostFocus="Nummerplaat_LostFocus"/>
 
                     <Button x:Name="KiesFilter" Content="_Filter invoegen" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="0,23,6,0" Width="120" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesFilter_Click"/>
 
                 </Grid>
 
             </DockPanel>
-            <DataGrid x:Name="ZoekWeergave" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
+            <DataGrid x:Name="ZoekWeergaveVoertuig" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
                           SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
                           HeadersVisibility="Column" SelectionChanged="ZoekWeergave_SelectionChanged"
                           MouseDoubleClick="ZoekenMouseDoubleClick"
@@ -38,12 +38,12 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=" Merk " Binding="{Binding AutoModel.Merk}"/>
                     <DataGridTextColumn Header=" Model " Binding="{Binding AutoModel.AutoModelNaam}"/>
-                    <DataGridTextColumn Header=" AutoType " Binding="{Binding AutoModel.AutoType}"/>
+                    <DataGridTextColumn Header=" AutoType " Binding="{Binding AutoModel.AutoType.AutoTypeNaam}"/>
                     <DataGridTextColumn Header=" Brandstof " Binding="{Binding Brandstof.BrandstofNaam}"/>
-                    <DataGridTextColumn Header=" Kleur " Binding="{Binding VoertuigKleur}"/>
-                    <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding Nummerplaat}"/>
+                    <DataGridTextColumn Header=" Kleur " Binding="{Binding VoertuigKleur.KleurNaam}"/>
+                    <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding NummerPlaat}"/>
                     <DataGridTextColumn Header=" Chassisnummer " Binding="{Binding ChassisNummer}"/>
-                    <DataGridTextColumn Header=" Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
+                    <DataGridTextColumn Header=" Rijksregister Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
                 </DataGrid.Columns>
 
                 <DataGrid.RowStyle>

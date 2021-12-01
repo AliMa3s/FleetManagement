@@ -128,7 +128,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             if(Rijksregister.Text == PlaceHolderRijksregister)
             {
                 Rijksregister.Text = string.Empty;
-                Rijksregister.Foreground = Brushes.LightSlateGray;
+                Rijksregister.Foreground = Brushes.Black;
 
             }
         }
@@ -138,7 +138,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             if (string.IsNullOrWhiteSpace(Rijksregister.Text))
             {
                 Rijksregister.Text = PlaceHolderRijksregister;
-                Rijksregister.Foreground = Brushes.DarkSlateGray;
+                Rijksregister.Foreground = Brushes.LightSlateGray;
             }
         }
     }
