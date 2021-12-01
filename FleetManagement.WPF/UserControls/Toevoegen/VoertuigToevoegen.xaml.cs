@@ -115,9 +115,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                         nieuwVoertuig.VoertuigKleur = new Kleur(VoertuigKleur.SelectedItem.ToString());
                     }
 
-                    _managers.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
-
-                    
+                    Voertuig voertuigDB =_managers.VoertuigManager.VoegVoertuigToe(nieuwVoertuig);
 
                     InfoVoertuigMess.Foreground = Brushes.Green;
                     InfoVoertuigMess.Text = $"Voertuig is succesvol aangemaakt";
@@ -126,11 +124,11 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     //(Hier is dat heel belangrijk dat een Bestuurder ook het voertuig kent)
                     if (GekozenBestuurder != null)
                     {
-                        //if(_managers.BestuurderManager. BestaatBestuurder(GekozenBestuurder))
-                        //{
-                        //    nieuwVoertuig.VoegBestuurderToe(GekozenBestuurder);
-                        //    _managers.BestuurderManager.UpdateBestuurder(nieuwVoertuig.Bestuurder);
-                        //}
+                        voertuigDB.VoegBestuurderToe(GekozenBestuurder);
+                        _managers.BestuurderManager.UpdateBestuurder(voertuigDB.Bestuurder);
+
+                        InfoVoertuigMess.Foreground = Brushes.Green;
+                        InfoVoertuigMess.Text = $"Voertuig succesvol aangemaakt en bestuurder succesvol aan Voertuig gelinkt";
                     }
 
                     ResetForm();
@@ -160,6 +158,9 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             bool? geslecteerd = selecteerBestuurder.ShowDialog();
             if (geslecteerd == true)
             {
+                //Wis bij elke nieuw poging de message info
+                InfoVoertuigMess.Text = string.Empty;
+
                 GekozenBestuurder = selecteerBestuurder.Bestuurder;
                 GekozenBestuurderNaam.Text = GekozenBestuurder.Achternaam + " " + GekozenBestuurder.Voornaam;
                 KiesBestuurder.Content = "Bestuurder wijzigen";
@@ -178,6 +179,9 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             bool? geslecteerd = selecteerAutoModdel.ShowDialog();
             if (geslecteerd == true)
             {
+                //Wis bij elke nieuw poging de message info
+                InfoVoertuigMess.Text = string.Empty;
+
                 GekozenAutoModel = selecteerAutoModdel.AutoModel;
                 GekozenAutoModelNaam.Text = GekozenAutoModel.Merk + " " + GekozenAutoModel.AutoModelNaam;
                 KiesAutoModel.Content = "AutoModel wijzigen";
@@ -196,7 +200,6 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             Brandstof.SelectedIndex = 0;
             VoertuigKleur.SelectedIndex = 0;
             Deuren.SelectedIndex = 0;
-            GekozenBestuurderNaam.Text = string.Empty;
             KiesBestuurder.Content = "Bestuurder selecteren";
 
             GekozenAutoModel = null;

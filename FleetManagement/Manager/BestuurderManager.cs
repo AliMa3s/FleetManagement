@@ -123,7 +123,7 @@ namespace FleetManagement.Manager {
         //    throw new NotImplementedException();
         //}
 
-        public IReadOnlyList<Bestuurder> FilterOpBestuurdersNaam(string achterNaamEnVoornaam, bool bestuurdersZonderVoertuig)
+        public IReadOnlyList<Bestuurder> SelecteerOpBestuurdersNaam(string achterNaamEnVoornaam)
         {
             try
             {
@@ -132,7 +132,24 @@ namespace FleetManagement.Manager {
                     throw new BestuurderManagerException("filteren op naam mag niet null zijn");
                 }
 
-                return _repo.FilterOpBestuurdersNaam(achterNaamEnVoornaam, bestuurdersZonderVoertuig);
+                return _repo.SelecteerOpBestuurdersNaam(achterNaamEnVoornaam);
+            }
+            catch (Exception ex)
+            {
+                throw new BestuurderManagerException(ex.Message);
+            }
+        }
+
+        public IReadOnlyList<Bestuurder> FilterOpBestuurdersNaam(string achterNaamEnVoornaam)
+        {
+            try
+            {
+                if (achterNaamEnVoornaam == null)
+                {
+                    throw new BestuurderManagerException("filteren op naam mag niet null zijn");
+                }
+
+                return _repo.FilterOpBestuurdersNaam(achterNaamEnVoornaam);
             }
             catch (Exception ex)
             {

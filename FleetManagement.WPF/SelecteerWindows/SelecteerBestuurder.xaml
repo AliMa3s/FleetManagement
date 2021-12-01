@@ -29,7 +29,7 @@
                     <DataGridTextColumn Header=" Rijbewijs " Binding="{Binding TypeRijbewijs}"/>
                     <DataGridTextColumn Header=" Rijksregisternummer " Binding="{Binding RijksRegisterNummer}"/>
                     <DataGridTextColumn Header=" Postcode " Binding="{Binding Adres.Postcode}"/>
-                    <DataGridTextColumn Header=" Gemeente " Binding="{Binding Adres.Gemeente}"/>
+                    <DataGridTextColumn Header=" Tankkaart " Binding="{Binding Tankkaart.TankKaartNummer}"/>
                 </DataGrid.Columns>
                 
                 <DataGrid.RowStyle>

@@ -49,7 +49,7 @@ namespace FleetManagement.WPF.DetailWindows {
             {
                 StringBuilder stringBuilder = new("Naam: " + _tankkaartDetail.Bestuurder.Achternaam);
                 stringBuilder.Append(" " + _tankkaartDetail.Bestuurder.Voornaam);
-                stringBuilder.AppendLine(Environment.NewLine + "Rijksregister.: " + _tankkaartDetail.Bestuurder.RijksRegisterNummer);
+                stringBuilder.AppendLine(Environment.NewLine + "Rijksregister: " + _tankkaartDetail.Bestuurder.RijksRegisterNummer);
                 BestuurderDetail.Text = stringBuilder.ToString();
             }
 

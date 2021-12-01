@@ -30,31 +30,24 @@ namespace FleetManagement.WPF.DetailWindows {
             _managers = managers;
             _voertuigDetail = voertuig;
 
-            //Controleer bestuurder om extra info op te vragen aan manager
-            if (!_voertuigDetail.HeeftVoertuigBestuurder)
-            {
-                //_voertuigDetail = managers.VoertuigManager.VoertuigIncludes(_voertuigDetail);  //interface 
-            }
-
             if (_voertuigDetail.HeeftVoertuigBestuurder)
             {
                 StringBuilder stringBuilder = new("Naam: " + _voertuigDetail.Bestuurder.Achternaam + "" + _voertuigDetail.Bestuurder.Voornaam);
-                stringBuilder.AppendLine("Rijksregisternr.: " + _voertuigDetail.Bestuurder.RijksRegisterNummer);
+                stringBuilder.AppendLine("Rijksregisternr: " + _voertuigDetail.Bestuurder.RijksRegisterNummer);
                 HeeftBestuurder.Text = stringBuilder.ToString();
             }
 
             AutoModelGegevens.Text = _voertuigDetail.AutoModel.Merk + " "
                 + _voertuigDetail.AutoModel.AutoModelNaam + " "
-                + _voertuigDetail.AutoModel;
+                + _voertuigDetail.AutoModel.AutoType;
 
             if(_voertuigDetail.AantalDeuren.HasValue)
             {
-                AutoModelGegevens.Text += "(" + _voertuigDetail.AantalDeuren.Value + " deurs)";
+                AutoModelGegevens.Text += " (" + _voertuigDetail.AantalDeuren.Value + " deurs)";
             }
 
-            //bind het voertuig
+            //Bind voertuig
             DataContext = _voertuigDetail;
-
         }
 
         private void SluitForm_Click(object sender, RoutedEventArgs e) {

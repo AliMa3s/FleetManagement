@@ -13,7 +13,8 @@ namespace FleetManagement.Interfaces {
         public void UpdateBestuurder(Bestuurder bestuurder);
         public void VerwijderBestuurder(Bestuurder bestuurder);
         public Bestuurder VoegBestuurderToe(Bestuurder bestuurder);
-        public IReadOnlyList<Bestuurder> FilterOpBestuurdersNaam(string achterNaamEnVoornaam, bool bestuurdersZonderVoertuig);
+        public IReadOnlyList<Bestuurder> SelecteerOpBestuurdersNaam(string achterNaamEnVoornaam);
+        public IReadOnlyList<Bestuurder> FilterOpBestuurdersNaam(string achterNaamEnVoornaam);
         public Bestuurder ZoekBestuurder(string rijksRegisterNummer);
     }
 }

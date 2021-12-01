@@ -46,7 +46,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
             FilterOpNaam.Text = "Achternaam + Voornaam";
             Rijksregister.Text = PlaceHolderRijksregister;
-            BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("", false);
+            BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
         }
 
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -67,7 +67,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             bool? verwijderd = detailWindow.ShowDialog();
             if (verwijderd == true)
             {
-                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("", false);
+                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
             }
         }
 
@@ -78,7 +78,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private void FilterOpNaam_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (FilterOpNaam.Text != PlaceholderName)
-                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(FilterOpNaam.Text, false);
+                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(FilterOpNaam.Text);
         }
 
         private void FilterOpNaam_GotFocus(object sender, RoutedEventArgs e)
@@ -118,7 +118,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 bool? verwijderd = detailWindow.ShowDialog();
                 if (verwijderd == true)
                 {
-                    BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("", false);
+                    BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
                 }
             }
         }

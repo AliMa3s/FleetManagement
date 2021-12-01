@@ -41,7 +41,7 @@ namespace FleetManagement.WPF.SelecteerWindows
             InitializeComponent();
             _bestuurderManager = manager;
 
-            BestuurdersLijst.ItemsSource = _bestuurderManager.FilterOpBestuurdersNaam("", true);
+            BestuurdersLijst.ItemsSource = _bestuurderManager.SelecteerOpBestuurdersNaam("");
             TextBoxFilterOpNaam.Text = PlaceholderName;
             
         }
@@ -82,7 +82,7 @@ namespace FleetManagement.WPF.SelecteerWindows
         {
             if(TextBoxFilterOpNaam.Text != PlaceholderName)
             {
-                BestuurdersLijst.ItemsSource = _bestuurderManager.FilterOpBestuurdersNaam(TextBoxFilterOpNaam.Text, true);
+                BestuurdersLijst.ItemsSource = _bestuurderManager.SelecteerOpBestuurdersNaam(TextBoxFilterOpNaam.Text);
             }
         }
 

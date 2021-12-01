@@ -33,17 +33,17 @@ namespace FleetManagement.WPF.DetailWindows {
 
             if (_bestuurderDetail.HeeftBestuurderVoertuig)
             {
-                StringBuilder stringBuilder = new(_bestuurderDetail.Voertuig.AutoModel.Merk + _bestuurderDetail.Voertuig.AutoModel.AutoModelNaam);
-                stringBuilder.AppendLine(Environment.NewLine + "Chassisnr.: " + _bestuurderDetail.Voertuig.ChassisNummer);
-                stringBuilder.AppendLine(Environment.NewLine + "Nummerplaat: " + _bestuurderDetail.Voertuig.NummerPlaat);
+                StringBuilder stringBuilder = new(_bestuurderDetail.Voertuig.AutoModel.Merk + " " + _bestuurderDetail.Voertuig.AutoModel.AutoModelNaam);
+                stringBuilder.AppendLine(Environment.NewLine + "Chassis: " + _bestuurderDetail.Voertuig.ChassisNummer);
+                stringBuilder.AppendLine("Nummerplaat: " + _bestuurderDetail.Voertuig.NummerPlaat);
 
                 HeeftVoertuig.Text = stringBuilder.ToString();
             }
 
             if(_bestuurderDetail.HeeftBestuurderTankKaart)
             {
-                StringBuilder stringBuilder = new(_bestuurderDetail.Tankkaart.TankKaartNummer);
-                stringBuilder.AppendLine(Environment.NewLine + _bestuurderDetail.Tankkaart.GeldigheidsDatum.ToString("dd/MM/yyyy"));
+                StringBuilder stringBuilder = new("Nr: " + _bestuurderDetail.Tankkaart.TankKaartNummer);
+                stringBuilder.AppendLine(Environment.NewLine + "Geldig tot: " + _bestuurderDetail.Tankkaart.GeldigheidsDatum.ToString("dd/MM/yyyy"));
 
                 if(_bestuurderDetail.Tankkaart.Actief) 
                 { 
