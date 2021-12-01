@@ -21,6 +21,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
     /// </summary>
     public partial class VoertuigZoeken : UserControl
     {
+        public string PlaceHolder { get;} = "Nummerplaat of Chassisnummer";
+        public string PlaceHolderChassisnummer { get; } = "gelieve een chassisnummer in te geven";
         private readonly Managers _managers;
 
         //private string _filter; 
@@ -29,6 +31,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             InitializeComponent();
             _managers = managers;
+            Nummerplaat.Text = "Nummerplaat of Chassisnummer";
+            Chassisnummer.Text = "gelieve een chassisnummer in te geven";
         }
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -77,6 +81,43 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
                 //GekozenFilter.Text = stringBuilder;
                 //KiesFilter.Content = "Filter wijzigen";
+            }
+        }
+
+        private void Nummerplaat_GotFocus(object sender, RoutedEventArgs e)
+        {
+            
+            if(Nummerplaat.Text == PlaceHolder)
+            {
+                Nummerplaat.Text = string.Empty;
+                Nummerplaat.Foreground = Brushes.LightSlateGray;
+            }
+        }
+
+        private void Nummerplaat_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(Nummerplaat.Text))
+            {
+                Nummerplaat.Text = PlaceHolder;
+                Nummerplaat.Foreground = Brushes.LightSlateGray;
+            }
+        }
+
+        private void Chassisnummer_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if(Chassisnummer.Text == PlaceHolderChassisnummer)
+            {
+                Chassisnummer.Text = string.Empty;
+                Chassisnummer.Foreground = Brushes.LightSlateGray;
+            }
+        }
+
+        private void Chassisnummer_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(Chassisnummer.Text))
+            {
+                Chassisnummer.Text = PlaceHolderChassisnummer;
+                Chassisnummer.Foreground = Brushes.LightSlateGray;
             }
         }
     }
