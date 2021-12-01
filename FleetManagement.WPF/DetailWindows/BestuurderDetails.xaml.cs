@@ -60,9 +60,8 @@ namespace FleetManagement.WPF.DetailWindows {
 
             if(_bestuurderDetail.Adres != null)
             {
-                StringBuilder stringBuilder = new(_bestuurderDetail.Adres.Straat + _bestuurderDetail.Adres.Nr);
-                stringBuilder.AppendLine(Environment.NewLine + _bestuurderDetail.Adres.Postcode);
-                stringBuilder.AppendLine(Environment.NewLine + _bestuurderDetail.Adres.Gemeente);
+                StringBuilder stringBuilder = new(_bestuurderDetail.Adres.Straat + " " + _bestuurderDetail.Adres.Nr);
+                stringBuilder.AppendLine(Environment.NewLine + _bestuurderDetail.Adres.Postcode + " " + _bestuurderDetail.Adres.Gemeente);
 
                 Adresgegevens.Text = stringBuilder.ToString();
             }

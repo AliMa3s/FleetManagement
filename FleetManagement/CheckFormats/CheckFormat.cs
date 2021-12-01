@@ -56,7 +56,7 @@ namespace FleetManagement.CheckFormats
                     return true;
                 }
 
-                throw new RijksRegisterNummerException($"De inhoud van {nameof(rijksRegisterNummer)} is foutief");
+                throw new RijksRegisterNummerException("Rijksregisternummmer en/of geboortedatum is onjuist");
             }
             else
             {

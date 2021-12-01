@@ -77,7 +77,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void FilterOpNaam_TextChanged(object sender, TextChangedEventArgs e)
         {
-            BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(FilterOpNaam.Text, false);
+            if (FilterOpNaam.Text != PlaceholderName)
+                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(FilterOpNaam.Text, false);
         }
 
         private void FilterOpNaam_GotFocus(object sender, RoutedEventArgs e)
@@ -89,7 +90,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             }
         }
 
-        private void FiliterOpNaam_LostFocus(object sender, RoutedEventArgs e)
+        private void FilterOpNaam_LostFocus(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(FilterOpNaam.Text))
             {
@@ -111,7 +112,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                     Owner = Window.GetWindow(this),
                 };
 
-                //Uitgezet anders geen update status mogelijk
+                //Uitgezet anders geen update status mogelijk, in de plaats hidden scherm
                 //detailWindow.Show();
 
                 bool? verwijderd = detailWindow.ShowDialog();
