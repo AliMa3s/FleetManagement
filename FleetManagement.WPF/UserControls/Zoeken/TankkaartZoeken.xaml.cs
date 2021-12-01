@@ -27,6 +27,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private TankKaart _tankkaart;
 
+        private string PlaceHolderTankkaart { get; }= "Tankkaartnummer";
         public TankKaart TankkaartWeergave
         {
             get => _tankkaart;
@@ -34,6 +35,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             {
                 _tankkaart = value;
                 ZoekweergaveTankkaart.SelectedItem = value;
+
             }
         }
   
@@ -47,6 +49,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             ZoekTankkaartFilter.Items.Add("Inactieve tankkaarten");
 
             ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
+
+            TankkaartNummer.Text = PlaceHolderTankkaart;
 
         }
 
@@ -139,6 +143,24 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private void SluitWindow_Click(object sender, RoutedEventArgs e)
         {
             Window.GetWindow(this).Close();
-        }        
+        }
+
+        private void TankkaartNummer_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if(TankkaartNummer.Text == PlaceHolderTankkaart)
+            {
+                TankkaartNummer.Text = string.Empty;
+                TankkaartNummer.Foreground = Brushes.Black;
+            }
+        }
+
+        private void TankkaartNummer_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TankkaartNummer.Text))
+            {
+                TankkaartNummer.Text = PlaceHolderTankkaart;
+                TankkaartNummer.Foreground = Brushes.DarkSlateGray;
+            }
+        }
     }
 }

@@ -24,7 +24,7 @@
                     <Button x:Name="ZoektankkaartNummer" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="309,91,55,0" Width="86" DockPanel.Dock="Right" Click="ZoektankkaartNummer_Click"/>
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,58,294,0" Content="Tankkaartnummer:"/>
 
-                    <TextBox x:Name="TankkaartNummer" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Top" Margin="22,91,0,0" Height="30" Width="275"/>
+                    <TextBox GotFocus="TankkaartNummer_GotFocus" LostFocus="TankkaartNummer_LostFocus" x:Name="TankkaartNummer" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Top" Margin="22,91,0,0" Height="30" Width="275"/>
 
                 </Grid>
             </DockPanel>

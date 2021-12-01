@@ -38,14 +38,14 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         }
 
         public string PlaceholderName { get; } = "Achternaam + Voornaam";
-
+        private string PlaceHolderRijksregister { get; } = "RijksregisterNummer";
         public BestuurderZoeken(Managers managers)
         {
             InitializeComponent();
             _managers = managers;
 
             FilterOpNaam.Text = "Achternaam + Voornaam";
-
+            Rijksregister.Text = PlaceHolderRijksregister;
             BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("", false);
         }
 
@@ -120,6 +120,25 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 {
                     BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("", false);
                 }
+            }
+        }
+
+        private void Rijksregister_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if(Rijksregister.Text == PlaceHolderRijksregister)
+            {
+                Rijksregister.Text = string.Empty;
+                Rijksregister.Foreground = Brushes.LightSlateGray;
+
+            }
+        }
+
+        private void Rijksregister_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(Rijksregister.Text))
+            {
+                Rijksregister.Text = PlaceHolderRijksregister;
+                Rijksregister.Foreground = Brushes.DarkSlateGray;
             }
         }
     }

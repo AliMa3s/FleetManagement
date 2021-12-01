@@ -22,7 +22,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
     public partial class VoertuigZoeken : UserControl
     {
         public string PlaceHolder { get;} = "Nummerplaat of Chassisnummer";
-        public string PlaceHolderChassisnummer { get; } = "gelieve een chassisnummer in te geven";
+        public string PlaceHolderChassisnummer { get; } = "Chassisnummer";
         private readonly Managers _managers;
 
         //private string _filter; 
@@ -32,7 +32,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             InitializeComponent();
             _managers = managers;
             Nummerplaat.Text = "Nummerplaat of Chassisnummer";
-            Chassisnummer.Text = "gelieve een chassisnummer in te geven";
+            Chassisnummer.Text = "Chassisnummer";
         }
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
