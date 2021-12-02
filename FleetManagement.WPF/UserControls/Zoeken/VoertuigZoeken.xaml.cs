@@ -62,7 +62,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void FilterOpMerkEnAutomdel_Changed(object sender, TextChangedEventArgs e)
         {
-            if (AutomodelNaam.Text == PlaceHolderAutomodelNaam)
+            if (AutomodelNaam.Text != PlaceHolderAutomodelNaam)
                 ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter(AutomodelNaam.Text);
         }
 
