@@ -389,6 +389,8 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters.Add(new SqlParameter("@hybride", SqlDbType.Bit));
                     command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@kleurnaam", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@aantaldeuren", SqlDbType.NVarChar));
 
                     if (voertuig.VoertuigKleur == null)
                     {
