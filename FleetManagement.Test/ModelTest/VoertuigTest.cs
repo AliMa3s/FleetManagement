@@ -25,6 +25,24 @@ namespace FleetManagement.Test.ModelTest {
             Assert.True(voertuig.Brandstof.Hybride);
             Assert.Equal("Diesel", voertuig.Brandstof.BrandstofNaam);
         }
+        [Fact]
+        public void Voertuig_NoId_Valid()
+        {
+            BrandstofVoertuig brandstof = new("Diesel", false);
+            AutoModel autoModel = new("mercedes", "c-klasse", new AutoType("GT"));
+            Voertuig voertuig = new(autoModel, "WAUZZZ8V5KA106598", "1AYB020", brandstof);
+            Assert.Equal("mercedes", voertuig.AutoModel.Merk);
+            Assert.Equal("c-klasse", voertuig.AutoModel.AutoModelNaam);
+            Assert.Equal(new AutoType("GT"), voertuig.AutoModel.AutoType);
+            Assert.Equal("WAUZZZ8V5KA106598", voertuig.ChassisNummer);
+            Assert.Equal("1AYB020", voertuig.NummerPlaat);
+            Assert.Equal("Diesel", voertuig.Brandstof.BrandstofNaam);
+
+            Assert.Null(voertuig.VoertuigKleur);
+            Assert.Null(voertuig.AantalDeuren);
+
+            Assert.Equal(0, voertuig.VoertuigId);
+        }
 
         [Fact]
         public void Voertuig_VerplichteVelden_Valid()
@@ -136,12 +154,62 @@ namespace FleetManagement.Test.ModelTest {
         public void HeeftVoertuigBestuurder_Valid()
         {
             Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
-            BrandstofVoertuig bezine = new("benzine", true);
+            BrandstofVoertuig bezine = new("diesel", false);
             AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
             voertuig.VoegBestuurderToe(bestuurder);
 
             Assert.True(voertuig.HeeftVoertuigBestuurder);
+        }
+        [Fact]
+        public void HeefVoertuigBestuurder_Invalid()
+        {
+            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
+            BrandstofVoertuig bezine = new("diesel", false);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+            
+            var ex = Assert.Throws<VoertuigException>(() =>
+            {
+                voertuig.VoegBestuurderToe(null);
+            });
+            Assert.Equal($"Ingegeven Bestuurder mag niet null zijn",ex.Message);
+        }
+        [Fact]
+        public void VoegIdToe_Valid()
+        {
+            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("");
+            BrandstofVoertuig bezine = new("benzine", true);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+            voertuig.VoegIdToe(1);
+            Assert.Equal(1, voertuig.VoertuigId);
+        }
+        [Fact]
+        public void VoegIdToe_Invalid_BestaandeId()
+        {
+            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("");
+            BrandstofVoertuig bezine = new("benzine", true);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(1,automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+            var ex = Assert.Throws<BestuurderException>(() =>
+            {
+                voertuig.VoegIdToe(1);
+            });
+            Assert.Equal($"VoertuigId is al aanwezig en kan niet gewijzigd worden", ex.Message);
+        }
+        [Fact]
+        public void VoegIdToe_Invalid_Kleinerdan1()
+        {
+            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("");
+            BrandstofVoertuig bezine = new("benzine", true);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new( automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+            var ex = Assert.Throws<BestuurderException>(() =>
+            {
+                voertuig.VoegIdToe(0);
+            });
+            Assert.Equal($"VoertuigId moet meer zijn dan 0", ex.Message);
         }
     }
 }

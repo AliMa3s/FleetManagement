@@ -18,19 +18,22 @@ namespace FleetManagement.Test.ModelTest.ModelScenario
         public void VoegBestuurderToe_En_Verwijder()
         {
             //Selecteer een bestuurder uit de lijst
+            //verplaatst naar BestuurderTest(GeefBestuurder_Valid)
             Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
 
             //Maak een autoType & Benzine
+            //benzine valid checker gemaakt voor brandstofvoertuig + automodel
             BrandstofVoertuig bezine = new("benzine", false);
             AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
 
-            //Maak een voertuig aan (zonder ID)
+            //Maak een voertuig aan (zonder ID) ok zit in voertuigTest const zonder Id
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
-
+            //VoertuigTest : HeefVoertuigBestuurder_Valid en Invalid methode.
             //Controleer dat Voertuig nog geen Bestuurder heeft
             Assert.False(voertuig.HeeftVoertuigBestuurder);
 
             //Voeg de bestuurder toe
+            //ok bestaat al
             voertuig.VoegBestuurderToe(bestuurder);
 
             //controleer nu dat bestuurder aanwezig is
