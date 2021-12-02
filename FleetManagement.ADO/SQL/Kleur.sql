@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Kleur] (
     [kleurid]   INT  NOT NULL IDENTITY(1,1),
-    [kleurnaam] NVARCHAR (255) NOT NULL,
+    [kleurnaam] NVARCHAR (150) NOT NULL,
     PRIMARY KEY CLUSTERED ([kleurid] ASC)
 );

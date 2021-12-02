@@ -46,9 +46,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             InitializeComponent();
             _managers = managers;
             NummerplaatOfChassisnummer.Text = PlaceHolderNummerplaatOfChassis;
-            AutomodelNaam.Text = PlaceHolderAutomodelNaam;
-
-            ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter("");
+            AutomodelNaam.Text = PlaceHolderAutomodelNaam;           
         }
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

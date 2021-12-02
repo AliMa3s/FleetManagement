@@ -34,7 +34,7 @@ namespace FleetManagement.ADO.Repositories
                             {
                                 brandstoffen.Add(
                                     new BrandstofType(
-                                        (int)dataReader["brandstofid"],
+                                        (int)dataReader["brandstoftypeid"],
                                         (string)dataReader["brandstofnaam"]
                                     )
                                 );

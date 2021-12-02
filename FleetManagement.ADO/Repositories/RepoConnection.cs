@@ -7,47 +7,28 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.ADO.Repositories
 {
-    public abstract class RepoConnection : IDisposable
+    public abstract class RepoConnection
     {
         private readonly string _connectionString;
         private SqlConnection _conn;
 
-        private bool Disposing { get; set; }
-
         public RepoConnection(string connectionString)
         {
             _connectionString = connectionString;
-            Disposing = false;
         }
 
         protected SqlConnection Connection
         {
-            get {
-                if(_conn == null)
+            get
+            {
+                if (_conn == null)
                 {
                     _conn = new SqlConnection(_connectionString);
-                    Disposing = true;
                 }
 
                 return _conn;
             }
-            set { _conn = value; }
-        }
-
-        public void Dispose()
-        {
-            Dispose(Disposing);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _conn.Dispose();
-                _conn = null;
-                Disposing = false;
-            }
+            set => _conn = value;
         }
     }
 }

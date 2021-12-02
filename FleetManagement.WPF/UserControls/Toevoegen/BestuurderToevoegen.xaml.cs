@@ -102,7 +102,6 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             Geboortejaar.Text= string.Empty;
             RijksRegisterNummer.Text = string.Empty;
             RijBewijs.Text = string.Empty;
-            RijBewijsNummer.Text = string.Empty;
             GekozenAdresText.Text = string.Empty;
             GekozenTankkaartText.Text = string.Empty;
             AdresInvoegen.Content = "Adres ingeven";
@@ -126,7 +125,6 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     Achternaam.Text,
                     geboortedatum,
                     RijBewijs.Text,
-                    RijBewijsNummer.Text,
                     RijksRegisterNummer.Text
                 );
 

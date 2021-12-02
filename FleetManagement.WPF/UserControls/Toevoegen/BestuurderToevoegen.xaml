@@ -42,8 +42,7 @@
                 <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Rijksregisternummer: *</Label>
                 <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Adres:</Label>
                 <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Rijbewijs: *</Label>
-                <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Rijbewijsnummer: *</Label>
-                <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Tankkaart:</Label>
+                <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Tankkaart:</Label>
 
                 <TextBox x:Name="Voornaam" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1"  TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" Height="25"/>
                 <TextBox x:Name="Achternaam" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text=""  Height="25"/>
@@ -57,12 +56,11 @@
 
                 <TextBox x:Name="RijksRegisterNummer" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" Height="25"/>
                 <TextBlock x:Name="GekozenAdresText"  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
-                <TextBlock x:Name="GekozenTankkaartText" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
+                <TextBlock x:Name="GekozenTankkaartText" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
 
                 <Button x:Name="AdresInvoegen" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Content="Adres ingeven" HorizontalAlignment="left" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,0,15,0" Click="AdresInvoegen_Click" />
                 <TextBox x:Name="RijBewijs" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text=""  Height="25"/>
-                <TextBox x:Name="RijBewijsNummer" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text=""  Height="25"/>
-                <Button x:Name="TankkaarSelecteren" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="left" Width="150" Content="Tankkaart selecteren" Background="#FFCAD5EA" Click="KiesTankkaart_Click" Height="30" Margin="5,0,15,0"/>
+                <Button x:Name="TankkaarSelecteren" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="left" Width="150" Content="Tankkaart selecteren" Background="#FFCAD5EA" Click="KiesTankkaart_Click" Height="30" Margin="5,0,15,0"/>
             </Grid>
         </DockPanel.Children>
     </DockPanel>

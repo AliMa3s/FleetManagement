@@ -12,12 +12,6 @@ namespace FleetManagement.CheckFormats
                 ? true : throw new PincodeException("pincode moet een string zijn met 4 of 5 cijfers");
         }
 
-        public static bool IsRijbewijsNummerGeldig(string rijBewijsNummer)
-        {
-            return Regex.IsMatch(rijBewijsNummer, @"^[1-9]{1}[0-9]{9}$")
-                ? true : throw new RijBewijsNummerException("Rijbewijsnummer moet een string zijn van 10 cijfers");
-        }
-
         public static bool IsChassisNummerGeldig(string chassisNummer)
         {
             return Regex.IsMatch(chassisNummer.ToUpper(), @"^[0-9A-HJ-NPR-Z]{17}$")

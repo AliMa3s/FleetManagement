@@ -213,7 +213,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VoegVoertuig_Invalid_Null()
         {
-            Bestuurder bestuurder1 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            Bestuurder bestuurder1 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             BrandstofVoertuig bezine = new("benzine", true);
             AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
@@ -235,7 +235,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void Nummerplaat_Invalid()
         {
-            Bestuurder bestuurder1 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            Bestuurder bestuurder1 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             BrandstofVoertuig bezine = new("benzine", true);
             AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
             

@@ -307,7 +307,6 @@ namespace FleetManagement.ADO.Repositories {
                                          (string)dataReader["achternaam"],
                                          (string)dataReader["geboortedatum"],
                                          (string)dataReader["rijbewijstype"],
-                                         (string)dataReader["rijbewijsnummer"],
                                          (string)dataReader["rijksregisternummer"]
                                      );
 
@@ -337,7 +336,7 @@ namespace FleetManagement.ADO.Repositories {
         {
             //ophalen van brandstoffen voor detailweergave
             string query = "SELECT * FROM Tankkaart_Brandstoftype t " +
-                "LEFT JOIN Brandstoftype b ON t.brandstoftypeid = b.brandstofid " +
+                "LEFT JOIN Brandstoftype b ON t.brandstoftypeid = b.brandstoftypeid " +
                 "WHERE t.tankkaartnummer=@tankkaartnummer";
 
             using (SqlCommand command = new(query, Connection))
@@ -413,7 +412,6 @@ namespace FleetManagement.ADO.Repositories {
                                      (string)dataReader["achternaam"],
                                      (string)dataReader["geboortedatum"],
                                      (string)dataReader["rijbewijstype"],
-                                     (string)dataReader["rijbewijsnummer"],
                                      (string)dataReader["rijksregisternummer"]
                                  );
 
@@ -544,7 +542,6 @@ namespace FleetManagement.ADO.Repositories {
                                          (string)dataReader["achternaam"],
                                          (string)dataReader["geboortedatum"],
                                          (string)dataReader["rijbewijstype"],
-                                         (string)dataReader["rijbewijsnummer"],
                                          (string)dataReader["rijksregisternummer"]
                                      );
 
@@ -614,7 +611,6 @@ namespace FleetManagement.ADO.Repositories {
                                          (string)dataReader["achternaam"],
                                          (string)dataReader["geboortedatum"],
                                          (string)dataReader["rijbewijstype"],
-                                         (string)dataReader["rijbewijsnummer"],
                                          (string)dataReader["rijksregisternummer"]
                                      );
 

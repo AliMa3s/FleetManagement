@@ -102,7 +102,7 @@ namespace FleetManagement.ADO.Repositories {
         {
             string query = "SELECT * FROM Voertuig v " +
                 "JOIN AutoModel a ON v.automodelid = a.automodelid " +
-                "JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstofid " +
+                "JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstoftypeid " +
                 "LEFT JOIN Bestuurder b ON v.voertuigid = b.voertuigid " +
                 "LEFT JOIN adres ad ON b.adresId = ad.adresId " +
                 "WHERE v.nummerplaat=@NummerplaatOfChassis OR v.chassisnummer=@NummerplaatOfChassis " +
@@ -132,7 +132,7 @@ namespace FleetManagement.ADO.Repositories {
 
                             //Instantieer brandstof
                             BrandstofVoertuig brandstofVoertuigDB = new(
-                                (int)dataReader["brandstofid"],
+                                (int)dataReader["brandstoftypeid"],
                                 (string)dataReader["brandstofnaam"],
                                 (bool)dataReader["hybride"]
                             );
@@ -170,7 +170,6 @@ namespace FleetManagement.ADO.Repositories {
                                         (string)dataReader["achternaam"],
                                         (string)dataReader["geboortedatum"],
                                         (string)dataReader["rijbewijstype"],
-                                        (string)dataReader["rijbewijsnummer"],
                                         (string)dataReader["rijksregisternummer"]
                                     );
 
@@ -210,7 +209,7 @@ namespace FleetManagement.ADO.Repositories {
         {
             string query = "SELECT * FROM Voertuig v " +
                  "JOIN AutoModel a ON v.automodelid = a.automodelid " +
-                 "JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstofid " +
+                 "JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstoftypeid " +
                  "LEFT JOIN Bestuurder b ON v.voertuigid = b.voertuigid " +
                  "LEFT JOIN adres ad ON b.adresId = ad.adresId " +
                  "WHERE concat(a.merknaam, ' ', a.automodelnaam) LIKE @autonaam + '%' " +
@@ -242,7 +241,7 @@ namespace FleetManagement.ADO.Repositories {
 
                                 //Instantieer brandstof
                                 BrandstofVoertuig brandstofVoertuigDB = new(
-                                    (int)dataReader["brandstofid"],
+                                    (int)dataReader["brandstoftypeid"],
                                     (string)dataReader["brandstofnaam"],
                                     (bool)dataReader["hybride"]
                                 );
@@ -280,7 +279,6 @@ namespace FleetManagement.ADO.Repositories {
                                             (string)dataReader["achternaam"],
                                             (string)dataReader["geboortedatum"],
                                             (string)dataReader["rijbewijstype"],
-                                            (string)dataReader["rijbewijsnummer"],
                                             (string)dataReader["rijksregisternummer"]
                                         );
 
@@ -308,7 +306,7 @@ namespace FleetManagement.ADO.Repositories {
                 }
                 catch (Exception ex)
                 {
-                    throw new BrandstofRepositoryADOException("Zoek op chassisnummer of nummerplaat - gefaald", ex);
+                    throw new BrandstofRepositoryADOException("Zoek op alle voertuigen filter - gefaald", ex);
                 }
                 finally
                 {

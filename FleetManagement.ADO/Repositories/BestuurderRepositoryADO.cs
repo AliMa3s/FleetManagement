@@ -61,7 +61,7 @@ namespace FleetManagement.ADO.Repositories {
 
             string query = "UPDATE Bestuurder " +
                            "SET adresid=@adresid, voornaam=@voornaam, achternaam=@achternaam, geboortedatum=@geboortedatum, " +
-                           "rijksregisternummer=@rijksregisternummer, rijbewijstype=@rijbewijstype, rijbewijsnummer=@rijbewijsnummer, " +
+                           "rijbewijstype=@rijbewijstype, " +
                            "voertuigid=@voertuigid WHERE bestuurderid=@bestuurderid";
 
             using (SqlCommand command = Connection.CreateCommand()) {
@@ -72,7 +72,6 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters.Add(new SqlParameter("@geboortedatum", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@rijbewijstype", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@rijbewijsnummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
                     command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
                     command.Parameters.Add(new SqlParameter("@adresid", SqlDbType.Int));
@@ -82,7 +81,6 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters["@geboortedatum"].Value = bestuurder.GeboorteDatum;
                     command.Parameters["@rijksregisternummer"].Value = bestuurder.RijksRegisterNummer;
                     command.Parameters["@rijbewijstype"].Value = bestuurder.TypeRijbewijs;
-                    command.Parameters["@rijbewijsnummer"].Value = bestuurder.RijBewijsNummer;
                     command.Parameters["@bestuurderid"].Value = bestuurder.BestuurderId;
 
                     if (bestuurder.HeeftBestuurderVoertuig)
@@ -168,8 +166,8 @@ namespace FleetManagement.ADO.Repositories {
                 Connection = sqlConnection;
             }
 
-            string query = "INSERT INTO Bestuurder (adresid, voornaam, achternaam, geboortedatum, rijksregisternummer,rijbewijstype, rijbewijsnummer) " +
-                           "OUTPUT INSERTED.bestuurderid VALUES (@adresid, @voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype, @rijbewijsnummer)";
+            string query = "INSERT INTO Bestuurder (adresid, voornaam, achternaam, geboortedatum,  rijksregisternummer, rijbewijstype) " +
+                           "OUTPUT INSERTED.bestuurderid VALUES (@adresid, @voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype)";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
@@ -181,9 +179,8 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters.Add(new SqlParameter("@voornaam", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@achternaam", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@geboortedatum", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@rijbewijstype", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@rijbewijsnummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
 
                     if (bestuurder.Adres == null)
                         command.Parameters["@adresid"].Value = DBNull.Value;
@@ -195,7 +192,6 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters["@geboortedatum"].Value = bestuurder.GeboorteDatum;
                     command.Parameters["@rijksregisternummer"].Value = bestuurder.RijksRegisterNummer;
                     command.Parameters["@rijbewijstype"].Value = bestuurder.TypeRijbewijs;
-                    command.Parameters["@rijbewijsnummer"].Value = bestuurder.RijBewijsNummer;
 
                     command.CommandText = query;
 
@@ -308,7 +304,6 @@ namespace FleetManagement.ADO.Repositories {
                                     (string)dataReader["achternaam"],
                                     (string)dataReader["geboortedatum"],
                                     (string)dataReader["rijbewijstype"],
-                                    (string)dataReader["rijbewijsnummer"],
                                     (string)dataReader["rijksregisternummer"]
                                 );
 
@@ -365,7 +360,7 @@ namespace FleetManagement.ADO.Repositories {
                    "LEFT JOIN adres AS a ON b.adresId = a.adresId " +
                    "LEFT JOIN Voertuig v ON b.voertuigId = v.voertuigId " +
                    "LEFT JOIN AutoModel au ON v.autoModelId = au.autoModelId " +
-                   "LEFT JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstofid " +
+                   "LEFT JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstoftypeid " +
                    "LEFT JOIN Tankkaart t ON b.bestuurderId = t.bestuurderId " +
                    "WHERE concat(b.achternaam, ' ', b.voornaam) LIKE @achterNaamEnVoornaam + '%' " +
                    "ORDER BY b.achternaam ASC, b.voornaam ASC " +
@@ -392,7 +387,6 @@ namespace FleetManagement.ADO.Repositories {
                                     (string)dataReader["achternaam"],
                                     (string)dataReader["geboortedatum"],
                                     (string)dataReader["rijbewijstype"],
-                                    (string)dataReader["rijbewijsnummer"],
                                     (string)dataReader["rijksregisternummer"]
                                 );
 
@@ -423,7 +417,7 @@ namespace FleetManagement.ADO.Repositories {
 
                                     //Instantieer brandstof
                                     BrandstofVoertuig brandstofVoertuigDB = new(
-                                        (int)dataReader["brandstofid"],
+                                        (int)dataReader["brandstoftypeid"],
                                         (string)dataReader["brandstofnaam"],
                                         (bool)dataReader["hybride"]
                                     );

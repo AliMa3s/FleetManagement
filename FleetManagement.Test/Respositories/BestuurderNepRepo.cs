@@ -18,9 +18,9 @@ namespace FleetManagement.Test.Respositories
             //Selecteerlijst voor Voertuig & TankKaart
             //Persoon die Bestuurder test, configureert voor alle andere teamleden de juiste instanties 
 
-            VoegBestuurderToe(new Bestuurder(1, "Filip","Rigoir", "1976-03-31", "B","1514081390", "76033101986")); //key = 76033101986
-            VoegBestuurderToe(new Bestuurder(2, "Dirk", "Frimout", "1976-00-31", "C", "9514081390", "76003101965")); //key = 76003101965
-            VoegBestuurderToe( new Bestuurder("Nathalie", "Meskens", "1976", "A,D,E+1", "9514081390", "76000001925")); //key = 76000001925
+            VoegBestuurderToe(new Bestuurder(1, "Filip","Rigoir", "1976-03-31", "B","76033101986")); //key = 76033101986
+            VoegBestuurderToe(new Bestuurder(2, "Dirk", "Frimout", "1976-00-31", "C", "76003101965")); //key = 76003101965
+            VoegBestuurderToe( new Bestuurder("Nathalie", "Meskens", "1976", "A,D,E+1", "76000001925")); //key = 76000001925
         }
 
         public Bestuurder GeefBestuurder(string rijksRegisterNummer)

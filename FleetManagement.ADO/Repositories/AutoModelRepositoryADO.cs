@@ -51,7 +51,8 @@ namespace FleetManagement.ADO.Repositories
                 }
                 catch (Exception ex)
                 {
-                    return null; //exception nog aanmaken
+#warning //exception nog aanmaken
+                    return null; 
                     //throw new AutoModelRepositoryADOException("AutoModellen - gefaald", ex);
                 }
                 finally

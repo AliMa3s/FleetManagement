@@ -398,7 +398,7 @@ namespace FleetManagement.Test.ModelTest {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             bool actief = true;
             TankKaart tankKaart = new TankKaart("1234567890123456789", actief, GeldigheidsDatum);
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "1514081390", "76033101986");
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
 
             tankKaart.VoegBestuurderToe(bestuurder);
             bestuurder.VerwijderTankKaart(tankKaart);
@@ -412,7 +412,7 @@ namespace FleetManagement.Test.ModelTest {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             bool actief = true;
             TankKaart tankKaart = new TankKaart("1234567890123456789", actief, GeldigheidsDatum);
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "1514081390", "76033101986");
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
             var ex = Assert.Throws<TankKaartException>(() => tankKaart.VoegBestuurderToe(null));
             
             Assert.Equal($"{nameof(Bestuurder)} mag niet null zijn", ex.Message);
@@ -424,7 +424,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VerwijderBestuurder_Invalid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "1514081390", "76033101986");
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
             DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
 
             var ex =    Assert.Throws<TankKaartException>(() => new TankKaart("1234567890123456789", geldigheidsDatum)

@@ -20,7 +20,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void Id_Nummer_Correct()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "1514081390", "76033101986");
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
             Assert.Equal(1, bestuurder.BestuurderId);
         }
 
@@ -31,7 +31,7 @@ namespace FleetManagement.Test.ModelTest {
         public void Id_Nummer_Incorrect(int id)
         {
             var e = Assert.Throws<BestuurderException>(() => {
-                new Bestuurder(id, "Filip", "Rigoir", "1976/03/31", "A,B", "1514081390", "76033101986");
+                new Bestuurder(id, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
             });
 
             Assert.Equal("BestuurderId moet meer zijn dan 0", e.Message);
@@ -42,14 +42,13 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void Ctor_NoId_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
 
 
             Assert.Equal("Filip", bestuurder.Voornaam);
             Assert.Equal("Rigoir", bestuurder.Achternaam);
             Assert.Equal("1976/03/31", bestuurder.GeboorteDatum);
             Assert.Equal("B,E+1", bestuurder.TypeRijbewijs);
-            Assert.Equal("1514081390", bestuurder.RijBewijsNummer);
             Assert.Equal("76033101986", bestuurder.RijksRegisterNummer);
 
             Assert.Equal(0, bestuurder.BestuurderId);
@@ -65,7 +64,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VoegId_Invalid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             var ex = Assert.Throws<BestuurderException>(() => bestuurder.VoegIdToe(1));
             Assert.Equal("BestuurderId is al aanwezig en kan niet gewijzigd worden", ex.Message);
 
@@ -74,7 +73,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void Bestuurder_Adres_NotNull_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
 
             bestuurder.Adres = new Adres("L.Schuermanstraat", "20", "9040", "Gent");
 
@@ -84,7 +83,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void GeefVoertuig_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
 
             bestuurder.Adres = new Adres("L.Schuermanstraat", "20", "9040", "Gent");
 
@@ -98,7 +97,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void GeefTankKaart_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
 
             bestuurder.Adres = new Adres("L.Schuermanstraat", "20", "9040", "Gent");
 
@@ -113,12 +112,12 @@ namespace FleetManagement.Test.ModelTest {
         {
 
 
-            Bestuurder bestuurder1 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
-            Bestuurder bestuurder2 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            Bestuurder bestuurder1 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder2 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             Assert.True(bestuurder1.Equals(bestuurder2));
 
 
-            Bestuurder bestuurder3 = new Bestuurder("Filip", "Rigoir", "2018-12-05", "B,E+1", "1514081390", "18120553401");
+            Bestuurder bestuurder3 = new Bestuurder("Filip", "Rigoir", "2018-12-05", "B,E+1", "18120553401");
             Assert.False(bestuurder1.Equals(bestuurder3));
         }
 

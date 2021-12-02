@@ -19,7 +19,6 @@ namespace FleetManagement.Model
         public string GeboorteDatum { get; }
         public Adres Adres { get; set; }
         public string TypeRijbewijs { get; set; }
-        public string RijBewijsNummer { get; }
         public string RijksRegisterNummer { get; }
         public Voertuig Voertuig { get; private set; }
         public TankKaart Tankkaart { get; private set; }
@@ -32,8 +31,7 @@ namespace FleetManagement.Model
 
         #region Ctors
         //Nieuw Bestuurder: Enkel verplichte velden
-        public Bestuurder(string voornaam, string achternaam, string geboorteDatum, string typeRijbewijs,
-            string rijBewijsNummer, string rijksRegisterNummer)
+        public Bestuurder(string voornaam, string achternaam, string geboorteDatum, string typeRijbewijs, string rijksRegisterNummer)
         {
 
 #warning voor -en achternaam moeten invoegen voor exception. is dus nog niet getest
@@ -50,17 +48,14 @@ namespace FleetManagement.Model
                 RijksRegisterNummer = rijksRegisterNummer;
             }
 
-            if (CheckFormat.IsRijbewijsNummerGeldig(rijBewijsNummer))
-            {
-                TypeRijbewijs = typeRijbewijs;
-                RijBewijsNummer = rijBewijsNummer;
-            }
+#warning Rijbewijsnummer verwijderd. Hierdoor gezien dat TypeRijbewijs niet wordt gecheckt op null of leeg zijn
+
+            TypeRijbewijs = typeRijbewijs;
         }
 
         //Bestaande Bestuurder: ID met verplichte velden
         public Bestuurder(int bestuurderId, string voornaam, string achternaam, string geboorteDatum, string typeRijbewijs,
-            string rijBewijsNummer, string rijksRegisterNummer) : this(voornaam, achternaam, geboorteDatum,
-                typeRijbewijs, rijBewijsNummer, rijksRegisterNummer)
+            string rijksRegisterNummer) : this(voornaam, achternaam, geboorteDatum, typeRijbewijs, rijksRegisterNummer)
         {
             VoegIdToe(bestuurderId);
         }
