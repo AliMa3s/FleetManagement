@@ -147,7 +147,7 @@ namespace FleetManagement.Test.ModelTest {
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
 
             var ex = Assert.Throws<VoertuigException>(() => new Voertuig(automodel,"WAUZZZ8V5KA106598", "1ABC495", bezine).VoegBestuurderToe(bestuurder));
-
+            Assert.Equal("Ingegeven Bestuurder mag niet null zijn",ex.Message);
         }
 
         [Fact]
@@ -188,7 +188,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VoegIdToe_Invalid_BestaandeId()
         {
-            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("");
+            
             BrandstofVoertuig bezine = new("benzine", true);
             AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
             Voertuig voertuig = new(1,automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
@@ -201,7 +201,6 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VoegIdToe_Invalid_Kleinerdan1()
         {
-            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("");
             BrandstofVoertuig bezine = new("benzine", true);
             AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
             Voertuig voertuig = new( automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
@@ -210,6 +209,41 @@ namespace FleetManagement.Test.ModelTest {
                 voertuig.VoegIdToe(0);
             });
             Assert.Equal($"VoertuigId moet meer zijn dan 0", ex.Message);
+        }
+        [Fact]
+        public void VoegVoertuig_Invalid_Null()
+        {
+            Bestuurder bestuurder1 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            BrandstofVoertuig bezine = new("benzine", true);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+            var ex = Assert.Throws<BestuurderException>(() =>
+            {
+                bestuurder1.VoegVoertuigToe(null);
+            });
+            Assert.Equal($"Ingegeven Voertuig mag niet null zijn", ex.Message);
+        }
+        [Fact]
+        public void Nummerplaat_Valid()
+        {
+            BrandstofVoertuig bezine = new("benzine", true);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+
+            Assert.Equal("1ABC495", voertuig.NummerPlaat);
+        }
+        [Fact]
+        public void Nummerplaat_Invalid()
+        {
+            Bestuurder bestuurder1 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "1514081390", "76033101986");
+            BrandstofVoertuig bezine = new("benzine", true);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            
+            var ex = Assert.Throws<NummerPlaatException>(() =>
+            {
+                Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1AB", bezine);
+            });
+            Assert.Equal($"Nummerplaat moet format [1-9AZ][a-z][0-9] zijn", ex.Message);
         }
     }
 }

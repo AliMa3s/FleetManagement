@@ -33,25 +33,25 @@ namespace FleetManagement.Test.ModelTest.ModelScenario
             Assert.False(voertuig.HeeftVoertuigBestuurder);
 
             //Voeg de bestuurder toe
-            //ok bestaat al
+            //ok 
             voertuig.VoegBestuurderToe(bestuurder);
-
+            //ok
             //controleer nu dat bestuurder aanwezig is
             Assert.True(voertuig.HeeftVoertuigBestuurder);
-
+            //ok
             //Controleer de relatie: Bestuurder moet nu ook het voertuig kennen
             Assert.True(voertuig.Bestuurder.HeeftBestuurderVoertuig);
-
+            //ok
             //Controleer dat alle chassisNummers gelijk zijn
             Assert.Equal(voertuig.ChassisNummer, voertuig.Bestuurder.Voertuig.ChassisNummer);
             Assert.Equal("WAUZZZ8V5KA106598", voertuig.ChassisNummer);
             Assert.Equal("WAUZZZ8V5KA106598", voertuig.Bestuurder.Voertuig.ChassisNummer);
-
+            //ok
             //Controleer de Nummerplaten
             Assert.Equal(voertuig.NummerPlaat, voertuig.Bestuurder.Voertuig.NummerPlaat);
             Assert.Equal("1ABC495", voertuig.NummerPlaat);
             Assert.Equal("1ABC495", voertuig.Bestuurder.Voertuig.NummerPlaat);
-
+            //--------------------vanaf hier onder niet gedaan--------------------------//
             //Voeg een andere Bestuurder toe via Voertuig (selecteer ander Bestuurder uit repo)
             Bestuurder anderBestuurder = _bestuurderRepo.GeefBestuurder("76003101965");
 
