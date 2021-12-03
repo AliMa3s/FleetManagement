@@ -5,14 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF"
         mc:Ignorable="d"
-        Title="Filter" Height="450" Width="800">
+        Title="Filter" Height="400" Width="600">
 
-    <DockPanel>
+    <DockPanel Background="LightBlue" Margin="-2">
+        <DockPanel.Children>
+            <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
+                <Button x:Name="AnnuleerForm" Content="_Annuleer" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="AnnuleerForm_Click"/>
+                <Button x:Name="VoegtoeButton" Content="_Toevoegen" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="VoegtoeButton_Click"/>
 
-        <StackPanel x:Name="FirstDynamicCheckBoxes">
-            
-        </StackPanel>
-        
+                <TextBlock x:Name="infoTankkaartMess" HorizontalAlignment="Left" Height="95" Margin="20,5,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="350" FontSize="13" Foreground="#FFE51E1E"/>
+            </DockPanel>
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="33*"/>
+                    <ColumnDefinition Width="33*"/>
+                    <ColumnDefinition Width="33*"/>
+                </Grid.ColumnDefinitions>
+
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15*"/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="60*"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue" Content="Filteren van voertuigen"/>
+                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Padding="20,0,0,0" FontSize="15" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Left" FontWeight="Bold">Brandstoffen:</Label>
+                <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Padding="10,0,0,0" FontSize="15" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Left" FontWeight="Bold">AutoTypes:</Label>
+                <Label Grid.Row="2" Grid.Column="02" Grid.ColumnSpan="1" Padding="10,0,0,0" FontSize="15" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Left" FontWeight="Bold">VoertuigKleuren:</Label>
+
+                <Grid Grid.Column="0" Grid.Row="3">
+                    <StackPanel Margin="20,0,0,0" x:Name="HybrideCheckBox" />
+                </Grid>
+
+                <Grid Grid.Column="0" Grid.Row="4">
+                    <StackPanel Margin="20,0,0,0" x:Name="BrandstofCheckBoxes" />
+                </Grid>
+
+                <Grid Grid.Column="1" Grid.Row="3" Grid.RowSpan="2">
+                    <StackPanel Margin="10,0,0,0" x:Name="AutoTypeCheckBoxes" />
+                </Grid>
+
+                <Grid Grid.Column="2" Grid.Row="3" Grid.RowSpan="2">
+                    <StackPanel Margin="10,0,0,0" x:Name="KleurCheckBoxes" />
+                </Grid>
+
+            </Grid>
+        </DockPanel.Children>
     </DockPanel>
-    
+
 </Window>

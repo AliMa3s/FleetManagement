@@ -11,18 +11,20 @@ namespace FleetManagement.Filters
     {
         public List<string> Kleuren { get; }
         public List<string> AutoTypes { get; }
-        public List<string> Brandstof { get; }
+        public List<string> Brandstoffen { get; }
+        public bool Hybride { get; set; }
 
-        public Filter(List<string> kleuren, List<string> autoTypes, List<string> brandstof)
+        public Filter(List<string> kleuren, List<string> autoTypes, List<string> brandstoffen, bool hybride = false)
         {
-#warning gooi excteption en test
+#warning gooi excteption en test de inkomende args
             //if(kleuren == null) exception
             //if(autoTypes == null) exception
             //if(brandstof == null) exception
 
                 Kleuren = kleuren;
                 AutoTypes = autoTypes;
-                Brandstof = brandstof;
+                Brandstoffen = brandstoffen;
+                Hybride = hybride;
         }
     }
 }

@@ -24,7 +24,7 @@
 
                     <Button x:Name="KiesFilter" Content="_Filter invoegen" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="0,23,6,0" Width="120" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesFilter_Click"/>
 
-                    <TextBlock x:Name="infoVoertuigMess" Height="34" Margin="432,91,6,15" TextWrapping="Wrap" FontSize="13" Foreground="#FFE51E1E" DockPanel.Dock="Right" />
+                    <TextBlock x:Name="infoVoertuigMess" Margin="432,70,6,15" TextWrapping="Wrap" FontSize="13" Foreground="#FFE51E1E" DockPanel.Dock="Right" />
 
                 </Grid>
 
@@ -42,10 +42,11 @@
                     <DataGridTextColumn Header=" Model " Binding="{Binding AutoModel.AutoModelNaam}"/>
                     <DataGridTextColumn Header=" AutoType " Binding="{Binding AutoModel.AutoType.AutoTypeNaam}"/>
                     <DataGridTextColumn Header=" Brandstof " Binding="{Binding Brandstof.BrandstofNaam}"/>
+                    <DataGridTextColumn Header=" Hybride " Binding="{Binding Brandstof.Hybride}"/>
                     <DataGridTextColumn Header=" Kleur " Binding="{Binding VoertuigKleur.KleurNaam}"/>
                     <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding NummerPlaat}"/>
                     <DataGridTextColumn Header=" Chassisnummer " Binding="{Binding ChassisNummer}"/>
-                    <DataGridTextColumn Header=" Rijksregister Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
+                    <DataGridTextColumn Header=" Rijksr. Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
                 </DataGrid.Columns>
 
                 <DataGrid.RowStyle>

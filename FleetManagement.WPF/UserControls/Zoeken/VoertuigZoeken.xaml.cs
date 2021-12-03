@@ -27,6 +27,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         //private string _filter; 
 
         private Voertuig _voertuig;
+        private Filter _filter;
 
         public string PlaceHolderNummerplaatOfChassis { get;} = "Nummerplaat of Chassisnummer";
         public string PlaceHolderAutomodelNaam { get; } = "Merk + Automodel";
@@ -42,6 +43,15 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             }
         }
 
+        public Filter FilterWeergave
+        {
+            get => _filter;
+            set
+            {
+                _filter = value;
+            }
+        }
+
         public VoertuigZoeken(Managers managers)
         {
             InitializeComponent();
@@ -49,13 +59,13 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             NummerplaatOfChassisnummer.Text = PlaceHolderNummerplaatOfChassis;
             AutomodelNaam.Text = PlaceHolderAutomodelNaam;
 
-            Filter filter = new Filter(
-                new List<string>() { "Grijs", "Beige" }, 
-                new List<string>(),
-                new List<string>()
-            );
+            FilterWeergave = new(
+                    new(),
+                    new(),
+                    new()
+                );
 
-            ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter("", filter);
+            ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter("", FilterWeergave);
         }
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -69,8 +79,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void FilterOpMerkEnAutomdel_Changed(object sender, TextChangedEventArgs e)
         {
-            if (AutomodelNaam.Text != PlaceHolderAutomodelNaam)
-                ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter(AutomodelNaam.Text);
+            if (FilterWeergave != null && AutomodelNaam.Text != PlaceHolderAutomodelNaam)
+                ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter(AutomodelNaam.Text, FilterWeergave);
         }
 
         private void Verwijderen_Click(object sender, RoutedEventArgs e)
@@ -87,29 +97,28 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             infoVoertuigMess.Text = string.Empty;
 
-            FilterWindow filterWindow = new(_managers)
+            FilterWindow FilterWindow = new(_managers, FilterWeergave)
             {
                 Owner = Window.GetWindow(this),
-                //Filter = _filter
             };
 
-            bool? geslecteerd = filterWindow.ShowDialog();
+            string automodelnaam = "";
+
+            if (AutomodelNaam.Text != PlaceHolderAutomodelNaam)
+                automodelnaam = AutomodelNaam.Text;
+
+            bool? geslecteerd = FilterWindow.ShowDialog();
             if (geslecteerd == true)
             {
-                //_filter = filterWindow.Filter;
-
-                StringBuilder stringBuilder = new("Filteren op:");
-
-                //if (filterWindow.EnableAutopType)
-                //    stringBuilder.AppendLine("Autotypes");
-                //if (filterWindow.EnableBrandstof)
-                //    stringBuilder.AppendLine("Brandstoffen");
-                //if (filterWindow.EnableKleur)
-                //    stringBuilder.AppendLine("Kleuren");
-
-                //GekozenFilter.Text = stringBuilder;
-                //KiesFilter.Content = "Filter wijzigen";
+                KiesFilter.Content = "Filter wijzigen";
             }
+            else
+            {
+                KiesFilter.Content = "Filter invoegen";
+            }
+
+            FilterWeergave = FilterWindow.Filter;
+            ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter(automodelnaam, FilterWeergave);
         }
 
         private void Nummerplaat_GotFocus(object sender, RoutedEventArgs e)

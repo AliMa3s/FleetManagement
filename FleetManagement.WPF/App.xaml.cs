@@ -30,8 +30,10 @@ namespace FleetManagement.WPF
             //Manager instantie aamaken & Autotypes inladen
             Managers = new Managers(repositories)
             {
-                AutoTypes = config.GetSection("autotypes").AsEnumerable()
+                AutoTypes = config.GetSection("autotypes").AsEnumerable().Where(a => !string.IsNullOrEmpty(a.Value))
             };
+
+            System.Diagnostics.Debug.WriteLine(Managers.AutoTypes.ToList().Count);
         }
 
         protected override void OnStartup(StartupEventArgs e)

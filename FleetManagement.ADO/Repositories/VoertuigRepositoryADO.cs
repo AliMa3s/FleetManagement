@@ -318,6 +318,11 @@ namespace FleetManagement.ADO.Repositories {
 
         public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam, Filter filter)
         {
+            string queryHybride = "";
+            if(filter.Hybride)
+            {
+                queryHybride = $"AND v.hybride = 1 ";
+            }
 
             string queryKleur = "";
             if(filter.Kleuren.Count > 0)
@@ -346,10 +351,10 @@ namespace FleetManagement.ADO.Repositories {
 
             
             string queryBrandstof = "";
-            if (filter.Brandstof.Count > 0)
+            if (filter.Brandstoffen.Count > 0)
             {
                 string brandstof = "";
-                for (int i = 1; i <= filter.Brandstof.Count; i++)
+                for (int i = 1; i <= filter.Brandstoffen.Count; i++)
                 {
                     brandstof += "@brandstof" + i + ", ";  //"@brandstof1, @brandstof2, etc.."
                 }
@@ -363,6 +368,7 @@ namespace FleetManagement.ADO.Repositories {
                  "LEFT JOIN Bestuurder b ON v.voertuigid = b.voertuigid " +
                  "LEFT JOIN adres ad ON b.adresId = ad.adresId " +
                  "WHERE concat(a.merknaam, ' ', a.automodelnaam) LIKE @autonaam + '%' " +
+                 $"{queryHybride}" +
                  $"{queryKleur}" +
                  $"{queryAutoType}" +
                  $"{queryBrandstof}" +
@@ -395,10 +401,10 @@ namespace FleetManagement.ADO.Repositories {
                         });
                     }
 
-                    if (filter.Brandstof.Count > 0)
+                    if (filter.Brandstoffen.Count > 0)
                     {
                         int i = 1;
-                        filter.Brandstof.ForEach(brandstof =>
+                        filter.Brandstoffen.ForEach(brandstof =>
                         {
                             _ = command.Parameters.AddWithValue("@brandstof" + i, brandstof);
                             i++;

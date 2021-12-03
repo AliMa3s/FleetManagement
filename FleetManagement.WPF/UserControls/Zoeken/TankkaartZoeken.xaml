@@ -41,7 +41,7 @@
                     <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding GeldigheidsDatum}"/>
                     <DataGridTextColumn Header=" Actief " Binding="{Binding Actief}"/>
                     <DataGridTextColumn Header=" Pincode " Binding="{Binding Pincode}"/>
-                    <DataGridTextColumn Header=" Rijksregister Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
+                    <DataGridTextColumn Header=" Rijksr. Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
 
                 </DataGrid.Columns>
 
