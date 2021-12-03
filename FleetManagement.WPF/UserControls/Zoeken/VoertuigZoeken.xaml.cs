@@ -49,7 +49,11 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             NummerplaatOfChassisnummer.Text = PlaceHolderNummerplaatOfChassis;
             AutomodelNaam.Text = PlaceHolderAutomodelNaam;
 
-            Filter filter = new(new() { new("Grijs"), new("Zwart") }, new(), new());
+            Filter filter = new Filter(
+                new List<string>() { "Grijs", "Beige" }, 
+                new List<string>(),
+                new List<string>()
+            );
 
             ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter("", filter);
         }

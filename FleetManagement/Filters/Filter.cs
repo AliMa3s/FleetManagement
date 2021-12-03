@@ -20,13 +20,8 @@ namespace FleetManagement.Filters
             //if(autoTypes == null) exception
             //if(brandstof == null) exception
 
-            if (kleuren.Count > 0)
                 Kleuren = kleuren;
-
-            if (autoTypes.Count > 0)
                 AutoTypes = autoTypes;
-
-            if (brandstof.Count > 0)
                 Brandstof = brandstof;
         }
     }

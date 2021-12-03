@@ -320,7 +320,7 @@ namespace FleetManagement.ADO.Repositories {
         {
 
             string queryKleur = "";
-            if(filter.Kleuren != null && filter.Kleuren.Count > 0)
+            if(filter.Kleuren.Count > 0)
             {
                 string kleur = "";
                 for (int i = 1; i <= filter.Kleuren.Count; i++)
@@ -333,7 +333,7 @@ namespace FleetManagement.ADO.Repositories {
 
             
             string queryAutoType = "";
-            if (filter.AutoTypes != null && filter.AutoTypes.Count > 0)
+            if (filter.AutoTypes.Count > 0)
             {
                 string autotype = "";
                 for (int i = 1; i <= filter.AutoTypes.Count; i++)
@@ -346,7 +346,7 @@ namespace FleetManagement.ADO.Repositories {
 
             
             string queryBrandstof = "";
-            if (filter.Brandstof != null && filter.Brandstof.Count > 0)
+            if (filter.Brandstof.Count > 0)
             {
                 string brandstof = "";
                 for (int i = 1; i <= filter.Brandstof.Count; i++)
@@ -375,7 +375,7 @@ namespace FleetManagement.ADO.Repositories {
                 {
                     command.Parameters.AddWithValue("@autonaam", autonaam);
            
-                    if(filter.Kleuren != null && filter.Kleuren.Count > 0)
+                    if(filter.Kleuren.Count > 0)
                     {
                         int i = 1;  
                         filter.Kleuren.ForEach(kleur =>
@@ -385,7 +385,7 @@ namespace FleetManagement.ADO.Repositories {
                         });
                     }
 
-                    if (filter.AutoTypes != null && filter.AutoTypes.Count > 0)
+                    if (filter.AutoTypes.Count > 0)
                     {
                         int i = 1;
                         filter.AutoTypes.ForEach(autotype =>
@@ -395,7 +395,7 @@ namespace FleetManagement.ADO.Repositories {
                         });
                     }
 
-                    if (filter.Brandstof != null && filter.Brandstof.Count > 0)
+                    if (filter.Brandstof.Count > 0)
                     {
                         int i = 1;
                         filter.Brandstof.ForEach(brandstof =>
