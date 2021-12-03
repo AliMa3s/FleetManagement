@@ -1,4 +1,5 @@
-﻿using FleetManagement.Manager;
+﻿using FleetManagement.Filters;
+using FleetManagement.Manager;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,11 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             InitializeComponent();
             _managers = managers;
             NummerplaatOfChassisnummer.Text = PlaceHolderNummerplaatOfChassis;
-            AutomodelNaam.Text = PlaceHolderAutomodelNaam;           
+            AutomodelNaam.Text = PlaceHolderAutomodelNaam;
+
+            Filter filter = new(new() { new("Grijs"), new("Zwart") }, new(), new());
+
+            ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter("", filter);
         }
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -76,6 +81,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void KiesFilter_Click(object sender, RoutedEventArgs e)
         {
+            infoVoertuigMess.Text = string.Empty;
+
             FilterWindow filterWindow = new(_managers)
             {
                 Owner = Window.GetWindow(this),
@@ -141,12 +148,17 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private void ZoekNummerplaatOfChassisnummer_Click(object sender, RoutedEventArgs e)
         {
             Voertuig voertuigDB = _managers.VoertuigManager.ZoekOpNummerplaatOfChassisNummer(NummerplaatOfChassisnummer.Text);
-
-            if(voertuigDB != null)
+            
+            infoVoertuigMess.Text = string.Empty;
+            if (voertuigDB != null)
             {
                 List<Voertuig> voertuigen = new();
                 voertuigen.Add(voertuigDB);
                 ZoekWeergaveVoertuig.ItemsSource = voertuigen;
+            }
+            else
+            {
+                infoVoertuigMess.Text = "Geen resultaten gevonden";
             }
         }
     }

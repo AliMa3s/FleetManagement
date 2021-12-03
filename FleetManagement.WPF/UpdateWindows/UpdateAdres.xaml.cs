@@ -50,30 +50,36 @@ namespace FleetManagement.WPF.UpdateWindows {
             DataContext = AdresGegevens;
         }
 
-        private void SluitForm_Click(object sender, RoutedEventArgs e) {
-            Window.GetWindow(this).Close();
+        private void AnnuleerForm_Click(object sender, RoutedEventArgs e) {
+
+            AdresGegevens = null;
+            DialogResult = false;
         }
 
-        private void InvoegEnUpdateButton(object sender, RoutedEventArgs e)
+        private void InvoegEnUpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if(!string.IsNullOrWhiteSpace(StraatTextBox.Text) || !string.IsNullOrWhiteSpace(NummerTextBox.Text) 
+
+            if (!string.IsNullOrWhiteSpace(StraatTextBox.Text) || !string.IsNullOrWhiteSpace(NummerTextBox.Text)
                 || !string.IsNullOrWhiteSpace(PostcodeTextBox.Text)
                 || !string.IsNullOrWhiteSpace(GemeenteTextBox.Text))
             {
-                _adres = new Adres(
-                    StraatTextBox.Text ?? "",
-                    NummerTextBox.Text ?? "",
-                    PostcodeTextBox.Text ?? "",
-                    GemeenteTextBox.Text ?? ""
-                );
+
+
+                AdresGegevens = new Adres(
+                    string.IsNullOrWhiteSpace(StraatTextBox.Text) ? "" : StraatTextBox.Text,
+                    string.IsNullOrWhiteSpace(NummerTextBox.Text) ? "" : NummerTextBox.Text,
+                    string.IsNullOrWhiteSpace(PostcodeTextBox.Text) ? "" : PostcodeTextBox.Text,
+                    string.IsNullOrWhiteSpace(GemeenteTextBox.Text) ? "" : GemeenteTextBox.Text
+                ); ;
 
                 DialogResult = true;
             }
             else
             {
-                _adres = null;
+                AdresGegevens = null;
                 DialogResult = false;
             }
+
         }
     }
 }

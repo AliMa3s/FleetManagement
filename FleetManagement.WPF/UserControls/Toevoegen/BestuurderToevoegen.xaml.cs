@@ -59,18 +59,17 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
         private void AdresInvoegen_Click(object sender, RoutedEventArgs e)
         {
+            //Wis bij elke nieuw poging de message info
+            infoBestuurderMess.Text = string.Empty;
+
             UpdateAdres UpdateAdres = new(_ingevoegdAdres)
             {
                 Owner = Window.GetWindow(this),
-                AdresGegevens = _ingevoegdAdres
             };
 
             bool? geslecteerd = UpdateAdres.ShowDialog();
             if (geslecteerd == true)
             {
-                //Wis bij elke nieuw poging de message info
-                infoBestuurderMess.Text = string.Empty;
-
                 _ingevoegdAdres = UpdateAdres.AdresGegevens;
 
                 GekozenAdresText.Text = _ingevoegdAdres.Straat
@@ -81,11 +80,16 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             }
             else
             {
-                //Wis bij elke nieuw poging de message info
-                infoBestuurderMess.Text = string.Empty;
-
-                _ingevoegdAdres = UpdateAdres.AdresGegevens;
-                GekozenAdresText.Text = string.Empty;
+                if(UpdateAdres.AdresGegevens == null)
+                {
+                    _ingevoegdAdres = UpdateAdres.AdresGegevens;
+                    AdresInvoegen.Content = "Adres ingeven";
+                    GekozenAdresText.Text = string.Empty;
+                }
+                else
+                {
+                    UpdateAdres.AdresGegevens = _ingevoegdAdres;
+                }
             }
         }
 

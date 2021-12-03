@@ -9,9 +9,9 @@ namespace FleetManagement.Filters
 {
     public class Filter
     {
-        public string Kleuren { get; }
-        public string AutoTypes { get; }
-        public string Brandstof { get; }
+        public List<string> Kleuren { get; }
+        public List<string> AutoTypes { get; }
+        public List<string> Brandstof { get; }
 
         public Filter(List<string> kleuren, List<string> autoTypes, List<string> brandstof)
         {
@@ -21,13 +21,13 @@ namespace FleetManagement.Filters
             //if(brandstof == null) exception
 
             if (kleuren.Count > 0)
-                Kleuren = "'" + string.Join("','", kleuren) + "'";
+                Kleuren = kleuren;
 
-            if(autoTypes.Count > 0)
-                AutoTypes = "'" + string.Join("','", autoTypes) + "'";
+            if (autoTypes.Count > 0)
+                AutoTypes = autoTypes;
 
-            if(brandstof.Count > 0)
-                Brandstof = "'" + string.Join("','", brandstof) + "'";
+            if (brandstof.Count > 0)
+                Brandstof = brandstof;
         }
     }
 }

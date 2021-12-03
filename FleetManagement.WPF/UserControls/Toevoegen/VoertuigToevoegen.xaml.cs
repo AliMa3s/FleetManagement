@@ -163,14 +163,14 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                 GekozenBestuurder = selecteerBestuurder.Bestuurder;
                 GekozenBestuurderNaam.Text = GekozenBestuurder.Achternaam + " " + GekozenBestuurder.Voornaam;
                 KiesBestuurder.Visibility = Visibility.Hidden;
-                VergeetBestuurder.Visibility = Visibility.Visible;
+                AnnuleerBestuurder.Visibility = Visibility.Visible;
             }
         }
 
-        private void VergeetBestuurder_Click(object sender, RoutedEventArgs e)
+        private void AnnuleerBestuurder_Click(object sender, RoutedEventArgs e)
         {
             KiesBestuurder.Visibility = Visibility.Visible;
-            VergeetBestuurder.Visibility = Visibility.Hidden;
+            AnnuleerBestuurder.Visibility = Visibility.Hidden;
             GekozenBestuurderNaam.Text = string.Empty;
             GekozenBestuurder = null;
         }
@@ -209,7 +209,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             VoertuigKleur.SelectedIndex = 0;
             Deuren.SelectedIndex = 0;
             KiesBestuurder.Visibility = Visibility.Visible;
-            VergeetBestuurder.Visibility = Visibility.Hidden;
+            AnnuleerBestuurder.Visibility = Visibility.Hidden;
 
             GekozenAutoModel = null;
             GekozenBestuurder = null;

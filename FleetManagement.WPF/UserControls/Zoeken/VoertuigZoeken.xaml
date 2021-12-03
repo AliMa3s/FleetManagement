@@ -24,6 +24,8 @@
 
                     <Button x:Name="KiesFilter" Content="_Filter invoegen" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="0,23,6,0" Width="120" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesFilter_Click"/>
 
+                    <TextBlock x:Name="infoVoertuigMess" Height="34" Margin="432,91,6,15" TextWrapping="Wrap" FontSize="13" Foreground="#FFE51E1E" DockPanel.Dock="Right" />
+
                 </Grid>
 
             </DockPanel>
