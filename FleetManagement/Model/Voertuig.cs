@@ -28,12 +28,12 @@ namespace FleetManagement.Model
 
             if (CheckFormat.IsChassisNummerGeldig(chassisnummer))
             {
-                ChassisNummer = chassisnummer;
+                ChassisNummer = chassisnummer.ToUpper();
             }
 
             if (CheckFormat.IsNummerplaatGeldig(nummerplaat))
             {
-                NummerPlaat = nummerplaat;
+                NummerPlaat = nummerplaat.ToUpper();
             }
 
             Brandstof = brandstof ?? throw new VoertuigException($"{nameof(Brandstof)} mag niet leeg zijn");

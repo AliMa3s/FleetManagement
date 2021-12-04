@@ -88,6 +88,7 @@ namespace FleetManagement.WPF
 
                 checkBox.Content = autotype.Value;
                 checkBox.FontSize = 15;
+
                 checkBox.VerticalContentAlignment = VerticalAlignment.Center;
                 AutoTypeCheckBoxes.Children.Add(checkBox);
             });

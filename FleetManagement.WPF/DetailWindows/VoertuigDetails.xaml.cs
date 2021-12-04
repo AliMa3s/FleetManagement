@@ -32,14 +32,15 @@ namespace FleetManagement.WPF.DetailWindows {
 
             if (_voertuigDetail.HeeftVoertuigBestuurder)
             {
-                StringBuilder stringBuilder = new("Naam: " + _voertuigDetail.Bestuurder.Achternaam + "" + _voertuigDetail.Bestuurder.Voornaam);
-                stringBuilder.AppendLine("Rijksregisternr: " + _voertuigDetail.Bestuurder.RijksRegisterNummer);
-                HeeftBestuurder.Text = stringBuilder.ToString();
+                StringBuilder stringBuilder = new("Naam: " + _voertuigDetail.Bestuurder.Achternaam);
+                stringBuilder.Append(" " + _voertuigDetail.Bestuurder.Voornaam);
+                stringBuilder.AppendLine(Environment.NewLine + "Rijksregister: " + _voertuigDetail.Bestuurder.RijksRegisterNummer);
+                BestuurderDetail.Text = stringBuilder.ToString();
             }
 
             AutoModelGegevens.Text = _voertuigDetail.AutoModel.Merk + " "
                 + _voertuigDetail.AutoModel.AutoModelNaam + " "
-                + _voertuigDetail.AutoModel.AutoType;
+                + _voertuigDetail.AutoModel.AutoType.AutoTypeNaam;
 
             if(_voertuigDetail.AantalDeuren.HasValue)
             {

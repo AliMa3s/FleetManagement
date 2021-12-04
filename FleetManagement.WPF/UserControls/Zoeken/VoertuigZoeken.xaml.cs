@@ -1,6 +1,7 @@
 ﻿using FleetManagement.Filters;
 using FleetManagement.Manager;
 using FleetManagement.Model;
+using FleetManagement.WPF.DetailWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +66,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                     new()
                 );
 
-            ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter("", FilterWeergave);
+            FilterVoertuigDB();
         }
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -74,13 +75,34 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void ZoekenMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            if (_voertuig != null)
+            {
+                VoertuigDetails detailWindow = new VoertuigDetails(_managers, _voertuig)
+                {
+                    Owner = Window.GetWindow(this),
+                };
 
+                bool? verwijderd = detailWindow.ShowDialog();
+                if (verwijderd == true)
+                {
+                    FilterVoertuigDB();
+                }
+            }
         }
+
+        private void FilterVoertuigDB()
+        {
+            string automodelnaam = "";
+            if (AutomodelNaam.Text != PlaceHolderAutomodelNaam)
+                automodelnaam = AutomodelNaam.Text;
+
+            ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter(automodelnaam, FilterWeergave);
+        } 
 
         private void FilterOpMerkEnAutomdel_Changed(object sender, TextChangedEventArgs e)
         {
-            if (FilterWeergave != null && AutomodelNaam.Text != PlaceHolderAutomodelNaam)
-                ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter(AutomodelNaam.Text, FilterWeergave);
+            if (FilterWeergave != null)
+                FilterVoertuigDB();
         }
 
         private void Verwijderen_Click(object sender, RoutedEventArgs e)
@@ -118,7 +140,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             }
 
             FilterWeergave = FilterWindow.Filter;
-            ZoekWeergaveVoertuig.ItemsSource = _managers.VoertuigManager.GeefAlleVoertuigenFilter(automodelnaam, FilterWeergave);
+            FilterVoertuigDB();
         }
 
         private void Nummerplaat_GotFocus(object sender, RoutedEventArgs e)
@@ -172,6 +194,23 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             else
             {
                 infoVoertuigMess.Text = "Geen resultaten gevonden";
+            }
+        }
+
+        private void KiesDetail_Click(object sender, RoutedEventArgs e)
+        {
+            if (_voertuig != null)
+            {
+                VoertuigDetails detailWindow = new VoertuigDetails(_managers, _voertuig)
+                {
+                    Owner = Window.GetWindow(this),
+                };
+
+                bool? verwijderd = detailWindow.ShowDialog();
+                if (verwijderd == true)
+                {
+                    FilterVoertuigDB();
+                }
             }
         }
     }

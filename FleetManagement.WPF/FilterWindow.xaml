@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF"
         mc:Ignorable="d"
-        Title="Filter" Height="400" Width="600">
+        Title="Filter" Height="500" Width="600">
 
     <DockPanel Background="LightBlue" Margin="-2">
         <DockPanel.Children>
@@ -34,8 +34,8 @@
 
                 <Label Grid.Row="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue" Content="Filteren van voertuigen"/>
                 <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Padding="20,0,0,0" FontSize="15" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Left" FontWeight="Bold">Brandstoffen:</Label>
-                <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Padding="10,0,0,0" FontSize="15" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Left" FontWeight="Bold">AutoTypes:</Label>
-                <Label Grid.Row="2" Grid.Column="02" Grid.ColumnSpan="1" Padding="10,0,0,0" FontSize="15" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Left" FontWeight="Bold">VoertuigKleuren:</Label>
+                <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Padding="10,0,0,0" FontSize="15" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Left" FontWeight="Bold">Auto types:</Label>
+                <Label Grid.Row="2" Grid.Column="02" Grid.ColumnSpan="1" Padding="10,0,0,0" FontSize="15" VerticalContentAlignment="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  HorizontalContentAlignment="Left" FontWeight="Bold">Voertuig kleuren:</Label>
 
                 <Grid Grid.Column="0" Grid.Row="3">
                     <StackPanel Margin="20,0,0,0" x:Name="HybrideCheckBox" />

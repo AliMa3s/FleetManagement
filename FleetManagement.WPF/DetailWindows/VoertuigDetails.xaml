@@ -52,18 +52,18 @@
 
                 <Label x:Name="FormVoertuig" Grid.Row="0" Grid.ColumnSpan="5" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue" Content="Detail Voertuig"/>
                 <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">AutoModel :</Label>
-                <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Type Voertuig :</Label>
-                <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Kleur :</Label>
+                <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Type Voertuig :</Label>
+                <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Kleur :</Label>
                 <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Nummerplaat:</Label>
-                <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Brandstof:</Label>
+                <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Brandstof:</Label>
                 <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Hybride:</Label>
 
                 <TextBlock x:Name="AutoModelGegevens" TextWrapping="Wrap" Text="" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="2" VerticalAlignment="Stretch" FontSize="14" Padding="5,10,0,0"></TextBlock>
-                <TextBlock x:Name="AutoTypeTextBlock" Text="{Binding Path=AutoModel.Merk}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
-                <TextBlock x:Name="KleurTextBlock" Text="{Binding Path=VoertuigKleur}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="AutoTypeTextBlock" Text="{Binding Path=AutoModel.AutoType.AutoTypeNaam}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="KleurTextBlock" Text="{Binding Path=VoertuigKleur.KleurNaam}" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
                 <TextBlock x:Name="NummerplaatTextBlock" Text="{Binding Path=NummerPlaat}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
-                <TextBlock x:Name="BrandstofType" Text="{Binding Path=Brandstof.brandstofnaam}" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="BrandstofType" Text="{Binding Path=Brandstof.BrandstofNaam}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
                 <TextBlock x:Name="Hybride" Text="{Binding Path=Brandstof.Hybride}" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
@@ -72,7 +72,7 @@
                 <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Bestuurder:</Label>
                 <Grid Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="#FFE7E8EC">
 
-                    <TextBlock x:Name="HeeftBestuurder" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Language="nl-be" Text="Geen bestuurder"/></TextBlock>
+                    <TextBlock x:Name="BestuurderDetail" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2"><Run Language="nl-be" Text="Geen bestuurder"/></TextBlock>
                 </Grid>
             </Grid>
         </DockPanel.Children>
