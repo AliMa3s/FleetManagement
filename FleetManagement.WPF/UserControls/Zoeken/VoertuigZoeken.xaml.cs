@@ -2,15 +2,12 @@
 using FleetManagement.Manager;
 using FleetManagement.Model;
 using FleetManagement.WPF.DetailWindows;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -213,52 +210,6 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                     FilterVoertuigDB();
                 }
             }
-        }
-    }
-
-    public class NummerplaatConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if(value is string)
-            {
-                string nummerplaat = value as string;
-
-                return nummerplaat.Substring(0, 1) + "-" 
-                    + nummerplaat.Substring(1, 3) + "-" 
-                    + nummerplaat.Substring(4, 3);
-            }
-
-            return value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value;
-        }
-    }
-
-    public class RijksregisterConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is string)
-            {
-                string rijksregister = value as string;
-
-                return rijksregister.Substring(0, 2) + "." 
-                    + rijksregister.Substring(2, 2) + "." 
-                    + rijksregister.Substring(4, 2) + "-"
-                    + rijksregister.Substring(6, 3) + "."
-                    + rijksregister.Substring(9, 2);
-            }
-
-            return value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value;
         }
     }
 }

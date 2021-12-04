@@ -4,11 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Zoeken"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             xmlns:local1="clr-namespace:FleetManagement.WPF.Converters"
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
-        <local:NummerplaatConverter x:Key="NummerplaatConverter"/>
-        <local:RijksregisterConverter x:Key="RijksregisterConverter"/>
+        <local1:NummerplaatConverter x:Key="NummerplaatConverter"/>
+        <local1:RijksregisterConverter x:Key="RijksregisterConverter"/>
+        <local1:IsHybrideConverter x:Key="IsHybrideConverter"/>
     </UserControl.Resources>
     <DockPanel Background="LightSteelBlue"  Margin="-2">
         <DockPanel.Children>
@@ -45,7 +47,7 @@
                     <DataGridTextColumn Header=" Model " Binding="{Binding AutoModel.AutoModelNaam}"/>
                     <DataGridTextColumn Header=" AutoType " Binding="{Binding AutoModel.AutoType.AutoTypeNaam}"/>
                     <DataGridTextColumn Header=" Brandstof " Binding="{Binding Brandstof.BrandstofNaam}"/>
-                    <DataGridTextColumn Header=" Hybride " Binding="{Binding Brandstof.Hybride}"/>
+                    <DataGridTextColumn Header=" Hybride " Binding="{Binding Brandstof.Hybride, Converter={StaticResource IsHybrideConverter}}"/>
                     <DataGridTextColumn Header=" Kleur " Binding="{Binding VoertuigKleur.KleurNaam}"/>
                     <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding NummerPlaat, Converter={StaticResource NummerplaatConverter}}"/>
                     <DataGridTextColumn Header=" Chassisnummer " Binding="{Binding ChassisNummer}"/>
