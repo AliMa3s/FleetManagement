@@ -35,7 +35,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal("c-klasse", voertuig.AutoModel.AutoModelNaam);
             Assert.Equal(new AutoType("GT"), voertuig.AutoModel.AutoType);
             Assert.Equal("WAUZZZ8V5KA106598", voertuig.ChassisNummer);
-            Assert.Equal("1AYB020", voertuig.NummerPlaat);
+            Assert.Equal("1-AYB-020", voertuig.NummerPlaat);
             Assert.Equal("Diesel", voertuig.Brandstof.BrandstofNaam);
 
             Assert.Null(voertuig.VoertuigKleur);
@@ -56,7 +56,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal("c-klasse", voertuig.AutoModel.AutoModelNaam);
             Assert.Equal(new AutoType("GT"), voertuig.AutoModel.AutoType);
             Assert.Equal("WAUZZZ8V5KA106598", voertuig.ChassisNummer);
-            Assert.Equal("1AYB020", voertuig.NummerPlaat);
+            Assert.Equal("1-AYB-020", voertuig.NummerPlaat);
             Assert.Equal("Diesel", voertuig.Brandstof.BrandstofNaam);
 
             Assert.Null(voertuig.VoertuigKleur);
@@ -230,7 +230,7 @@ namespace FleetManagement.Test.ModelTest {
             AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
 
-            Assert.Equal("1ABC495", voertuig.NummerPlaat);
+            Assert.Equal("1-ABC-495", voertuig.NummerPlaat);
         }
         [Fact]
         public void Nummerplaat_Invalid()

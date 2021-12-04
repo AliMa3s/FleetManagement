@@ -42,7 +42,7 @@ namespace FleetManagement.WPF.DetailWindows {
                 + _voertuigDetail.AutoModel.AutoModelNaam + " "
                 + _voertuigDetail.AutoModel.AutoType.AutoTypeNaam;
 
-            if(_voertuigDetail.AantalDeuren.HasValue)
+            if (_voertuigDetail.AantalDeuren.HasValue)
             {
                 AutoModelGegevens.Text += " (" + _voertuigDetail.AantalDeuren.Value + " deurs)";
             }

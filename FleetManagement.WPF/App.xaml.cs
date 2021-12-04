@@ -32,8 +32,6 @@ namespace FleetManagement.WPF
             {
                 AutoTypes = config.GetSection("autotypes").AsEnumerable().Where(a => !string.IsNullOrEmpty(a.Value))
             };
-
-            System.Diagnostics.Debug.WriteLine(Managers.AutoTypes.ToList().Count);
         }
 
         protected override void OnStartup(StartupEventArgs e)

@@ -6,7 +6,10 @@
              xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Zoeken"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-
+    <UserControl.Resources>
+        <local:NummerplaatConverter x:Key="NummerplaatConverter"/>
+        <local:RijksregisterConverter x:Key="RijksregisterConverter"/>
+    </UserControl.Resources>
     <DockPanel Background="LightSteelBlue"  Margin="-2">
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Height="140" VerticalAlignment="Bottom" LastChildFill="False">
@@ -44,9 +47,9 @@
                     <DataGridTextColumn Header=" Brandstof " Binding="{Binding Brandstof.BrandstofNaam}"/>
                     <DataGridTextColumn Header=" Hybride " Binding="{Binding Brandstof.Hybride}"/>
                     <DataGridTextColumn Header=" Kleur " Binding="{Binding VoertuigKleur.KleurNaam}"/>
-                    <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding NummerPlaat}"/>
+                    <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding NummerPlaat, Converter={StaticResource NummerplaatConverter}}"/>
                     <DataGridTextColumn Header=" Chassisnummer " Binding="{Binding ChassisNummer}"/>
-                    <DataGridTextColumn Header=" Rijksr. Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>
+                    <DataGridTextColumn Header=" Rijksr. Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer, Converter={StaticResource RijksregisterConverter}}"/>
                 </DataGrid.Columns>
 
                 <DataGrid.RowStyle>
