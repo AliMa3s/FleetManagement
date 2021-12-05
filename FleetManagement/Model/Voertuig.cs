@@ -16,7 +16,7 @@ namespace FleetManagement.Model
         public AutoModel AutoModel { get; set; }
         public string ChassisNummer { get; }
         public string NummerPlaat { get; private set; }
-        public BrandstofVoertuig Brandstof { get; private set; }
+        public BrandstofVoertuig Brandstof { get; set; }
         public Kleur VoertuigKleur { get; set; }
         public DateTime InBoekDatum { get; set; }
         public AantalDeuren? AantalDeuren { get; set; }

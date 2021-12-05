@@ -33,18 +33,14 @@ namespace FleetManagement.Manager {
         public bool BestaatRijksRegisterNummer(string rijksRegisterNr) {
             try {
 
-                //Controleer rijksregisternummer op aantal digits
-                if (!CheckFormat.IsRijksRegisterGeldig(rijksRegisterNr))
-                {
-                    if (!_repo.BestaatRijksRegisterNummer(rijksRegisterNr)) {
-                        return false;
-                    } else {
-                        return true;
-                    }    
+                //Controleer rijksregisternummer en gooit eigen exception 
+                if (!CheckFormat.IsRijksRegisterGeldig(rijksRegisterNr)) { }
+
+                if (!_repo.BestaatRijksRegisterNummer(rijksRegisterNr)) {
+                    return false;
                 }
-                else
-                {
-                    throw new BestuurderManagerException("Rijksregisternummer is niet juist");
+                else {
+                    return true;
                 }
 
             } catch (Exception ex) {
