@@ -11,6 +11,7 @@
             <TabItem x:Name="VoertuigZoekTab" Header="Voertuigen" FontSize="14"/>
             <TabItem x:Name="BestuurderZoekTab" Header="Bestuurders" FontSize="14"></TabItem>
             <TabItem x:Name="TankkaartZoekTab" Header="Tankkaarten" FontSize="14"></TabItem>
+            <TabItem x:Name="AutomodelZoekTab" Header="Automodellen" FontSize="14"></TabItem>
         </TabControl>
     </Grid>
 </Window>
