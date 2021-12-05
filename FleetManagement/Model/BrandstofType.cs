@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Model {
 
-    public class BrandstofType : IComparable {
+    public class BrandstofType {
 
         public virtual int BrandstofTypeId { get; }
         public string BrandstofNaam { get; }
@@ -23,23 +23,6 @@ namespace FleetManagement.Model {
 
             BrandstofTypeId = brandstofTypeId > 0 ? brandstofTypeId 
                 : throw new BrandstofTypeException("BrandstofTypeId moet meer zijn dan 0");
-        }
-
-#warning Testen: controleer dat sort() gaat
-        public int CompareTo(object obj)
-        {
-            if (obj == null)
-            {
-                return 1;
-            }
-
-            if (obj is BrandstofType)
-            {
-                BrandstofType anderBrandstofstype = obj as BrandstofType;
-                return BrandstofNaam.CompareTo(anderBrandstofstype.BrandstofNaam);
-            }
-
-            return 0;
         }
     }
 }
