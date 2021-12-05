@@ -31,7 +31,6 @@ namespace FleetManagement.Test
         [Theory]
         [InlineData("76033101905", "1976-03-31")]
         [InlineData("76033101998", "1976/03/31")]
-        [InlineData("76033101998", "1976/03/316")]
         [InlineData("76033101p86", "1976/03/31")]
         [InlineData("76033101986", "31/03/1976")]
         [InlineData("76033201956", "31/03/1976")]
@@ -39,9 +38,22 @@ namespace FleetManagement.Test
         [InlineData("76043101986", "31/03/1976")]
         [InlineData("76043101986", "3103-19/76")]
         [InlineData("00450553419", "0000")]
+        [InlineData("", null)]
+        [InlineData("", "")] 
         public void RijksRegisterNummerOngeldig(string rijksRegisterNummer, string geboorteDatum)
         {
             Assert.Throws<RijksRegisterNummerException>(() => {
+                CheckFormats.CheckFormat.IsRijksRegisterGeldig(rijksRegisterNummer, geboorteDatum);
+            });
+        }
+
+        [Theory]
+        [InlineData("76033101998", "1976/03/316")]
+        [InlineData("76033101998", "1976h/03/31")]
+        [InlineData("76033101998", "19768/03/35")]
+        public void RijksRegisterNummerFoutiefGeboortedatumFormat(string rijksRegisterNummer, string geboorteDatum)
+        {
+            Assert.Throws<GeboorteDatumException>(() => {
                 CheckFormats.CheckFormat.IsRijksRegisterGeldig(rijksRegisterNummer, geboorteDatum);
             });
         }

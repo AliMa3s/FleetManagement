@@ -8,12 +8,16 @@ namespace FleetManagement.CheckFormats
     {
         public static bool IsPincodeGeldig(string pincode)
         {
+            if(pincode == null) throw new PincodeException("pincode mag niet null zijn");
+
             return Regex.IsMatch(pincode, @"^[0-9]{4,5}$")
                 ? true : throw new PincodeException("pincode moet een string zijn met 4 of 5 cijfers");
         }
 
         public static bool IsChassisNummerGeldig(string chassisNummer)
         {
+            if (chassisNummer == null) throw new ChassisNummerException("chassisnummer mag niet null zijn");
+
             return Regex.IsMatch(chassisNummer.ToUpper(), @"^[0-9A-HJ-NPR-Z]{17}$")
                 ? true : throw new ChassisNummerException("Chassisnummer moet string zijn van 17 cijfers/letters maar " +
                 $"letter I/i, O/o en Q/q mag er niet in voorkomen");
@@ -21,14 +25,23 @@ namespace FleetManagement.CheckFormats
 
         public static bool IsNummerplaatGeldig(string nummerPlaat)
         {
+            if (nummerPlaat == null) throw new NummerPlaatException("nummerplaat mag niet null zijn");
+
             return Regex.IsMatch(nummerPlaat.ToUpper(), @"^[1-9A-Z]{1}[A-Z]{3}[0-9]{3}$")
                 ? true : throw new NummerPlaatException("Nummerplaat moet format [1-9AZ][a-z][0-9] zijn");
+        }
+
+        public static bool IsRijksRegisterGeldig(string rijksRegisterNummer)
+        {
+            if (rijksRegisterNummer == null) throw new RijksRegisterNummerException("rijksregisternummer bestaat uit 11 digits");
+
+            return Regex.IsMatch(rijksRegisterNummer, @"^[0-9]{11}$");
         }
 
         public static bool IsRijksRegisterGeldig(string rijksRegisterNummer, string ingegevenGeboorteDatum)
         {
             //Controleer eerst het format
-            if (Regex.IsMatch(rijksRegisterNummer.ToUpper(), @"^[0-9]{11}$"))
+            if (IsRijksRegisterGeldig(rijksRegisterNummer))
             {
                 SplitRijksRegister rijksRegister = new(rijksRegisterNummer);
                 SplitGeboorteDatum geboortedatum = new(ingegevenGeboorteDatum);
@@ -60,7 +73,9 @@ namespace FleetManagement.CheckFormats
 
         public static bool IsTankKaartNummerGeldig(string tankKaartNummer)
         {
-            return Regex.IsMatch(tankKaartNummer.ToUpper(), @"^[0-9]{16,20}$")
+            if (tankKaartNummer == null) throw new TankKaartException("tankkaartnummer mag niet null zijn");
+
+            return Regex.IsMatch(tankKaartNummer, @"^[0-9]{16,20}$")
                 ? true : throw new TankKaartException($"Tankkaartnummer is niet het juiste format");
         }
 

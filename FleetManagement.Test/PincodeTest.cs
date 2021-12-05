@@ -31,6 +31,8 @@ namespace FleetManagement.Test
         [InlineData("M001")]
         [InlineData("KloP")]
         [InlineData("-1231")]
+        [InlineData(null)]
+        [InlineData("")]
         [InlineData(" ")]
         [InlineData("     ")]
         [InlineData("0")]

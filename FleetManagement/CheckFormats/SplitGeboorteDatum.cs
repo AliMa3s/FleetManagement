@@ -4,13 +4,15 @@ using System.Text.RegularExpressions;
 
 namespace FleetManagement.CheckFormats
 {
-    class SplitGeboorteDatum
+    internal class SplitGeboorteDatum
     {
         public int Jaartal { get; }
         public string ControleDatum { get; }
 
         public SplitGeboorteDatum(string geboorteDatum)
         {
+            if(geboorteDatum == null) throw new GeboorteDatumException("GeboorteDatum mag niet null zijn");
+
             string datumInDigits = geboorteDatum.Replace("-", "").Replace("/", "");
 
             if (Regex.IsMatch(datumInDigits, @"^[0-9]{4}$"))
@@ -30,7 +32,7 @@ namespace FleetManagement.CheckFormats
             }
             else
             {
-                throw new RijksRegisterNummerException("GeboorteDatum is niet het juiste formaat");
+                throw new GeboorteDatumException("GeboorteDatum is niet het juiste formaat");
             }
         }
     }

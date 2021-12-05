@@ -49,8 +49,8 @@ namespace FleetManagement.Test.ModelTest.ModelScenario
             //ok
             //Controleer de Nummerplaten
             Assert.Equal(voertuig.NummerPlaat, voertuig.Bestuurder.Voertuig.NummerPlaat);
-            Assert.Equal("1-ABC-495", voertuig.NummerPlaat);
-            Assert.Equal("1-ABC-495", voertuig.Bestuurder.Voertuig.NummerPlaat);
+            Assert.Equal("1ABC495", voertuig.NummerPlaat);
+            Assert.Equal("1ABC495", voertuig.Bestuurder.Voertuig.NummerPlaat);
             //--------------------vanaf hier onder niet gedaan--------------------------//
             //Voeg een andere Bestuurder toe via Voertuig (selecteer ander Bestuurder uit repo)
             Bestuurder anderBestuurder = _bestuurderRepo.GeefBestuurder("76003101965");

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using FleetManagement.Exceptions;
+using System;
 
 namespace FleetManagement.CheckFormats
 {
-    class SplitRijksRegister
+    internal class SplitRijksRegister
     {
         public string Maand { get;}
         public string Dag { get; }
@@ -13,6 +14,8 @@ namespace FleetManagement.CheckFormats
 
         public SplitRijksRegister(string rijksRegisterNummer)
         {
+            if (rijksRegisterNummer == null) throw new RijksRegisterNummerException("rijksRegisterNummer mag niet null zijn");
+
             Maand = rijksRegisterNummer.Substring(2, 2);
             Dag = rijksRegisterNummer.Substring(4, 2);
             ControleDatum = rijksRegisterNummer.Substring(0, 6);

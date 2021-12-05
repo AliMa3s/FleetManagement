@@ -23,6 +23,7 @@ namespace FleetManagement.Test
         [InlineData("OABCDEFGHJKLMN1234")]
         [InlineData("I0234DkzpGUKNt6Gb")]
         [InlineData("0Q234DkzpGUKNt6Gb")]
+        [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
         [InlineData("0234DkzpIGUKNt6GbK")]

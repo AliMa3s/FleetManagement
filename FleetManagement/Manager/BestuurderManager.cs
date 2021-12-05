@@ -32,9 +32,9 @@ namespace FleetManagement.Manager {
 
         public bool BestaatRijksRegisterNummer(string rijksRegisterNr) {
             try {
-                //if (string.IsNullOrWhiteSpace(rijksRegisterNr)) throw new TankKaartManagerException("RijksRegisternr - Foutief");
+
                 //Controleer rijksregisternummer op aantal digits
-                if (!Regex.IsMatch(rijksRegisterNr.ToUpper(), @"^[0-9]{11}$"))
+                if (!CheckFormat.IsRijksRegisterGeldig(rijksRegisterNr))
                 {
                     if (!_repo.BestaatRijksRegisterNummer(rijksRegisterNr)) {
                         return false;

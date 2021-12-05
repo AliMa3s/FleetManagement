@@ -24,6 +24,7 @@ namespace FleetManagement.Test
         }
 
         [Theory]
+        [InlineData(null)]
         [InlineData("")]
         [InlineData("       ")]
         [InlineData("1-AB-C495")]

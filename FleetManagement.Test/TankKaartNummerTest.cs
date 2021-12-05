@@ -28,6 +28,8 @@ namespace FleetManagement.Test
         [InlineData("M001")]
         [InlineData("231045698")]
         [InlineData("-1231")]
+        [InlineData(null)]
+        [InlineData("")]
         [InlineData(" ")]
         [InlineData("     ")]
         [InlineData("0")]
