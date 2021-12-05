@@ -10,5 +10,10 @@ namespace FleetManagement.Interfaces
     public interface IAutoModelRepository
     {
         public IReadOnlyList<AutoModel> FilterOpAutoModelNaam(string autoModelNaam);
+        void VoegAutoModelToe(AutoModel autoModel);
+        void VerwijderAutoModel(AutoModel autoModel);
+        void UpdateAutoModel(AutoModel autoModel);
+        bool BestaatAutoModel(AutoModel autoModel);
+        bool BestaatAutoModel(int automodelId);
     }
 }
