@@ -38,7 +38,7 @@
                           DockPanel.Dock="Top">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=" Tankkaartnummer " Binding="{Binding TankKaartNummer}"/>
-                    <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding GeldigheidsDatum}"/>
+                    <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding GeldigheidsDatum, StringFormat= dd/MM/yyyy}"/>
                     <DataGridTextColumn Header=" Actief " Binding="{Binding Actief}"/>
                     <DataGridTextColumn Header=" Pincode " Binding="{Binding Pincode}"/>
                     <DataGridTextColumn Header=" Rijksr. Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer}"/>

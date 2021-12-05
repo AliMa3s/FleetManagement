@@ -90,7 +90,7 @@ namespace FleetManagement.ADO.Repositories {
                     else
                     {
                         command.Parameters["@voertuigid"].Value = DBNull.Value;
-                    }
+                    } command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
 
                     if (bestuurder.Adres == null)
                     {
@@ -166,8 +166,8 @@ namespace FleetManagement.ADO.Repositories {
                 Connection = sqlConnection;
             }
 
-            string query = "INSERT INTO Bestuurder (adresid, voornaam, achternaam, geboortedatum,  rijksregisternummer, rijbewijstype) " +
-                           "OUTPUT INSERTED.bestuurderid VALUES (@adresid, @voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype)";
+            string query = "INSERT INTO Bestuurder (adresid, voornaam, achternaam, geboortedatum, rijksregisternummer, rijbewijstype, voertuigid) " +
+                "OUTPUT INSERTED.bestuurderid VALUES (@adresid, @voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype, @voertuigid)";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
@@ -181,11 +181,25 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters.Add(new SqlParameter("@geboortedatum", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@rijbewijstype", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
 
                     if (bestuurder.Adres == null)
+                    {
                         command.Parameters["@adresid"].Value = DBNull.Value;
+                    }
                     else
+                    {
                         command.Parameters["@adresid"].Value = bestuurder.Adres.AdresId;
+                    }
+
+                    if (bestuurder.HeeftBestuurderVoertuig)
+                    {
+                        command.Parameters["@voertuigid"].Value = bestuurder.Voertuig.VoertuigId;
+                    }
+                    else
+                    {
+                        command.Parameters["@voertuigid"].Value = DBNull.Value;
+                    }
 
                     command.Parameters["@voornaam"].Value = bestuurder.Voornaam;
                     command.Parameters["@achternaam"].Value = bestuurder.Achternaam;
@@ -273,8 +287,8 @@ namespace FleetManagement.ADO.Repositories {
             return null;
         }
 
-        //Om bestuurder te selecteren
-        public IReadOnlyList<Bestuurder> SelecteerOpBestuurdersNaam(string achterNaamEnVoornaam)
+        //Om bestuurders te selecteren zonder voertuig
+        public IReadOnlyList<Bestuurder> SelecteerBestuurdersZonderVoertuig(string achterNaamEnVoornaam)
         {
             string query = "SELECT * FROM Bestuurder AS b " +
                    "LEFT JOIN adres AS a ON b.adresId = a.adresId " +
@@ -336,6 +350,86 @@ namespace FleetManagement.ADO.Repositories {
                                 }
 
                                bestuurders.Add(bestuurderDB);
+                            }
+                        }
+
+                        return bestuurders;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new BestuurderRepositoryADOException("Filteren op naam - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
+        }
+
+        //Om bestuurders te selecteren zonder tankkaart
+        public IReadOnlyList<Bestuurder> SelecteerBestuurdersZondertankkaart(string achterNaamEnVoornaam)
+        {
+            string query = "SELECT * FROM Bestuurder AS b " +
+                   "LEFT JOIN adres AS a ON b.adresId = a.adresId " +
+                   "LEFT JOIN Tankkaart t ON b.bestuurderId = t.bestuurderId " +
+                   "WHERE t.bestuurderid IS NULL AND concat(b.achternaam, ' ', b.voornaam) LIKE @achterNaamEnVoornaam + '%' " +
+                   "ORDER BY b.achternaam ASC , b.voornaam ASC " +
+                   "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
+
+            List<Bestuurder> bestuurders = new();
+
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@achterNaamEnVoornaam", achterNaamEnVoornaam);
+                    Connection.Open();
+
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read())
+                            {
+                                Bestuurder bestuurderDB = new(
+                                    (int)dataReader["bestuurderid"],
+                                    (string)dataReader["voornaam"],
+                                    (string)dataReader["achternaam"],
+                                    (string)dataReader["geboortedatum"],
+                                    (string)dataReader["rijbewijstype"],
+                                    (string)dataReader["rijksregisternummer"]
+                                );
+
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("adresId")))
+                                {
+                                    Adres adresDB = new(
+                                        (string)dataReader["straat"],
+                                        (string)dataReader["nummer"],
+                                        (string)dataReader["postcode"],
+                                        (string)dataReader["gemeente"]
+                                    );
+                                    adresDB.VoegIdToe((int)dataReader["adresId"]);
+                                    bestuurderDB.Adres = adresDB;
+                                }
+
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("tankkaartnummer")))
+                                {
+                                    TankKaart tankKaartDB = new(
+                                        (string)dataReader["tankkaartnummer"],
+                                        (bool)dataReader["actief"],
+                                        dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum"))
+                                    );
+
+                                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode")))
+                                    {
+                                        tankKaartDB.VoegPincodeToe((string)dataReader["pincode"]);
+                                    };
+
+                                    bestuurderDB.VoegTankKaartToe(tankKaartDB);
+                                }
+
+                                bestuurders.Add(bestuurderDB);
                             }
                         }
 

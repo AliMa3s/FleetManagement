@@ -29,6 +29,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         //VELD !! code behind
         private Adres _ingevoegdAdres;
         private TankKaart _gekozenTankkaart;
+        private Voertuig _gekozenVoertuig;
 
         public BestuurderToevoegen(Managers managers)
         {
@@ -43,6 +44,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         }
 
         private void KiesTankkaart_Click(object sender, RoutedEventArgs e) {
+
             SelecteerTankkaart selecteerTankkaart = new(_managers.TankkaartManager)
             {
                 Owner = Window.GetWindow(this),
@@ -108,11 +110,14 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             RijBewijs.Text = string.Empty;
             GekozenAdresText.Text = string.Empty;
             GekozenTankkaartText.Text = string.Empty;
+            GekozenVoertuigText.Text = string.Empty;
             AdresInvoegen.Content = "Adres ingeven";
-            TankkaarSelecteren.Content = "Tankkaart Selecteren";
+            TankkaarSelecteren.Content = "Tankkaart selecteren";
+            VoertuigSelecteren.Content = "Voertuig selecteren";
 
             _ingevoegdAdres = null;
             _gekozenTankkaart = null;
+            _gekozenVoertuig = null;
         }
 
         private void BestuurderAanmakenButton_Click(object sender, RoutedEventArgs e)
@@ -145,13 +150,21 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                 //Update tankkaart
                 if (_gekozenTankkaart != null)
                 {
-                    //System.Diagnostics.Debug.WriteLine(bestuurderDB.BestuurderId);
-
                     bestuurderDB.VoegTankKaartToe(_gekozenTankkaart);
                     _managers.TankkaartManager.UpdateTankKaart(bestuurderDB.Tankkaart);
 
                     infoBestuurderMess.Foreground = Brushes.Green;
-                    infoBestuurderMess.Text = "Bestuurder succesvol toegevoegd & Tankkaart aan bestuurder gelinkt";
+                    infoBestuurderMess.Text += ", tankkaart aan bestuurder gelinkt";
+                }
+
+                //Update voertuig
+                if (_gekozenVoertuig != null)
+                {
+                    bestuurderDB.VoegVoertuigToe(_gekozenVoertuig);
+                    _managers.VoertuigManager.UpdateVoertuig(bestuurderDB.Voertuig);
+
+                    infoBestuurderMess.Foreground = Brushes.Green;
+                    infoBestuurderMess.Text += ", voertuig aan bestuurder gelinkt";
                 }
 
                 ResetForm();
@@ -160,6 +173,23 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             {
                 infoBestuurderMess.Foreground = Brushes.Red;
                 infoBestuurderMess.Text = ex.Message;
+            }
+        }
+
+        private void VoertuigSelecteren_Click(object sender, RoutedEventArgs e)
+        {
+            SelecteerVoertuig selecteerVoertuig = new(_managers.VoertuigManager)
+            {
+                Owner = Window.GetWindow(this),
+                GekozenVoertuig = _gekozenVoertuig
+            };
+
+            bool? geslecteerd = selecteerVoertuig.ShowDialog();
+            if (geslecteerd == true)
+            {
+                _gekozenVoertuig = selecteerVoertuig.GekozenVoertuig;
+                GekozenVoertuigText.Text = _gekozenVoertuig.ChassisNummer;
+                VoertuigSelecteren.Content = "Voertuig wijzigen";
             }
         }
     }

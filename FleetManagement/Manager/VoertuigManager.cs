@@ -104,14 +104,6 @@ namespace FleetManagement.Manager {
             return _repo.BestaatChassisnummer(chassisNummer);
         }
 
-        public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam) 
-        {
-            //lege string is toegestaan anders kan er niet gefilterd worden
-            if (autonaam == null) throw new VoertuigManagerException("Autonaam mag niet null zijn");
-
-            return _repo.GeefAlleVoertuigenFilter(autonaam);
-        }
-
         public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam, Filter filter) 
         {
             //lege string is toegestaan anders kan er niet gefilterd worden
@@ -127,6 +119,14 @@ namespace FleetManagement.Manager {
             if (plaatnummerOfChassis == null) throw new VoertuigManagerException("Plaatnummer mag niet null zijn");
 
             return _repo.ZoekOpNummerplaatOfChassisNummer(plaatnummerOfChassis);
+        }
+
+        public IReadOnlyList<Voertuig> SelecteerZonderBestuurderFilter(string autonaam)
+        {
+            //lege string is toegestaan anders kan er niet gefilterd worden
+            if (autonaam == null) throw new VoertuigManagerException("Plaatnummer mag niet null zijn");
+
+            return _repo.SelecteerZonderBestuurderFilter(autonaam);
         }
     }
 }

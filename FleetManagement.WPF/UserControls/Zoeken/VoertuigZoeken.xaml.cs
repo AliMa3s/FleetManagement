@@ -103,11 +103,6 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 FilterVoertuigDB();
         }
 
-        private void Verwijderen_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void SluitVoertuigForm_Click(object sender, RoutedEventArgs e)
         {
             Window.GetWindow(this).Close();

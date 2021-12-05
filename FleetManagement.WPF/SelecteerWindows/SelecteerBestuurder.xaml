@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF.SelecteerWindows"
         mc:Ignorable="d"
-        Title="Selecteer bestuurder" Height="600" Width="800">
+        Height="600" Width="800">
     <DockPanel Background="LightSteelBlue"  Margin="0">
         <DockPanel.Children>
             
@@ -29,7 +29,6 @@
                     <DataGridTextColumn Header=" Rijbewijs " Binding="{Binding TypeRijbewijs}"/>
                     <DataGridTextColumn Header=" Rijksregisternummer " Binding="{Binding RijksRegisterNummer}"/>
                     <DataGridTextColumn Header=" Postcode " Binding="{Binding Adres.Postcode}"/>
-                    <DataGridTextColumn Header=" Tankkaart " Binding="{Binding Tankkaart.TankKaartNummer}"/>
                 </DataGrid.Columns>
                 
                 <DataGrid.RowStyle>

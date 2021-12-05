@@ -1,6 +1,7 @@
 ﻿using FleetManagement.Manager;
 using FleetManagement.ManagerExceptions;
 using FleetManagement.Model;
+using FleetManagement.WPF.SelecteerWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         private readonly Managers _managers;
         private List<string> _keuzeBrandstoffen = new();
 
+        private Bestuurder GekozenBestuurder { get; set; }
         public string DisplayFirst { get; set; } = "Selecteer";
 
         public TankkaartToevoegen(Managers managers)
@@ -97,6 +99,13 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                         ResetVelden();
                         infoTankkaartMess.Text = "Tankkaart succesvol toegevoegd";
                         infoTankkaartMess.Foreground = Brushes.Green;
+
+                        if(GekozenBestuurder != null)
+                        {
+                            tankkaart.VoegBestuurderToe(GekozenBestuurder);
+                            _managers.BestuurderManager.UpdateBestuurder(tankkaart.Bestuurder);
+                            infoTankkaartMess.Text += ", bestuurder aan tankaart gelinkt";
+                        }
                     }
                 }
                 else
@@ -165,11 +174,42 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             UitgeefDatumDatePicker.SelectedDate = null;
             TankKaartTextBox.Text = null;
+            GekozenBestuurderNaam.Text = string.Empty;
+            GekozenBestuurder = null;
             GeldigheidsDatumDatePicker.SelectedDate = null;
-            PincodeTextBox.Text = null;
+            PincodeTextBox.Text = string.Empty;
             ResestDropown();
 
             infoTankkaartMess.Text = string.Empty;
+        }
+
+        private void KiesBestuurder_Click(object sender, RoutedEventArgs e)
+        {
+            SelecteerBestuurder selecteerBestuurder = new(_managers.BestuurderManager, "tankkaart")
+            {
+                Owner = Window.GetWindow(this),
+                Bestuurder = GekozenBestuurder
+            };
+
+            bool? geslecteerd = selecteerBestuurder.ShowDialog();
+            if (geslecteerd == true)
+            {
+                //Wis bij elke nieuw poging de message info
+                infoTankkaartMess.Text = string.Empty;
+
+                GekozenBestuurder = selecteerBestuurder.Bestuurder;
+                GekozenBestuurderNaam.Text = GekozenBestuurder.Achternaam + " " + GekozenBestuurder.Voornaam;
+                KiesBestuurder.Visibility = Visibility.Hidden;
+                AnnuleerBestuurder.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void AnnuleerBestuurder_Click(object sender, RoutedEventArgs e)
+        {
+            KiesBestuurder.Visibility = Visibility.Visible;
+            AnnuleerBestuurder.Visibility = Visibility.Hidden;
+            GekozenBestuurderNaam.Text = string.Empty;
+            GekozenBestuurder = null;
         }
     }
 }

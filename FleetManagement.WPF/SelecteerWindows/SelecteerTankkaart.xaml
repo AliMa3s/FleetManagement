@@ -11,10 +11,13 @@
 
             <DockPanel DockPanel.Dock="Bottom" Height="60" VerticalAlignment="Bottom" LastChildFill="False">
 
-                <Label  Height="36" VerticalAlignment="Center" FontSize="15" VerticalContentAlignment="Center" Margin="20,0,0,0" Width="52" HorizontalAlignment="Left">Tankkaart:</Label>
-                <TextBox x:Name="ZoekOpTankkaartNummer" Margin="20,0,0,0" MinWidth="410" Height="36" Width="337"/>
+                <Label  Height="36" VerticalAlignment="Center" FontSize="15" VerticalContentAlignment="Center" Margin="20,0,0,0" Width="85" HorizontalAlignment="Left">Tankkaart:</Label>
+                <TextBox x:Name="TankkaartNummerText" Margin="0,0,0,0" Height="36" VerticalContentAlignment="Center" Width="200" MaxLength="20"/>
                 <Button x:Name="AnnuleerTankkaart" Content="Annuleer" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonAnnuleer_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
                 <Button x:Name="VoegTankkaartToe" Content="Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonKiesToevoegen_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                <Button x:Name="ZoekOpTankkaartNummer" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="20,0,0,0" Width="86" DockPanel.Dock="Left" HorizontalAlignment="Left" Click="ZoekOpTankkaartNummer_Click"/>
+                <TextBlock x:Name="infoTankkaartMess" Height="34" Margin="20,0,50,0" TextWrapping="Wrap" Width="150" FontSize="13" Foreground="#FFE51E1E" DockPanel.Dock="Right" />
+
             </DockPanel>
             <DataGrid  x:Name="TankkaartLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
                           SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
@@ -24,10 +27,10 @@
                          DockPanel.Dock="Top">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=" Tankkaartnummer " Binding="{Binding TankKaartNummer}"/>
-                    <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding GeldigheidsDatum, StringFormat= d/MM/yyyy}"/>
+                    <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding GeldigheidsDatum, StringFormat= dd/MM/yyyy}"/>
                     <DataGridTextColumn Header=" Pincode " Binding="{Binding Pincode}"/>
                     <DataGridTextColumn Header=" Actief " Binding="{Binding Actief}"/>
-                    <DataGridTextColumn Header=" Uitgeefdatum " Binding="{Binding UitgeefDatum, StringFormat= d/MM/yyyy}"/>
+                    <DataGridTextColumn Header=" Uitgeefdatum " Binding="{Binding UitgeefDatum, StringFormat= dd/MM/yyyy}"/>
                 </DataGrid.Columns>
 
                 <DataGrid.RowStyle>

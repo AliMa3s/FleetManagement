@@ -22,6 +22,7 @@ namespace FleetManagement.WPF.SelecteerWindows
     public partial class SelecteerBestuurder : Window
     {
         private readonly BestuurderManager _bestuurderManager;
+        private readonly string _selector;
         private Bestuurder _bestuurder;
 
         public string PlaceholderName { get; } = "Achternaam + Voornaam";
@@ -36,14 +37,17 @@ namespace FleetManagement.WPF.SelecteerWindows
             }
         }
 
-        public SelecteerBestuurder(BestuurderManager manager)
+        public SelecteerBestuurder(BestuurderManager manager, string selector)
         {
             InitializeComponent();
             _bestuurderManager = manager;
+            _selector = selector;
 
-            BestuurdersLijst.ItemsSource = _bestuurderManager.SelecteerOpBestuurdersNaam("");
-            TextBoxFilterOpNaam.Text = PlaceholderName;
+            if (_selector == "voertuig") { Title = "Bestuurders zonder voertuig"; }
+            else { Title = "Bestuurders zonder tankkaart"; }
             
+            SelecteerBestuurders(_selector);
+            TextBoxFilterOpNaam.Text = PlaceholderName;
         }
 
         //Bestuurder bewaren telkens een Bestuurder wordt geselecteerd
@@ -80,9 +84,26 @@ namespace FleetManagement.WPF.SelecteerWindows
         //Filteren van naam
         private void TextBoxFilterTextChanged(object sender, TextChangedEventArgs e)
         {
-            if(TextBoxFilterOpNaam.Text != PlaceholderName)
+            SelecteerBestuurders(_selector);
+        }
+
+        private void SelecteerBestuurders(string selector)
+        {
+            switch(selector)
             {
-                BestuurdersLijst.ItemsSource = _bestuurderManager.SelecteerOpBestuurdersNaam(TextBoxFilterOpNaam.Text);
+                case "voertuig":
+                    if (TextBoxFilterOpNaam.Text != PlaceholderName)
+                    {
+                        BestuurdersLijst.ItemsSource = _bestuurderManager.SelecteerBestuurdersZonderVoertuig(TextBoxFilterOpNaam.Text);
+                    }
+                    break;
+
+                case "tankkaart":
+                    if (TextBoxFilterOpNaam.Text != PlaceholderName)
+                    {
+                        BestuurdersLijst.ItemsSource = _bestuurderManager.SelecteerBestuurdersZondertankkaart(TextBoxFilterOpNaam.Text);
+                    }
+                    break;
             }
         }
 

@@ -44,6 +44,7 @@ namespace FleetManagement.WPF
             CheckBox checkboxHybride = new();
             checkboxHybride.FontSize = 15;
             checkboxHybride.Name = "HybrideCheckbox";
+            checkboxHybride.VerticalContentAlignment = VerticalAlignment.Center;
             checkboxHybride.Content = "Hybride";
             if(Filter != null)
             {

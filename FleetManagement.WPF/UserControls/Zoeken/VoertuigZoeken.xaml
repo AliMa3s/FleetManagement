@@ -45,7 +45,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=" Merk " Binding="{Binding AutoModel.Merk}"/>
                     <DataGridTextColumn Header=" Model " Binding="{Binding AutoModel.AutoModelNaam}"/>
-                    <DataGridTextColumn Header=" AutoType " Binding="{Binding AutoModel.AutoType.AutoTypeNaam}"/>
+                    <DataGridTextColumn Header=" Autotype " Binding="{Binding AutoModel.AutoType.AutoTypeNaam}"/>
                     <DataGridTextColumn Header=" Brandstof " Binding="{Binding Brandstof.BrandstofNaam}"/>
                     <DataGridTextColumn Header=" Hybride " Binding="{Binding Brandstof.Hybride, Converter={StaticResource IsHybrideConverter}}"/>
                     <DataGridTextColumn Header=" Kleur " Binding="{Binding VoertuigKleur.KleurNaam}"/>

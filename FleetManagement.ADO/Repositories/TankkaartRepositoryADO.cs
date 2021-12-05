@@ -17,8 +17,6 @@ namespace FleetManagement.ADO.Repositories {
         //Toevoegen public met transactie
         public void VoegTankKaartToe(TankKaart tankkaart)
         {
-            List<BrandstofType> brandstoffenInDB = new List<BrandstofType>();
-
             Connection.Open();
             using (SqlTransaction transaction = Connection.BeginTransaction())
             {
@@ -49,8 +47,8 @@ namespace FleetManagement.ADO.Repositories {
                 Connection = sqlConnection;
             }
 
-            string query = "INSERT INTO Tankkaart (tankkaartnummer, geldigheidsdatum, pincode, actief, uitgeefdatum) " +
-                           "VALUES (@tankkaartnummer, @geldigheidsdatum, @pincode, @actief, @uitgeefdatum)";
+            string query = "INSERT INTO Tankkaart (tankkaartnummer, bestuurderid, geldigheidsdatum, pincode, actief, uitgeefdatum) " +
+                           "VALUES (@tankkaartnummer, @bestuurderid, @geldigheidsdatum, @pincode, @actief, @uitgeefdatum)";
 
             using (SqlCommand command = Connection.CreateCommand())
             {
@@ -60,6 +58,7 @@ namespace FleetManagement.ADO.Repositories {
                     if (Connection.State != ConnectionState.Open) Connection.Open();
 
                     command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
                     command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.Date));
                     command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@actief", SqlDbType.Bit));
@@ -77,6 +76,15 @@ namespace FleetManagement.ADO.Repositories {
                     else
                     {
                         command.Parameters["@pincode"].Value = tankkaart.Pincode;
+                    }
+
+                    if(tankkaart.HeeftTankKaartBestuurder)
+                    {
+                        command.Parameters["@bestuurderid"].Value = tankkaart.Bestuurder.BestuurderId;
+                    }
+                    else
+                    {
+                        command.Parameters["@bestuurderid"].Value = DBNull.Value;
                     }
 
                     command.CommandText = query;
@@ -497,7 +505,7 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-        //
+        //Geef alle tankkaarten die nog geen bestuurder hebben
         public IReadOnlyList<TankKaart> TankaartenZonderBestuurder() {
 
             string query = "SELECT * FROM Tankkaart t " +

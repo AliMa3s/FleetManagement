@@ -15,8 +15,8 @@ namespace FleetManagement.Interfaces {
         public Voertuig VoegVoertuigToe(Voertuig voertuig);
         public void UpdateVoertuig(Voertuig voertuig);
         public void VerwijderVoertuig(Voertuig voertuig);
-        public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam);
         public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam, Filter filter);
         public Voertuig ZoekOpNummerplaatOfChassisNummer(string plaatnummerOfChassis);
+        public IReadOnlyList<Voertuig> SelecteerZonderBestuurderFilter(string autonaam); 
     }
 }

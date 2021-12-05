@@ -148,7 +148,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         //Voeg bestuurder toe uit een bestaande lijst
         private void KiesBestuurder_Click(object sender, RoutedEventArgs e)
         {
-            SelecteerBestuurder selecteerBestuurder = new(_managers.BestuurderManager)
+            SelecteerBestuurder selecteerBestuurder = new(_managers.BestuurderManager, "voertuig")
             {
                 Owner = Window.GetWindow(this),
                 Bestuurder = GekozenBestuurder

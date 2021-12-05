@@ -13,8 +13,7 @@ using System.Threading.Tasks;
 namespace FleetManagement.ADO.Repositories {
     public class VoertuigRepositoryADO : RepoConnection, IVoertuigRepository {
 
-        public VoertuigRepositoryADO(string connectionstring) : base(connectionstring) { }
-
+        public VoertuigRepositoryADO(string connectionstring) : base(connectionstring)  { }
 
         public bool BestaatVoertuig(Voertuig voertuig)
         {
@@ -62,7 +61,7 @@ namespace FleetManagement.ADO.Repositories {
                 }
                 catch (Exception ex)
                 {
-                    throw new TankkaartRepositoryADOException("Op plaatnummer zoeken - gefaald", ex);
+                    throw new TankkaartRepositoryADOException("Op chassisnummer zoeken - gefaald", ex);
                 }
                 finally
                 {
@@ -89,7 +88,7 @@ namespace FleetManagement.ADO.Repositories {
                 }
                 catch (Exception ex)
                 {
-                    throw new TankkaartRepositoryADOException("Op plaatnummer zoeken - gefaald", ex);
+                    throw new TankkaartRepositoryADOException("Op nummerplaat zoeken - gefaald", ex);
                 }
                 finally
                 {
@@ -203,117 +202,6 @@ namespace FleetManagement.ADO.Repositories {
                     Connection.Close();
                 }
             }
-        }
-
-        public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam)
-        {
-            string query = "SELECT * FROM Voertuig v " +
-                 "JOIN AutoModel a ON v.automodelid = a.automodelid " +
-                 "JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstoftypeid " +
-                 "LEFT JOIN Bestuurder b ON v.voertuigid = b.voertuigid " +
-                 "LEFT JOIN adres ad ON b.adresId = ad.adresId " +
-                 "WHERE concat(a.merknaam, ' ', a.automodelnaam) LIKE @autonaam + '%' " +
-                 "ORDER BY a.automodelnaam ASC, a.merknaam ASC " +
-                 "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
-
-            using (SqlCommand command = new(query, Connection))
-            {
-                try
-                {
-                    command.Parameters.AddWithValue("@autonaam", autonaam);
-                    Connection.Open();
-
-                    List<Voertuig> voertuigenDB = new();
-
-                    using (SqlDataReader dataReader = command.ExecuteReader())
-                    {
-                        if (dataReader.HasRows)
-                        {
-                            while (dataReader.Read())
-                            {
-                                //Instantieer AutoModeL
-                                AutoModel autoModelDB = new(
-                                    (int)dataReader["automodelid"],
-                                    (string)dataReader["merknaam"],
-                                    (string)dataReader["automodelnaam"],
-                                    new AutoType((string)dataReader["autotype"])
-                                );
-
-                                //Instantieer brandstof
-                                BrandstofVoertuig brandstofVoertuigDB = new(
-                                    (int)dataReader["brandstoftypeid"],
-                                    (string)dataReader["brandstofnaam"],
-                                    (bool)dataReader["hybride"]
-                                );
-
-                                //Instantieer voertuig
-                                Voertuig voertuigDB = new(
-                                        (int)dataReader["Voertuigid"],
-                                        autoModelDB,
-                                        (string)dataReader["chassisnummer"],
-                                        (string)dataReader["nummerplaat"],
-                                        brandstofVoertuigDB
-                                );
-
-                                //is kleur aanwezig
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("kleurnaam")))
-                                {
-                                    voertuigDB.VoertuigKleur = new Kleur(
-                                        (string)dataReader["kleurnaam"]
-                                    );
-                                }
-
-                                //is aantal deuren aanwezig + casting naar enum
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("aantal_deuren")))
-                                {
-                                    voertuigDB.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
-                                        ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
-                                        : throw new BrandstofRepositoryADOException("Aantal deuren - gefaald");
-                                }
-
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
-                                {
-                                    Bestuurder bestuurderDB = new(
-                                            (int)dataReader["bestuurderid"],
-                                            (string)dataReader["voornaam"],
-                                            (string)dataReader["achternaam"],
-                                            (string)dataReader["geboortedatum"],
-                                            (string)dataReader["rijbewijstype"],
-                                            (string)dataReader["rijksregisternummer"]
-                                        );
-
-                                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("adresId")))
-                                    {
-                                        Adres adresDB = new(
-                                            (string)dataReader["straat"],
-                                            (string)dataReader["nummer"],
-                                            (string)dataReader["postcode"],
-                                            (string)dataReader["gemeente"]
-                                        );
-                                        adresDB.VoegIdToe((int)dataReader["adresId"]);
-                                        bestuurderDB.Adres = adresDB;
-                                    }
-
-                                    voertuigDB.VoegBestuurderToe(bestuurderDB);
-                                }
-
-                                voertuigenDB.Add(voertuigDB);
-                            };
-                        }
-
-                        return voertuigenDB;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new BrandstofRepositoryADOException("Zoek op alle voertuigen filter - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
-            }
-            throw new NotImplementedException();
         }
 
         public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam, Filter filter)
@@ -496,7 +384,7 @@ namespace FleetManagement.ADO.Repositories {
                 }
                 catch (Exception ex)
                 {
-                    throw new BrandstofRepositoryADOException("Zoek op chassisnummer of nummerplaat - gefaald", ex);
+                    throw new BrandstofRepositoryADOException("Geef Alle Voertuigen met filter - gefaald", ex);
                 }
                 finally
                 {
@@ -607,6 +495,90 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new VoertuigRepositoryADOException("VoegVoertuig - gefaald", ex);
                 } finally {
+                    Connection.Close();
+                }
+            }
+        }
+
+        public IReadOnlyList<Voertuig> SelecteerZonderBestuurderFilter(string autonaam)
+        {
+            string query = "SELECT * FROM Voertuig v " +
+                 "LEFT JOIN Bestuurder b ON b.voertuigid = v.voertuigid " +
+                 "JOIN AutoModel a ON v.automodelid = a.automodelid " +
+                 "JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstoftypeid " +
+                 "WHERE concat(a.merknaam, ' ', a.automodelnaam) LIKE @autonaam +'%' " +
+                 "AND b.voertuigid IS NULL " +
+                 "ORDER BY v.chassisnummer ASC " +
+                 "OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY";
+
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@autonaam", autonaam);
+                    Connection.Open();
+
+                    List<Voertuig> voertuigenDB = new();
+
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read())
+                            {
+                                //Instantieer AutoModeL
+                                AutoModel autoModelDB = new(
+                                    (int)dataReader["automodelid"],
+                                    (string)dataReader["merknaam"],
+                                    (string)dataReader["automodelnaam"],
+                                    new AutoType((string)dataReader["autotype"])
+                                );
+
+                                //Instantieer brandstof
+                                BrandstofVoertuig brandstofVoertuigDB = new(
+                                    (int)dataReader["brandstoftypeid"],
+                                    (string)dataReader["brandstofnaam"],
+                                    (bool)dataReader["hybride"]
+                                );
+
+                                //Instantieer voertuig
+                                Voertuig voertuigDB = new(
+                                        (int)dataReader["Voertuigid"],
+                                        autoModelDB,
+                                        (string)dataReader["chassisnummer"],
+                                        (string)dataReader["nummerplaat"],
+                                        brandstofVoertuigDB
+                                );
+
+                                //is kleur aanwezig
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("kleurnaam")))
+                                {
+                                    voertuigDB.VoertuigKleur = new Kleur(
+                                        (string)dataReader["kleurnaam"]
+                                    );
+                                }
+
+                                //is aantal deuren aanwezig + casting naar enum
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("aantal_deuren")))
+                                {
+                                    voertuigDB.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
+                                        ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
+                                        : throw new BrandstofRepositoryADOException("Aantal deuren - gefaald");
+                                }
+
+                                voertuigenDB.Add(voertuigDB);
+                            };
+                        }
+
+                        return voertuigenDB;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new BrandstofRepositoryADOException("Selecteer alle voertuigen zonder bestuurder - gefaald", ex);
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }

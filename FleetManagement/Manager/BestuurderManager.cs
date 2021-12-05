@@ -51,15 +51,6 @@ namespace FleetManagement.Manager {
                 throw new BestuurderManagerException("RijksRegisterNr - BestaatRijksRegisterNummer - Foutief", ex);
             }
         }
- 
-        //public IReadOnlyList<Bestuurder> GeefAlleBestuurder() {
-        //    return _repo.GeefAlleBestuurder();
-        //}
-
-        //public Bestuurder GetBestuurderId(int bestuuderId) {
-        //    if (bestuuderId < 1) throw new BestuurderManagerException("Bestuurder id mag niet 0 of kleiner zijn.");
-        //    return _repo.GetBestuurderId(bestuuderId);
-        //}
 
         public void UpdateBestuurder(Bestuurder bestuurder) {
             try {
@@ -104,26 +95,7 @@ namespace FleetManagement.Manager {
             }
         }
         
-        //public Bestuurder ZoekBestuurder(int bestuurderid) {
-        //    try {
-        //        if (bestuurderid < 1) throw new BestuurderManagerException("Bestuurder id kan niet kleiner dan 0 zijn");
-        //        if (_repo.BestaatBestuurder(bestuurderid)) {
-        //            return _repo.ZoekBestuurder(bestuurderid);
-        //        } else {
-        //            throw new BestuurderManagerException("Bestuurder - Bestaat niet!");
-        //        }
-        //    } catch (Exception ex) {
-
-        //        throw new BestuurderManagerException(ex.Message);
-        //    }
-
-        //}
-
-        //public IReadOnlyList<Bestuurder> ZoekBestuurders(int? id, string voornaam, string achternaam, string geboortedatum, Adres adres) {
-        //    throw new NotImplementedException();
-        //}
-
-        public IReadOnlyList<Bestuurder> SelecteerOpBestuurdersNaam(string achterNaamEnVoornaam)
+        public IReadOnlyList<Bestuurder> SelecteerBestuurdersZonderVoertuig(string achterNaamEnVoornaam)
         {
             try
             {
@@ -132,7 +104,24 @@ namespace FleetManagement.Manager {
                     throw new BestuurderManagerException("filteren op naam mag niet null zijn");
                 }
 
-                return _repo.SelecteerOpBestuurdersNaam(achterNaamEnVoornaam);
+                return _repo.SelecteerBestuurdersZonderVoertuig(achterNaamEnVoornaam);
+            }
+            catch (Exception ex)
+            {
+                throw new BestuurderManagerException(ex.Message);
+            }
+        }
+
+        public IReadOnlyList<Bestuurder> SelecteerBestuurdersZondertankkaart(string achterNaamEnVoornaam)
+        {
+            try
+            {
+                if (achterNaamEnVoornaam == null)
+                {
+                    throw new BestuurderManagerException("filteren op naam mag niet null zijn");
+                }
+
+                return _repo.SelecteerBestuurdersZondertankkaart(achterNaamEnVoornaam);
             }
             catch (Exception ex)
             {
