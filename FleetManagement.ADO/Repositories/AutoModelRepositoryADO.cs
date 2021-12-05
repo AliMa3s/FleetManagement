@@ -13,6 +13,14 @@ namespace FleetManagement.ADO.Repositories
     {
         public AutoModelRepositoryADO(string connectionstring) : base(connectionstring) { }
 
+        public bool BestaatAutoModel(AutoModel autoModel) {
+            throw new NotImplementedException();
+        }
+
+        public bool BestaatAutoModel(int automodelId) {
+            throw new NotImplementedException();
+        }
+
         public IReadOnlyList<AutoModel> FilterOpAutoModelNaam(string autonaam)
         {
             string query = "SELECT * FROM AutoModel " +
@@ -51,15 +59,26 @@ namespace FleetManagement.ADO.Repositories
                 }
                 catch (Exception ex)
                 {
-#warning //exception nog aanmaken
-                    return null; 
-                    //throw new AutoModelRepositoryADOException("AutoModellen - gefaald", ex);
+
+                    throw new AutoModelRepositoryADOException("AutoModellen - gefaald", ex);
                 }
                 finally
                 {
                     Connection.Close();
                 }
             }
+        }
+
+        public void UpdateAutoModel(AutoModel autoModel) {
+            throw new NotImplementedException();
+        }
+
+        public void VerwijderAutoModel(AutoModel autoModel) {
+            throw new NotImplementedException();
+        }
+
+        public void VoegAutoModelToe(AutoModel autoModel) {
+            throw new NotImplementedException();
         }
     }
 }

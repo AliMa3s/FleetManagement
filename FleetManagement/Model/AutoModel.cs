@@ -16,7 +16,6 @@ namespace FleetManagement.Model
 
         public AutoModel(string merk, string autoModelNaam, AutoType autoType) 
         {
-#warning controleren op null & emtpy en exception gooien
             Merk = merk;
             AutoModelNaam = autoModelNaam;
             AutoType = autoType;
