@@ -1,4 +1,5 @@
-﻿using FleetManagement.Model;
+﻿using FleetManagement.Exceptions;
+using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,13 @@ namespace FleetManagement.Filters
 
         public Filter(List<string> kleuren, List<string> autoTypes, List<string> brandstoffen, bool hybride = false)
         {
-#warning gooi excteption en test de inkomende args
+#warning nog een unit test maken voor filter if kleur => null gooi exception.
             //if(kleuren == null) exception
             //if(autoTypes == null) exception
             //if(brandstof == null) exception
-
+            if (kleuren == null) throw new FilterException("auto kleur mag niet null zijn");
+            if (autoTypes == null) throw new FilterException("autoType naam mag niet null zijn");
+            if (brandstoffen == null) throw new FilterException("brandstofType mag niet null zijn");
                 Kleuren = kleuren;
                 AutoTypes = autoTypes;
                 Brandstoffen = brandstoffen;
