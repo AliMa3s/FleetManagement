@@ -60,26 +60,21 @@ namespace FleetManagement.ADO.Repositories {
         public void UpdateBestuurder(Bestuurder bestuurder) {
 
             string query = "UPDATE Bestuurder " +
-                           "SET adresid=@adresid, voornaam=@voornaam, achternaam=@achternaam, geboortedatum=@geboortedatum, " +
-                           "rijbewijstype=@rijbewijstype, " +
-                           "voertuigid=@voertuigid WHERE bestuurderid=@bestuurderid";
+                           "SET adresid=@adresid, voornaam=@voornaam, achternaam=@achternaam, " +
+                           "rijbewijstype=@rijbewijstype, voertuigid=@voertuigid WHERE bestuurderid=@bestuurderid";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
                     Connection.Open();
+                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
                     command.Parameters.Add(new SqlParameter("@voornaam", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@achternaam", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@geboortedatum", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@rijbewijstype", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
                     command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
                     command.Parameters.Add(new SqlParameter("@adresid", SqlDbType.Int));
 
                     command.Parameters["@voornaam"].Value = bestuurder.Voornaam;
                     command.Parameters["@achternaam"].Value = bestuurder.Achternaam;
-                    command.Parameters["@geboortedatum"].Value = bestuurder.GeboorteDatum;
-                    command.Parameters["@rijksregisternummer"].Value = bestuurder.RijksRegisterNummer;
                     command.Parameters["@rijbewijstype"].Value = bestuurder.TypeRijbewijs;
                     command.Parameters["@bestuurderid"].Value = bestuurder.BestuurderId;
 
@@ -106,6 +101,78 @@ namespace FleetManagement.ADO.Repositories {
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
                 } finally {
+                    Connection.Close();
+                }
+            }
+        }
+
+        //Updaten met nieuwe rijksregister & geboortedatum
+        public void UpdateBestuurder(Bestuurder bestuurder, string anderRijksregisterNummer)
+        {
+            string query = "UPDATE Bestuurder " +
+               "SET adresid=@adresid, voornaam=@voornaam, achternaam=@achternaam, geboortedatum=@geboortedatum, " +
+               "rijbewijstype=@rijbewijstype, rijksregisternummer=@rijksregisternummer, voertuigid=@voertuigid, aanmaakdatum=@aanmaakdatum " +
+               "WHERE bestuurderid=@bestuurderid";
+
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
+                    Connection.Open();
+                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@voornaam", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@achternaam", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@geboortedatum", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@rijbewijstype", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@adresid", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@aanmaakdatum", SqlDbType.Int));
+
+                    command.Parameters["@voornaam"].Value = bestuurder.Voornaam;
+                    command.Parameters["@achternaam"].Value = bestuurder.Achternaam;
+                    command.Parameters["@geboortedatum"].Value = bestuurder.GeboorteDatum;
+                    command.Parameters["@rijksregisternummer"].Value = anderRijksregisterNummer;
+                    command.Parameters["@rijbewijstype"].Value = bestuurder.TypeRijbewijs;
+                    command.Parameters["@bestuurderid"].Value = bestuurder.BestuurderId;
+
+                    if (bestuurder.HeeftBestuurderVoertuig)
+                    {
+                        command.Parameters["@voertuigid"].Value = bestuurder.Voertuig.VoertuigId;
+                    }
+                    else
+                    {
+                        command.Parameters["@voertuigid"].Value = DBNull.Value;
+                    }
+                    command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
+
+                    if (bestuurder.Adres == null)
+                    {
+                        command.Parameters["@adresid"].Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters["@adresid"].Value = bestuurder.Adres.AdresId;
+                    }
+
+                    if (bestuurder.AanmaakDatum.HasValue)
+                    {
+                        command.Parameters["@aanmaakdatum"].Value = bestuurder.AanmaakDatum.Value;
+                    }
+                    else
+                    {
+                        command.Parameters["@aanmaakdatum"].Value = DBNull.Value;
+                    }
+
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }

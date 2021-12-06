@@ -18,7 +18,7 @@ namespace FleetManagement.Model
         public string NummerPlaat { get; private set; }
         public BrandstofVoertuig Brandstof { get; set; }
         public Kleur VoertuigKleur { get; set; }
-        public DateTime InBoekDatum { get; set; }
+        public DateTime? InBoekDatum { get; set; }
         public AantalDeuren? AantalDeuren { get; set; }
         public Bestuurder Bestuurder { get; private set; }
         public bool HeeftVoertuigBestuurder => Bestuurder != null;

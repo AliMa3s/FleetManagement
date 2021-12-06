@@ -1,4 +1,5 @@
 ﻿using FleetManagement.Interfaces;
+using FleetManagement.ManagerExceptions;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,16 @@ namespace FleetManagement.Manager
 
         public IReadOnlyList<Kleur> GeefAlleVoertuigKleuren()
         {
-            return _repo.GeefAlleVoertuigKleuren();
+            try
+            {
+                return _repo.GeefAlleVoertuigKleuren();
+            }
+            catch (Exception ex)
+            {
+                throw new KleurManagerException("Geef alle Kleuren is gefaald", ex);
+            }
+
+            
         }
     }
 }

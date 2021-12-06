@@ -30,7 +30,7 @@ namespace FleetManagement.Manager {
 
                 if(voertuig.Brandstof.BrandstofTypeId < 1) throw new VoertuigManagerException("Voertuig - brandstof is niet geslecteerd uit een lijst");
 
-                if (voertuig.AutoModel != null && voertuig.AutoModel.AutoModelId > 0)
+                if (voertuig.AutoModel.AutoModelId > 0)
                 {
                     if (_repo.BestaatChassisnummer(voertuig.ChassisNummer))
                         throw new VoertuigManagerException("Chassisnummer bestaat al");
@@ -56,14 +56,64 @@ namespace FleetManagement.Manager {
             try {
                 if (voertuig == null) throw new VoertuigManagerException("Voertuig - Voertuig mag niet null zijn");
 
-                if (_repo.BestaatVoertuig(voertuig)) {
+                if (voertuig.Brandstof.BrandstofTypeId < 1) throw new VoertuigManagerException("Voertuig - brandstof is niet geslecteerd uit een lijst");
+
+                if (voertuig.AutoModel.AutoModelId > 0)
+                {
+                    if (_repo.BestaatVoertuig(voertuig)) {
                     _repo.UpdateVoertuig(voertuig);
-                } else {
+                    } else {
                     throw new VoertuigManagerException("Voertuig - bestaat niet!");
+                    }
                 }
+                else
+                {
+                    throw new VoertuigManagerException("AutoModel is niet gelecteerd uit de lijst");
+                }
+
             } catch (Exception ex) {
 
                 throw new VoertuigManagerException(ex.Message);
+            }
+        }
+
+        public void UpdateVoertuig(Voertuig voertuig, string anderChassisNummer, string anderNummerplaat)
+        {
+            try
+            {
+                if(voertuig == null) throw new VoertuigManagerException("Voertuig - Voertuig mag niet null zijn");
+                if(!CheckFormat.IsChassisNummerGeldig(anderChassisNummer)) { }
+                if(!CheckFormat.IsNummerplaatGeldig(anderNummerplaat)) { }
+
+                if (voertuig.Brandstof.BrandstofTypeId < 1) 
+                    throw new VoertuigManagerException("Voertuig - brandstof is niet geslecteerd uit een lijst");
+
+                if (voertuig.AutoModel.AutoModelId > 0)
+                {
+                    if (_repo.BestaatVoertuig(voertuig))
+                    {
+                        if (_repo.BestaatChassisnummer(anderChassisNummer))
+                            throw new VoertuigManagerException("Update: chassisnummer bestaat al");
+
+                        if (_repo.BestaatNummerplaat(anderNummerplaat))
+                            throw new VoertuigManagerException("Update: nummerplaat bestaat al");
+
+                        _repo.UpdateVoertuig(voertuig, anderChassisNummer, anderNummerplaat);
+                    }
+                    else
+                    {
+                        throw new VoertuigManagerException("Voertuig - bestaat niet!");
+                    }
+                }
+                else
+                {
+                    throw new VoertuigManagerException("AutoModel is niet gelecteerd uit de lijst");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new VoertuigManagerException("Voertuig - UpdateVoertuig - gefaald", ex);
             }
         }
 
@@ -83,50 +133,92 @@ namespace FleetManagement.Manager {
 
         public bool BestaatVoertuig(Voertuig voertuig)
         {
-            if (voertuig == null) throw new VoertuigManagerException("Voertuig mag niet null zijn");
+            try
+            {
+                if (voertuig == null) throw new VoertuigManagerException("Voertuig mag niet null zijn");
 
-            return _repo.BestaatVoertuig(voertuig);
+                return _repo.BestaatVoertuig(voertuig);
+            }
+            catch (Exception ex)
+            {
+                throw new VoertuigManagerException("Voertuig - BestaatVoertuig - gefaald", ex);
+            }
         }
 
         public bool BestaatNummerplaat(string nummerPlaat) 
         {
-            //gooit eigen exception
-            if (!CheckFormat.IsNummerplaatGeldig(nummerPlaat)) { }
+            try
+            {
+                //gooit eigen exception
+                if (!CheckFormat.IsNummerplaatGeldig(nummerPlaat)) { }
 
-            return  _repo.BestaatNummerplaat(nummerPlaat);
+                return  _repo.BestaatNummerplaat(nummerPlaat);
+            }
+            catch (Exception ex)
+            {
+                throw new VoertuigManagerException("Voertuig - BestaatNummerplaat - gefaald", ex);
+            }
         }
 
         public bool BestaatChassisnummer(string chassisNummer) 
         {
-            //gooit eigen exception
-            if (!CheckFormat.IsChassisNummerGeldig(chassisNummer)) { }
+            try
+            {
+                //gooit eigen exception
+                if (!CheckFormat.IsChassisNummerGeldig(chassisNummer)) { }
 
-            return _repo.BestaatChassisnummer(chassisNummer);
+                return _repo.BestaatChassisnummer(chassisNummer);
+            }
+            catch (Exception ex)
+            {
+                throw new VoertuigManagerException("Voertuig - chassisNummer - gefaald", ex);
+            }
         }
 
         public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam, Filter filter) 
         {
-            //lege string is toegestaan anders kan er niet gefilterd worden
-            if (autonaam == null) throw new VoertuigManagerException("Autonaam mag niet null zijn");
-            if (filter == null) throw new VoertuigManagerException("Filter mag niet null zijn");
+            try
+            {
+                //lege string is toegestaan anders kan er niet gefilterd worden
+                if (autonaam == null) throw new VoertuigManagerException("Autonaam mag niet null zijn");
+                if (filter == null) throw new VoertuigManagerException("Filter mag niet null zijn");
 
-            return _repo.GeefAlleVoertuigenFilter(autonaam, filter);
+                return _repo.GeefAlleVoertuigenFilter(autonaam, filter);
+            }
+            catch (Exception ex)
+            {
+                throw new VoertuigManagerException("Voertuig - GeefAlleVoertuigenFilter - gefaald", ex);
+            }
         }
 
         public Voertuig ZoekOpNummerplaatOfChassisNummer(string plaatnummerOfChassis) 
         {
-            //lege string is toegestaan anders kan er niet gefilterd worden
-            if (plaatnummerOfChassis == null) throw new VoertuigManagerException("Plaatnummer mag niet null zijn");
+            try
+            {
+                //lege string is toegestaan anders kan er niet gefilterd worden
+                if (plaatnummerOfChassis == null) throw new VoertuigManagerException("Plaatnummer mag niet null zijn");
 
-            return _repo.ZoekOpNummerplaatOfChassisNummer(plaatnummerOfChassis);
+                return _repo.ZoekOpNummerplaatOfChassisNummer(plaatnummerOfChassis);
+            }
+            catch (Exception ex)
+            {
+                throw new VoertuigManagerException("Voertuig - ZoekOpNummerplaatOfChassisNummer - gefaald", ex);
+            }
         }
 
         public IReadOnlyList<Voertuig> SelecteerZonderBestuurderFilter(string autonaam)
         {
-            //lege string is toegestaan anders kan er niet gefilterd worden
-            if (autonaam == null) throw new VoertuigManagerException("Plaatnummer mag niet null zijn");
+            try
+            {
+                //lege string is toegestaan anders kan er niet gefilterd worden
+                if (autonaam == null) throw new VoertuigManagerException("Plaatnummer mag niet null zijn");
 
-            return _repo.SelecteerZonderBestuurderFilter(autonaam);
+                return _repo.SelecteerZonderBestuurderFilter(autonaam);
+            }
+            catch (Exception ex)
+            {
+                throw new VoertuigManagerException("Voertuig - SelecteerZonderBestuurderFilter - gefaald", ex);
+            }
         }
     }
 }

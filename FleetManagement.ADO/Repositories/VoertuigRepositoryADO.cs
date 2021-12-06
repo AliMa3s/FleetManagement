@@ -393,33 +393,135 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
+        //Update voertuig 
         public void UpdateVoertuig(Voertuig voertuig) {
 
             string query = "UPDATE Voertuig " +
-                           " SET aantal_deuren=@aantal_deuren, chassisnummer=@chassisnummer, nummerplaat=@nummerplaat, " +
-                           " WHERE voertuigid=@voertuigid";
+                           "SET automodelid=@automodelid, brandstoftypeid=@brandstoftypeid, hybride=@hybride, kleurnaam=kleurnaam, " +
+                           "aantal_deuren=@aantal_deuren, inboekdatum=@inboekdatum " +
+                           "WHERE voertuigid=@voertuigid";
 
             using (SqlCommand command = Connection.CreateCommand()) {
                 try {
                     Connection.Open();
 
-                    command.Parameters.Add(new SqlParameter("@aantal_deuren", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
-                    //command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.Timestamp));
                     command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@automodelid", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@brandstoftypeid", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@hybride", SqlDbType.Bit));
+                    command.Parameters.Add(new SqlParameter("@kleurnaam", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@aantaldeuren", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.NVarChar));
 
-                    command.Parameters["@aantal_deuren"].Value = voertuig.AantalDeuren;
-                    command.Parameters["@chassisnummer"].Value = voertuig.ChassisNummer;
-                    command.Parameters["@nummerplaat"].Value = voertuig.NummerPlaat;
-                    //command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum;
+                    if (voertuig.VoertuigKleur == null)
+                    {
+                        command.Parameters["@kleurnaam"].Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters["@kleurnaam"].Value = voertuig.VoertuigKleur.KleurNaam;
+                    }
+
+                    if (voertuig.AantalDeuren.HasValue)
+                    {
+                        command.Parameters["@aantaldeuren"].Value = voertuig.AantalDeuren.Value.ToString();
+                    }
+                    else
+                    {
+                        command.Parameters["@aantaldeuren"].Value = DBNull.Value;
+                    }
+
+                    if (voertuig.InBoekDatum.HasValue)
+                    {
+                        command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum.Value;
+                    }
+                    else
+                    {
+                        command.Parameters["@inboekdatum"].Value = DBNull.Value;
+                    }
+
                     command.Parameters["@voertuigid"].Value = voertuig.VoertuigId;
+                    command.Parameters["@automodelid"].Value = voertuig.AutoModel.AutoModelId;
+                    command.Parameters["@brandstoftypeid"].Value = voertuig.Brandstof.BrandstofTypeId;
+                    command.Parameters["@hybride"].Value = voertuig.Brandstof.Hybride;
 
                     command.CommandText = query;
                     command.ExecuteNonQuery();
                 } catch (Exception ex) {
                     throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
                 } finally {
+                    Connection.Close();
+                }
+            }
+        }
+
+        //Update met ander chassis en nummerplaat
+        public void UpdateVoertuig(Voertuig voertuig, string anderChassisnummer, string anderNummerplaat)
+        {
+            string query = "UPDATE Voertuig " +
+                           "SET automodelid=@automodelid, brandstoftypeid=@brandstoftypeid, hybride=@hybride, kleurnaam=kleurnaam, " +
+                           "chassisnummer=@chassisnummer, nummerplaat=@nummerplaat, aantal_deuren=@aantal_deuren, inboekdatum=@inboekdatum " +
+                           "WHERE voertuigid=@voertuigid";
+
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
+                    Connection.Open();
+
+                    command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@automodelid", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@brandstoftypeid", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@hybride", SqlDbType.Bit));
+                    command.Parameters.Add(new SqlParameter("@chassisnummer", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@nummerplaat", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@kleurnaam", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@aantaldeuren", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@inboekdatum", SqlDbType.NVarChar));
+
+                    if (voertuig.VoertuigKleur == null)
+                    {
+                        command.Parameters["@kleurnaam"].Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        command.Parameters["@kleurnaam"].Value = voertuig.VoertuigKleur.KleurNaam;
+                    }
+
+                    if (voertuig.AantalDeuren.HasValue)
+                    {
+                        command.Parameters["@aantaldeuren"].Value = voertuig.AantalDeuren.Value.ToString();
+                    }
+                    else
+                    {
+                        command.Parameters["@aantaldeuren"].Value = DBNull.Value;
+                    }
+
+                    if (voertuig.InBoekDatum.HasValue)
+                    {
+                        command.Parameters["@inboekdatum"].Value = voertuig.InBoekDatum.Value;
+                    }
+                    else
+                    {
+                        command.Parameters["@inboekdatum"].Value = DBNull.Value;
+                    }
+
+                    command.Parameters["@automodelid"].Value = voertuig.VoertuigId;
+                    command.Parameters["@automodelid"].Value = voertuig.AutoModel.AutoModelId;
+                    command.Parameters["@brandstoftypeid"].Value = voertuig.Brandstof.BrandstofTypeId;
+                    command.Parameters["@hybride"].Value = voertuig.Brandstof.Hybride;
+                    command.Parameters["@chassisnummer"].Value = anderChassisnummer;
+                    command.Parameters["@nummerplaat"].Value = anderNummerplaat;
+
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }

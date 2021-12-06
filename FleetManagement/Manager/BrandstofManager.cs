@@ -1,4 +1,6 @@
-﻿using FleetManagement.Interfaces;
+﻿using FleetManagement.Exceptions;
+using FleetManagement.Interfaces;
+using FleetManagement.ManagerExceptions;
 using FleetManagement.Model;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,14 @@ namespace FleetManagement.Manager
 
         public IReadOnlyList<BrandstofType> GeeAlleBrandstoffen()
         {
-            return _repo.GeeAlleBrandstoffen();
+            try
+            {
+                return _repo.GeeAlleBrandstoffen();
+            }
+            catch (Exception ex)
+            {
+                throw new BrandstofTypeManagerException("Geef alle brandstoffen is gefaald", ex);
+            } 
         }
     }
 }

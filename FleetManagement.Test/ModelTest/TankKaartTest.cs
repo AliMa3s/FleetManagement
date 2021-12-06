@@ -392,7 +392,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal($"TankKaartNummer Kan niet null of leeg zijn", ex.Message);
         }
         [Fact]
-        public void verwijderTankKaart_Van_Bestuurder_Valid()
+        public void VerwijderTankKaart_Van_Bestuurder_Valid()
         {
            
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
@@ -407,7 +407,7 @@ namespace FleetManagement.Test.ModelTest {
             Assert.False(bestuurder.HeeftBestuurderTankKaart);
         }
         [Fact]
-        public void verwijderTankKaart_Van_Bestuurder_InValid()
+        public void VerwijderTankKaart_Van_Bestuurder_InValid()
         {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             bool actief = true;
@@ -433,6 +433,24 @@ namespace FleetManagement.Test.ModelTest {
 
         }
 
-        
+        [Fact]
+        public void UitgeefDatumNullable_Leeg()
+        {
+            DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
+            TankKaart tankKaart = new("1234567890123456789", true, geldigheidsDatum, "5310");
+            Assert.False(tankKaart.UitgeefDatum.HasValue);
+        }
+
+        [Fact]
+        public void UitgeefDatumNullable_NietLeeg()
+        {
+            DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
+            TankKaart tankKaart = new("1234567890123456789", true, geldigheidsDatum, "5310");
+
+            DateTime toDay = DateTime.Today;
+            tankKaart.UitgeefDatum = toDay;
+            Assert.True(tankKaart.UitgeefDatum.HasValue);
+            Assert.Equal(toDay, tankKaart.UitgeefDatum.Value);
+        }
     }
 }

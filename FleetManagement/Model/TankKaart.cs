@@ -12,11 +12,11 @@ namespace FleetManagement.Model {
         //Zone Properties
         public string TankKaartNummer { get; private set; }
         public DateTime GeldigheidsDatum { get; }
-        public DateTime UitgeefDatum { get; set; }
-        public string Pincode { get; private set; } = null;
+        public DateTime? UitgeefDatum { get; set; }
+        public string Pincode { get; private set; }
         public bool Actief { get; private set; } = true;
         public List<BrandstofType> Brandstoffen { get; private set; } = new List<BrandstofType>();
-        public Bestuurder Bestuurder { get; private set; } = null;
+        public Bestuurder Bestuurder { get; private set; }
         public bool HeeftTankKaartBestuurder => Bestuurder != null; 
         public bool IsGeldigheidsDatumVervallen => GeldigheidsDatum.Date < DateTime.Today;
 
@@ -251,6 +251,14 @@ namespace FleetManagement.Model {
             else
             {
                 throw new TankKaartException($"{nameof(Bestuurder)} kan niet verwijderd worden");
+            }
+        }
+
+        public void UpdateTankkaartNummer(string tankkaartNummer)
+        {
+            if(CheckFormat.IsTankKaartNummerGeldig(tankkaartNummer))
+            {
+                TankKaartNummer = tankkaartNummer;
             }
         }
 

@@ -51,6 +51,7 @@ namespace FleetManagement.Manager {
         public void UpdateBestuurder(Bestuurder bestuurder) {
             try {
                 if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
+
                 if (_repo.BestaatBestuurder(bestuurder.BestuurderId)) {
                     _repo.UpdateBestuurder(bestuurder);
                 } else {
@@ -144,14 +145,47 @@ namespace FleetManagement.Manager {
 
         public Bestuurder ZoekBestuurder(string rijksRegisterNummer)
         {
-            //Controleer rijksregisternummer op aantal digits
-            if (Regex.IsMatch(rijksRegisterNummer.ToUpper(), @"^[0-9]{11}$"))
+            try
             {
-                return _repo.ZoekBestuurder(rijksRegisterNummer);
+                //Controleer rijksregisternummer op aantal digits
+                if (Regex.IsMatch(rijksRegisterNummer.ToUpper(), @"^[0-9]{11}$"))
+                {
+                    return _repo.ZoekBestuurder(rijksRegisterNummer);
+                }
+                else
+                {
+                    throw new BestuurderManagerException("Rijksregisternummer is niet juist");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                throw new BestuurderManagerException("Rijksregisternummer is niet juist");
+                throw new BestuurderManagerException(ex.Message);
+            }
+        }
+
+        public void UpdateBestuurder(Bestuurder bestuurder, string anderRijksregisterNummer)
+        {
+            try
+            {
+                if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - bestuurder mag niet null zijn");
+
+                if (_repo.BestaatBestuurder(bestuurder.BestuurderId))
+                {
+                    if (_repo.BestaatRijksRegisterNummer(anderRijksregisterNummer))
+                    {
+                        throw new BestuurderManagerException("Update: Rijksregisternummer bestaat al");
+                    }
+
+                    _repo.UpdateBestuurder(bestuurder, anderRijksregisterNummer);
+                }
+                else
+                {
+                    throw new BestuurderManagerException("Bestuurder - bestaat niet!");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new BestuurderManagerException("Bestuurder - UpdateBestuurder - gefaald", ex);
             }
         }
     }

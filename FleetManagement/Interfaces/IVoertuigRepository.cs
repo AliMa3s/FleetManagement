@@ -14,6 +14,7 @@ namespace FleetManagement.Interfaces {
         public bool BestaatChassisnummer(string chassisNummer);
         public Voertuig VoegVoertuigToe(Voertuig voertuig);
         public void UpdateVoertuig(Voertuig voertuig);
+        public void UpdateVoertuig(Voertuig voertuig, string anderChassisNummer, string anderNummerplaat);
         public void VerwijderVoertuig(Voertuig voertuig);
         public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam, Filter filter);
         public Voertuig ZoekOpNummerplaatOfChassisNummer(string plaatnummerOfChassis);
