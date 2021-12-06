@@ -1,4 +1,6 @@
 ﻿using FleetManagement.Exceptions;
+using FleetManagement.Interfaces;
+using FleetManagement.Manager;
 using FleetManagement.Model;
 using FleetManagement.Test.Respositories;
 using System;
@@ -14,6 +16,17 @@ namespace FleetManagement.Test.ModelTest {
         //Selecteer een Bestuurder en Voertuig uit de repo:
         private readonly BestuurderNepRepo _bestuurderRepo = new();
         private readonly VoertuigNepRepo _voertuigRepo = new();
+        
+        
+        
+        [Fact]
+        public void BestaatTankkaart_valid()
+        {
+            DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
+            TankKaart tankKaart = new("1234567890123456789", geldigheidsDatum);
+            
+        }
+        
 
         [Fact]
         public void Verplichte_Velden_Valid()

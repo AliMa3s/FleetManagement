@@ -12,10 +12,17 @@ using System.Threading.Tasks;
 namespace FleetManagement.Manager {
     public class TankkaartManager : ITankkaartRepository
     {
+        #warning nog geen enkele manager heeft een unit test.
         private readonly ITankkaartRepository _repo;
         public TankkaartManager(ITankkaartRepository repo) {
             this._repo = repo;
         }
+        
+        /// <summary>
+        ///  als tankkaart gevonden wordt moet er een true gegeven worden i.p.v false.
+        /// </summary>
+        /// <param name="tankkaart"></param>
+        /// <returns></returns>
         public bool BestaatTankKaart(TankKaart tankkaart) {
             try {
                 if (tankkaart == null) throw new TankKaartManagerException("Tankkaart mag niet null zijn");
@@ -25,6 +32,24 @@ namespace FleetManagement.Manager {
                     return true;
                 }
             } catch (Exception ex) {
+                throw new TankKaartManagerException("Tankkaart - BestaatTankkaart - Foutief", ex);
+            }
+        }
+
+        public bool BestaatTankkaart(string tankkaartNummer)
+        {
+            try
+            {
+                if (tankkaartNummer == null) throw new TankKaartManagerException("Tankkaart mag niet null zijn");
+                if (string.IsNullOrEmpty(tankkaartNummer)) throw new TankKaartManagerException("Tankkaart mag niet null zijn");
+                if (_repo.BestaatTankkaart(tankkaartNummer))
+                {
+                    return true;
+                } else
+                    return false;
+            }
+            catch(Exception ex)
+            {
                 throw new TankKaartManagerException("Tankkaart - BestaatTankkaart - Foutief", ex);
             }
         }
@@ -215,5 +240,7 @@ namespace FleetManagement.Manager {
                 throw new TankKaartManagerException("TankKaart - UpdateTankKaart - gefaald", ex);
             }
         }
+
+        
     }
 }

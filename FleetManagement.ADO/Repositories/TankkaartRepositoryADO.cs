@@ -707,5 +707,31 @@ namespace FleetManagement.ADO.Repositories {
                 }
             }
         }
+
+        public bool BestaatTankkaart(string tankkaartNummer)
+        {
+            string query = "select count(*) from Tankkaart where tankkaartnummer=@tankkaartnummer";
+            using(SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
+                    Connection.Open();
+                    command.Parameters.AddWithValue("@tankkaartnummer", tankkaartNummer);
+                    command.CommandText = query;
+                    int n = (int)command.ExecuteScalar();
+                    if (n <= 0) return false;
+                    return true;
+                    
+                }
+                catch(Exception ex)
+                {
+                    throw new TankkaartRepositoryADOException("BestaatTankkaart - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
+        }
     }
 }

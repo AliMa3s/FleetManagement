@@ -14,6 +14,7 @@ namespace FleetManagement.Interfaces {
         TankKaart ZoekTankKaart(string tankkaartNr);
         IReadOnlyList<TankKaart> TankaartenZonderBestuurder();
         bool BestaatTankKaart(TankKaart tankkaart);
+        bool BestaatTankkaart(string tankkaartNummer);
         void VoegTankKaartToe(TankKaart tankkaart);
         void UpdateTankKaart(TankKaart tankkaart);
         TankKaart UpdateTankKaart(TankKaart tankkaart, string AnderTankkaartNummer);
