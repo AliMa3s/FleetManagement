@@ -34,7 +34,7 @@ namespace FleetManagement.Model
         public Bestuurder(string voornaam, string achternaam, string geboorteDatum, string typeRijbewijs, string rijksRegisterNummer)
         {
 
-#warning voor -en achternaam moeten invoegen voor exception. is dus nog niet getest
+            #warning voor -en achternaam moeten invoegen voor exception. is dus nog niet getest
 
             if(string.IsNullOrWhiteSpace(voornaam)) throw new BestuurderException($"{nameof(Voornaam)} moet ingevuld zijn");
             if (string.IsNullOrWhiteSpace(achternaam)) throw new BestuurderException($"{nameof(Achternaam)} moet ingevuld zijn");
@@ -48,7 +48,7 @@ namespace FleetManagement.Model
                 RijksRegisterNummer = rijksRegisterNummer;
             }
 
-#warning Rijbewijsnummer verwijderd. Hierdoor gezien dat TypeRijbewijs niet wordt gecheckt op null of leeg zijn
+            #warning Rijbewijsnummer verwijderd. Hierdoor gezien dat TypeRijbewijs niet wordt gecheckt op null of leeg zijn
 
             TypeRijbewijs = typeRijbewijs;
         }

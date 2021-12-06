@@ -23,6 +23,52 @@ namespace FleetManagement.Test.ModelTest {
             Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
             Assert.Equal(1, bestuurder.BestuurderId);
         }
+        [Theory]
+        [InlineData("ahmet")]
+        [InlineData("ali")]
+        [InlineData("filip")]
+        public void Bestuurder_voornaam_valid(string voornaam)
+        {
+            Bestuurder bestuurder = new Bestuurder(voornaam, "yilmaz", "1976/03/31", "B,E+1", "76033101986");
+            Assert.Equal(voornaam, bestuurder.Voornaam);
+        }
+        [Theory]
+        [InlineData(null)]
+        [InlineData("\n")]
+        [InlineData(" ")]
+        public void Bestuurder_voornaam_Invalid(string voornaam)
+        {
+            var ex = Assert.Throws<BestuurderException>(() =>
+            {
+                new Bestuurder(" ", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            });
+
+            Assert.Equal("Voornaam moet ingevuld zijn", ex.Message);
+        }
+
+        [Theory]
+        [InlineData("yilmaz")]
+        [InlineData("maes")]
+        [InlineData("rigoir")]
+        public void Bestuurder_achternaam_valid(string achternaam)
+        {
+            Bestuurder bestuurder = new Bestuurder("ahmet", achternaam, "1976/03/31", "B,E+1", "76033101986");
+            Assert.Equal(achternaam, bestuurder.Achternaam);
+        }
+        [Theory]
+        [InlineData(null)]
+        [InlineData("\n")]
+        [InlineData(" ")]
+        public void Bestuurder_achternaam_Invalid(string achternaam)
+        {
+            var ex = Assert.Throws<BestuurderException>(() =>
+            {
+                new Bestuurder("Ahmet", achternaam, "1976/03/31", "B,E+1", "76033101986");
+            });
+
+            Assert.Equal("Achternaam moet ingevuld zijn", ex.Message);
+        }
+
 
 
         [Theory]
