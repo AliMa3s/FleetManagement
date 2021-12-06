@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FleetManagement.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,8 @@ namespace FleetManagement.Model
 
         public AutoType(string autoTypeNaam)
         {
-            if(autoTypeNaam == null)
-            {
-                //exception te maken
-            }
+            if (autoTypeNaam == null) throw new AutoTypeException("autoType naam mag niet null zijn");
+            if (string.IsNullOrEmpty(autoTypeNaam)) throw new AutoModelException("autoType naam mag niet leeg zijn");
 
             AutoTypeNaam = autoTypeNaam;
         }
