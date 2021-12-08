@@ -9,6 +9,6 @@ namespace FleetManagement.Interfaces
 {
     public interface IBrandstofRepository
     {
-        public IReadOnlyList<BrandstofType> GeeAlleBrandstoffen();
+        IReadOnlyList<BrandstofType> GeeAlleBrandstoffen();
     }
 }

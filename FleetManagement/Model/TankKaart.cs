@@ -55,8 +55,8 @@ namespace FleetManagement.Model {
         }
 
         //Tweede ctor kan gebruikt worden om een kaart aan te maken. Geldigeid bij default op true
-        public TankKaart(string kaartnummer, DateTime vervaldatum, string pincode = null)
-            : this(kaartnummer, true, vervaldatum, pincode) { }
+        public TankKaart(string kaartnummer, DateTime geldigheidsdatum, string pincode = null)
+            : this(kaartnummer, true, geldigheidsdatum, pincode) { }
 
         //TankKaart onmiddelijk blokkeren 
         public virtual void BlokkeerTankKaart() {

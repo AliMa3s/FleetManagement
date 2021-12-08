@@ -10,7 +10,7 @@
         <DockPanel.Children>
 
             <DockPanel DockPanel.Dock="Top" Background="CornflowerBlue" Height="45" VerticalAlignment="Bottom">
-                <Label FontSize="17" VerticalContentAlignment="Center" Padding="25,0,0,0" FontWeight="Bold" Margin="0,0,0,0">Ben je zeker dat je wilt verwijderen?</Label>
+                <Label x:Name="Bevestingmss" FontSize="17" VerticalContentAlignment="Center" Padding="25,0,0,0" FontWeight="Bold" Margin="0,0,0,0">Ben je zeker dat je wilt verwijderen?</Label>
             </DockPanel>
 
             <Grid>

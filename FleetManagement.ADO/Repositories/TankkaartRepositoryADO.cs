@@ -67,7 +67,6 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
                     command.Parameters["@geldigheidsdatum"].Value = tankkaart.GeldigheidsDatum;
                     command.Parameters["@actief"].Value = tankkaart.Actief;
-                    command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum;
 
                     if (tankkaart.Pincode == null)
                     {
@@ -85,6 +84,15 @@ namespace FleetManagement.ADO.Repositories {
                     else
                     {
                         command.Parameters["@bestuurderid"].Value = DBNull.Value;
+                    }
+
+                    if (tankkaart.UitgeefDatum.HasValue)
+                    {
+                        command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum.Value;
+                    }
+                    else
+                    {
+                        command.Parameters["@uitgeefdatum"].Value = DBNull.Value;
                     }
 
                     command.CommandText = query;
@@ -302,11 +310,13 @@ namespace FleetManagement.ADO.Repositories {
                                     (bool)dataReader["actief"],
                                     dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
                                     pincode
-                                )
-                                {
-                                    UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"))
-                                };
+                                );
 
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
+                                {
+                                    tankKaartDB.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
+                                }
+                                    
                                 if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
                                 {
                                     Bestuurder bestuurderDB = new(
@@ -411,6 +421,11 @@ namespace FleetManagement.ADO.Repositories {
                                 (DateTime)dataReader["geldigheidsdatum"],
                                 pincode
                             );
+
+                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
+                            {
+                                tankkaart.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
+                            }
 
                             if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
                             {
@@ -602,10 +617,12 @@ namespace FleetManagement.ADO.Repositories {
                                     (bool)dataReader["actief"],
                                     dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
                                     pincode
-                                )
+                                );
+
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
                                 {
-                                    UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"))
-                                };
+                                    tankKaartDB.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
+                                }
 
                                 if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
                                 {

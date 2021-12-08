@@ -448,7 +448,7 @@ namespace FleetManagement.ADO.Repositories {
                     command.CommandText = query;
                     command.ExecuteNonQuery();
                 } catch (Exception ex) {
-                    throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
+                    throw new VoertuigRepositoryADOException("UpdateVoertuig - gefaald", ex);
                 } finally {
                     Connection.Close();
                 }
@@ -518,7 +518,7 @@ namespace FleetManagement.ADO.Repositories {
                 }
                 catch (Exception ex)
                 {
-                    throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
+                    throw new VoertuigRepositoryADOException("UpdateVoertuig - gefaald", ex);
                 }
                 finally
                 {
@@ -539,7 +539,7 @@ namespace FleetManagement.ADO.Repositories {
                     //command.CommandText = query;
                     command.ExecuteNonQuery();
                 } catch (Exception ex) {
-                    throw new BestuurderRepositoryADOException("VerwijderVoertuig - gefaald", ex);
+                    throw new VoertuigRepositoryADOException("VerwijderVoertuig - gefaald", ex);
                 } finally {
                     Connection.Close();
                 }
@@ -665,7 +665,7 @@ namespace FleetManagement.ADO.Repositories {
                                 {
                                     voertuigDB.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
                                         ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
-                                        : throw new BrandstofRepositoryADOException("Aantal deuren - gefaald");
+                                        : throw new AantalDeurenRepositoryException("Aantal deuren - gefaald");
                                 }
 
                                 voertuigenDB.Add(voertuigDB);

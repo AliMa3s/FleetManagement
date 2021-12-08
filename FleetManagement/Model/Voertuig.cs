@@ -98,7 +98,7 @@ namespace FleetManagement.Model
                 throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if(bestuurderId < 1)
+            if(bestuurderId < 0)
             {
                 throw new VoertuigException($"De {nameof(Bestuurder)} is niet geslecteerd uit lijst bestuurders");
             }
@@ -140,7 +140,7 @@ namespace FleetManagement.Model
                 throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if (Bestuurder.Equals(ingegevenBestuurder) && bestuurderId > 0)
+            if (Bestuurder.Equals(ingegevenBestuurder) && bestuurderId >= 0)
             {
                 Bestuurder = null;
             }
@@ -153,7 +153,7 @@ namespace FleetManagement.Model
         //Static check ingevoegd
         public virtual void UpdateNummerplaat(string nummerplaat)
         {
-           if(CheckFormats.CheckFormat.IsNummerplaatGeldig(nummerplaat))
+           if(CheckFormat.IsNummerplaatGeldig(nummerplaat))
             {
                 NummerPlaat = nummerplaat;
             }

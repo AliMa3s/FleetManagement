@@ -11,7 +11,7 @@
             <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
                 <Button Name="SluitTankKaartWindow" Click="SluitTankKaartWindow_Click" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" />
                 <Button Name="ResetVeldenButton" Click="ResetVeldenButton_Click" Content="_Reset" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
-                <Button Click="TankkaartAanmakenButton_Click" x:Name="TankkaartUpdatenButton" Content="_Tankkaart updaten" Background="LightSkyBlue" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="150" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                <Button x:Name="TankkaartAanmakenButton" Content="_Tankkaart updaten" Background="LightSkyBlue" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="150" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="TankkaartAanmakenButton_Click_1"/>
                 <TextBlock x:Name="infoTankkaartMess" HorizontalAlignment="Left" Height="95" Margin="20,5,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="350" FontSize="13" Foreground="#FFE51E1E"/>
             </DockPanel>
             <Grid>
@@ -32,34 +32,30 @@
                     <RowDefinition Height="37*"/>
                     <RowDefinition Height="37*"/>
                     <RowDefinition Height="37*"/>
-                    <RowDefinition Height="40*"/>
-                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
                     <RowDefinition Height="7*"/>
                 </Grid.RowDefinitions>
 
                 <Label x:Name="FormTankkaart" Grid.Row="0" Grid.ColumnSpan="5" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
                 <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Uitgeefdatum:</Label>
-                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Tankkaartnummer:</Label>
-                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Geldigheidsdatum:</Label>
-                <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Actief:</Label>
+                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Tankkaartnummer: *</Label>
+                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Geldigheidsdatum: *</Label>
+                <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Pincode:</Label>
+                <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Brandstoffen:</Label>
+                <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Bestuurder:</Label>
+                <TextBlock x:Name="GekozenBestuurderNaam" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="3" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
 
-                <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Pincode:</Label>
-                <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Brandstoffen:</Label>
-
-                <TextBox x:Name="UitgeefDatum" Text="" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
-                <TextBox x:Name="TankkaartNummer" Text="" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
-                <TextBox x:Name="GeldigheidsDatum" Text="" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
-
-
-                <TextBlock x:Name="ActiefTextBlock" Text="Kaart is niet actief" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
-                <Button x:Name="TankkaartBlokkeren" Content="Blokkeren" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" HorizontalAlignment="Left" Width="75" Background="#FFCAD5EA" Height="30" Margin="104,0,0,0" />
-
-
-                <TextBox x:Name="PincodeUpdate" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="5,0,15,0" Text="" Height="25" Width="50" MaxLength="5"/>
-                <ComboBox x:Name="BrandstofNamenComboBox" Grid.Column="1" Grid.Row="7" Margin="5,0,0,0" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="146" SelectedIndex="0" >
+                <TextBox x:Name="TankKaartTextBox"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" MaxLength="20" Height="25"/>
+                <TextBox x:Name="PincodeTextBox" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="5,0,15,0" Text="" Height="25" Width="50" MaxLength="5"/>
+                <ComboBox x:Name="BrandstofNamenComboBox" Grid.Column="1" Grid.Row="6" Margin="5,0,0,0" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="146" SelectedIndex="0" >
                 </ComboBox>
                 <Button x:Name="ResetGekozenBrandstofButton" Click="ResetGekozenBrandstofButton_Click" Content="Brandstoflijst legen" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="6" Grid.Column="3" Background="#FFCAD5EA" Height="30" Grid.ColumnSpan="1" Width="150" Margin="0,0,0,0" Visibility="Hidden"/>
-                <Button x:Name="BrandstofToevoegen" Click="BrandstofToevoegenButton_Click" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Content="Brandstof toevoegen" VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,0,0,0" />
+                <Button x:Name="BrandstofToevoegen" Click="BrandstofToevoegenButton_Click" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Content="Brandstof toevoegen" VerticalAlignment="Center" HorizontalAlignment="Left" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,0,0,0" />
+                <DatePicker x:Name="UitgeefDatumDatePicker" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center" />
+                <DatePicker x:Name="GeldigheidsDatumDatePicker" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Margin="5,0,0,0" Width="150" Height="25" VerticalAlignment="Center" />
+                <Button x:Name="KiesBestuurder" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Content="Bestuurder selecteren" HorizontalAlignment="Left" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,0,0,0" Click="KiesBestuurder_Click"/>
+                <Button x:Name="AnnuleerBestuurder" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Content="Annuleer bestuurder" HorizontalAlignment="Left" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,0,0,0" Click="AnnuleerBestuurder_Click" Visibility="Hidden"/>
 
                 <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Brandstoffen:</Label>
                 <Grid Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="3" Background="#FFE7E8EC">

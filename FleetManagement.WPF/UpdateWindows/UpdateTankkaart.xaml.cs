@@ -59,7 +59,7 @@ namespace FleetManagement.WPF.UpdateWindows
                 }
             });
 
-            PincodeUpdate.Text = _tankaart.Pincode;
+            //PincodeUpdate.Text = _tankaart.Pincode;
         }
 
         private void TankKaartUpdateButton_Click(object sender, RoutedEventArgs e)
@@ -90,6 +90,21 @@ namespace FleetManagement.WPF.UpdateWindows
         private void TankkaartAanmakenButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
+        }
+
+        private void TankkaartAanmakenButton_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void KiesBestuurder_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AnnuleerBestuurder_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 namespace FleetManagement.Interfaces {
     public interface IBestuurderRepository {
 
-        public bool BestaatBestuurder(int bestuurderid);
-        public bool BestaatRijksRegisterNummer(string rijksRegisterNr);
-        public void UpdateBestuurder(Bestuurder bestuurder);
-        public void UpdateBestuurder(Bestuurder bestuurder, string anderRijksregisterNummer);
-        public void VerwijderBestuurder(Bestuurder bestuurder);
-        public Bestuurder VoegBestuurderToe(Bestuurder bestuurder);
-        public IReadOnlyList<Bestuurder> SelecteerBestuurdersZonderVoertuig(string achterNaamEnVoornaam);
-        public IReadOnlyList<Bestuurder> SelecteerBestuurdersZondertankkaart(string achterNaamEnVoornaam);
-        public IReadOnlyList<Bestuurder> FilterOpBestuurdersNaam(string achterNaamEnVoornaam);
-        public Bestuurder ZoekBestuurder(string rijksRegisterNummer);
+        bool BestaatBestuurder(int bestuurderid);
+        bool BestaatRijksRegisterNummer(string rijksRegisterNr);
+        void UpdateBestuurder(Bestuurder bestuurder);
+        void UpdateBestuurder(Bestuurder bestuurder, string anderRijksregisterNummer);
+        void VerwijderBestuurder(Bestuurder bestuurder);
+        Bestuurder VoegBestuurderToe(Bestuurder bestuurder);
+        IReadOnlyList<Bestuurder> SelecteerBestuurdersZonderVoertuig(string achterNaamEnVoornaam);
+        IReadOnlyList<Bestuurder> SelecteerBestuurdersZondertankkaart(string achterNaamEnVoornaam);
+        IReadOnlyList<Bestuurder> FilterOpBestuurdersNaam(string achterNaamEnVoornaam);
+        Bestuurder ZoekBestuurder(string rijksRegisterNummer);
     }
 }

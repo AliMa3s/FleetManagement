@@ -48,7 +48,7 @@ namespace FleetManagement.Model
                 RijksRegisterNummer = rijksRegisterNummer;
             }
 
-            #warning Rijbewijsnummer verwijderd. Hierdoor gezien dat TypeRijbewijs niet wordt gecheckt op null of leeg zijn
+            if (string.IsNullOrWhiteSpace(typeRijbewijs)) throw new BestuurderException("Type rijbewijs moet ingevuld zijn");
 
             TypeRijbewijs = typeRijbewijs;
         }

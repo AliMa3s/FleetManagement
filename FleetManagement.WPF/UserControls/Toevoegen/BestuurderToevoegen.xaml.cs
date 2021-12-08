@@ -142,11 +142,26 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     nieuwBestuurder.Adres = _ingevoegdAdres;
                 }
 
+
+                //Update voertuig
+                if (_gekozenVoertuig != null)
+                {
+                    nieuwBestuurder.VoegVoertuigToe(_gekozenVoertuig);
+                }
+
                 Bestuurder bestuurderDB = _managers.BestuurderManager.VoegBestuurderToe(nieuwBestuurder);
 
-                infoBestuurderMess.Foreground = Brushes.Green;
-                infoBestuurderMess.Text = "Bestuurder succesvol toegevoegd";
+                if (_gekozenVoertuig != null)
+                {   
+                    infoBestuurderMess.Text = "Bestuurder succesvol toegevoegd, Voertuig succesvol aan bestuurder gelinkt";
+                }
+                else
+                {
+                    infoBestuurderMess.Text = "Bestuurder succesvol toegevoegd";
+                }
 
+                infoBestuurderMess.Foreground = Brushes.Green;
+                
                 //Update tankkaart
                 if (_gekozenTankkaart != null)
                 {
@@ -157,15 +172,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     infoBestuurderMess.Text += ", tankkaart aan bestuurder gelinkt";
                 }
 
-                //Update voertuig
-                if (_gekozenVoertuig != null)
-                {
-                    bestuurderDB.VoegVoertuigToe(_gekozenVoertuig);
-                    _managers.VoertuigManager.UpdateVoertuig(bestuurderDB.Voertuig);
 
-                    infoBestuurderMess.Foreground = Brushes.Green;
-                    infoBestuurderMess.Text += ", voertuig aan bestuurder gelinkt";
-                }
 
                 ResetForm();
             }

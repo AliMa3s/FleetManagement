@@ -56,13 +56,15 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             try
             {
                 //Ctor verwacht een datum, om zelf een foutmelding te geven checken we dit
-                if (DateTime.TryParse(GeldigheidsDatumDatePicker.SelectedDate?.ToString(), out DateTime geldigheidsDatum)
-                    && DateTime.TryParse(UitgeefDatumDatePicker.SelectedDate?.ToString(), out DateTime uitgeefDatum))
+                if (DateTime.TryParse(GeldigheidsDatumDatePicker.SelectedDate?.ToString(), out DateTime geldigheidsDatum))
                 {
-                    TankKaart tankkaart = new TankKaart(TankKaartTextBox.Text, geldigheidsDatum) 
-                    { 
-                         UitgeefDatum = uitgeefDatum
-                    };
+                    DateTime? uitgeefDatum = null;
+                    if (DateTime.TryParse(UitgeefDatumDatePicker.SelectedDate?.ToString(), out DateTime datum))
+                    {
+                        uitgeefDatum = datum;
+                    }
+
+                    TankKaart tankkaart = new TankKaart(TankKaartTextBox.Text, geldigheidsDatum) { UitgeefDatum = uitgeefDatum };
 
                     //Wanneer brandstof is ingegeven
                     if (_keuzeBrandstoffen.Count > 0)
@@ -83,7 +85,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                         });
                     }
 
-                    if(tankkaart.IsGeldigheidsDatumVervallen)
+                    if(tankkaart.IsGeldigheidsDatumVervallen || (uitgeefDatum.HasValue && uitgeefDatum > tankkaart.GeldigheidsDatum))
                     {
                         infoTankkaartMess.Text = "Kan niet toevoegen want tankkaart is reeds vervallen";
                         infoTankkaartMess.Foreground = Brushes.Red;
@@ -94,24 +96,33 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                         if (!string.IsNullOrWhiteSpace(PincodeTextBox.Text))
                             tankkaart.VoegPincodeToe(PincodeTextBox.Text);
 
-                        //Kaart kan toegevoegd worden
-                        _managers.TankkaartManager.VoegTankKaartToe(tankkaart);
-                        ResetVelden();
-                        infoTankkaartMess.Text = "Tankkaart succesvol toegevoegd";
-                        infoTankkaartMess.Foreground = Brushes.Green;
-
-                        if(GekozenBestuurder != null)
+                        if (GekozenBestuurder != null)
                         {
                             tankkaart.VoegBestuurderToe(GekozenBestuurder);
-                            _managers.BestuurderManager.UpdateBestuurder(tankkaart.Bestuurder);
-                            infoTankkaartMess.Text += ", bestuurder aan tankaart gelinkt";
+                        }
+
+                        //Kaart kan toegevoegd worden
+                        _managers.TankkaartManager.VoegTankKaartToe(tankkaart);
+
+                        //Moet apart staan voor message te tonen want ResetVelden wist de ingegevenBestuurder
+                        if (GekozenBestuurder != null)
+                        {
+                            ResetVelden();
+                            infoTankkaartMess.Text += "Tankkaart succesvol toegevoegd en bestuurder succesvol aan tankkaart gelinkt";
+                            infoTankkaartMess.Foreground = Brushes.Green;
+                        }
+                        else
+                        {
+                            ResetVelden();
+                            infoTankkaartMess.Text = "Tankkaart succesvol toegevoegd";
+                            infoTankkaartMess.Foreground = Brushes.Green;
                         }
                     }
                 }
                 else
                 {
                     infoTankkaartMess.Foreground = Brushes.Red;
-                    infoTankkaartMess.Text = "UitgeefDatum -en Geldigheidsdatum moet ingevuld zijn";
+                    infoTankkaartMess.Text = "Geldigheidsdatum moet ingevuld zijn";
                 }
             }
             catch(Exception ex)
@@ -178,6 +189,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             GekozenBestuurder = null;
             GeldigheidsDatumDatePicker.SelectedDate = null;
             PincodeTextBox.Text = string.Empty;
+            KiesBestuurder.Visibility = Visibility.Visible;
+            AnnuleerBestuurder.Visibility = Visibility.Hidden;
             ResestDropown();
 
             infoTankkaartMess.Text = string.Empty;

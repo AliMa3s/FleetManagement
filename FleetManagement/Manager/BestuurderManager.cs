@@ -169,6 +169,8 @@ namespace FleetManagement.Manager {
             {
                 if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - bestuurder mag niet null zijn");
 
+                if (!CheckFormat.IsRijksRegisterGeldig(anderRijksregisterNummer)) { }
+
                 if (_repo.BestaatBestuurder(bestuurder.BestuurderId))
                 {
                     if (_repo.BestaatRijksRegisterNummer(anderRijksregisterNummer))

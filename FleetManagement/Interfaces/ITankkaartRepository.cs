@@ -19,10 +19,10 @@ namespace FleetManagement.Interfaces {
         void UpdateTankKaart(TankKaart tankkaart);
         TankKaart UpdateTankKaart(TankKaart tankkaart, string AnderTankkaartNummer);
         void VerwijderTankKaart(TankKaart tankkaart);
-        public IReadOnlyList<BrandstofType> BrandstoffenVoorTankaart(TankKaart tankkaart);
+        IReadOnlyList<BrandstofType> BrandstoffenVoorTankaart(TankKaart tankkaart);
 
-        public void VerwijderBrandstoffen(TankKaart tankKaart);
-        public void VoegTankkaartBrandstofToe(TankKaart tankkaart, BrandstofType brandstof);
-        public bool BestaatTankkaartBrandstof(TankKaart tankkaart, BrandstofType brandstof);
+        void VerwijderBrandstoffen(TankKaart tankKaart);
+        void VoegTankkaartBrandstofToe(TankKaart tankkaart, BrandstofType brandstof);
+        bool BestaatTankkaartBrandstof(TankKaart tankkaart, BrandstofType brandstof);
     } 
 }

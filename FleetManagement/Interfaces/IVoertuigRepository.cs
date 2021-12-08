@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 namespace FleetManagement.Interfaces {
     public interface IVoertuigRepository {
 
-        public bool BestaatVoertuig(Voertuig voertuig);
-        public bool BestaatNummerplaat(string nummerPlaat);
-        public bool BestaatChassisnummer(string chassisNummer);
-        public Voertuig VoegVoertuigToe(Voertuig voertuig);
-        public void UpdateVoertuig(Voertuig voertuig);
-        public void UpdateVoertuig(Voertuig voertuig, string anderChassisNummer, string anderNummerplaat);
-        public void VerwijderVoertuig(Voertuig voertuig);
-        public IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam, Filter filter);
-        public Voertuig ZoekOpNummerplaatOfChassisNummer(string plaatnummerOfChassis);
-        public IReadOnlyList<Voertuig> SelecteerZonderBestuurderFilter(string autonaam); 
+        bool BestaatVoertuig(Voertuig voertuig);
+        bool BestaatNummerplaat(string nummerPlaat);
+        bool BestaatChassisnummer(string chassisNummer);
+        Voertuig VoegVoertuigToe(Voertuig voertuig);
+        void UpdateVoertuig(Voertuig voertuig);
+        void UpdateVoertuig(Voertuig voertuig, string anderChassisNummer, string anderNummerplaat);
+        void VerwijderVoertuig(Voertuig voertuig);
+        IReadOnlyList<Voertuig> GeefAlleVoertuigenFilter(string autonaam, Filter filter);
+        Voertuig ZoekOpNummerplaatOfChassisNummer(string plaatnummerOfChassis);
+        IReadOnlyList<Voertuig> SelecteerZonderBestuurderFilter(string autonaam); 
     }
 }

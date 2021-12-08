@@ -19,9 +19,12 @@ namespace FleetManagement.WPF
     /// </summary>
     public partial class BevestigingWindow : Window
     {
-        public BevestigingWindow()
+        public BevestigingWindow(string mss = "")
         {
             InitializeComponent();
+
+            if (!string.IsNullOrWhiteSpace(mss))
+                Bevestingmss.Content = mss;
         }
 
         private void JaVerwijder_Click(object sender, RoutedEventArgs e)
