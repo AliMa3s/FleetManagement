@@ -32,10 +32,10 @@ namespace FleetManagement.Manager {
 
                 if (voertuig.AutoModel.AutoModelId > 0)
                 {
-                    if (_repo.BestaatChassisnummer(voertuig.ChassisNummer))
+                    if (BestaatChassisnummer(voertuig.ChassisNummer))
                         throw new VoertuigManagerException("Chassisnummer bestaat al");
 
-                    if (_repo.BestaatNummerplaat(voertuig.NummerPlaat))
+                    if (BestaatNummerplaat(voertuig.NummerPlaat))
                         throw new VoertuigManagerException("Nummerplaat bestaat al");
 
                    return _repo.VoegVoertuigToe(voertuig);
@@ -60,7 +60,7 @@ namespace FleetManagement.Manager {
 
                 if (voertuig.AutoModel.AutoModelId > 0)
                 {
-                    if (_repo.BestaatVoertuig(voertuig)) {
+                    if (BestaatVoertuig(voertuig)) {
                     _repo.UpdateVoertuig(voertuig);
                     } else {
                     throw new VoertuigManagerException("Voertuig - bestaat niet!");
@@ -90,7 +90,7 @@ namespace FleetManagement.Manager {
 
                 if (voertuig.AutoModel.AutoModelId > 0)
                 {
-                    if (_repo.BestaatVoertuig(voertuig))
+                    if (BestaatVoertuig(voertuig))
                     {
                         if (_repo.BestaatChassisnummer(anderChassisNummer))
                             throw new VoertuigManagerException("Update: chassisnummer bestaat al");

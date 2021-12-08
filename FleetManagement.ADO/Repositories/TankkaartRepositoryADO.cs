@@ -260,22 +260,28 @@ namespace FleetManagement.ADO.Repositories {
             } 
         }
 
-        public bool BestaatTankKaart(TankKaart tankkaart) {
-
+        public bool BestaatTankkaart(string tankkaartNummer)
+        {
             string query = "SELECT count(*) FROM Tankkaart WHERE tankkaartnummer=@tankkaartnummer";
-            using (SqlCommand command = Connection.CreateCommand()) {
-                try {
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
                     Connection.Open();
                     command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
 
-                    command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
+                    command.Parameters["@tankkaartnummer"].Value = tankkaartNummer;
 
                     command.CommandText = query;
                     int n = (int)command.ExecuteScalar();
                     if (n > 0) return true; else return false;
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     throw new TankkaartRepositoryADOException("BestaatTankkaart- gefaald", ex);
-                } finally {
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }
@@ -717,32 +723,6 @@ namespace FleetManagement.ADO.Repositories {
                 catch (Exception ex)
                 {
                     throw new TankkaartRepositoryADOException("Tankkaarten - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
-            }
-        }
-
-        public bool BestaatTankkaart(string tankkaartNummer)
-        {
-            string query = "select count(*) from Tankkaart where tankkaartnummer=@tankkaartnummer";
-            using(SqlCommand command = Connection.CreateCommand())
-            {
-                try
-                {
-                    Connection.Open();
-                    command.Parameters.AddWithValue("@tankkaartnummer", tankkaartNummer);
-                    command.CommandText = query;
-                    int n = (int)command.ExecuteScalar();
-                    if (n <= 0) return false;
-                    return true;
-                    
-                }
-                catch(Exception ex)
-                {
-                    throw new TankkaartRepositoryADOException("BestaatTankkaart - gefaald", ex);
                 }
                 finally
                 {

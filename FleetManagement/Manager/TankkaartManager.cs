@@ -23,25 +23,13 @@ namespace FleetManagement.Manager {
         /// </summary>
         /// <param name="tankkaart"></param>
         /// <returns></returns>
-        public bool BestaatTankKaart(TankKaart tankkaart) {
-            try {
-                if (tankkaart == null) throw new TankKaartManagerException("Tankkaart mag niet null zijn");
-                if (_repo.BestaatTankKaart(tankkaart)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } catch (Exception ex) {
-                throw new TankKaartManagerException("Tankkaart - BestaatTankkaart - Foutief", ex);
-            }
-        }
 
         public bool BestaatTankkaart(string tankkaartNummer)
         {
             try
             {
-                if (tankkaartNummer == null) throw new TankKaartManagerException("Tankkaart mag niet null zijn");
-                if (string.IsNullOrEmpty(tankkaartNummer)) throw new TankKaartManagerException("Tankkaart mag niet null zijn");
+                if(!CheckFormat.IsTankKaartNummerGeldig(tankkaartNummer)) { }
+
                 if (_repo.BestaatTankkaart(tankkaartNummer))
                 {
                     return true;
@@ -89,7 +77,7 @@ namespace FleetManagement.Manager {
 
                 if (tankkaart == null) throw new TankKaartManagerException("Tankkaart - tankkaart mag niet null zijn");
 
-                if (_repo.BestaatTankKaart(tankkaart)) {
+                if (BestaatTankkaart(tankkaart.TankKaartNummer)) {
                     _repo.UpdateTankKaart(tankkaart);
                 } else {
                     throw new TankKaartManagerException("Tankkaart - bestaat niet!");
@@ -105,7 +93,7 @@ namespace FleetManagement.Manager {
                 if (tankkaart == null) throw new TankKaartManagerException("Tankkaart - tankkaart mag niet null zijn");
                 if (tankkaart.TankKaartNummer == null) throw new TankKaartManagerException("Tankkaart - tankkaart moet een kaartnummer hebben");
 
-                if (_repo.BestaatTankKaart(tankkaart)) {
+                if (BestaatTankkaart(tankkaart.TankKaartNummer)) {
                     _repo.VerwijderTankKaart(tankkaart);
                 } else {
                     throw new TankKaartManagerException("Tankkaart - Tankkaart bestaat niet!");
@@ -119,7 +107,7 @@ namespace FleetManagement.Manager {
         public void VoegTankKaartToe(TankKaart tankkaart) {
             try {
                 if (tankkaart == null) throw new TankKaartManagerException("TankKaart - Tankkaart mag niet null zijn");
-                if (!_repo.BestaatTankKaart(tankkaart)) {
+                if (!BestaatTankkaart(tankkaart.TankKaartNummer)) {
                     _repo.VoegTankKaartToe(tankkaart);
                 } else {
                     throw new TankKaartManagerException("TankKaart Bestaat al");
@@ -226,7 +214,7 @@ namespace FleetManagement.Manager {
                 if(tankkaart.TankKaartNummer == AnderTankkaartNummer) 
                     throw new TankKaartManagerException("TankKaart - Huidige tankkaartnummer en ander tankkaartnummer moet verschillend zijn");
 
-                if (_repo.BestaatTankKaart(tankkaart))
+                if (BestaatTankkaart(tankkaart.TankKaartNummer))
                 {
                     return _repo.UpdateTankKaart(tankkaart, AnderTankkaartNummer);
                 }

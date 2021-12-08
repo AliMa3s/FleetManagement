@@ -52,7 +52,7 @@ namespace FleetManagement.Manager {
             try {
                 if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
 
-                if (_repo.BestaatBestuurder(bestuurder.BestuurderId)) {
+                if (BestaatBestuurder(bestuurder.BestuurderId)) {
                     _repo.UpdateBestuurder(bestuurder);
                 } else {
                     throw new BestuurderManagerException("Bestuurder - bestaat niet!");
@@ -66,7 +66,7 @@ namespace FleetManagement.Manager {
         public void VerwijderBestuurder(Bestuurder bestuurder) {
             try {
                 if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
-                if (_repo.BestaatBestuurder(bestuurder.BestuurderId)) {
+                if (BestaatBestuurder(bestuurder.BestuurderId)) {
                     _repo.VerwijderBestuurder(bestuurder);
                 } else {
                     throw new BestuurderManagerException("Bestuurder - Bestuurder bestaat niet!");
@@ -81,7 +81,7 @@ namespace FleetManagement.Manager {
             try {
                 if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
 
-                if (!_repo.BestaatRijksRegisterNummer(bestuurder.RijksRegisterNummer)) {
+                if (!BestaatRijksRegisterNummer(bestuurder.RijksRegisterNummer)) {
                     return _repo.VoegBestuurderToe(bestuurder);
                 } else {
                     throw new BestuurderManagerException("Rijksregisternummer bestaat al");
@@ -171,9 +171,9 @@ namespace FleetManagement.Manager {
 
                 if (!CheckFormat.IsRijksRegisterGeldig(anderRijksregisterNummer)) { }
 
-                if (_repo.BestaatBestuurder(bestuurder.BestuurderId))
+                if (BestaatBestuurder(bestuurder.BestuurderId))
                 {
-                    if (_repo.BestaatRijksRegisterNummer(anderRijksregisterNummer))
+                    if (BestaatRijksRegisterNummer(anderRijksregisterNummer))
                     {
                         throw new BestuurderManagerException("Update: Rijksregisternummer bestaat al");
                     }

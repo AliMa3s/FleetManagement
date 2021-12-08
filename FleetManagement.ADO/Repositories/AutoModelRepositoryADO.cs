@@ -14,24 +14,31 @@ namespace FleetManagement.ADO.Repositories
         public AutoModelRepositoryADO(string connectionstring) : base(connectionstring) { }
 
         public bool BestaatAutoModel(AutoModel autoModel) {
-            string query = "Select * from Automodel where (merknaam=@merknaam,automodelnaam=@automodelnaam,autotype=@autotype)";
 
-
-            using (SqlCommand command = new(query, Connection)) {
-                try {
-
+            string query = "Select count(*) from Automodel " +
+                "WHERE merknaam=@merknaam " +
+                "AND automodelnaam=@automodelnaam " +
+                "AND autotype=@autotype";
+            
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
                     Connection.Open();
-                    command.CommandText = query;
                     command.Parameters.AddWithValue("@merknaam", autoModel.Merk);
                     command.Parameters.AddWithValue("@automodelnaam", autoModel.AutoModelNaam);
                     command.Parameters.AddWithValue("@autotype", autoModel.AutoType);
-                    var reader = command.ExecuteReader();
-                    return reader.HasRows;
 
-                } catch (Exception ex) {
-
-                    throw new AutoModelRepositoryADOException("BestaatAutoModel(automodel) - gefaald", ex);
-                } finally {
+                    command.CommandText = query;
+                    int n = (int)command.ExecuteScalar();
+                    if (n > 0) return true; else return false;
+                }
+                catch (Exception ex)
+                {
+                    throw new AutoModelRepositoryADOException("BestaatAutoModel - gefaald", ex);
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }
@@ -39,7 +46,6 @@ namespace FleetManagement.ADO.Repositories
 
         public bool BestaatAutoModel(int automodelId) {
             string query = "SELECT count(*) FROM Automodel where automodelid=@automodelid";
-
 
             using (SqlCommand command = new(query, Connection)) {
                 try {
@@ -63,7 +69,7 @@ namespace FleetManagement.ADO.Repositories
         public IReadOnlyList<AutoModel> FilterOpAutoModelNaam(string autonaam) {
             string query = "SELECT * FROM AutoModel " +
                 "WHERE concat(merknaam, ' ', automodelnaam)  LIKE @autonaam + '%' " +
-                "ORDER BY merknaam ASC " +
+                "ORDER BY merknaam ASC, automodelnaam ASC " +
                 "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
 
             List<AutoModel> autoModellen = new();
@@ -99,9 +105,8 @@ namespace FleetManagement.ADO.Repositories
         }
 
         public void UpdateAutoModel(AutoModel autoModel) {
-            string query = "UPDATE Automodel SET (merknaam,automodelnaam,autotype) VALUES (@merknaam, @automodelnaam,@autotype) " +
-                " where automodelid = @automodelid";
-
+            string query = "UPDATE Automodel SET merknaam=@merknaam,automodelnaam=@automodelnaam,autotype=@autotype " +
+                    " where automodelid = @automodelid";
 
             using (SqlCommand command = new(query, Connection)) {
                 try {
@@ -113,7 +118,6 @@ namespace FleetManagement.ADO.Repositories
                     command.Parameters.AddWithValue("@automodelnaam", autoModel.AutoModelNaam);
                     command.Parameters.AddWithValue("@autotype", autoModel.AutoType);
                     command.ExecuteNonQuery();
-
 
                 } catch (Exception ex) {
 
@@ -144,7 +148,6 @@ namespace FleetManagement.ADO.Repositories
 
         public void VoegAutoModelToe(AutoModel autoModel) {
             string query = "INSERT INTO Automodel (merknaam,automodelnaam,autotype) VALUES (@merknaam, @automodelnaam,@autotype)";
-
 
             using (SqlCommand command = new(query, Connection)) {
                 try {
