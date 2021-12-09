@@ -20,7 +20,7 @@ namespace FleetManagement.Manager
         private BrandstofManager BrandstofManager { get; set; }
 
         //Klaarzetten voor Autotype in te laden via configFile
-        public IEnumerable<KeyValuePair<string, string>> AutoTypes { get; set; }
+        public IEnumerable<KeyValuePair<string, string>> AutoTypes { get; set; } 
 
         //Kleur
         public IList<Kleur> Kleuren { get; set; }
