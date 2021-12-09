@@ -16,6 +16,7 @@ namespace FleetManagement.Model
 
         public AutoModel(string merk, string autoModelNaam, AutoType autoType) 
         {
+#warning exceptions en test
             Merk = merk;
             AutoModelNaam = autoModelNaam;
             AutoType = autoType;
