@@ -32,6 +32,7 @@ namespace FleetManagement.WPF
             VoertuigZoekTab.Content = new VoertuigZoeken(managers);
             BestuurderZoekTab.Content = new BestuurderZoeken(managers);
             TankkaartZoekTab.Content = new TankkaartZoeken(managers);
+            AutomodelZoekTab.Content = new AutoModelZoeken(managers);
         }
     }
 }

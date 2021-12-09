@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FleetManagement.Manager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,20 @@ namespace FleetManagement.WPF.UserControls.Zoeken
     /// </summary>
     public partial class AutoModelZoeken : UserControl
     {
-        public AutoModelZoeken()
+        private readonly Managers _managers;
+
+        public string DisplayFirst { get; set; } = "Selecteer";
+
+        public AutoModelZoeken(Managers managers)
         {
             InitializeComponent();
+            _managers = managers;
+
+            AutoTypesComboBox.Items.Add(DisplayFirst);
+            _managers.AutoTypes.ToList().ForEach(autoType => {
+
+                AutoTypesComboBox.Items.Add(autoType.Value);
+            });
         }
     }
 }

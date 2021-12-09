@@ -30,6 +30,7 @@ namespace FleetManagement.WPF
             VoertuigToevoegTab.Content = new VoertuigToevoegen(managers);
             BestuurderToevoegTab.Content = new BestuurderToevoegen(managers);
             TankkaartToevoegTab.Content = new TankkaartToevoegen(managers);
+            AutomodellenToevoegTab.Content = new AutoModelToevoegen(managers);
         }
     }
 }
