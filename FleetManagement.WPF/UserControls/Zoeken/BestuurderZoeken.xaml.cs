@@ -64,8 +64,12 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             //Uitgezet anders geen update status mogelijk
             //detailWindow.Show();
 
-            bool? verwijderd = detailWindow.ShowDialog();
-            if (verwijderd == true)
+            bool? action = detailWindow.ShowDialog();
+            if (action == true)
+            {
+                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
+            }
+            else
             {
                 BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
             }
@@ -105,21 +109,26 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void KiesDetail_Click(object sender, RoutedEventArgs e)
         {
-            if (Bestuurderweergave != null)
+            BestuurderDetails detailWindow = new BestuurderDetails(_managers, _bestuurder)
             {
-                BestuurderDetails detailWindow = new BestuurderDetails(_managers, _bestuurder)
-                {
-                    Owner = Window.GetWindow(this),
-                };
+                Owner = Window.GetWindow(this),
+            };
 
-                //Uitgezet anders geen update status mogelijk, in de plaats hidden scherm
-                //detailWindow.Show();
+            //Uitgezet anders geen update status mogelijk
+            //detailWindow.Show();
 
-                bool? verwijderd = detailWindow.ShowDialog();
-                if (verwijderd == true)
-                {
-                    BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
-                }
+            bool? action = detailWindow.ShowDialog();
+            if (action == true)
+            {
+  
+            }
+            else
+            {
+            }
+
+            if ((bool)detailWindow.Updatetet)
+            {
+                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
             }
         }
 

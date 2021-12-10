@@ -22,6 +22,10 @@ namespace FleetManagement.Model
         public AantalDeuren? AantalDeuren { get; set; }
         public Bestuurder Bestuurder { get; private set; }
         public bool HeeftVoertuigBestuurder => Bestuurder != null;
+        public string VoertuigNaam => AutoModel.Merk + " " + AutoModel.AutoModelNaam;
+
+#warning VoertuigNaam property voor WPF binding ingevoegd: nog niet getest
+
         public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofVoertuig brandstof)
         {
             AutoModel = autoModel ?? throw new VoertuigException($"{nameof(AutoModel)} mag niet leeg zijn");

@@ -9,7 +9,6 @@
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
         <local1:NummerplaatConverter x:Key="NummerplaatConverter"/>
-        <local1:RijksregisterConverter x:Key="RijksregisterConverter"/>
         <local1:IsHybrideConverter x:Key="IsHybrideConverter"/>
     </UserControl.Resources>
     <DockPanel Background="LightSteelBlue"  Margin="-2">
@@ -43,15 +42,14 @@
                           FontStyle="Normal"
                           DockPanel.Dock="Top">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header=" Merk " Binding="{Binding AutoModel.Merk}"/>
-                    <DataGridTextColumn Header=" Model " Binding="{Binding AutoModel.AutoModelNaam}"/>
+                    <DataGridTextColumn Header=" Automodel " Binding="{Binding VoertuigNaam}"/>
                     <DataGridTextColumn Header=" Autotype " Binding="{Binding AutoModel.AutoType.AutoTypeNaam}"/>
                     <DataGridTextColumn Header=" Brandstof " Binding="{Binding Brandstof.BrandstofNaam}"/>
                     <DataGridTextColumn Header=" Hybride " Binding="{Binding Brandstof.Hybride, Converter={StaticResource IsHybrideConverter}}"/>
                     <DataGridTextColumn Header=" Kleur " Binding="{Binding VoertuigKleur.KleurNaam}"/>
                     <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding NummerPlaat, Converter={StaticResource NummerplaatConverter}}"/>
                     <DataGridTextColumn Header=" Chassisnummer " Binding="{Binding ChassisNummer}"/>
-                    <DataGridTextColumn Header=" Rijksr. Bestuurder " Binding="{Binding Bestuurder.RijksRegisterNummer, Converter={StaticResource RijksregisterConverter}}"/>
+                    <DataGridTextColumn Header=" Bestuurder " Binding="{Binding Bestuurder.Naam}"/>
                 </DataGrid.Columns>
 
                 <DataGrid.RowStyle>

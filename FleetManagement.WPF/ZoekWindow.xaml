@@ -8,10 +8,10 @@
         Title="ZoekWindow" Height="600" Width="850">
     <Grid>
         <TabControl>
-            <TabItem x:Name="VoertuigZoekTab" Header="Voertuigen" FontSize="14"/>
-            <TabItem x:Name="BestuurderZoekTab" Header="Bestuurders" FontSize="14"></TabItem>
-            <TabItem x:Name="TankkaartZoekTab" Header="Tankkaarten" FontSize="14"></TabItem>
-            <TabItem x:Name="AutomodelZoekTab" Header="Automodellen" FontSize="14"></TabItem>
+            <TabItem x:Name="VoertuigZoekTab" Header="Voertuigen" FontSize="14" MouseEnter="VoertuigZoekTab_MouseEnter"/>
+            <TabItem x:Name="BestuurderZoekTab" Header="Bestuurders" FontSize="14" MouseEnter="BestuurderZoekTab_MouseEnter"></TabItem>
+            <TabItem x:Name="TankkaartZoekTab" Header="Tankkaarten" FontSize="14" MouseEnter="TankkaartZoekTab_MouseEnter"></TabItem>
+            <TabItem x:Name="AutomodelZoekTab" Header="Automodellen" FontSize="14" MouseEnter="AutomodelZoekTab_MouseEnter"></TabItem>
         </TabControl>
     </Grid>
 </Window>

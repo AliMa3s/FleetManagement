@@ -1,7 +1,7 @@
 ﻿using FleetManagement.Manager;
 using FleetManagement.Model;
+using FleetManagement.WPF.NieuwWindows;
 using FleetManagement.WPF.SelecteerWindows;
-using FleetManagement.WPF.UpdateWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +64,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             //Wis bij elke nieuw poging de message info
             infoBestuurderMess.Text = string.Empty;
 
-            UpdateAdres UpdateAdres = new(_ingevoegdAdres)
+            NieuwAdres UpdateAdres = new(_ingevoegdAdres)
             {
                 Owner = Window.GetWindow(this),
             };

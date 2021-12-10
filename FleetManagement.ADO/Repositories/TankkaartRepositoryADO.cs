@@ -557,7 +557,6 @@ namespace FleetManagement.ADO.Repositories {
                     command.CommandText = query;
                     command.ExecuteNonQuery();
 
-                    tankkaart.UpdateTankkaartNummer(AnderTankkaartNummer);
                     return tankkaart;
                 }
                 catch (Exception ex)

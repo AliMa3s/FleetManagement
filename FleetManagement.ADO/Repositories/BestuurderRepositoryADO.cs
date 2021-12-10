@@ -5,20 +5,21 @@ using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FleetManagement.ADO.Repositories {
+namespace FleetManagement.ADO.Repositories
+{
     public class BestuurderRepositoryADO : RepoConnection, IBestuurderRepository
     {
         public BestuurderRepositoryADO(string connectionstring) : base(connectionstring) { }
 
-        public bool BestaatBestuurder(int id) {
+        public bool BestaatBestuurder(int id)
+        {
 
             string query = "SELECT count(*) FROM Bestuurder WHERE bestuurderid=@bestuurderid";
-            using (SqlCommand command = Connection.CreateCommand()) {
-                try {
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
                     Connection.Open();
                     command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
 
@@ -27,20 +28,27 @@ namespace FleetManagement.ADO.Repositories {
                     command.CommandText = query;
                     int n = (int)command.ExecuteScalar();
                     if (n > 0) return true; else return false;
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     throw new AdresRepositoryADOException("BestaatBestuurder(int-id)- gefaald", ex);
-                } finally {
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }
         }
 
-        public bool BestaatRijksRegisterNummer(string rijksRegisterNr) {
+        public bool BestaatRijksRegisterNummer(string rijksRegisterNr)
+        {
 
             string query = "SELECT count(*) FROM Bestuurder WHERE rijksregisternummer=@rijksregisternummer;";
 
-            using (SqlCommand command = Connection.CreateCommand()) {
-                try {
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
                     Connection.Open();
                     command.Parameters.Add(new SqlParameter("@rijksregisternummer", SqlDbType.NVarChar));
 
@@ -49,67 +57,26 @@ namespace FleetManagement.ADO.Repositories {
                     command.CommandText = query;
                     int n = (int)command.ExecuteScalar();
                     if (n > 0) return true; else return false;
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     throw new AdresRepositoryADOException("BestaatRijksRegisterNummer - gefaald", ex);
-                } finally {
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }
         }
 
-        public void UpdateBestuurder(Bestuurder bestuurder) {
-
-            string query = "UPDATE Bestuurder " +
-                           "SET adresid=@adresid, voornaam=@voornaam, achternaam=@achternaam, " +
-                           "rijbewijstype=@rijbewijstype, voertuigid=@voertuigid " +
-                           "WHERE bestuurderid=@bestuurderid";
-
-            using (SqlCommand command = Connection.CreateCommand()) {
-                try {
-                    Connection.Open();
-                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
-                    command.Parameters.Add(new SqlParameter("@voornaam", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@achternaam", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@rijbewijstype", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
-                    command.Parameters.Add(new SqlParameter("@adresid", SqlDbType.Int));
-
-                    command.Parameters["@voornaam"].Value = bestuurder.Voornaam;
-                    command.Parameters["@achternaam"].Value = bestuurder.Achternaam;
-                    command.Parameters["@rijbewijstype"].Value = bestuurder.TypeRijbewijs;
-                    command.Parameters["@bestuurderid"].Value = bestuurder.BestuurderId;
-
-                    if (bestuurder.HeeftBestuurderVoertuig)
-                    {
-                        command.Parameters["@voertuigid"].Value = bestuurder.Voertuig.VoertuigId;
-                    }
-                    else
-                    {
-                        command.Parameters["@voertuigid"].Value = DBNull.Value;
-                    } 
-
-                    if (bestuurder.Adres == null)
-                    {
-                         command.Parameters["@adresid"].Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        command.Parameters["@adresid"].Value = bestuurder.Adres.AdresId;
-                    }
-
-                    command.CommandText = query;
-                    command.ExecuteNonQuery();
-                } catch (Exception ex) {
-                    throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
-                } finally {
-                    Connection.Close();
-                }
-            }
-        }
-
-        //Updaten met nieuwe rijksregister & geboortedatum
-        public void UpdateBestuurder(Bestuurder bestuurder, string anderRijksregisterNummer)
+        private void UpdateBestuurder(Bestuurder bestuurder, string rijksregisterNummer, SqlConnection sqlConnection = null, 
+            SqlTransaction transaction = null)
         {
+            if (sqlConnection != null)
+            {
+                Connection = sqlConnection;
+            }
+
             string query = "UPDATE Bestuurder " +
                "SET adresid=@adresid, voornaam=@voornaam, achternaam=@achternaam, geboortedatum=@geboortedatum, " +
                "rijbewijstype=@rijbewijstype, rijksregisternummer=@rijksregisternummer, voertuigid=@voertuigid, aanmaakdatum=@aanmaakdatum " +
@@ -119,7 +86,9 @@ namespace FleetManagement.ADO.Repositories {
             {
                 try
                 {
-                    Connection.Open();
+                    if (transaction != null) command.Transaction = transaction;
+                    if (Connection.State != ConnectionState.Open) Connection.Open();
+
                     command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
                     command.Parameters.Add(new SqlParameter("@voornaam", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@achternaam", SqlDbType.NVarChar));
@@ -128,12 +97,12 @@ namespace FleetManagement.ADO.Repositories {
                     command.Parameters.Add(new SqlParameter("@rijbewijstype", SqlDbType.NVarChar));
                     command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
                     command.Parameters.Add(new SqlParameter("@adresid", SqlDbType.Int));
-                    command.Parameters.Add(new SqlParameter("@aanmaakdatum", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@aanmaakdatum", SqlDbType.DateTime));
 
                     command.Parameters["@voornaam"].Value = bestuurder.Voornaam;
                     command.Parameters["@achternaam"].Value = bestuurder.Achternaam;
                     command.Parameters["@geboortedatum"].Value = bestuurder.GeboorteDatum;
-                    command.Parameters["@rijksregisternummer"].Value = anderRijksregisterNummer;
+                    command.Parameters["@rijksregisternummer"].Value = rijksregisterNummer;
                     command.Parameters["@rijbewijstype"].Value = bestuurder.TypeRijbewijs;
                     command.Parameters["@bestuurderid"].Value = bestuurder.BestuurderId;
 
@@ -145,7 +114,6 @@ namespace FleetManagement.ADO.Repositories {
                     {
                         command.Parameters["@voertuigid"].Value = DBNull.Value;
                     }
-                    command.Parameters.Add(new SqlParameter("@voertuigid", SqlDbType.Int));
 
                     if (bestuurder.Adres == null)
                     {
@@ -174,25 +142,82 @@ namespace FleetManagement.ADO.Repositories {
                 }
                 finally
                 {
+                    if (sqlConnection is null) Connection.Close();
+                }
+            }
+        }
+
+        public Bestuurder UpdateBestuurder(Bestuurder bestuurder)
+        {
+            try
+            {
+                return UpdateBestuurder(bestuurder, bestuurder.RijksRegisterNummer);
+            }
+            catch (Exception ex)
+            {
+                throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
+            }
+        }
+
+        //Updaten met nieuwe rijksregister & geboortedatum
+        public Bestuurder UpdateBestuurder(Bestuurder bestuurder, string anderRijksregisterNummer)
+        {
+            Connection.Open();
+            using (SqlTransaction transaction = Connection.BeginTransaction())
+            {
+                try
+                {
+                    if(bestuurder.Adres != null && bestuurder.Adres.AdresId > 0)
+                    {
+                        UpdateBestuurderAdres(bestuurder, Connection, transaction);
+                    }
+                    else {
+
+                        int newId = VoegBestuurderAdresToe(bestuurder, Connection, transaction);
+
+                        if (newId > 0)
+                            bestuurder.Adres.VoegIdToe(newId);
+                    }
+
+                    UpdateBestuurder(bestuurder, anderRijksregisterNummer, Connection, transaction);
+                    transaction.Commit();
+
+                    return bestuurder;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new BestuurderRepositoryADOException("UpdateBestuurder - gefaald", ex);
+
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }
         }
 
-        public void VerwijderBestuurder(Bestuurder bestuurder) {
+        public void VerwijderBestuurder(Bestuurder bestuurder)
+        {
 
             string query = "DELETE FROM Bestuurder WHERE bestuurderid=@bestuurderid";
 
-            using (SqlCommand command = Connection.CreateCommand()) {
-                try {
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
                     Connection.Open();
                     command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
                     command.Parameters["@bestuurderid"].Value = bestuurder.BestuurderId;
                     command.CommandText = query;
                     command.ExecuteNonQuery();
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     throw new BestuurderRepositoryADOException("Verwijderbestuurder - gefaald", ex);
-                } finally {
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }
@@ -205,7 +230,7 @@ namespace FleetManagement.ADO.Repositories {
             {
                 try
                 {
-                    int newId = TransactionAdres(bestuurder, Connection, transaction);
+                    int newId = VoegBestuurderAdresToe(bestuurder, Connection, transaction);
 
                     if (newId > 0)
                         bestuurder.Adres.VoegIdToe(newId);
@@ -227,7 +252,8 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-        private Bestuurder VoegBestuurderToe(Bestuurder bestuurder, SqlConnection sqlConnection = null, SqlTransaction transaction = null) {
+        private Bestuurder VoegBestuurderToe(Bestuurder bestuurder, SqlConnection sqlConnection = null, SqlTransaction transaction = null)
+        {
 
             if (sqlConnection != null)
             {
@@ -237,8 +263,10 @@ namespace FleetManagement.ADO.Repositories {
             string query = "INSERT INTO Bestuurder (adresid, voornaam, achternaam, geboortedatum, rijksregisternummer, rijbewijstype, voertuigid) " +
                 "OUTPUT INSERTED.bestuurderid VALUES (@adresid, @voornaam, @achternaam, @geboortedatum, @rijksregisternummer, @rijbewijstype, @voertuigid)";
 
-            using (SqlCommand command = Connection.CreateCommand()) {
-                try {
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
 
                     if (transaction != null) command.Transaction = transaction;
                     if (Connection.State != ConnectionState.Open) Connection.Open();
@@ -280,15 +308,19 @@ namespace FleetManagement.ADO.Repositories {
                     bestuurder.VoegIdToe((int)command.ExecuteScalar());
                     return bestuurder;
 
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     throw new BestuurderRepositoryADOException("Voeg Bestuurder Toe - gefaald", ex);
-                } finally {
+                }
+                finally
+                {
                     if (sqlConnection is null) Connection.Close();
                 }
             }
         }
 
-        private int TransactionAdres(Bestuurder bestuurder, SqlConnection sqlConnection = null, SqlTransaction transaction = null)
+        private int VoegBestuurderAdresToe(Bestuurder bestuurder, SqlConnection sqlConnection = null, SqlTransaction transaction = null)
         {
             if (bestuurder.Adres != null)
             {
@@ -349,8 +381,72 @@ namespace FleetManagement.ADO.Repositories {
             return 0;
         }
 
+        private void UpdateBestuurderAdres(Bestuurder bestuurder, SqlConnection sqlConnection = null, SqlTransaction transaction = null)
+        {
+            if (bestuurder.Adres != null && bestuurder.Adres.AdresId > 0)
+            {
+                if (sqlConnection != null)
+                {
+                    Connection = sqlConnection;
+                }
+
+                string query = "UPDATE Adres " +
+                   "SET straat=@straat, nummer=@nummer, postcode=@postcode, gemeente=@gemeente " +
+                   "WHERE adresid=@adresid";
+
+                using (SqlCommand command = Connection.CreateCommand())
+                {
+                    try
+                    {
+                        if (transaction != null) command.Transaction = transaction;
+                        if (Connection.State != ConnectionState.Open) Connection.Open();
+
+                        command.Parameters.Add(new SqlParameter("@adresid", SqlDbType.NVarChar));
+                        command.Parameters.Add(new SqlParameter("@straat", SqlDbType.NVarChar));
+                        command.Parameters.Add(new SqlParameter("@nummer", SqlDbType.NVarChar));
+                        command.Parameters.Add(new SqlParameter("@postcode", SqlDbType.NVarChar));
+                        command.Parameters.Add(new SqlParameter("@gemeente", SqlDbType.NVarChar));
+
+                        command.Parameters["@adresid"].Value = bestuurder.Adres.AdresId;
+
+                        if (bestuurder.Adres.Straat == null)
+                            command.Parameters["@straat"].Value = DBNull.Value;
+                        else
+                            command.Parameters["@straat"].Value = bestuurder.Adres.Straat;
+
+                        if (bestuurder.Adres.Nr == null)
+                            command.Parameters["@nummer"].Value = DBNull.Value;
+                        else
+                            command.Parameters["@nummer"].Value = bestuurder.Adres.Nr;
+
+                        if (bestuurder.Adres.Postcode == null)
+                            command.Parameters["@postcode"].Value = DBNull.Value;
+                        else
+                            command.Parameters["@postcode"].Value = bestuurder.Adres.Postcode;
+
+                        if (bestuurder.Adres.Gemeente == null)
+                            command.Parameters["@gemeente"].Value = DBNull.Value;
+                        else
+                            command.Parameters["@gemeente"].Value = bestuurder.Adres.Gemeente;
+
+                        command.CommandText = query;
+                        command.ExecuteNonQuery();                      
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new BestuurderRepositoryADOException("UpdateAdres - gefaald", ex);
+                    }
+                    finally
+                    {
+                        if (sqlConnection is null) Connection.Close();
+                    }
+                }
+            }
+        }
+
         //Op rijksregisternummer
-        public Bestuurder ZoekBestuurder(string rijksRegisterNummer) {
+        public Bestuurder ZoekBestuurder(string rijksRegisterNummer)
+        {
 
             return null;
         }
@@ -379,7 +475,7 @@ namespace FleetManagement.ADO.Repositories {
                         if (dataReader.HasRows)
                         {
                             while (dataReader.Read())
-                            {                    
+                            {
                                 Bestuurder bestuurderDB = new(
                                     (int)dataReader["bestuurderid"],
                                     (string)dataReader["voornaam"],
@@ -389,7 +485,7 @@ namespace FleetManagement.ADO.Repositories {
                                     (string)dataReader["rijksregisternummer"]
                                 );
 
-                                if(!dataReader.IsDBNull(dataReader.GetOrdinal("adresId")))
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("adresId")))
                                 {
                                     Adres adresDB = new(
                                         (string)dataReader["straat"],
@@ -422,7 +518,7 @@ namespace FleetManagement.ADO.Repositories {
                                     bestuurderDB.VoegTankKaartToe(tankKaartDB);
                                 }
 
-                               bestuurders.Add(bestuurderDB);
+                                bestuurders.Add(bestuurderDB);
                             }
                         }
 

@@ -25,11 +25,28 @@ namespace FleetManagement.WPF.DetailWindows {
 
         private Bestuurder _bestuurderDetail;
 
+        public bool? Updatetet { get; set; }
+
         public BestuurderDetails(Managers managers, Bestuurder bestuurder) {
 
             InitializeComponent();
             _managers = managers;
             _bestuurderDetail = bestuurder;
+
+            SetDefault();
+
+            //bind de bestuurder
+            DataContext = _bestuurderDetail;
+        }
+
+        private void SluitForm_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
+
+        private void SetDefault()
+        {
+            Updatetet = false;
 
             if (_bestuurderDetail.HeeftBestuurderVoertuig)
             {
@@ -40,39 +57,31 @@ namespace FleetManagement.WPF.DetailWindows {
                 HeeftVoertuig.Text = stringBuilder.ToString();
             }
 
-            if(_bestuurderDetail.HeeftBestuurderTankKaart)
+            if (_bestuurderDetail.HeeftBestuurderTankKaart)
             {
                 StringBuilder stringBuilder = new("Nr: " + _bestuurderDetail.Tankkaart.TankKaartNummer);
                 stringBuilder.AppendLine(Environment.NewLine + "Geldig tot: " + _bestuurderDetail.Tankkaart.GeldigheidsDatum.ToString("dd/MM/yyyy"));
 
-                if(_bestuurderDetail.Tankkaart.Actief) 
-                { 
-                    stringBuilder.AppendLine("Tankkaart is actief"); 
+                if (_bestuurderDetail.Tankkaart.Actief)
+                {
+                    stringBuilder.AppendLine("Tankkaart is actief");
                 }
                 else
                 {
                     if (_bestuurderDetail.Tankkaart.IsGeldigheidsDatumVervallen) { stringBuilder.AppendLine("Tankkaart is vervallen"); }
-                    else { stringBuilder.AppendLine("Tankkaart is geblokkeerd"); } 
+                    else { stringBuilder.AppendLine("Tankkaart is geblokkeerd"); }
                 }
-   
+
                 HeeftTankkaart.Text = stringBuilder.ToString();
             }
 
-            if(_bestuurderDetail.Adres != null)
+            if (_bestuurderDetail.Adres != null)
             {
                 StringBuilder stringBuilder = new(_bestuurderDetail.Adres.Straat + " " + _bestuurderDetail.Adres.Nr);
                 stringBuilder.AppendLine(Environment.NewLine + _bestuurderDetail.Adres.Postcode + " " + _bestuurderDetail.Adres.Gemeente);
 
                 Adresgegevens.Text = stringBuilder.ToString();
             }
-
-            //bind de bestuurder
-            DataContext = _bestuurderDetail;
-        }
-
-        private void SluitForm_Click(object sender, RoutedEventArgs e)
-        {
-            Window.GetWindow(this).Close();
         }
 
         private void WijzigButton_Click(object sender, RoutedEventArgs e)
@@ -83,10 +92,19 @@ namespace FleetManagement.WPF.DetailWindows {
                 BestuurderDetail = _bestuurderDetail
             };
 
-            bool? updatetet = updateBestuurder.ShowDialog();
-            if (updatetet == true)
+            Updatetet = updateBestuurder.ShowDialog();
+            if (Updatetet == true)
             {
                 _bestuurderDetail = updateBestuurder.BestuurderDetail;
+
+                //uitzetten
+                VoornaamTextBlock.Text = _bestuurderDetail.Voornaam;
+                AchternaamTextBlock.Text = _bestuurderDetail.Achternaam;
+                GeboorteDatumTextBlock.Text = _bestuurderDetail.GeboorteDatum;
+                RijbewijsTextBlock.Text = _bestuurderDetail.TypeRijbewijs;
+                RijksRegisterTextBlock.Text = _bestuurderDetail.RijksRegisterNummer;
+
+                SetDefault();
             }
         }
 

@@ -48,12 +48,12 @@ namespace FleetManagement.Manager {
             }
         }
 
-        public void UpdateBestuurder(Bestuurder bestuurder) {
+        public Bestuurder UpdateBestuurder(Bestuurder bestuurder) {
             try {
                 if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
 
                 if (BestaatBestuurder(bestuurder.BestuurderId)) {
-                    _repo.UpdateBestuurder(bestuurder);
+                    return _repo.UpdateBestuurder(bestuurder);
                 } else {
                     throw new BestuurderManagerException("Bestuurder - bestaat niet!");
                 }
@@ -163,7 +163,7 @@ namespace FleetManagement.Manager {
             }
         }
 
-        public void UpdateBestuurder(Bestuurder bestuurder, string anderRijksregisterNummer)
+        public Bestuurder UpdateBestuurder(Bestuurder bestuurder, string anderRijksregisterNummer)
         {
             try
             {
@@ -178,7 +178,7 @@ namespace FleetManagement.Manager {
                         throw new BestuurderManagerException("Update: Rijksregisternummer bestaat al");
                     }
 
-                    _repo.UpdateBestuurder(bestuurder, anderRijksregisterNummer);
+                    return _repo.UpdateBestuurder(bestuurder, anderRijksregisterNummer);
                 }
                 else
                 {

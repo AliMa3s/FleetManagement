@@ -3,10 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Zoeken"
+             xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Zoeken" 
+             xmlns:local1="clr-namespace:FleetManagement.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-
+    <UserControl.Resources>
+        <local1:HeeftTankkaartConverter x:Key="HeeftTankkaartConverter"/>
+        <local1:RijksregisterConverter x:Key="RijksregisterConverter"/>
+    </UserControl.Resources>
     <DockPanel Background="LightSteelBlue"  Margin="-2">
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Height="140" VerticalAlignment="Bottom" LastChildFill="False">
@@ -34,13 +38,12 @@
                           FontStyle="Normal"
                           DockPanel.Dock="Top">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header=" Achternaam " Binding="{Binding Achternaam}"/>
-                    <DataGridTextColumn Header=" Voornaam " Binding="{Binding Voornaam}"/>
+                    <DataGridTextColumn Header=" Naam " Binding="{Binding Naam}"/>
                     <DataGridTextColumn Header=" Geboortedatum " Binding="{Binding GeboorteDatum}"/>
                     <DataGridTextColumn Header=" Rijbewijs " Binding="{Binding TypeRijbewijs}"/>
-                    <DataGridTextColumn Header=" Rijksregister " Binding="{Binding RijksRegisterNummer}"/>
-                    <DataGridTextColumn Header=" Tankkaart " Binding="{Binding Tankkaart.TankKaartNummer}"/>
-                    <DataGridTextColumn Header=" Voertuig " Binding="{Binding Voertuig.ChassisNummer}"/>
+                    <DataGridTextColumn Header=" Rijksregister " Binding="{Binding RijksRegisterNummer, Converter={StaticResource RijksregisterConverter}}"/>
+                    <DataGridTextColumn Header=" Tankkaart " Binding="{Binding HeeftBestuurderTankKaart, Converter={StaticResource HeeftTankkaartConverter}}"/>
+                    <DataGridTextColumn Header=" Voertuig " Binding="{Binding Voertuig.VoertuigNaam}"/>
 
                 </DataGrid.Columns>
 

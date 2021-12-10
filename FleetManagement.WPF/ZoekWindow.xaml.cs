@@ -29,10 +29,26 @@ namespace FleetManagement.WPF
             Title = "FleetManagement Zoekscherm";
             _managers = managers;
 
-            VoertuigZoekTab.Content = new VoertuigZoeken(managers);
-            BestuurderZoekTab.Content = new BestuurderZoeken(managers);
-            TankkaartZoekTab.Content = new TankkaartZoeken(managers);
-            AutomodelZoekTab.Content = new AutoModelZoeken(managers);
+            VoertuigZoekTab.Content = new VoertuigZoeken(_managers);
+        }
+
+        private void BestuurderZoekTab_MouseEnter(object sender, MouseEventArgs e)
+        {
+            BestuurderZoekTab.Content = new BestuurderZoeken(_managers);
+        }
+
+        private void VoertuigZoekTab_MouseEnter(object sender, MouseEventArgs e)
+        {
+            VoertuigZoekTab.Content = new VoertuigZoeken(_managers);
+        }
+
+        private void TankkaartZoekTab_MouseEnter(object sender, MouseEventArgs e)
+        {
+            TankkaartZoekTab.Content = new TankkaartZoeken(_managers);
+        }
+        private void AutomodelZoekTab_MouseEnter(object sender, MouseEventArgs e)
+        {
+            AutomodelZoekTab.Content = new AutoModelZoeken(_managers);
         }
     }
 }

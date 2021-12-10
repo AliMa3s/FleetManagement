@@ -25,9 +25,10 @@ namespace FleetManagement.Model
         public DateTime? AanmaakDatum { get; set; }
         public bool HeeftBestuurderVoertuig => Voertuig != null;
         public bool HeeftBestuurderTankKaart => Tankkaart != null;
+        public string Naam => Achternaam + " " + Voornaam;
         #endregion
 
-        //Mag hier een property komen om een date format te geven ToString("dd MMMM yyyy")? 
+#warning property naam bijgezet om een volledig naam te hebben in zoekopties: moet nog gestest worden
 
         #region Ctors
         //Nieuw Bestuurder: Enkel verplichte velden

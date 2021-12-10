@@ -40,7 +40,7 @@ namespace FleetManagement.Test.ModelTest {
         {
             var ex = Assert.Throws<BestuurderException>(() =>
             {
-                new Bestuurder(" ", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+                new Bestuurder(voornaam, "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             });
 
             Assert.Equal("Voornaam moet ingevuld zijn", ex.Message);

@@ -10,8 +10,8 @@ namespace FleetManagement.Interfaces {
 
         bool BestaatBestuurder(int bestuurderid);
         bool BestaatRijksRegisterNummer(string rijksRegisterNr);
-        void UpdateBestuurder(Bestuurder bestuurder);
-        void UpdateBestuurder(Bestuurder bestuurder, string anderRijksregisterNummer);
+        Bestuurder UpdateBestuurder(Bestuurder bestuurder);
+        Bestuurder UpdateBestuurder(Bestuurder bestuurder, string anderRijksregisterNummer);
         void VerwijderBestuurder(Bestuurder bestuurder);
         Bestuurder VoegBestuurderToe(Bestuurder bestuurder);
         IReadOnlyList<Bestuurder> SelecteerBestuurdersZonderVoertuig(string achterNaamEnVoornaam);

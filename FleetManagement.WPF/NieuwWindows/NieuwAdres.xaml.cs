@@ -13,13 +13,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace FleetManagement.WPF.UpdateWindows
-{
+namespace FleetManagement.WPF.NieuwWindows {
     /// <summary>
-    /// Interaction logic for UpdateNieuwAdres.xaml
+    /// Interaction logic for UpdateAdres.xaml
     /// </summary>
-    public partial class UpdateAdres : Window
-    {
+    public partial class NieuwAdres : Window {
 
         private Adres _adres;
 
@@ -32,45 +30,55 @@ namespace FleetManagement.WPF.UpdateWindows
             }
         }
 
-        public UpdateAdres(Adres adres)
-        {
+        public NieuwAdres(Adres adres) {
 
             InitializeComponent();
             _adres = adres;
 
+            if(_adres != null)
+            {
+                FormAdres.Content = "Update nieuw adres";
+                invoegEnUpdateButton.Content = "Updaten";
+            }
+            else
+            {
+                FormAdres.Content = "Nieuw adres ingeven";
+                invoegEnUpdateButton.Content = "Aanmaken";
+            }
+
             DataContext = AdresGegevens;
         }
 
-        private void AnnuleerForm_Click(object sender, RoutedEventArgs e)
-        {
-            AdresGegevens.Straat = "";
-            AdresGegevens.Nr = "";
-            AdresGegevens.Postcode = "";
-            AdresGegevens.Gemeente = "";
+        private void AnnuleerForm_Click(object sender, RoutedEventArgs e) {
+
+            AdresGegevens = null;
             DialogResult = false;
         }
 
         private void InvoegEnUpdateButton_Click(object sender, RoutedEventArgs e)
         {
+
             if (!string.IsNullOrWhiteSpace(StraatTextBox.Text) || !string.IsNullOrWhiteSpace(NummerTextBox.Text)
                 || !string.IsNullOrWhiteSpace(PostcodeTextBox.Text)
                 || !string.IsNullOrWhiteSpace(GemeenteTextBox.Text))
             {
-                AdresGegevens.Straat = StraatTextBox.Text;
-                AdresGegevens.Nr = NummerTextBox.Text;
-                AdresGegevens.Postcode = PostcodeTextBox.Text;
-                AdresGegevens.Gemeente = GemeenteTextBox.Text;
+
+
+                AdresGegevens = new Adres(
+                    string.IsNullOrWhiteSpace(StraatTextBox.Text) ? "" : StraatTextBox.Text,
+                    string.IsNullOrWhiteSpace(NummerTextBox.Text) ? "" : NummerTextBox.Text,
+                    string.IsNullOrWhiteSpace(PostcodeTextBox.Text) ? "" : PostcodeTextBox.Text,
+                    string.IsNullOrWhiteSpace(GemeenteTextBox.Text) ? "" : GemeenteTextBox.Text
+                ); ;
 
                 DialogResult = true;
             }
             else
             {
-                AdresGegevens.Straat = "";
-                AdresGegevens.Nr = "";
-                AdresGegevens.Postcode = "";
-                AdresGegevens.Gemeente = "";
+                AdresGegevens = null;
                 DialogResult = false;
             }
+
         }
     }
 }

@@ -48,7 +48,7 @@ namespace FleetManagement.Manager
         public void UpdateAutoModel(AutoModel autoModel) {
             try {
                 if (autoModel == null) throw new AutoModelManagerException("AutoModel - AutoModel mag niet null zijn");
-                if (_repo.BestaatAutoModel(autoModel)) {
+                if (BestaatAutoModel(autoModel)) {
                     _repo.UpdateAutoModel(autoModel);
                 } else {
                     throw new AutoModelManagerException("AutoModel - bestaat niet!");
@@ -62,7 +62,7 @@ namespace FleetManagement.Manager
         public void VerwijderAutoModel(AutoModel autoModel) {
             try {
                 if (autoModel == null) throw new AutoModelManagerException("AutoModel - AutoModel mag niet null zijn");
-                if (_repo.BestaatAutoModel(autoModel)) {
+                if (BestaatAutoModel(autoModel)) {
                     _repo.VerwijderAutoModel(autoModel);
                 } else {
                     throw new AutoModelManagerException("AutoModel - bestaat niet!");
@@ -76,7 +76,7 @@ namespace FleetManagement.Manager
         public void VoegAutoModelToe(AutoModel autoModel) {
             try {
                 if (autoModel == null) throw new AutoModelManagerException("autoModel - autoModel mag niet null zijn");
-                if (!_repo.BestaatAutoModel(autoModel.AutoModelId)) {
+                if (!BestaatAutoModel(autoModel.AutoModelId)) {
                     _repo.VoegAutoModelToe(autoModel);
                 } else {
                     throw new AutoModelManagerException("autoModel Bestaat al");
@@ -91,7 +91,7 @@ namespace FleetManagement.Manager
         public bool BestaatAutoModel(int automodelid) {
             try {
                 if (automodelid < 1) throw new AutoModelManagerException("autoModel id kan niet kleiner dan 0 zijn");
-                if (!_repo.BestaatAutoModel(automodelid)) {
+                if (!BestaatAutoModel(automodelid)) {
                     return false;
                 } else {
                     return true;

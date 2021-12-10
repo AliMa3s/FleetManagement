@@ -14,6 +14,13 @@ namespace FleetManagement.Model {
         public string Gemeente { get; set; }
 
         public Adres(string straat, string nr, string postcode, string gemeente) {
+
+#warning exception is nog maar pas gegooid en is nog NIET getest. Opgelet! Leeg is toegestaan! Het is dit ofwel SQL veranderen
+            if(straat == null) throw new AdresException("Straat mag niet null zijn");
+            if (nr == null) throw new AdresException("Nummer mag niet null zijn");
+            if (postcode == null) throw new AdresException("Postcode mag niet null zijn");
+            if (gemeente == null) throw new AdresException("Gemeente mag niet null zijn");
+
             Straat = straat;
             Nr = nr;
             Postcode = postcode;
