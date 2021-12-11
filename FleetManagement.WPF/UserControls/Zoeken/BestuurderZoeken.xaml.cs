@@ -24,8 +24,9 @@ namespace FleetManagement.WPF.UserControls.Zoeken
     public partial class BestuurderZoeken : UserControl
     {
         private readonly Managers _managers;
-
         private Bestuurder _bestuurder;
+        private string _filterOpNaam = "";
+        private string _zoekOpRijksregister = "";
 
         public Bestuurder Bestuurderweergave
         {
@@ -45,8 +46,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             _managers = managers;
 
             FilterOpNaam.Text = PlaceholderName;
-            Rijksregister.Text = PlaceHolderRijksregister;
-            BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
+            RijksregisterBox.Text = PlaceHolderRijksregister;
+            BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(_filterOpNaam); 
         }
 
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -56,33 +57,46 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void ZoekenMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            BestuurderDetails detailWindow = new BestuurderDetails(_managers, _bestuurder)
+            if(Bestuurderweergave != null)
             {
-                Owner = Window.GetWindow(this),
-            };
-
-            //Uitgezet anders geen update status mogelijk
-            //detailWindow.Show();
-
-            bool? action = detailWindow.ShowDialog();
-            if (action == true)
-            {
-                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
-            }
-            else
-            {
-                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
+              GetDetailWindow();
             }
         }
 
         private void ZoekRijksregister_Click(object sender, RoutedEventArgs e)
         {
+            infoBestuurderMess.Text = string.Empty;
+
+            if(RijksregisterBox.Text != PlaceHolderRijksregister)
+            {
+                _zoekOpRijksregister = RijksregisterBox.Text;
+
+                List<Bestuurder> bestuurders = new();
+                Bestuurder bestuurderDB = _managers.BestuurderManager.ZoekBestuurder(_zoekOpRijksregister);
+
+                if (bestuurderDB != null)
+                {
+                    bestuurders.Add(bestuurderDB);
+                    BestuurderZoekWeergave.ItemsSource = bestuurders;
+                }
+                else
+                {
+                    infoBestuurderMess.Foreground = Brushes.Red;
+                    infoBestuurderMess.Text = "Geen resultaten";
+                    BestuurderZoekWeergave.ItemsSource = bestuurders;
+                }
+
+                BestuurderZoekWeergave.ItemsSource = bestuurders;
+            }
         }
 
         private void FilterOpNaam_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (FilterOpNaam.Text != PlaceholderName)
-                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(FilterOpNaam.Text);
+            {
+                _filterOpNaam = FilterOpNaam.Text;
+                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(_filterOpNaam); 
+            }
         }
 
         private void FilterOpNaam_GotFocus(object sender, RoutedEventArgs e)
@@ -109,45 +123,65 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void KiesDetail_Click(object sender, RoutedEventArgs e)
         {
-            BestuurderDetails detailWindow = new BestuurderDetails(_managers, _bestuurder)
+            if (Bestuurderweergave != null)
             {
-                Owner = Window.GetWindow(this),
-            };
-
-            //Uitgezet anders geen update status mogelijk
-            //detailWindow.Show();
-
-            bool? action = detailWindow.ShowDialog();
-            if (action == true)
-            {
-  
-            }
-            else
-            {
-            }
-
-            if ((bool)detailWindow.Updatetet)
-            {
-                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
+                GetDetailWindow();
             }
         }
 
         private void Rijksregister_GotFocus(object sender, RoutedEventArgs e)
         {
-            if(Rijksregister.Text == PlaceHolderRijksregister)
+            if(RijksregisterBox.Text == PlaceHolderRijksregister)
             {
-                Rijksregister.Text = string.Empty;
-                Rijksregister.Foreground = Brushes.Black;
+                RijksregisterBox.Text = string.Empty;
+                RijksregisterBox.Foreground = Brushes.Black;
 
             }
         }
 
         private void Rijksregister_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(Rijksregister.Text))
+            if (string.IsNullOrWhiteSpace(RijksregisterBox.Text))
             {
-                Rijksregister.Text = PlaceHolderRijksregister;
-                Rijksregister.Foreground = Brushes.LightSlateGray;
+                RijksregisterBox.Text = PlaceHolderRijksregister;
+                RijksregisterBox.Foreground = Brushes.LightSlateGray;
+            }
+        }
+
+        private void GetDetailWindow()
+        {
+            BestuurderDetails detailWindow = new BestuurderDetails(_managers, Bestuurderweergave)
+            {
+                Owner = Window.GetWindow(this),
+            };
+
+            bool? action = detailWindow.ShowDialog();
+            if ((bool)action)
+            {
+                //vrij iets in te doen
+            }
+
+            if ((bool)detailWindow.Updatetet)
+            {
+                if(!string.IsNullOrWhiteSpace(_zoekOpRijksregister))
+                {
+                    List<Bestuurder> bestuurders = new();
+                    Bestuurder bestuurderDB = _managers.BestuurderManager.ZoekBestuurder(_zoekOpRijksregister);
+
+                    if (bestuurderDB != null)
+                    {
+                        bestuurders.Add(bestuurderDB);
+                        BestuurderZoekWeergave.ItemsSource = bestuurders;
+                    }
+                    else
+                    {
+                        BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
+                    }
+                }
+                else
+                {
+                    BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(_filterOpNaam); 
+                }
             }
         }
     }

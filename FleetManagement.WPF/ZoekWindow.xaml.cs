@@ -21,7 +21,7 @@ namespace FleetManagement.WPF
     /// </summary>
     public partial class ZoekWindow : Window
     {
-        private readonly Managers _managers; 
+        private readonly Managers _managers;
            
         public ZoekWindow(Managers managers)
         {
@@ -29,26 +29,39 @@ namespace FleetManagement.WPF
             Title = "FleetManagement Zoekscherm";
             _managers = managers;
 
-            VoertuigZoekTab.Content = new VoertuigZoeken(_managers);
+            VoertuigZoekTab.Content = new VoertuigZoeken(_managers);  
         }
 
-        private void BestuurderZoekTab_MouseEnter(object sender, MouseEventArgs e)
+        private void BestuurderZoekTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            BestuurderZoekTab.Content = new BestuurderZoeken(_managers);
+            if(!BestuurderZoekTab.IsSelected)
+            {
+                BestuurderZoekTab.Content = new BestuurderZoeken(_managers);
+            }
         }
 
-        private void VoertuigZoekTab_MouseEnter(object sender, MouseEventArgs e)
+        private void VoertuigZoekTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            VoertuigZoekTab.Content = new VoertuigZoeken(_managers);
+            if (!VoertuigZoekTab.IsSelected)
+            {
+                VoertuigZoekTab.Content = new VoertuigZoeken(_managers);
+            }
         }
 
-        private void TankkaartZoekTab_MouseEnter(object sender, MouseEventArgs e)
+        private void TankkaartZoekTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            TankkaartZoekTab.Content = new TankkaartZoeken(_managers);
+            if (!TankkaartZoekTab.IsSelected)
+            {
+                TankkaartZoekTab.Content = new TankkaartZoeken(_managers); 
+            }
         }
-        private void AutomodelZoekTab_MouseEnter(object sender, MouseEventArgs e)
+
+        private void AutomodelZoekTab_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            AutomodelZoekTab.Content = new AutoModelZoeken(_managers);
+            if (!AutomodelZoekTab.IsSelected)
+            {
+                AutomodelZoekTab.Content = new AutoModelZoeken(_managers);
+            }
         }
     }
 }

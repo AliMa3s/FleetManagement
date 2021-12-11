@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF"
         mc:Ignorable="d"
-        Title="Bevestiging" Height="200" Width="450">
+        Title="Bevestiging" Height="200" Width="500">
     <DockPanel Background="LightBlue" Margin="0">
         <DockPanel.Children>
 
             <DockPanel DockPanel.Dock="Top" Background="CornflowerBlue" Height="45" VerticalAlignment="Bottom">
-                <Label x:Name="Bevestingmss" FontSize="17" VerticalContentAlignment="Center" Padding="25,0,0,0" FontWeight="Bold" Margin="0,0,0,0">Ben je zeker dat je wilt verwijderen?</Label>
+                <Label x:Name="Bevestingmss" FontSize="15" VerticalContentAlignment="Center" Padding="25,0,0,0" FontWeight="Bold" Margin="0,0,0,0">Ben je zeker dat je wilt verwijderen?</Label>
             </DockPanel>
 
             <Grid>

@@ -64,7 +64,7 @@ namespace FleetManagement.WPF.UpdateWindows
 
         private void TankKaartUpdateButton_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void ResetVeldenButton_Click(object sender, RoutedEventArgs e)

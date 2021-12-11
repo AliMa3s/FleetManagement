@@ -38,7 +38,7 @@ namespace FleetManagement.Manager {
             }
             catch(Exception ex)
             {
-                throw new TankKaartManagerException("Tankkaart - BestaatTankkaart - Foutief", ex);
+                throw new TankKaartManagerException(ex.Message);
             }
         }
 
@@ -64,7 +64,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new TankKaartManagerException("TankKaart - ZoekTankkaart - gefaald", ex);
+                throw new TankKaartManagerException(ex.Message);
             }
         }
 
@@ -152,7 +152,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new TankKaartManagerException("TankKaart - BrandstoffenVoorTankaart - gefaald", ex);
+                throw new TankKaartManagerException(ex.Message);
             }
         }
 
@@ -167,7 +167,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new TankKaartManagerException("TankKaart - VerwijderBrandstoffen - gefaald", ex);
+                throw new TankKaartManagerException(ex.Message);
             }
         }
 
@@ -182,7 +182,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new TankKaartManagerException("TankKaart - VoegTankkaartBrandstoffenToe - gefaald", ex);
+                throw new TankKaartManagerException(ex.Message);
             }
         }
 
@@ -197,7 +197,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new TankKaartManagerException("TankKaart - BestaatTankkaartBrandstof - gefaald", ex);
+                throw new TankKaartManagerException(ex.Message);
             }
         }
 
@@ -225,7 +225,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new TankKaartManagerException("TankKaart - UpdateTankKaart - gefaald", ex);
+                throw new TankKaartManagerException(ex.Message);
             }
         }
 

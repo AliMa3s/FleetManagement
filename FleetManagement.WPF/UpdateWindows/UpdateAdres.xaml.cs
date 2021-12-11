@@ -34,7 +34,6 @@ namespace FleetManagement.WPF.UpdateWindows
 
         public UpdateAdres(Adres adres)
         {
-
             InitializeComponent();
             _adres = adres;
 
@@ -43,34 +42,17 @@ namespace FleetManagement.WPF.UpdateWindows
 
         private void AnnuleerForm_Click(object sender, RoutedEventArgs e)
         {
-            AdresGegevens.Straat = "";
-            AdresGegevens.Nr = "";
-            AdresGegevens.Postcode = "";
-            AdresGegevens.Gemeente = "";
             DialogResult = false;
         }
 
         private void InvoegEnUpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(StraatTextBox.Text) || !string.IsNullOrWhiteSpace(NummerTextBox.Text)
-                || !string.IsNullOrWhiteSpace(PostcodeTextBox.Text)
-                || !string.IsNullOrWhiteSpace(GemeenteTextBox.Text))
-            {
-                AdresGegevens.Straat = StraatTextBox.Text;
-                AdresGegevens.Nr = NummerTextBox.Text;
-                AdresGegevens.Postcode = PostcodeTextBox.Text;
-                AdresGegevens.Gemeente = GemeenteTextBox.Text;
+            AdresGegevens.Straat = StraatTextBox.Text;
+            AdresGegevens.Nr = NummerTextBox.Text;
+            AdresGegevens.Postcode = PostcodeTextBox.Text;
+            AdresGegevens.Gemeente = GemeenteTextBox.Text;
 
-                DialogResult = true;
-            }
-            else
-            {
-                AdresGegevens.Straat = "";
-                AdresGegevens.Nr = "";
-                AdresGegevens.Postcode = "";
-                AdresGegevens.Gemeente = "";
-                DialogResult = false;
-            }
+            DialogResult = true;
         }
     }
 }

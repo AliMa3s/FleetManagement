@@ -26,7 +26,7 @@ namespace FleetManagement.Manager {
                     return true;
                 }
             } catch (Exception ex) {
-                throw new BestuurderManagerException("Bestuurder - BestaatBestuurder - Foutief", ex);
+                throw new BestuurderManagerException(ex.Message);
             }
         }
 
@@ -44,7 +44,7 @@ namespace FleetManagement.Manager {
                 }
 
             } catch (Exception ex) {
-                throw new BestuurderManagerException("RijksRegisterNr - BestaatRijksRegisterNummer - Foutief", ex);
+                throw new BestuurderManagerException(ex.Message);
             }
         }
 
@@ -66,6 +66,17 @@ namespace FleetManagement.Manager {
         public void VerwijderBestuurder(Bestuurder bestuurder) {
             try {
                 if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
+
+                StringBuilder mess = new();
+
+                if(bestuurder.HeeftBestuurderTankKaart) mess.Append("Kan bestuurder met tankkaart niet verwijderen");
+                if(bestuurder.HeeftBestuurderVoertuig) mess.AppendLine(Environment.NewLine + "Kan bestuurder met voertuig niet verwijderen");
+
+                if (!string.IsNullOrWhiteSpace(mess.ToString()))
+                {
+                    throw new BestuurderManagerException(mess.ToString());
+                }
+
                 if (BestaatBestuurder(bestuurder.BestuurderId)) {
                     _repo.VerwijderBestuurder(bestuurder);
                 } else {
@@ -147,15 +158,9 @@ namespace FleetManagement.Manager {
         {
             try
             {
-                //Controleer rijksregisternummer op aantal digits
-                if (Regex.IsMatch(rijksRegisterNummer.ToUpper(), @"^[0-9]{11}$"))
-                {
-                    return _repo.ZoekBestuurder(rijksRegisterNummer);
-                }
-                else
-                {
-                    throw new BestuurderManagerException("Rijksregisternummer is niet juist");
-                }
+                if (!CheckFormat.IsRijksRegisterGeldig(rijksRegisterNummer)) { }
+
+                return _repo.ZoekBestuurder(rijksRegisterNummer);
             }
             catch (Exception ex)
             {
@@ -187,7 +192,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new BestuurderManagerException("Bestuurder - UpdateBestuurder - gefaald", ex);
+                throw new BestuurderManagerException(ex.Message);
             }
         }
     }

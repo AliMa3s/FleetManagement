@@ -19,17 +19,21 @@ namespace FleetManagement.Manager
         }
 
         public bool BestaatAutoModel(AutoModel autoModel) {
-            try { 
-            if (autoModel == null) throw new AutoModelManagerException("AutoModel mag niet null zijn");
-            if (!_repo.BestaatAutoModel(autoModel)) {
-                return false;
-            } else {
-                return true;
+            try
+            {
+                if (autoModel == null) throw new AutoModelManagerException("AutoModel mag niet null zijn");
+
+                if (!_repo.BestaatAutoModel(autoModel)) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
             }
-        } catch (Exception ex) {
-                throw new AutoModelManagerException("AutoModel - BestaatAutoModel - Foutief", ex);
-    }
-}
+            catch (Exception ex) {
+                throw new AutoModelManagerException(ex.Message);
+            }
+        }
 
         public IReadOnlyList<AutoModel> FilterOpAutoModelNaam(string autoModelNaam)
         {
@@ -41,7 +45,7 @@ namespace FleetManagement.Manager
             }
             catch (Exception ex)
             {
-                throw new AutoModelManagerException("AutoModel - FilterOpAutoModelNaam - Foutief", ex);
+                throw new AutoModelManagerException(ex.Message);
             }
         }
 
@@ -97,7 +101,7 @@ namespace FleetManagement.Manager
                     return true;
                 }
             } catch (Exception ex) {
-                throw new AutoModelManagerException("autoModel - BestaatAutoModel - Foutief", ex);
+                throw new AutoModelManagerException(ex.Message);
             }
         }
 

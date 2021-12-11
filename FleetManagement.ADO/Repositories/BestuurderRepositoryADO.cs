@@ -199,7 +199,6 @@ namespace FleetManagement.ADO.Repositories
 
         public void VerwijderBestuurder(Bestuurder bestuurder)
         {
-
             string query = "DELETE FROM Bestuurder WHERE bestuurderid=@bestuurderid";
 
             using (SqlCommand command = Connection.CreateCommand())
@@ -447,8 +446,132 @@ namespace FleetManagement.ADO.Repositories
         //Op rijksregisternummer
         public Bestuurder ZoekBestuurder(string rijksRegisterNummer)
         {
+            string query = "SELECT * FROM Bestuurder AS b " +
+                   "LEFT JOIN adres AS a ON b.adresId = a.adresId " +
+                   "LEFT JOIN Voertuig v ON b.voertuigId = v.voertuigId " +
+                   "LEFT JOIN AutoModel au ON v.autoModelId = au.autoModelId " +
+                   "LEFT JOIN Brandstoftype br ON v.brandstoftypeid = br.brandstoftypeid " +
+                   "LEFT JOIN Tankkaart t ON b.bestuurderId = t.bestuurderId " +
+                   "WHERE b.rijksregisternummer=@rijksregisternummer";
 
-            return null;
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@rijksregisternummer", rijksRegisterNummer);
+                    Connection.Open();
+
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            dataReader.Read();
+
+                            Bestuurder bestuurderDB = new(
+                                (int)dataReader["bestuurderid"],
+                                (string)dataReader["voornaam"],
+                                (string)dataReader["achternaam"],
+                                (string)dataReader["geboortedatum"],
+                                (string)dataReader["rijbewijstype"],
+                                (string)dataReader["rijksregisternummer"]
+                            );
+
+                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("adresId")))
+                            {
+                                Adres adresDB = new(
+                                    (string)dataReader["straat"],
+                                    (string)dataReader["nummer"],
+                                    (string)dataReader["postcode"],
+                                    (string)dataReader["gemeente"]
+                                );
+                                adresDB.VoegIdToe((int)dataReader["adresId"]);
+                                bestuurderDB.Adres = adresDB;
+                            }
+
+                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("voertuigid"))
+                                    && !dataReader.IsDBNull(dataReader.GetOrdinal("automodelid"))
+                                    && !dataReader.IsDBNull(dataReader.GetOrdinal("brandstoftypeid")))
+                            {
+
+                                //Instantieer AutoModeL
+                                AutoModel autoModelDB = new(
+                                    (int)dataReader["automodelid"],
+                                    (string)dataReader["merknaam"],
+                                    (string)dataReader["automodelnaam"],
+                                    new AutoType((string)dataReader["autotype"])
+                                );
+
+                                //Instantieer brandstof
+                                BrandstofVoertuig brandstofVoertuigDB = new(
+                                    (int)dataReader["brandstoftypeid"],
+                                    (string)dataReader["brandstofnaam"],
+                                    (bool)dataReader["hybride"]
+                                );
+
+                                //Instantieer voertuig
+                                Voertuig voertuigDB = new(
+                                        (int)dataReader["Voertuigid"],
+                                        autoModelDB,
+                                        (string)dataReader["chassisnummer"],
+                                        (string)dataReader["nummerplaat"],
+                                        brandstofVoertuigDB
+                                );
+
+                                //is kleur aanwezig
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("kleurnaam")))
+                                {
+                                    voertuigDB.VoertuigKleur = new Kleur(
+                                        (string)dataReader["kleurnaam"]
+                                    );
+                                }
+
+                                //is aantal deuren aanwezig + casting naar enum
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("aantal_deuren")))
+                                {
+                                    voertuigDB.AantalDeuren = Enum.IsDefined(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
+                                        ? (AantalDeuren)Enum.Parse(typeof(AantalDeuren), (string)dataReader["aantal_deuren"])
+                                        : throw new BrandstofRepositoryADOException("Aantal deuren - gefaald");
+                                }
+
+                                bestuurderDB.VoegVoertuigToe(voertuigDB);
+                            }
+
+                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("tankkaartnummer")))
+                            {
+                                TankKaart tankKaartDB = new(
+                                    (string)dataReader["tankkaartnummer"],
+                                    (bool)dataReader["actief"],
+                                    dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum"))
+                                );
+
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
+                                {
+                                    tankKaartDB.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
+                                }
+
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode")))
+                                {
+                                    tankKaartDB.VoegPincodeToe((string)dataReader["pincode"]);
+                                };
+
+                                bestuurderDB.VoegTankKaartToe(tankKaartDB);
+                            }
+
+                            return bestuurderDB;
+                        }
+
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new BestuurderRepositoryADOException("Zoeken op rijksregisternummer - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
         }
 
         //Om bestuurders te selecteren zonder voertuig

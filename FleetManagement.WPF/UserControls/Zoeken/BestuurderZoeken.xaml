@@ -10,6 +10,7 @@
     <UserControl.Resources>
         <local1:HeeftTankkaartConverter x:Key="HeeftTankkaartConverter"/>
         <local1:RijksregisterConverter x:Key="RijksregisterConverter"/>
+        <local1:NummerplaatConverter x:Key="NummerplaatConverter"/>
     </UserControl.Resources>
     <DockPanel Background="LightSteelBlue"  Margin="-2">
         <DockPanel.Children>
@@ -19,13 +20,15 @@
                 <Button x:Name="KiesDetail" Content="_Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesDetail_Click"/>
                 <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitWindow_Click"/>
 
-                <Grid Width="540">
+                <TextBlock x:Name="infoBestuurderMess" Height="34" Margin="20,0,50,0" TextWrapping="Wrap" Width="184" FontSize="13" Foreground="#FFE51E1E" DockPanel.Dock="Right" />
+
+                <Grid Width="450">
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,21,0,0" Width="54" HorizontalAlignment="Left" Content="Naam:"/>
 
                     <TextBox x:Name="FilterOpNaam" VerticalContentAlignment="Center" Text="" Foreground="LightSlateGray" VerticalAlignment="Top" Margin="81,21,112,0" Height="30" GotFocus="FilterOpNaam_GotFocus" LostFocus="FilterOpNaam_LostFocus" TextChanged="FilterOpNaam_TextChanged"/>
-                    <Button x:Name="ZoekRijksregister" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="309,91,145,0" Width="86" DockPanel.Dock="Right" Click="ZoekRijksregister_Click"/>
+                    <Button x:Name="ZoekRijksregister" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="309,91,55,0" Width="86" DockPanel.Dock="Right" Click="ZoekRijksregister_Click"/>
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,58,0,0" Width="228" HorizontalAlignment="Left" Content="Rijksregisternummer:"/>
-                    <TextBox x:Name="Rijksregister" Text="" Foreground="LightSlateGray" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="22,91,0,0" Height="30" Width="275" GotFocus="Rijksregister_GotFocus" LostFocus="Rijksregister_LostFocus"/>
+                    <TextBox x:Name="RijksregisterBox" Text="" Foreground="LightSlateGray" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="22,91,0,0" Height="30" Width="275" GotFocus="Rijksregister_GotFocus" LostFocus="Rijksregister_LostFocus" />
 
                 </Grid>
             </DockPanel>
@@ -44,6 +47,7 @@
                     <DataGridTextColumn Header=" Rijksregister " Binding="{Binding RijksRegisterNummer, Converter={StaticResource RijksregisterConverter}}"/>
                     <DataGridTextColumn Header=" Tankkaart " Binding="{Binding HeeftBestuurderTankKaart, Converter={StaticResource HeeftTankkaartConverter}}"/>
                     <DataGridTextColumn Header=" Voertuig " Binding="{Binding Voertuig.VoertuigNaam}"/>
+                    <DataGridTextColumn Header=" Nummerplaat " Binding="{Binding Voertuig.NummerPlaat, Converter={StaticResource NummerplaatConverter}}"/>
 
                 </DataGrid.Columns>
 

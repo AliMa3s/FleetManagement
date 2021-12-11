@@ -27,7 +27,7 @@ namespace FleetManagement.Manager
             }
             catch (Exception ex)
             {
-                throw new BrandstofTypeManagerException("Geef alle brandstoffen is gefaald", ex);
+                throw new BrandstofTypeManagerException(ex.Message);
             } 
         }
     }

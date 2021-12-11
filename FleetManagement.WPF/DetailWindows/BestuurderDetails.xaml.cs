@@ -25,7 +25,9 @@ namespace FleetManagement.WPF.DetailWindows {
 
         private Bestuurder _bestuurderDetail;
 
-        public bool? Updatetet { get; set; }
+        public bool? Updatetet { get; set; } = false;
+
+        public Bestuurder Bestuurder => _bestuurderDetail;
 
         public BestuurderDetails(Managers managers, Bestuurder bestuurder) {
 
@@ -46,15 +48,21 @@ namespace FleetManagement.WPF.DetailWindows {
 
         private void SetDefault()
         {
-            Updatetet = false;
-
             if (_bestuurderDetail.HeeftBestuurderVoertuig)
             {
+                string nummerplaat = _bestuurderDetail.Voertuig.NummerPlaat;
+
                 StringBuilder stringBuilder = new(_bestuurderDetail.Voertuig.AutoModel.Merk + " " + _bestuurderDetail.Voertuig.AutoModel.AutoModelNaam);
                 stringBuilder.AppendLine(Environment.NewLine + "Chassis: " + _bestuurderDetail.Voertuig.ChassisNummer);
-                stringBuilder.AppendLine("Nummerplaat: " + _bestuurderDetail.Voertuig.NummerPlaat);
+                stringBuilder.AppendLine("Nummerplaat: " + nummerplaat.Substring(0, 1) + "-"
+                    + nummerplaat.Substring(1, 3) + "-"
+                    + nummerplaat.Substring(4, 3));
 
                 HeeftVoertuig.Text = stringBuilder.ToString();
+            }
+            else
+            {
+                HeeftVoertuig.Text = "Geen voertuig";
             }
 
             if (_bestuurderDetail.HeeftBestuurderTankKaart)
@@ -74,6 +82,10 @@ namespace FleetManagement.WPF.DetailWindows {
 
                 HeeftTankkaart.Text = stringBuilder.ToString();
             }
+            else
+            {
+                HeeftTankkaart.Text = "Geen tankkaart";
+            }
 
             if (_bestuurderDetail.Adres != null)
             {
@@ -82,18 +94,25 @@ namespace FleetManagement.WPF.DetailWindows {
 
                 Adresgegevens.Text = stringBuilder.ToString();
             }
+            else
+            {
+                Adresgegevens.Text = string.Empty;
+            }
         }
 
         private void WijzigButton_Click(object sender, RoutedEventArgs e)
         {
+            infoBestuurderMess.Text = string.Empty;
+
             UpdateBestuurder updateBestuurder = new(_managers, _bestuurderDetail)
             {
                 Owner = Window.GetWindow(this),
-                BestuurderDetail = _bestuurderDetail
+                BestuurderDetail = _bestuurderDetail,
+                Updatetet = Updatetet
             };
 
-            Updatetet = updateBestuurder.ShowDialog();
-            if (Updatetet == true)
+            bool? actie = updateBestuurder.ShowDialog();
+            if ((bool)actie)
             {
                 _bestuurderDetail = updateBestuurder.BestuurderDetail;
 
@@ -104,13 +123,20 @@ namespace FleetManagement.WPF.DetailWindows {
                 RijbewijsTextBlock.Text = _bestuurderDetail.TypeRijbewijs;
                 RijksRegisterTextBlock.Text = _bestuurderDetail.RijksRegisterNummer;
 
+                Updatetet = updateBestuurder.Updatetet;
+
+                infoBestuurderMess.Foreground = Brushes.Green;
+                infoBestuurderMess.Text = "Bestuurder succesvol geüpdatet";
+
                 SetDefault();
             }
         }
 
         private void VerwijderButton_Click(object sender, RoutedEventArgs e)
         {
-            BevestigingWindow bevestigingWindow = new()
+            infoBestuurderMess.Text = string.Empty;
+
+            BevestigingWindow bevestigingWindow = new("Zeker dat je deze Bestuurder wilt verwijderen?")
             {
                 Owner = Window.GetWindow(this),
             };
@@ -118,12 +144,16 @@ namespace FleetManagement.WPF.DetailWindows {
             bool? verwijderen = bevestigingWindow.ShowDialog();
             if (verwijderen == true)
             {
-                //_managers.BestuurderManager.VerwijderBestuurder(_bestuurderDetail);
-
-                Window.GetWindow(this).Close();
-
-                //Verwijder via manager; bij succes sluit scherm
-                //+ update list en verwijder uit de lijst of vraag terug result aan manager
+                try
+                {
+                    _managers.BestuurderManager.VerwijderBestuurder(_bestuurderDetail);
+                    DialogResult = true;
+                }
+                catch(Exception ex)
+                {
+                    infoBestuurderMess.Foreground = Brushes.Red;
+                    infoBestuurderMess.Text = ex.Message;
+                } 
             }
         }
     }

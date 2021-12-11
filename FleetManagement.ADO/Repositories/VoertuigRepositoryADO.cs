@@ -611,7 +611,7 @@ namespace FleetManagement.ADO.Repositories {
                  "WHERE concat(a.merknaam, ' ', a.automodelnaam) LIKE @autonaam +'%' " +
                  "AND b.voertuigid IS NULL " +
                  "ORDER BY v.chassisnummer ASC " +
-                 "OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY";
+                 "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
 
             using (SqlCommand command = new(query, Connection))
             {

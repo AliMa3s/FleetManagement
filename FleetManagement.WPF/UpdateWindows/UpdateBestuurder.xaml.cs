@@ -33,6 +33,11 @@ namespace FleetManagement.WPF.UpdateWindows
         private TankKaart _gekozenTankkaart;
         private Voertuig _gekozenVoertuig;
 
+        public Voertuig VerwijderdVoertuig { get; private set; }
+        public TankKaart VerwijderdTankkaart { get; private set; }
+
+        public bool? Updatetet { get; set; }
+
         public Bestuurder BestuurderDetail
         {
             get => _bestuurder;
@@ -52,235 +57,6 @@ namespace FleetManagement.WPF.UpdateWindows
             SetDefault();
         }
 
-        private void SluitForm_Click(object sender, RoutedEventArgs e)
-        {
-            Window.GetWindow(this).Close();
-        }
-
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
-        {
-            //Wis bij elke nieuw poging de message info
-            infoBestuurderMess.Text = string.Empty;
-
-            try
-            {
-                string geboortedatum = Geboortejaar.Text + "-" + Geboortemaand.Text + "-" + Geboortedag.Text;
-
-                Bestuurder nieuwBestuurder = new(
-                    BestuurderDetail.BestuurderId,
-                    VoornaamText.Text,
-                    AchternaamText.Text,
-                    geboortedatum,
-                    RijbewijsText.Text,
-                    RijksRegisterText.Text
-                );
-
-                if (_ingevoegdAdres != null)
-                {
-                    nieuwBestuurder.Adres = _ingevoegdAdres;
-                }
-                else
-                {
-                    if(BestuurderDetail.Adres != null)
-                    {
-                        nieuwBestuurder.Adres = BestuurderDetail.Adres;
-                    }
-                }
-
-                //Update voertuig
-                //Deze keuze is omdat we steeds weten wat de vorige toestand van het object is, zodat we terug kunnen resetten
-                if (_gekozenVoertuig != null)
-                {
-                    nieuwBestuurder.VoegVoertuigToe(_gekozenVoertuig);
-                }
-                else
-                {
-                    if(BestuurderDetail.HeeftBestuurderVoertuig)
-                    {
-                        nieuwBestuurder.VoegVoertuigToe(
-                            new(
-                               BestuurderDetail.Voertuig.VoertuigId,
-                               BestuurderDetail.Voertuig.AutoModel,
-                               BestuurderDetail.Voertuig.ChassisNummer,
-                               BestuurderDetail.Voertuig.NummerPlaat,
-                               BestuurderDetail.Voertuig.Brandstof
-                            )
-                            {
-                                AantalDeuren = BestuurderDetail.Voertuig.AantalDeuren,
-                                VoertuigKleur = BestuurderDetail.Voertuig.VoertuigKleur,
-                                InBoekDatum = BestuurderDetail.Voertuig.InBoekDatum
-                            }
-                        );
-                    }
-                }
-
-                if(BestuurderDetail.RijksRegisterNummer == RijksRegisterText.Text)
-                {
-                    Bestuurder updatedBestuurder = _managers.BestuurderManager.UpdateBestuurder(nieuwBestuurder);
-                }
-                else
-                {
-                    Bestuurder updatedBestuurder = _managers.BestuurderManager.UpdateBestuurder(nieuwBestuurder, RijksRegisterText.Text);
-                }
-
-                if (_gekozenVoertuig != null)
-                {
-                    infoBestuurderMess.Text = "Bestuurder succesvol geüpdatet, Voertuig succesvol aan bestuurder gelinkt";
-                }
-                else
-                {
-                    infoBestuurderMess.Text = "Bestuurder succesvol geüpdatet";
-                }
-
-                infoBestuurderMess.Foreground = Brushes.Green;
-
-                //Update tankkaart
-                if (_gekozenTankkaart != null)
-                {
-                    //Verwijder tankaart zodat tankkaart geen bestuurder meer kent en update via manager
-                    if (BestuurderDetail.HeeftBestuurderTankKaart)
-                    {
-                        TankKaart tankKaart = BestuurderDetail.Tankkaart;
-                        BestuurderDetail.VerwijderTankKaart(tankKaart);
-                        _managers.TankkaartManager.UpdateTankKaart(tankKaart);
-                    }
-                        
-                    nieuwBestuurder.VoegTankKaartToe(_gekozenTankkaart);
-                    _managers.TankkaartManager.UpdateTankKaart(nieuwBestuurder.Tankkaart);
-
-                    infoBestuurderMess.Foreground = Brushes.Green;
-                    infoBestuurderMess.Text += ", tankkaart aan bestuurder gelinkt";
-                }
-                else
-                {
-                    if(BestuurderDetail.HeeftBestuurderTankKaart)
-                    {
-                        TankKaart bestaandeTankkaart = new(
-                            BestuurderDetail.Tankkaart.TankKaartNummer,
-                            BestuurderDetail.Tankkaart.Actief,
-                            BestuurderDetail.Tankkaart.GeldigheidsDatum,
-                            BestuurderDetail.Tankkaart.Pincode
-                        )
-                        { 
-                            UitgeefDatum = BestuurderDetail.Tankkaart.UitgeefDatum
-                        };
-
-                        nieuwBestuurder.VoegTankKaartToe(bestaandeTankkaart);
-                    }
-                }
-
-                BestuurderDetail = nieuwBestuurder;
-                _gekozenTankkaart = null;
-                _gekozenVoertuig = null;
-
-                DialogResult = true;
-            }
-            catch (Exception ex)
-            {
-                infoBestuurderMess.Foreground = Brushes.Red;
-                infoBestuurderMess.Text = ex.Message;
-            }
-        }
-
-        private void WijzigAdres_Click(object sender, RoutedEventArgs e)
-        {
-            //Wis bij elke nieuw poging de message info
-            infoBestuurderMess.Text = string.Empty;
-
-            //Wanneer adres bestaat
-            if(BestuurderDetail.Adres != null) 
-            {
-                UpdateAdres UpdateAdres = new(_ingevoegdAdres)
-                {
-                    Owner = Window.GetWindow(this),
-                };
-
-                bool? geslecteerd = UpdateAdres.ShowDialog();
-                if (geslecteerd == true)
-                {
-                    _ingevoegdAdres = UpdateAdres.AdresGegevens;
-
-                    Adresgegevens.Text = _ingevoegdAdres.Straat
-                        + " " + _ingevoegdAdres.Nr
-                        + " " + _ingevoegdAdres.Postcode
-                        + " " + _ingevoegdAdres.Gemeente;
-                    WijzigAdres.Content = "Adres wijzigen";
-                }
-                else
-                {
-                    _ingevoegdAdres = UpdateAdres.AdresGegevens;
-                    Adresgegevens.Text = _ingevoegdAdres.AdresId.ToString() ?? "";
-                }
-            }
-            else
-            {
-                //Wanneer adres niet bestaat
-                NieuwAdres UpdateAdres = new(_ingevoegdAdres)
-                {
-                    Owner = Window.GetWindow(this),
-                };
-
-                bool? geslecteerd = UpdateAdres.ShowDialog();
-                if (geslecteerd == true)
-                {
-                    _ingevoegdAdres = UpdateAdres.AdresGegevens;
-
-                    Adresgegevens.Text = _ingevoegdAdres.Straat
-                        + " " + _ingevoegdAdres.Nr
-                        + " " + _ingevoegdAdres.Postcode
-                        + " " + _ingevoegdAdres.Gemeente;
-                    WijzigAdres.Content = "Adres wijzigen";
-                }
-                else
-                {
-                    if (UpdateAdres.AdresGegevens == null)
-                    {
-                        _ingevoegdAdres = UpdateAdres.AdresGegevens;
-                        WijzigAdres.Content = "Adres ingeven";
-                        Adresgegevens.Text = string.Empty;
-                    }
-                    else
-                    {
-                        UpdateAdres.AdresGegevens = _ingevoegdAdres;
-                    }
-                }
-            }
-        }
-
-        private void WijzigVoertuig_Click(object sender, RoutedEventArgs e)
-        {
-            SelecteerVoertuig selecteerVoertuig = new(_managers.VoertuigManager)
-            {
-                Owner = Window.GetWindow(this),
-                GekozenVoertuig = _gekozenVoertuig
-            };
-
-            bool? geslecteerd = selecteerVoertuig.ShowDialog();
-            if (geslecteerd == true)
-            {
-                _gekozenVoertuig = selecteerVoertuig.GekozenVoertuig;
-                GekozenVoertuigText.Text = _gekozenVoertuig.ChassisNummer;
-                WijzigTankkaart.Content = "Voertuig wijzigen";
-            }
-        }
-
-        private void WijzigTankkaart_Click(object sender, RoutedEventArgs e)
-        {
-            SelecteerTankkaart selecteerTankkaart = new(_managers.TankkaartManager)
-            {
-                Owner = Window.GetWindow(this),
-                Tankkaart = _gekozenTankkaart
-            };
-
-            bool? geslecteerd = selecteerTankkaart.ShowDialog();
-            if (geslecteerd == true)
-            {
-                _gekozenTankkaart = selecteerTankkaart.Tankkaart;
-                GekozenTankkaartText.Text = _gekozenTankkaart.TankKaartNummer;
-                WijzigTankkaart.Content = "Tankkaart wijzigen";
-            }
-        }
-
         private void SetDefault()
         {
             Geboortedag.Text = BestuurderDetail.GeboorteDatum.Substring(8, 2);
@@ -289,17 +65,22 @@ namespace FleetManagement.WPF.UpdateWindows
 
             if (BestuurderDetail.HeeftBestuurderVoertuig)
             {
-                StringBuilder stringBuilder = new(BestuurderDetail.Voertuig.AutoModel.Merk + " " + BestuurderDetail.Voertuig.AutoModel.AutoModelNaam);
+                string nummerplaat = BestuurderDetail.Voertuig.NummerPlaat;
+
+                StringBuilder stringBuilder = new(BestuurderDetail.Voertuig.VoertuigNaam);
                 stringBuilder.AppendLine(Environment.NewLine + "Chassis: " + BestuurderDetail.Voertuig.ChassisNummer);
-                stringBuilder.AppendLine("Nummerplaat: " + BestuurderDetail.Voertuig.NummerPlaat);
+                stringBuilder.AppendLine("Nummerplaat: " + nummerplaat.Substring(0, 1) + "-"
+                    + nummerplaat.Substring(1, 3) + "-"
+                    + nummerplaat.Substring(4, 3));
 
                 GekozenVoertuigText.Text = stringBuilder.ToString();
-                WijzigVoertuig.Content = "Voertuig wijzigen";
+                VoegVoertuigToe.Visibility = Visibility.Hidden;
+                VerwijderVoertuig.Visibility = Visibility.Visible;
             }
             else
             {
-                GekozenVoertuigText.Text = string.Empty;
-                WijzigVoertuig.Content = "Voertuig invoegen";
+                GekozenVoertuigText.Text = "Geen voertuig";
+                _gekozenVoertuig = null;
             }
 
             if (BestuurderDetail.HeeftBestuurderTankKaart)
@@ -318,12 +99,13 @@ namespace FleetManagement.WPF.UpdateWindows
                 }
 
                 GekozenTankkaartText.Text = stringBuilder.ToString();
-                WijzigTankkaart.Content = "Tankkaart wijzigen";
+                VoegTankkaartToe.Visibility = Visibility.Hidden;
+                VerwijderTankkaart.Visibility = Visibility.Visible;
             }
             else
             {
-                GekozenTankkaartText.Text = string.Empty;
-                WijzigTankkaart.Content = "Tankkaart invoegen";
+                GekozenTankkaartText.Text = "Geen tankkaart";
+                _gekozenTankkaart = null;
             }
 
             if (BestuurderDetail.Adres != null)
@@ -341,7 +123,264 @@ namespace FleetManagement.WPF.UpdateWindows
                 Adresgegevens.Text = string.Empty;
                 WijzigAdres.Content = "Adres ingeven";
             }
+        }
 
+        private void SluitForm_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
+
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Wis bij elke nieuw poging de message info
+            infoBestuurderMess.Text = string.Empty;
+
+            try
+            {
+                //stap 1: voertuig verwijderen (indien van toepassing)
+                if (VerwijderdVoertuig != null)
+                {
+                    BestuurderDetail.VerwijderVoertuig(BestuurderDetail.Voertuig);
+                }
+
+                //stap 2: object aanmaken
+                string geboortedatum = Geboortejaar.Text + "-" + Geboortemaand.Text + "-" + Geboortedag.Text;
+
+                Bestuurder updatetBestuurder = new(
+                    BestuurderDetail.BestuurderId,
+                    VoornaamText.Text,
+                    AchternaamText.Text,
+                    geboortedatum,
+                    RijbewijsText.Text,
+                    RijksRegisterText.Text
+                );
+
+                if (_ingevoegdAdres != null)
+                {
+                    updatetBestuurder.Adres = _ingevoegdAdres;
+                }
+                else
+                {
+                    if (BestuurderDetail.Adres != null)
+                    {
+                        updatetBestuurder.Adres = BestuurderDetail.Adres;
+                    }
+                }
+
+                //stap3: voertuig samenstellen met de huidige situatie
+                if (_gekozenVoertuig != null)
+                {
+                    updatetBestuurder.VoegVoertuigToe(_gekozenVoertuig);
+                }
+                else
+                {
+                    if (BestuurderDetail.HeeftBestuurderVoertuig)
+                    {
+                        updatetBestuurder.VoegVoertuigToe(
+                            new(
+                               BestuurderDetail.Voertuig.VoertuigId,
+                               BestuurderDetail.Voertuig.AutoModel,
+                               BestuurderDetail.Voertuig.ChassisNummer,
+                               BestuurderDetail.Voertuig.NummerPlaat,
+                               BestuurderDetail.Voertuig.Brandstof
+                            )
+                            {
+                                AantalDeuren = BestuurderDetail.Voertuig.AantalDeuren,
+                                VoertuigKleur = BestuurderDetail.Voertuig.VoertuigKleur,
+                                InBoekDatum = BestuurderDetail.Voertuig.InBoekDatum
+                            }
+                        );
+                    }
+                }
+
+                //Update bestuurder
+                if (BestuurderDetail.RijksRegisterNummer == RijksRegisterText.Text)
+                {
+                    Bestuurder updatedBestuurder = _managers.BestuurderManager.UpdateBestuurder(updatetBestuurder);
+                }
+                else
+                {
+                    Bestuurder updatedBestuurder = _managers.BestuurderManager.UpdateBestuurder(updatetBestuurder, RijksRegisterText.Text);
+                }
+
+                //Tankkaart(en) updaten na succesvol update van bestuurder
+                if (VerwijderdTankkaart != null) 
+                { 
+                    BestuurderDetail.VerwijderTankKaart(VerwijderdTankkaart);
+                    _managers.TankkaartManager.UpdateTankKaart(VerwijderdTankkaart);
+                }
+
+                //Update tankkaart met de nieuwe indien gekozen
+                if (_gekozenTankkaart != null)
+                {
+                    updatetBestuurder.VoegTankKaartToe(_gekozenTankkaart);
+                    _managers.TankkaartManager.UpdateTankKaart(updatetBestuurder.Tankkaart);
+                }
+                else
+                {
+                    if (BestuurderDetail.HeeftBestuurderTankKaart)
+                    {
+                        TankKaart bestaandeTankkaart = new(
+                            BestuurderDetail.Tankkaart.TankKaartNummer,
+                            BestuurderDetail.Tankkaart.Actief,
+                            BestuurderDetail.Tankkaart.GeldigheidsDatum,
+                            BestuurderDetail.Tankkaart.Pincode
+                        )
+                        {
+                            UitgeefDatum = BestuurderDetail.Tankkaart.UitgeefDatum
+                        };
+
+                        updatetBestuurder.VoegTankKaartToe(bestaandeTankkaart);
+                    }
+                }
+
+                BestuurderDetail = updatetBestuurder;
+                _gekozenTankkaart = null;
+                _gekozenVoertuig = null;
+
+                Updatetet = true;
+                DialogResult = true;
+            }
+            catch (Exception ex)
+            {
+                //Rolback huidig voertuig (voor reset knop na fouten in update)
+                if (VerwijderdVoertuig != null)
+                {
+                    BestuurderDetail.VoegVoertuigToe(VerwijderdVoertuig);
+                }
+
+                infoBestuurderMess.Foreground = Brushes.Red;
+                infoBestuurderMess.Text = ex.Message;
+            }
+        }
+
+        private void WijzigAdres_Click(object sender, RoutedEventArgs e)
+        {
+            //Wis bij elke nieuw poging de message info
+            infoBestuurderMess.Text = string.Empty;
+
+            //Wanneer adres bestaat
+            if(_ingevoegdAdres != null) 
+            {
+                Adres bestaandAdres = new(
+                    _ingevoegdAdres.Straat,
+                    _ingevoegdAdres.Nr,
+                    _ingevoegdAdres.Postcode,
+                    _ingevoegdAdres.Gemeente
+                );
+
+                bestaandAdres.VoegIdToe(_ingevoegdAdres.AdresId);
+
+                UpdateAdres UpdateAdres = new(bestaandAdres)
+                {
+                    Owner = Window.GetWindow(this),
+                };
+
+                bool? geslecteerd = UpdateAdres.ShowDialog();
+                if (geslecteerd == true)
+                {
+                    _ingevoegdAdres = UpdateAdres.AdresGegevens;
+
+                    Adresgegevens.Text = _ingevoegdAdres.Straat
+                        + " " + _ingevoegdAdres.Nr
+                        + " " + _ingevoegdAdres.Postcode
+                        + " " + _ingevoegdAdres.Gemeente;
+                    WijzigAdres.Content = "Adres wijzigen";
+                }
+            }
+            else
+            {
+                //Wanneer adres niet bestaat
+                NieuwAdres nieuwAdres = new(_ingevoegdAdres)
+                {
+                    Owner = Window.GetWindow(this),
+                };
+
+                bool? geslecteerd = nieuwAdres.ShowDialog();
+                if (geslecteerd == true)
+                {
+                    _ingevoegdAdres = nieuwAdres.AdresGegevens;
+
+                    Adresgegevens.Text = _ingevoegdAdres.Straat
+                        + " " + _ingevoegdAdres.Nr
+                        + " " + _ingevoegdAdres.Postcode
+                        + " " + _ingevoegdAdres.Gemeente;
+                    WijzigAdres.Content = "Adres wijzigen";
+                }
+                else
+                {
+                    if (nieuwAdres.AdresGegevens == null)
+                    {
+                        _ingevoegdAdres = nieuwAdres.AdresGegevens;
+                        WijzigAdres.Content = "Adres ingeven";
+                        Adresgegevens.Text = string.Empty;
+                    }
+                    else
+                    {
+                        nieuwAdres.AdresGegevens = _ingevoegdAdres;
+                    }
+                }
+            }
+        }
+
+        private void VoegVoertuigToe_Click(object sender, RoutedEventArgs e)
+        {
+            SelecteerVoertuig selecteerVoertuig = new(_managers.VoertuigManager)
+            {
+                Owner = Window.GetWindow(this),
+                GekozenVoertuig = _gekozenVoertuig
+            };
+
+            bool? geslecteerd = selecteerVoertuig.ShowDialog();
+            if ((bool)geslecteerd)
+            {
+                _gekozenVoertuig = selecteerVoertuig.GekozenVoertuig;
+                
+                string nummerplaat = _gekozenVoertuig.NummerPlaat;
+
+                StringBuilder stringBuilder = new(_gekozenVoertuig.VoertuigNaam);
+                stringBuilder.AppendLine(Environment.NewLine + "Chassis: " + _gekozenVoertuig.ChassisNummer);
+                stringBuilder.AppendLine("Nummerplaat: " + nummerplaat.Substring(0, 1) + "-"
+                    + nummerplaat.Substring(1, 3) + "-"
+                    + nummerplaat.Substring(4, 3));
+
+                GekozenVoertuigText.Text = stringBuilder.ToString();
+                VoegVoertuigToe.Visibility = Visibility.Hidden;
+                VerwijderVoertuig.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void WijzigTankkaart_Click(object sender, RoutedEventArgs e)
+        {
+            SelecteerTankkaart selecteerTankkaart = new(_managers.TankkaartManager)
+            {
+                Owner = Window.GetWindow(this),
+                Tankkaart = _gekozenTankkaart
+            };
+
+            bool? geslecteerd = selecteerTankkaart.ShowDialog();
+            if ((bool)geslecteerd)
+            {
+                _gekozenTankkaart = selecteerTankkaart.Tankkaart;
+
+                StringBuilder stringBuilder = new("Nr: " + _gekozenTankkaart.TankKaartNummer);
+                stringBuilder.AppendLine(Environment.NewLine + "Geldig tot: " + _gekozenTankkaart.GeldigheidsDatum.ToString("dd/MM/yyyy"));
+
+                if (_gekozenTankkaart.Actief)
+                {
+                    stringBuilder.AppendLine("Tankkaart is actief");
+                }
+                else
+                {
+                    if (_gekozenTankkaart.IsGeldigheidsDatumVervallen) { stringBuilder.AppendLine("Tankkaart is vervallen"); }
+                    else { stringBuilder.AppendLine("Tankkaart is geblokkeerd"); }
+                }
+
+                GekozenTankkaartText.Text = stringBuilder.ToString();
+
+                VoegTankkaartToe.Visibility = Visibility.Hidden;
+                VerwijderTankkaart.Visibility = Visibility.Visible;
+            }
         }
 
         private void ResetForm()
@@ -350,12 +389,32 @@ namespace FleetManagement.WPF.UpdateWindows
             AchternaamText.Text = BestuurderDetail.Achternaam;
             RijksRegisterText.Text = BestuurderDetail.RijksRegisterNummer;
             RijbewijsText.Text = BestuurderDetail.TypeRijbewijs;
+            VerwijderdVoertuig = null;
+            VerwijderdTankkaart = null;
             SetDefault();
         }
 
         private void ResetFormulierButton_Click(object sender, RoutedEventArgs e)
         {
             ResetForm();
+        }
+
+        private void VerwijderVoertuig_Click(object sender, RoutedEventArgs e)
+        {
+            VoegVoertuigToe.Visibility = Visibility.Visible;
+            VerwijderVoertuig.Visibility = Visibility.Hidden;
+            _gekozenVoertuig = null;
+            GekozenVoertuigText.Text = "Geen voertuig";
+            VerwijderdVoertuig = BestuurderDetail.Voertuig;
+        }
+
+        private void VerwijderTankkaart_Click(object sender, RoutedEventArgs e)
+        {
+            VoegTankkaartToe.Visibility = Visibility.Visible;
+            VerwijderTankkaart.Visibility = Visibility.Hidden;
+            _gekozenTankkaart = null;
+            GekozenTankkaartText.Text = "Geen tankkaart";
+            VerwijderdTankkaart = BestuurderDetail.Tankkaart;
         }
     }    
 }

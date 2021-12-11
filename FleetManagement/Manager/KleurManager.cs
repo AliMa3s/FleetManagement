@@ -26,10 +26,8 @@ namespace FleetManagement.Manager
             }
             catch (Exception ex)
             {
-                throw new KleurManagerException("Geef alle Kleuren is gefaald", ex);
+                throw new KleurManagerException(ex.Message);
             }
-
-            
         }
     }
 }

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FleetManagement.WPF.DetailWindows"
+        xmlns:local="clr-namespace:FleetManagement.WPF.DetailWindows" xmlns:local1="clr-namespace:FleetManagement.WPF.Converters"
         mc:Ignorable="d"
         Title="BestuurderDetails" Height="600" Width="800">
     <Window.Resources>
@@ -15,6 +15,7 @@
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="FontSize" Value="14" />
         </Style>
+        <local1:RijksregisterConverter x:Key="RijksregisterConverter"/>
     </Window.Resources>
     <DockPanel Background="LightBlue" Margin="-2">
         <DockPanel.Children>
@@ -23,7 +24,7 @@
                 <Button x:Name="WijzigButton" Content="_Wijzigen" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="WijzigButton_Click"/>
                 <Button x:Name="VerwijderButton" Content="_Verwijder" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="20,0,0,0" Width="86" DockPanel.Dock="Left" HorizontalAlignment="Right" Click="VerwijderButton_Click"/>
 
-                <TextBlock x:Name="infoBestuurderMess" HorizontalAlignment="Left" Height="95" Margin="20,5,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="350" FontSize="13" Foreground="#FFE51E1E"/>
+                <TextBlock x:Name="infoBestuurderMess" HorizontalAlignment="Left" Height="95" Margin="50,5,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="350" FontSize="13" Foreground="#FFE51E1E"/>
             </DockPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -62,7 +63,7 @@
 
                 <TextBlock x:Name="GeboorteDatumTextBlock" Text="{Binding Path=GeboorteDatum, StringFormat= d/MM/yyyy}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
-                <TextBlock x:Name="RijksRegisterTextBlock" Text="{Binding Path=RijksRegisterNummer}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBlock x:Name="RijksRegisterTextBlock" Text="{Binding Path=RijksRegisterNummer, Converter={StaticResource RijksregisterConverter}}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
                 <TextBlock x:Name="RijbewijsTextBlock" Text="{Binding Path=TypeRijbewijs}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 

@@ -16,8 +16,6 @@ namespace FleetManagement.Manager {
 
         public static IEnumerable<AantalDeuren> AantalDeuren => Enum.GetValues(typeof(AantalDeuren)).Cast<AantalDeuren>();
 
-        public static IEnumerable<AutoType> AutoTypes => Enum.GetValues(typeof(AutoType)).Cast<AutoType>();
-
         public VoertuigManager(IVoertuigRepository repo) {
             this._repo = repo;
         }
@@ -113,7 +111,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new VoertuigManagerException("Voertuig - UpdateVoertuig - gefaald", ex);
+                throw new VoertuigManagerException(ex.Message);
             }
         }
 
@@ -141,7 +139,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new VoertuigManagerException("Voertuig - BestaatVoertuig - gefaald", ex);
+                throw new VoertuigManagerException(ex.Message);
             }
         }
 
@@ -156,7 +154,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new VoertuigManagerException("Voertuig - BestaatNummerplaat - gefaald", ex);
+                throw new VoertuigManagerException(ex.Message);
             }
         }
 
@@ -171,7 +169,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new VoertuigManagerException("Voertuig - chassisNummer - gefaald", ex);
+                throw new VoertuigManagerException(ex.Message);
             }
         }
 
@@ -187,7 +185,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new VoertuigManagerException("Voertuig - GeefAlleVoertuigenFilter - gefaald", ex);
+                throw new VoertuigManagerException(ex.Message);
             }
         }
 
@@ -202,7 +200,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new VoertuigManagerException("Voertuig - ZoekOpNummerplaatOfChassisNummer - gefaald", ex);
+                throw new VoertuigManagerException(ex.Message);
             }
         }
 
@@ -217,7 +215,7 @@ namespace FleetManagement.Manager {
             }
             catch (Exception ex)
             {
-                throw new VoertuigManagerException("Voertuig - SelecteerZonderBestuurderFilter - gefaald", ex);
+                throw new VoertuigManagerException(ex.Message);
             }
         }
     }
