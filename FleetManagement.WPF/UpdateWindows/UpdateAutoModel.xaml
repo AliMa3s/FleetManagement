@@ -35,15 +35,15 @@
                     <RowDefinition Height="7*"/>
                 </Grid.RowDefinitions>
 
-                <Label x:Name="FormBestuurder" Grid.Row="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
+                <Label x:Name="UpdateformBestuurder" Grid.Row="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" Content="Update AutoModel" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
                 <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Merknaam: *</Label>
                 <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">AutoModelNaam: *</Label>
                 <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">AutoType: *</Label>
 
+                <TextBox x:Name="Merknaam" Text="{Binding Path=Merk, Mode=OneWay}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
+                <TextBox x:Name="AutoModelNaam" Text="{Binding Path=AutoModelNaam, Mode=OneWay}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
 
-                <TextBox x:Name="Merknaam" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1"  TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" Height="25"/>
-                <TextBox x:Name="AutoModelNaam" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text=""  Height="25"/>
-                <ComboBox x:Name="AutoTypesComboBox" HorizontalAlignment="Left" VerticalAlignment="Center" Width="146" SelectedIndex="0"  Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="5,0,15,0" />
+                <ComboBox x:Name="AutoTypesComboBox" Grid.Column="1" Grid.Row="4" Margin="0,0,0,0" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="146" SelectedIndex="0" />
 
             </Grid>
         </DockPanel.Children>

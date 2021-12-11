@@ -22,29 +22,45 @@ namespace FleetManagement.WPF.UpdateWindows
     public partial class UpdateAutoModel : Window
     {
         private readonly Managers _managers;
-        public string DisplayFirst { get; set; } = "Selecteer";
+        private AutoModel _autoModel;
 
-        public UpdateAutoModel(Managers managers)
+        public AutoModel AutoModel => _autoModel;
+
+        public UpdateAutoModel(Managers managers, AutoModel autoModel)
         {
             InitializeComponent();
             _managers = managers;
+            _autoModel = autoModel;
 
-            AutoTypesComboBox.Items.Add(DisplayFirst);
             _managers.AutoTypes.ToList().ForEach(autoType => {
 
                 AutoTypesComboBox.Items.Add(autoType.Value);
             });
+
+            SetDefault();
         }
 
         private void ResetFormulierButton_Click(object sender, RoutedEventArgs e) {
             ResetForm();
         }
 
+        private void SetDefault()
+        {
+            foreach (var item in AutoTypesComboBox.Items)
+            {
+                if(item.ToString() == _autoModel.AutoType.AutoTypeNaam)
+                {
+                    AutoTypesComboBox.SelectedItem = item;
+                }
+            }
+
+            DataContext = _autoModel;
+        }
+
         //reset Formulier
         private void ResetForm() {
-            Merknaam.Text = string.Empty;
-            AutoModelNaam.Text = string.Empty;
-            AutoTypesComboBox.SelectedIndex = 0;
+
+            SetDefault();
         }
 
 
@@ -55,18 +71,30 @@ namespace FleetManagement.WPF.UpdateWindows
         private void AutoModelUpdateButton_Click(object sender, RoutedEventArgs e) {
             //Wis bij elke nieuw poging de message info
             infoAutoModelMess.Text = string.Empty;
+
             try {
                 string selectedModel = AutoTypesComboBox.SelectedItem.ToString();
 
-                AutoModel nieuweAutoModel = new(
+                AutoModel UpdateAutoModel = new(
+                    _autoModel.AutoModelId,
                     Merknaam.Text,
                     AutoModelNaam.Text,
                     new AutoType(selectedModel)
                 );
-                _managers.AutoModelManager.UpdateAutoModel(nieuweAutoModel);
-                infoAutoModelMess.Foreground = Brushes.Green;
-                infoAutoModelMess.Text = "AutoModel is succesvol aangemaakt.";
-                ResetForm();
+
+                if(!UpdateAutoModel.Equals(_autoModel))
+                {
+                    _managers.AutoModelManager.UpdateAutoModel(UpdateAutoModel);
+                    _autoModel = UpdateAutoModel;
+
+                    DialogResult = true;
+                }
+                else
+                {
+                    infoAutoModelMess.Foreground = Brushes.Green;
+                    infoAutoModelMess.Text = "Is up to date: alles is hetzelfde gebleven";
+                }
+
             } catch (Exception ex) {
                 infoAutoModelMess.Foreground = Brushes.Red;
                 infoAutoModelMess.Text = ex.Message;

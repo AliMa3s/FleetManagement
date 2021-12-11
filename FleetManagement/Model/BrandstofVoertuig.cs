@@ -10,7 +10,7 @@ namespace FleetManagement.Model
     {
         public override int BrandstofTypeId { get; }
 
-        public bool Hybride { get; set; }
+        public bool Hybride { get; }
 
         public BrandstofVoertuig(string brandstofNaam, bool isHybride) : base(brandstofNaam)
         {

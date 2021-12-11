@@ -41,10 +41,4 @@ namespace FleetManagement.Model
         #endregion
     }
 
-    //Staat nu in de ConfigFile dus wordt string
-    ///
-    //public enum AutoType
-    //{
-    //   Cabriolet, Coupé, GT, Tererreinwagen, Sedan, Stationwagen, SUV
-    //}
 }

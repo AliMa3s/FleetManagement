@@ -11,7 +11,7 @@
             <DockPanel DockPanel.Dock="Bottom" Height="140" VerticalAlignment="Bottom" LastChildFill="False">
 
 
-                <Button x:Name="KiesDetail" Content="_Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesDetail_Click"/>
+                <Button x:Name="KiesDetail" Content="_Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesUpdate_Click"/>
                 <Button x:Name="SluitVoertuigForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitWindow_Click"/>
 
                 <TextBlock x:Name="infoAutoModelMess" Height="34" Margin="20,0,50,0" TextWrapping="Wrap" Width="184" FontSize="13" Foreground="#FFE51E1E" DockPanel.Dock="Right" />
@@ -19,15 +19,15 @@
                 <Grid Width="450">
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,21,0,0" Width="54" HorizontalAlignment="Left" Content="Merk:"/>
 
-                    <TextBox x:Name="FilterOpNaam" VerticalContentAlignment="Center" Text="" Foreground="LightSlateGray" VerticalAlignment="Top" Margin="81,21,112,0" Height="30" GotFocus="FilterOpNaam_GotFocus" LostFocus="FilterOpNaam_LostFocus" TextChanged="FilterOpNaam_TextChanged"/>
+                    <TextBox x:Name="FilterOpAutoModel" VerticalContentAlignment="Center" Text="" Foreground="LightSlateGray" VerticalAlignment="Top" Margin="81,21,112,0" Height="30" GotFocus="FilterOpAutoModel_GotFocus" LostFocus="FilterOpAutoModel_LostFocus" TextChanged="FilterOpAutoModel_TextChanged"/>
 
                 </Grid>
             </DockPanel>
 
             <DataGrid  x:Name="AutoModellenLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
                           SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
-                          HeadersVisibility="Column" SelectionChanged="ZoekWeergave_SelectionChanged"
-                          MouseDoubleClick="ZoekenMouseDoubleClick"
+                          HeadersVisibility="Column" SelectionChanged="AutoModel_SelectionChanged"
+                          MouseDoubleClick="AutoModelMouseDoubleClick"
                           Background="LightBlue" 
                          DockPanel.Dock="Top">
                 <DataGrid.Columns>

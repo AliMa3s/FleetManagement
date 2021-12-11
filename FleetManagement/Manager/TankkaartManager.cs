@@ -88,22 +88,6 @@ namespace FleetManagement.Manager {
             }
         }
 
-        public void VerwijderTankKaart(TankKaart tankkaart) {
-            try {
-                if (tankkaart == null) throw new TankKaartManagerException("Tankkaart - tankkaart mag niet null zijn");
-                if (tankkaart.TankKaartNummer == null) throw new TankKaartManagerException("Tankkaart - tankkaart moet een kaartnummer hebben");
-
-                if (BestaatTankkaart(tankkaart.TankKaartNummer)) {
-                    _repo.VerwijderTankKaart(tankkaart);
-                } else {
-                    throw new TankKaartManagerException("Tankkaart - Tankkaart bestaat niet!");
-                }
-            } catch (Exception ex) {
-
-                throw new TankKaartManagerException(ex.Message);
-            }
-        }
-
         public void VoegTankKaartToe(TankKaart tankkaart) {
             try {
                 if (tankkaart == null) throw new TankKaartManagerException("TankKaart - Tankkaart mag niet null zijn");

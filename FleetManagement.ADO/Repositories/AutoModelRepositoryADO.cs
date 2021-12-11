@@ -13,7 +13,7 @@ namespace FleetManagement.ADO.Repositories
     public class AutoModelRepositoryADO : RepoConnection, IAutoModelRepository {
         public AutoModelRepositoryADO(string connectionstring) : base(connectionstring) { }
 
-        public bool BestaatAutoModel(AutoModel autoModel) {
+        public bool BestaatAutoModelNaam(AutoModel autoModel) {
 
             string query = "Select count(*) from Automodel " +
                 "WHERE merknaam=@merknaam " +
@@ -116,7 +116,7 @@ namespace FleetManagement.ADO.Repositories
                     command.Parameters.AddWithValue("@automodelid", autoModel.AutoModelId);
                     command.Parameters.AddWithValue("@merknaam", autoModel.Merk);
                     command.Parameters.AddWithValue("@automodelnaam", autoModel.AutoModelNaam);
-                    command.Parameters.AddWithValue("@autotype", autoModel.AutoType);
+                    command.Parameters.AddWithValue("@autotype", autoModel.AutoType.AutoTypeNaam);
                     command.ExecuteNonQuery();
 
                 } catch (Exception ex) {

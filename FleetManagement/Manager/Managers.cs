@@ -11,7 +11,6 @@ namespace FleetManagement.Manager
     public class Managers
     {
         //Managers
-        public AdresManager AdresManager { get; private set; }
         public BestuurderManager BestuurderManager { get; private set; }
         public VoertuigManager VoertuigManager { get; private set; }
         public TankkaartManager TankkaartManager { get; private set; }
@@ -31,7 +30,6 @@ namespace FleetManagement.Manager
         public Managers(IRepositories repos)
         {
             //ADO
-            AdresManager = new AdresManager(repos.AdresRepo);
             BestuurderManager = new BestuurderManager(repos.BestuurderRepo);
             VoertuigManager = new VoertuigManager(repos.VoertuigRepo);
             TankkaartManager = new TankkaartManager(repos.TankkaartRepo);

@@ -98,20 +98,5 @@ namespace FleetManagement.WPF.DetailWindows {
                 //Changer aanspreken indien nodig
             }
         }
-
-        private void VerwijderButton_Click(object sender, RoutedEventArgs e)
-        {
-            BevestigingWindow bevestigingWindow = new()
-            {
-                Owner = Window.GetWindow(this),
-            };
-
-            bool? verwijderen = bevestigingWindow.ShowDialog();
-            if (verwijderen == true)
-            {
-                _managers.TankkaartManager.VerwijderTankKaart(_tankkaartDetail);
-                DialogResult = true;
-            }
-        }
     }
 }

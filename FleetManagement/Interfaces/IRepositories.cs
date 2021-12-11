@@ -9,7 +9,6 @@ namespace FleetManagement.Interfaces
 {
     public interface IRepositories
     {
-        IAdresRepository AdresRepo { get; }
         IBestuurderRepository BestuurderRepo { get; }
         IVoertuigRepository VoertuigRepo { get; }
         ITankkaartRepository TankkaartRepo { get; }

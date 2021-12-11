@@ -14,12 +14,12 @@ namespace FleetManagement.Model
     {
         #region Properties
         public int BestuurderId { get; private set; }
-        public string Voornaam { get; set; }
-        public string Achternaam { get; set; }
-        public string GeboorteDatum { get; }
+        public string Voornaam { get; private set; }
+        public string Achternaam { get; private set; }
+        public string GeboorteDatum { get; private set; }
         public Adres Adres { get; set; }
-        public string TypeRijbewijs { get; set; }
-        public string RijksRegisterNummer { get; }
+        public string TypeRijbewijs { get; private set; }
+        public string RijksRegisterNummer { get; private set; }
         public Voertuig Voertuig { get; private set; }
         public TankKaart Tankkaart { get; private set; }
         public DateTime? AanmaakDatum { get; set; }

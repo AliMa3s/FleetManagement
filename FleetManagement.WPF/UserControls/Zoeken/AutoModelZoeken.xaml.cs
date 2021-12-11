@@ -1,5 +1,6 @@
 ﻿using FleetManagement.Manager;
 using FleetManagement.Model;
+using FleetManagement.WPF.UpdateWindows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,11 @@ namespace FleetManagement.WPF.UserControls.Zoeken
     /// </summary>
     public partial class AutoModelZoeken : UserControl
     {
-        private readonly Managers _manager;
+        private readonly Managers _managers;
 
+        private string _filterOpAutoModel = "";
+
+        public string PlaceholderModelNaam { get; } = "Merk + Model";
 
         private AutoModel _autoModel;
         public AutoModel AutoModel {
@@ -36,45 +40,76 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         public AutoModelZoeken(Managers managers)
         {
             InitializeComponent();
-            _manager = managers;
+            _managers = managers;
 
-            AutoModellenLijst.ItemsSource = _manager.AutoModelManager.FilterOpAutoModelNaam("");
-
-
+            FilterOpAutoModel.Text = PlaceholderModelNaam;
+            AutoModellenLijst.ItemsSource = _managers.AutoModelManager.FilterOpAutoModelNaam("");
         }
 
-        private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AutoModel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            AutoModel = AutoModellenLijst.SelectedItem as AutoModel;
         }
 
-        private void ZoekenMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void AutoModelMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
-        }
-
-        private void TextBoxFilterAutonaam_TextChanged(object sender, TextChangedEventArgs e) {
-            //AutoModellenLijst.ItemsSource = _manager.AutoModelManager.FilterOpAutoModelNaam(TextBoxFilterAutonaam.Text);
+            if (AutoModel != null)
+            {
+                GetDetailWindow();
+            }
         }
 
         private void SluitWindow_Click(object sender, RoutedEventArgs e) {
             Window.GetWindow(this).Close();
         }
 
-        private void KiesDetail_Click(object sender, RoutedEventArgs e) {
-
+        private void KiesUpdate_Click(object sender, RoutedEventArgs e) {
+            if (AutoModel != null)
+            {
+                GetDetailWindow();
+            }
         }
 
-        private void FilterOpNaam_GotFocus(object sender, RoutedEventArgs e) {
-
+        private void FilterOpAutoModel_GotFocus(object sender, RoutedEventArgs e) 
+        {
+            if (FilterOpAutoModel.Text == PlaceholderModelNaam)
+            {
+                FilterOpAutoModel.Text = string.Empty;
+                FilterOpAutoModel.Foreground = Brushes.Black;
+            }
         }
 
-        private void FilterOpNaam_LostFocus(object sender, RoutedEventArgs e) {
-
+        private void FilterOpAutoModel_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(FilterOpAutoModel.Text))
+            {
+                FilterOpAutoModel.Text = PlaceholderModelNaam;
+                FilterOpAutoModel.Foreground = Brushes.LightSlateGray;
+            }
         }
 
-        private void FilterOpNaam_TextChanged(object sender, TextChangedEventArgs e) {
+        private void FilterOpAutoModel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (FilterOpAutoModel.Text != PlaceholderModelNaam)
+            {
+                _filterOpAutoModel = FilterOpAutoModel.Text;
 
+                AutoModellenLijst.ItemsSource = _managers.AutoModelManager.FilterOpAutoModelNaam(_filterOpAutoModel);
+            }
+        }
+
+        private void GetDetailWindow()
+        {
+            UpdateAutoModel detailWindow = new(_managers, AutoModel)
+            {
+                Owner = Window.GetWindow(this),
+            };
+
+            bool? updatet = detailWindow.ShowDialog();
+            if ((bool)updatet)
+            {
+                AutoModellenLijst.ItemsSource = _managers.AutoModelManager.FilterOpAutoModelNaam(_filterOpAutoModel);
+            }
         }
     }
 }

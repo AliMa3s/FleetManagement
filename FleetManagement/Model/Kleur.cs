@@ -4,8 +4,8 @@ namespace FleetManagement.Model
 {
     public class Kleur
     {
-        public int KleurId { get; set; }
-        public string KleurNaam { get; set; }
+        public int KleurId { get; private set; }
+        public string KleurNaam { get; private set; }
 
         public Kleur(string kleurNaam)
         {

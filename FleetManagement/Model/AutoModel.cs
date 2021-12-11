@@ -9,10 +9,10 @@ namespace FleetManagement.Model
 {
     public class AutoModel
     {
-        public int AutoModelId { get; set; }
-        public string Merk { get; set; }
-        public string AutoModelNaam { get; set; }
-        public AutoType AutoType { get; set; }
+        public int AutoModelId { get; private set; }
+        public string Merk { get; private set; }
+        public string AutoModelNaam { get; private set; }
+        public AutoType AutoType { get; private set; }
 
         public AutoModel(string merk, string autoModelNaam, AutoType autoType) 
         {
@@ -38,7 +38,27 @@ namespace FleetManagement.Model
             {
                 throw new AutoModelException("AutoModelId moet meer zijn dan 0");
             }
-        } 
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is AutoModel)
+            {
+                AutoModel ander = obj as AutoModel;
+                return AutoModelId == ander.AutoModelId
+                    && AutoModelNaam == ander.AutoModelNaam
+                    && AutoType.AutoTypeNaam == ander.AutoType.AutoTypeNaam;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return AutoModelId.GetHashCode() ^ AutoModelNaam.GetHashCode();
+        }
     }
 }
 

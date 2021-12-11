@@ -18,12 +18,12 @@ namespace FleetManagement.Manager
             _repo = repo;
         }
 
-        public bool BestaatAutoModel(AutoModel autoModel) {
+        public bool BestaatAutoModelNaam(AutoModel autoModel) {
             try
             {
                 if (autoModel == null) throw new AutoModelManagerException("AutoModel mag niet null zijn");
 
-                if (!_repo.BestaatAutoModel(autoModel)) {
+                if (!_repo.BestaatAutoModelNaam(autoModel)) {
                     return false;
                 }
                 else {
@@ -52,8 +52,18 @@ namespace FleetManagement.Manager
         public void UpdateAutoModel(AutoModel autoModel) {
             try {
                 if (autoModel == null) throw new AutoModelManagerException("AutoModel - AutoModel mag niet null zijn");
+                
                 if (BestaatAutoModel(autoModel.AutoModelId)) {
-                    _repo.UpdateAutoModel(autoModel);
+
+                    if(!BestaatAutoModelNaam(autoModel))
+                    {
+                        _repo.UpdateAutoModel(autoModel);
+                    }
+                    else
+                    {
+                        throw new AutoModelManagerException("Update - AutoModel bestaat al");
+                    }
+
                 } else {
                     throw new AutoModelManagerException("AutoModel - bestaat niet!");
                 }
@@ -66,7 +76,7 @@ namespace FleetManagement.Manager
         public void VerwijderAutoModel(AutoModel autoModel) {
             try {
                 if (autoModel == null) throw new AutoModelManagerException("AutoModel - AutoModel mag niet null zijn");
-                if (BestaatAutoModel(autoModel)) {
+                if (BestaatAutoModelNaam(autoModel)) {
                     _repo.VerwijderAutoModel(autoModel);
                 } else {
                     throw new AutoModelManagerException("AutoModel - bestaat niet!");
@@ -80,7 +90,7 @@ namespace FleetManagement.Manager
         public void VoegAutoModelToe(AutoModel autoModel) {
             try {
                 if (autoModel == null) throw new AutoModelManagerException("autoModel - autoModel mag niet null zijn");
-                if (!BestaatAutoModel(autoModel)) {
+                if (!BestaatAutoModelNaam(autoModel)) {
                     _repo.VoegAutoModelToe(autoModel);
                 } else {
                     throw new AutoModelManagerException("AutoModel bestaat al");

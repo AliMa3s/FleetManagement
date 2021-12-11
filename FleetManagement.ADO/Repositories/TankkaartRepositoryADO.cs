@@ -570,26 +570,6 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
-#warning tankkaart mag nooit verwijderd worden! Vragen aan Tom wat te doen
-        public void VerwijderTankKaart(TankKaart tankkaart) {
-
-            string query = "DELETE FROM Tankkaart WHERE tankkaartnummer=@tankkaartnummer";
-
-            using (SqlCommand command = Connection.CreateCommand()) {
-                try {
-                    Connection.Open();
-                    command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
-                    command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
-                    command.CommandText = query;
-                    command.ExecuteNonQuery();
-                } catch (Exception ex) {
-                    throw new TankkaartRepositoryADOException("VerwijderTankkaart - gefaald", ex);
-                } finally {
-                    Connection.Close();
-                }
-            }
-        }
-
         //Geef alle tankkaarten die nog geen bestuurder hebben
         public IReadOnlyList<TankKaart> TankaartenZonderBestuurder() {
 
@@ -693,10 +673,12 @@ namespace FleetManagement.ADO.Repositories {
                                     (bool)dataReader["actief"],
                                     dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
                                     pincode
-                                )
+                                );
+
+                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
                                 {
-                                    UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"))
-                                };
+                                    tankKaartDB.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
+                                }
 
                                 if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
                                 {

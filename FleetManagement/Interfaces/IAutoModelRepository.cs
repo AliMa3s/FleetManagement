@@ -13,7 +13,7 @@ namespace FleetManagement.Interfaces
         void VoegAutoModelToe(AutoModel autoModel);
         void VerwijderAutoModel(AutoModel autoModel);
         void UpdateAutoModel(AutoModel autoModel);
-        bool BestaatAutoModel(AutoModel autoModel);
+        bool BestaatAutoModelNaam(AutoModel autoModel);
         bool BestaatAutoModel(int automodelId);
     }
 }

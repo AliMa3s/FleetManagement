@@ -9,7 +9,6 @@ namespace FleetManagement.ADO.Repositories
 {
     public class Repositories : IRepositories
     {
-        public IAdresRepository AdresRepo { get; private set; }
         public IBestuurderRepository BestuurderRepo { get; private set; }
         public IVoertuigRepository VoertuigRepo { get; private set; }
         public ITankkaartRepository TankkaartRepo { get; private set; }
@@ -19,7 +18,6 @@ namespace FleetManagement.ADO.Repositories
 
         public Repositories(string connectionString)
         {
-            AdresRepo = new AdresRepositoryADO(connectionString);
             BestuurderRepo = new BestuurderRepositoryADO(connectionString);
             VoertuigRepo = new VoertuigRepositoryADO(connectionString);
             TankkaartRepo = new TankkaartRepositoryADO(connectionString);
