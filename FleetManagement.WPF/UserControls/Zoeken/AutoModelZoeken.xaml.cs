@@ -49,14 +49,6 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             //AutoModellenLijst.ItemsSource = _manager.AutoModelManager.FilterOpAutoModelNaam(TextBoxFilterAutonaam.Text);
         }
 
-        private void BewaarAutoModel_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
-        }
-
-        private void AutomodelToevoegenDoubleClick(object sender, MouseButtonEventArgs e) {
-
-        }
-
         private void SluitWindow_Click(object sender, RoutedEventArgs e) {
             Window.GetWindow(this).Close();
         }
