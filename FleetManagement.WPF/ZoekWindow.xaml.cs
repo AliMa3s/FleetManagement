@@ -22,6 +22,7 @@ namespace FleetManagement.WPF
     public partial class ZoekWindow : Window
     {
         private readonly Managers _managers;
+
            
         public ZoekWindow(Managers managers)
         {
