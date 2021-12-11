@@ -34,9 +34,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen {
                 AutoTypesComboBox.Items.Add(autoType.Value);
             });
         }
-        private void SluitBestuurderForm_Click(object sender, RoutedEventArgs e) {
-            Window.GetWindow(this).Close();
-        }
+
         private void ResetFormulierButton_Click(object sender, RoutedEventArgs e) {
             ResetForm();
         }
@@ -64,7 +62,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen {
                     AutoModelNaam.Text,
                     new AutoType(selectedModel)
                 );
-                _managers.AutoModelManager.VoegAutoModelToe(nieuweAutoModel);
+                _managers.AutoModelManager.UpdateAutoModel(nieuweAutoModel);
                 infoAutoModelMess.Foreground = Brushes.Green;
                 infoAutoModelMess.Text = "AutoModel is succesvol aangemaakt.";
                 ResetForm();

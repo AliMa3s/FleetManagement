@@ -7,6 +7,62 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
-        <ComboBox x:Name="AutoTypesComboBox" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="146" SelectedIndex="0" />
+        <DockPanel Background="LightSteelBlue"  Margin="-2">
+            <DockPanel.Children>
+                <DockPanel DockPanel.Dock="Bottom" Height="140" VerticalAlignment="Bottom" LastChildFill="False">
+
+                    <Button x:Name="KiesDetail" Content="_Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,-60,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="KiesDetail_Click" />
+                    <Button x:Name="SluitAutoModelForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,60,-85,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitAutoModelForm_Click"/>
+
+                    <Grid Width="603">
+                        <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="16,21,0,0" Width="70" HorizontalAlignment="Left" Content="Merk:"/>
+
+                        <TextBox x:Name="AutomodelNaam" TextChanged="FilterOpMerkEnAutomdel_Changed" VerticalContentAlignment="Center" Foreground="LightSlateGray" VerticalAlignment="Top" Margin="94,22,148,0" Height="30" GotFocus="Merknaam_GotFocus" LostFocus="Merknaam_LostFocus"/>
+                        <Button x:Name="ZoekmodelNaamAutoType" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="309,91,208,0" Width="86" DockPanel.Dock="Right" Click="ZoekmodelNaamAutoType_Click"/>
+                        <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,58,0,0" Width="228" HorizontalAlignment="Left" Content="AutoModelNaam of AutoType:"/>
+                        <TextBox x:Name="ModelNaamAutoType" TextChanged="FilterOpModelNaamEnAutoType_Changed"  Foreground="LightSlateGray" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="22,91,0,0" Width="275" Height="30" GotFocus="ModelNaamEnAutoType_GotFocus" LostFocus="ModelNaamEnAutoType_LostFocus"/>
+
+                        <TextBlock x:Name="infoAutoModelMess" Margin="432,70,6,15" TextWrapping="Wrap" FontSize="13" Foreground="#FFE51E1E" DockPanel.Dock="Right" />
+
+                    </Grid>
+
+                </DockPanel>
+                <DataGrid x:Name="ZoekWeergaveVoertuig" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
+                          SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
+                          HeadersVisibility="Column" SelectionChanged="ZoekWeergave_SelectionChanged"
+                          MouseDoubleClick="ZoekenMouseDoubleClick"
+                          Background="LightBlue" 
+                          FontSize="14" 
+                          FontStyle="Normal"
+                          DockPanel.Dock="Top">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header=" Merknaam " Binding="{Binding Automodel.merknaam}"/>
+                        <DataGridTextColumn Header=" Automodel " Binding="{Binding Automodel.automodelnaam}"/>
+                        <DataGridTextColumn Header=" Autotype " Binding="{Binding AutoModel.AutoType.AutoTypeNaam}"/>
+                    </DataGrid.Columns>
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Height" Value="25"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="VerticalContentAlignment" Value="center"/>
+                        </Style>
+                    </DataGrid.RowStyle>
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}" >
+                            <Setter Property="Height" Value="30"></Setter>
+                            <Setter Property="FontWeight" Value="bold"></Setter>
+                            <Setter Property="FontSize" Value="14"></Setter>
+                            <Setter Property="FontStyle" Value="Normal" ></Setter>
+                            <Setter Property="BorderBrush" Value="Beige" />
+                            <Setter Property="Foreground" Value="Black" />
+                            <Setter Property="Background"  Value="CornflowerBlue" />
+                            <Setter Property="BorderThickness" Value="0.50" />
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                </DataGrid>
+            </DockPanel.Children>
+        </DockPanel>
     </Grid>
 </UserControl>

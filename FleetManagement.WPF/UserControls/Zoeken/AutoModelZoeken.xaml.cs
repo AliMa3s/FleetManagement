@@ -23,18 +23,57 @@ namespace FleetManagement.WPF.UserControls.Zoeken
     {
         private readonly Managers _managers;
 
-        public string DisplayFirst { get; set; } = "Selecteer";
 
         public AutoModelZoeken(Managers managers)
         {
             InitializeComponent();
             _managers = managers;
 
-            AutoTypesComboBox.Items.Add(DisplayFirst);
-            _managers.AutoTypes.ToList().ForEach(autoType => {
 
-                AutoTypesComboBox.Items.Add(autoType.Value);
-            });
+        }
+
+        private void KiesDetail_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void SluitAutoModelForm_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void ZoekmodelNaamAutoType_Click(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void FilterOpModelNaamEnAutoType_Changed(object sender, TextChangedEventArgs e) {
+
+        }
+
+        private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
+        }
+
+        private void ZoekenMouseDoubleClick(object sender, MouseButtonEventArgs e) {
+
+        }
+
+        private void Merknaam_GotFocus(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void Merknaam_LostFocus(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void FilterOpMerkEnAutomdel_Changed(object sender, TextChangedEventArgs e) {
+
+        }
+
+        private void ModelNaamEnAutoType_GotFocus(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void ModelNaamEnAutoType_LostFocus(object sender, RoutedEventArgs e) {
+
         }
     }
 }
