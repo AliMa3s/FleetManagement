@@ -23,6 +23,8 @@ namespace FleetManagement.WPF.UpdateWindows
     {
         private readonly Managers _managers;
         private List<string> _keuzeBrandstoffen;
+        private Bestuurder GekozenBestuurder { get; set; }
+
 
         public string DisplayFirst { get; set; } = "Selecteer";
 
@@ -69,12 +71,43 @@ namespace FleetManagement.WPF.UpdateWindows
 
         private void ResetVeldenButton_Click(object sender, RoutedEventArgs e)
         {
+            ResetVelden();
+        }
 
+        private void ResestDropown() {
+            BrandstofNamenComboBox.Items.Clear();
+
+            BrandstofNamenComboBox.Items.Add(DisplayFirst);
+            _managers.Brandstoffen.ToList().ForEach(brandstof => {
+
+                BrandstofNamenComboBox.Items.Add(brandstof.BrandstofNaam);
+
+            });
+
+            BrandstofNamenComboBox.SelectedIndex = 0;
+            GekozenbrandstoffenString.Text = "Geen brandstoffen";
+
+            _keuzeBrandstoffen = new();
+            ResetGekozenBrandstofButton.Visibility = Visibility.Hidden;
+        }
+
+        private void ResetVelden() {
+            UitgeefDatumDatePicker.SelectedDate = null;
+            TankKaartTextBox.Text = null;
+            GekozenBestuurderNaam.Text = string.Empty;
+            GekozenBestuurder = null;
+            GeldigheidsDatumDatePicker.SelectedDate = null;
+            PincodeTextBox.Text = string.Empty;
+            KiesBestuurder.Visibility = Visibility.Visible;
+            AnnuleerBestuurder.Visibility = Visibility.Hidden;
+            ResestDropown();
+
+            infoTankkaartMess.Text = string.Empty;
         }
 
         private void SluitTankKaartWindow_Click(object sender, RoutedEventArgs e)
         {
-
+            Window.GetWindow(this).Close();
         }
 
         private void ResetGekozenBrandstofButton_Click(object sender, RoutedEventArgs e)
