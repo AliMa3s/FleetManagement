@@ -94,8 +94,7 @@ namespace FleetManagement.Manager
 
         public bool BestaatAutoModel(int automodelid) {
             try {
-                if (automodelid < 1) throw new AutoModelManagerException("autoModel id kan niet kleiner dan 0 zijn");
-                if (!BestaatAutoModel(automodelid)) {
+                if (!_repo.BestaatAutoModel(automodelid)) {
                     return false;
                 } else {
                     return true;

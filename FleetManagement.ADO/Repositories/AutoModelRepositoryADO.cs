@@ -156,7 +156,7 @@ namespace FleetManagement.ADO.Repositories
                     command.CommandText = query;
                     command.Parameters.AddWithValue("@merknaam", autoModel.Merk);
                     command.Parameters.AddWithValue("@automodelnaam", autoModel.AutoModelNaam);
-                    command.Parameters.AddWithValue("@autotype", autoModel.AutoType);
+                    command.Parameters.AddWithValue("@autotype", autoModel.AutoType.AutoTypeNaam);
                     command.ExecuteNonQuery();
 
 
