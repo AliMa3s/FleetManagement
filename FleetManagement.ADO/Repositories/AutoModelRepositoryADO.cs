@@ -17,7 +17,7 @@ namespace FleetManagement.ADO.Repositories
 
             string query = "Select count(*) from Automodel " +
                 "WHERE merknaam=@merknaam " +
-                "AND automodelnaam=@automodelnaam " +
+                "AND automodelnaam=@automodelnaam " + 
                 "AND autotype=@autotype";
             
             using (SqlCommand command = Connection.CreateCommand())
@@ -27,7 +27,7 @@ namespace FleetManagement.ADO.Repositories
                     Connection.Open();
                     command.Parameters.AddWithValue("@merknaam", autoModel.Merk);
                     command.Parameters.AddWithValue("@automodelnaam", autoModel.AutoModelNaam);
-                    command.Parameters.AddWithValue("@autotype", autoModel.AutoType);
+                    command.Parameters.AddWithValue("@autotype", autoModel.AutoType.AutoTypeNaam);
 
                     command.CommandText = query;
                     int n = (int)command.ExecuteScalar();
@@ -35,7 +35,7 @@ namespace FleetManagement.ADO.Repositories
                 }
                 catch (Exception ex)
                 {
-                    throw new AutoModelRepositoryADOException("BestaatAutoModel - gefaald", ex);
+                    throw new AutoModelRepositoryADOException("BestaatAutoModel - gefaald!", ex);
                 }
                 finally
                 {

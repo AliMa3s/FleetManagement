@@ -55,14 +55,15 @@ namespace FleetManagement.WPF.UserControls.Toevoegen {
             //Wis bij elke nieuw poging de message info
             infoAutoModelMess.Text = string.Empty;
             try {
+
                 string selectedModel = AutoTypesComboBox.SelectedItem.ToString();
 
                 AutoModel nieuweAutoModel = new(
                     Merknaam.Text,
                     AutoModelNaam.Text,
-                    new AutoType(selectedModel)
+                    new AutoType(selectedModel != DisplayFirst ? selectedModel : "")
                 );
-                _managers.AutoModelManager.UpdateAutoModel(nieuweAutoModel);
+                _managers.AutoModelManager.VoegAutoModelToe(nieuweAutoModel);
                 infoAutoModelMess.Foreground = Brushes.Green;
                 infoAutoModelMess.Text = "AutoModel is succesvol aangemaakt.";
                 ResetForm();

@@ -26,8 +26,8 @@
 
             <DataGrid  x:Name="AutoModellenLijst" RowBackground="LightBlue" AlternatingRowBackground="LightSteelBlue"  
                           SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" 
-                          HeadersVisibility="Column" SelectionChanged="BewaarAutoModel_SelectionChanged"
-                          MouseDoubleClick="AutomodelToevoegenDoubleClick"
+                          HeadersVisibility="Column" SelectionChanged="ZoekWeergave_SelectionChanged"
+                          MouseDoubleClick="ZoekenMouseDoubleClick"
                           Background="LightBlue" 
                          DockPanel.Dock="Top">
                 <DataGrid.Columns>

@@ -52,7 +52,7 @@ namespace FleetManagement.Manager
         public void UpdateAutoModel(AutoModel autoModel) {
             try {
                 if (autoModel == null) throw new AutoModelManagerException("AutoModel - AutoModel mag niet null zijn");
-                if (BestaatAutoModel(autoModel)) {
+                if (BestaatAutoModel(autoModel.AutoModelId)) {
                     _repo.UpdateAutoModel(autoModel);
                 } else {
                     throw new AutoModelManagerException("AutoModel - bestaat niet!");
@@ -80,10 +80,10 @@ namespace FleetManagement.Manager
         public void VoegAutoModelToe(AutoModel autoModel) {
             try {
                 if (autoModel == null) throw new AutoModelManagerException("autoModel - autoModel mag niet null zijn");
-                if (!BestaatAutoModel(autoModel.AutoModelId)) {
+                if (!BestaatAutoModel(autoModel)) {
                     _repo.VoegAutoModelToe(autoModel);
                 } else {
-                    throw new AutoModelManagerException("autoModel Bestaat al");
+                    throw new AutoModelManagerException("AutoModel bestaat al");
                 }
             } catch (Exception ex) {
 

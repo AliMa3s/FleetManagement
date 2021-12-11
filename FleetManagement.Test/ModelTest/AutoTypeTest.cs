@@ -27,7 +27,7 @@ namespace FleetManagement.Test.ModelTest
             {
                 new AutoType(autoTypeNaam);
             });
-            Assert.Equal("autoType naam mag niet null zijn", mijnException.Message);
+            Assert.Equal("AutoType moet ingevuld zijn", mijnException.Message);
            
         }
         

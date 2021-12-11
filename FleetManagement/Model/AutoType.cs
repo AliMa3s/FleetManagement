@@ -13,7 +13,7 @@ namespace FleetManagement.Model
 
         public AutoType(string autoTypeNaam)
         {
-            if (string.IsNullOrWhiteSpace(autoTypeNaam)) throw new AutoTypeException("autoType naam mag niet null zijn");
+            if (string.IsNullOrWhiteSpace(autoTypeNaam)) throw new AutoTypeException("AutoType moet ingevuld zijn");
             
 
             AutoTypeNaam = autoTypeNaam;

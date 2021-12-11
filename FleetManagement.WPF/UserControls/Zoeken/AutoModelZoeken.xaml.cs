@@ -43,7 +43,15 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         }
 
+        private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
+        }
+
+        private void ZoekenMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
 
         private void TextBoxFilterAutonaam_TextChanged(object sender, TextChangedEventArgs e) {
             //AutoModellenLijst.ItemsSource = _manager.AutoModelManager.FilterOpAutoModelNaam(TextBoxFilterAutonaam.Text);

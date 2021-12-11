@@ -63,7 +63,7 @@ namespace FleetManagement.WPF.UpdateWindows
                     AutoModelNaam.Text,
                     new AutoType(selectedModel)
                 );
-                _managers.AutoModelManager.VoegAutoModelToe(nieuweAutoModel);
+                _managers.AutoModelManager.UpdateAutoModel(nieuweAutoModel);
                 infoAutoModelMess.Foreground = Brushes.Green;
                 infoAutoModelMess.Text = "AutoModel is succesvol aangemaakt.";
                 ResetForm();
