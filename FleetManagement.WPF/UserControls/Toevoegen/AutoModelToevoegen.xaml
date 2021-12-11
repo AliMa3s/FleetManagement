@@ -6,7 +6,46 @@
              xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Toevoegen"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="800">
-    <Grid>
-        <ComboBox x:Name="AutoTypesComboBox" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="146" SelectedIndex="0" />
-    </Grid>
+    <DockPanel Background="LightBlue" Margin="-2">
+        <DockPanel.Children>
+            <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
+                <Button x:Name="SluitAutoModelForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitBestuurderForm_Click"/>
+                <Button x:Name="resetFormulierButton" Content="_Reset" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="ResetFormulierButton_Click"/>
+                <Button x:Name="AutoModelAanmakenButton" Content="_AutoModel aanmaken" Background="LightSkyBlue" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="150" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="BestuurderAanmakenButton_Click"/>
+                <TextBlock x:Name="infoAUtoModelMess" HorizontalAlignment="Left" Height="95" Margin="20,5,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="350" FontSize="13" Foreground="#FFE51E1E"/>
+            </DockPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="20*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="37*"/>
+                    <RowDefinition Height="7*"/>
+                </Grid.RowDefinitions>
+
+                <Label x:Name="FormBestuurder" Grid.Row="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
+                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Merknaam: *</Label>
+                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">AutoModelNaam: *</Label>
+                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">AutoType: *</Label>
+
+
+                <TextBox x:Name="Merknaam" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1"  TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" Height="25"/>
+                <TextBox x:Name="AutoModelNaam" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text=""  Height="25"/>
+                <ComboBox x:Name="AutoTypesComboBox" HorizontalAlignment="Left" VerticalAlignment="Center" Width="146" SelectedIndex="0"  Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="5,0,15,0" />
+
+            </Grid>
+        </DockPanel.Children>
+    </DockPanel>
 </UserControl>
