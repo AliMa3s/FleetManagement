@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Zoeken"
              mc:Ignorable="d"
              xmlns:local1="clr-namespace:FleetManagement.WPF.Converters"
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="900">
     <UserControl.Resources>
         <local1:NummerplaatConverter x:Key="NummerplaatConverter"/>
         <local1:IsHybrideConverter x:Key="IsHybrideConverter"/>

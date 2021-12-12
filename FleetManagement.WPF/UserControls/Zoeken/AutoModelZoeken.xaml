@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Zoeken"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
-    <DockPanel Background="LightSteelBlue"  Margin="0">
+             d:DesignHeight="600" d:DesignWidth="900">
+    <DockPanel Background="LightSteelBlue"  Margin="-2">
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Height="140" VerticalAlignment="Bottom" LastChildFill="False">
 
@@ -17,9 +17,28 @@
                 <TextBlock x:Name="infoAutoModelMess" Height="34" Margin="20,0,50,0" TextWrapping="Wrap" Width="184" FontSize="13" Foreground="#FFE51E1E" DockPanel.Dock="Right" />
 
                 <Grid Width="450">
-                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,21,0,0" Width="54" HorizontalAlignment="Left" Content="Merk:"/>
 
-                    <TextBox x:Name="FilterOpAutoModel" VerticalContentAlignment="Center" Text="" Foreground="LightSlateGray" VerticalAlignment="Top" Margin="81,21,112,0" Height="30" GotFocus="FilterOpAutoModel_GotFocus" LostFocus="FilterOpAutoModel_LostFocus" TextChanged="FilterOpAutoModel_TextChanged"/>
+                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,21,0,0" Width="81" HorizontalAlignment="Left" Content="Autotype:"/>
+
+                    <ComboBox x:Name="ZoekOpAutoTypes" Margin="105,23,0,0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Width="255" SelectedIndex="0" Height="30" SelectionChanged="ZoekOpAutoTypes_SelectionChanged" />
+                    <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,58,294,0" Content="Autonaam:"/>
+
+                    <TextBox x:Name="FilterOpAutoModel" Text="" Foreground="LightSlateGray" HorizontalAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Top" Margin="22,91,0,0" Height="30" Width="337" GotFocus="FilterOpAutoModel_GotFocus" LostFocus="FilterOpAutoModel_LostFocus" TextChanged="FilterOpAutoModel_TextChanged"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 </Grid>
             </DockPanel>

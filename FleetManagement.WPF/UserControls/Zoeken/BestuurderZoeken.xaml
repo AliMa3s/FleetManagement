@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Zoeken" 
              xmlns:local1="clr-namespace:FleetManagement.WPF.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="900">
     <UserControl.Resources>
         <local1:HeeftTankkaartConverter x:Key="HeeftTankkaartConverter"/>
         <local1:RijksregisterConverter x:Key="RijksregisterConverter"/>
@@ -25,7 +25,7 @@
                 <Grid Width="450">
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,21,0,0" Width="54" HorizontalAlignment="Left" Content="Naam:"/>
 
-                    <TextBox x:Name="FilterOpNaam" VerticalContentAlignment="Center" Text="" Foreground="LightSlateGray" VerticalAlignment="Top" Margin="81,21,112,0" Height="30" GotFocus="FilterOpNaam_GotFocus" LostFocus="FilterOpNaam_LostFocus" TextChanged="FilterOpNaam_TextChanged"/>
+                    <TextBox x:Name="FilterOpNaam" VerticalContentAlignment="Center" Text="" Foreground="LightSlateGray" VerticalAlignment="Top" Margin="81,21,54,0" Height="30" GotFocus="FilterOpNaam_GotFocus" LostFocus="FilterOpNaam_LostFocus" TextChanged="FilterOpNaam_TextChanged"/>
                     <Button x:Name="ZoekRijksregister" Content="Zoek" Background="#FFCAD5EA" VerticalAlignment="Top" Height="30" Margin="309,91,55,0" Width="86" DockPanel.Dock="Right" Click="ZoekRijksregister_Click"/>
                     <Label  Height="36" VerticalAlignment="Top" FontSize="15" VerticalContentAlignment="Top" Margin="18,58,0,0" Width="228" HorizontalAlignment="Left" Content="Rijksregisternummer:"/>
                     <TextBox x:Name="RijksregisterBox" Text="" Foreground="LightSlateGray" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="22,91,0,0" Height="30" Width="275" GotFocus="Rijksregister_GotFocus" LostFocus="Rijksregister_LostFocus" />

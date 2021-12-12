@@ -100,5 +100,30 @@ namespace FleetManagement.WPF.UpdateWindows
                 infoAutoModelMess.Text = ex.Message;
             }
         }
+
+        private void VerwijderButton_Click(object sender, RoutedEventArgs e)
+        {
+            infoAutoModelMess.Text = string.Empty;
+
+            BevestigingWindow bevestigingWindow = new("Zeker dat je dit autotype wilt verwijderen?")
+            {
+                Owner = Window.GetWindow(this),
+            };
+
+            bool? verwijderen = bevestigingWindow.ShowDialog();
+            if (verwijderen == true)
+            {
+                try
+                {
+                    _managers.AutoModelManager.VerwijderAutoModel(_autoModel);
+                    DialogResult = true;
+                }
+                catch (Exception ex)
+                {
+                    infoAutoModelMess.Foreground = Brushes.Red;
+                    infoAutoModelMess.Text = ex.Message;
+                }
+            }
+        }
     }
 }

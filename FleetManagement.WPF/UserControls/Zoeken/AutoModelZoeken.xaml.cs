@@ -44,6 +44,11 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
             FilterOpAutoModel.Text = PlaceholderModelNaam;
             AutoModellenLijst.ItemsSource = _managers.AutoModelManager.FilterOpAutoModelNaam("");
+
+            ZoekOpAutoTypes.Items.Add("Alles weergeven");
+            _managers.AutoTypes.ToList().ForEach(autotype => {      
+                ZoekOpAutoTypes.Items.Add(autotype.Value);
+            });
         }
 
         private void AutoModel_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -107,6 +112,18 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
             bool? updatet = detailWindow.ShowDialog();
             if ((bool)updatet)
+            {
+                AutoModellenLijst.ItemsSource = _managers.AutoModelManager.FilterOpAutoModelNaam(_filterOpAutoModel);
+            }
+        }
+
+        private void ZoekOpAutoTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(ZoekOpAutoTypes.SelectedItem.ToString() != "Alles weergeven")
+            {
+                AutoModellenLijst.ItemsSource =_managers.AutoModelManager.ZoekOpAutoType(new(ZoekOpAutoTypes.SelectedItem.ToString()));
+            }
+            else
             {
                 AutoModellenLijst.ItemsSource = _managers.AutoModelManager.FilterOpAutoModelNaam(_filterOpAutoModel);
             }

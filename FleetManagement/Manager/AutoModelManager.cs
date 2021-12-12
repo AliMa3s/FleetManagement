@@ -76,8 +76,18 @@ namespace FleetManagement.Manager
         public void VerwijderAutoModel(AutoModel autoModel) {
             try {
                 if (autoModel == null) throw new AutoModelManagerException("AutoModel - AutoModel mag niet null zijn");
-                if (BestaatAutoModelNaam(autoModel)) {
-                    _repo.VerwijderAutoModel(autoModel);
+
+                if (BestaatAutoModel(autoModel.AutoModelId)) {
+
+                    if(!IsAutoModelInGebruik(autoModel))
+                    {
+                        _repo.VerwijderAutoModel(autoModel);
+                    }
+                    else
+                    {
+                        throw new AutoModelManagerException("Kan automodel niet verwijderen omdat het nog in gebruik is");
+                    }
+                    
                 } else {
                     throw new AutoModelManagerException("AutoModel - bestaat niet!");
                 }
@@ -89,7 +99,7 @@ namespace FleetManagement.Manager
 
         public void VoegAutoModelToe(AutoModel autoModel) {
             try {
-                if (autoModel == null) throw new AutoModelManagerException("autoModel - autoModel mag niet null zijn");
+                if (autoModel == null) throw new AutoModelManagerException("AutoModel - autoModel mag niet null zijn");
                 if (!BestaatAutoModelNaam(autoModel)) {
                     _repo.VoegAutoModelToe(autoModel);
                 } else {
@@ -100,7 +110,6 @@ namespace FleetManagement.Manager
                 throw new AutoModelManagerException(ex.Message);
             }
         }
-
 
         public bool BestaatAutoModel(int automodelid) {
             try {
@@ -114,5 +123,25 @@ namespace FleetManagement.Manager
             }
         }
 
+        public bool IsAutoModelInGebruik(AutoModel autoModel)
+        {
+            try
+            {
+                if (autoModel == null) throw new AutoModelManagerException("AutoModel - autoModel mag niet null zijn");
+
+                return _repo.IsAutoModelInGebruik(autoModel);
+            }
+            catch (Exception ex)
+            {
+                throw new AutoModelManagerException(ex.Message);
+            }
+        }
+
+        public IReadOnlyList<AutoModel> ZoekOpAutoType(AutoType autoType)
+        {
+            if (autoType == null) throw new AutoModelManagerException("AutoType mag niet null zijn");
+
+            return _repo.ZoekOpAutoType(autoType);
+        }
     }
 }

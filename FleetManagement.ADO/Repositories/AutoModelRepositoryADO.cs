@@ -104,6 +104,54 @@ namespace FleetManagement.ADO.Repositories
             }
         }
 
+        public IReadOnlyList<AutoModel> ZoekOpAutoType(AutoType autoType)
+        {
+            string query = "SELECT * FROM AutoModel " +
+                "WHERE autotype = @autotype " +
+                "ORDER BY merknaam ASC, automodelnaam ASC " +
+                "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
+
+            List<AutoModel> autoModellen = new();
+
+            using (SqlCommand command = new(query, Connection))
+            {
+                try
+                {
+                    command.Parameters.AddWithValue("@autotype", autoType.AutoTypeNaam);
+                    Connection.Open();
+
+                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    {
+                        if (dataReader.HasRows)
+                        {
+                            while (dataReader.Read())
+                            {
+                                autoModellen.Add(
+                                    new(
+                                        (int)dataReader["automodelid"],
+                                        (string)dataReader["merknaam"],
+                                        (string)dataReader["automodelnaam"],
+                                        new AutoType((string)dataReader["autotype"])
+                                    )
+                                );
+                            }
+                        }
+
+                        return autoModellen;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    throw new AutoModelRepositoryADOException("AutoModellen - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
+        }
+
         public void UpdateAutoModel(AutoModel autoModel) {
             string query = "UPDATE Automodel SET merknaam=@merknaam,automodelnaam=@automodelnaam,autotype=@autotype " +
                     " where automodelid = @automodelid";
@@ -164,6 +212,34 @@ namespace FleetManagement.ADO.Repositories
 
                     throw new AutoModelRepositoryADOException("VoegAutoModelToe - gefaald", ex);
                 } finally {
+                    Connection.Close();
+                }
+            }
+        }
+
+        public bool IsAutoModelInGebruik(AutoModel autoModel)
+        {
+            string query = "Select count(*) from Automodel a " +
+                "JOIN Voertuig v ON a.automodelid = v.automodelid " +
+                "WHERE a.automodelid = @automodelid";
+
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
+                    Connection.Open();
+                    command.Parameters.AddWithValue("@automodelid", autoModel.AutoModelId);
+
+                    command.CommandText = query;
+                    int n = (int)command.ExecuteScalar();
+                    if (n > 0) return true; else return false;
+                }
+                catch (Exception ex)
+                {
+                    throw new AutoModelRepositoryADOException("Is AutoModel In Gebruik - gefaald!", ex);
+                }
+                finally
+                {
                     Connection.Close();
                 }
             }
