@@ -9,9 +9,7 @@ namespace FleetManagement.Model
 
         public Kleur(string kleurNaam)
         {
-            if (kleurNaam == null) throw new VoertuigKleurException("kleur mag niet null zijn");
-
-            KleurNaam = kleurNaam;
+            KleurNaam = kleurNaam ?? throw new VoertuigKleurException("kleur mag niet null zijn");
         }
 
         public Kleur(int kleurId, string kleurNaam) : this(kleurNaam)

@@ -16,7 +16,7 @@ namespace FleetManagement.WPF
     /// </summary>
     public partial class App : Application
     {
-        public static Managers Managers { get; set; }
+        public Managers Managers { get; private set; }
 
         public App()
         {

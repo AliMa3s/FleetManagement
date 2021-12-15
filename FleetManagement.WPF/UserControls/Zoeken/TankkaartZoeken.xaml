@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Zoeken" 
+             xmlns:local="clr-namespace:FleetManagement.WPF.UserControls.Zoeken" xmlns:local1="clr-namespace:FleetManagement.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="900">
-
+    <UserControl.Resources>
+        <local1:TankkaartActiefConverter x:Key="TankkaartActiefConverter"/>
+    </UserControl.Resources>
     <DockPanel Background="LightSteelBlue"  Margin="-2">
 
         <DockPanel.Children>
@@ -40,7 +42,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header=" Tankkaartnummer " Binding="{Binding TankKaartNummer}"/>
                     <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding GeldigheidsDatum, StringFormat= dd/MM/yyyy}"/>
-                    <DataGridTextColumn Header=" Actief " Binding="{Binding Actief}"/>
+                    <DataGridTextColumn Header=" Actief " Binding="{Binding Actief, Converter={StaticResource TankkaartActiefConverter}}"/>
                     <DataGridTextColumn Header=" Pincode " Binding="{Binding Pincode}"/>
                     <DataGridTextColumn Header=" Bestuurder " Binding="{Binding Bestuurder.Naam }"/>
 

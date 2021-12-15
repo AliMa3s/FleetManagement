@@ -3,9 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FleetManagement.WPF.SelecteerWindows"
+        xmlns:local="clr-namespace:FleetManagement.WPF.SelecteerWindows" xmlns:local1="clr-namespace:FleetManagement.WPF.Converters"
         mc:Ignorable="d"
         Height="600" Width="800">
+    <Window.Resources>
+        <local1:RijksregisterConverter x:Key="RijksregisterConverter"/>
+    </Window.Resources>
     <DockPanel Background="LightSteelBlue"  Margin="0">
         <DockPanel.Children>
             
@@ -23,11 +26,10 @@
                           Background="LightBlue" 
                          DockPanel.Dock="Top">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header=" Achternaam " Binding="{Binding Achternaam}"/>
-                    <DataGridTextColumn Header=" Voornaam " Binding="{Binding Voornaam}"/>
+                    <DataGridTextColumn Header=" Naam " Binding="{Binding Naam}"/>
                     <DataGridTextColumn Header=" Geboortedatum " Binding="{Binding GeboorteDatum}"/>
                     <DataGridTextColumn Header=" Rijbewijs " Binding="{Binding TypeRijbewijs}"/>
-                    <DataGridTextColumn Header=" Rijksregisternummer " Binding="{Binding RijksRegisterNummer}"/>
+                    <DataGridTextColumn Header=" Rijksregisternummer " Binding="{Binding RijksRegisterNummer, Converter={StaticResource RijksregisterConverter}}"/>
                     <DataGridTextColumn Header=" Postcode " Binding="{Binding Adres.Postcode}"/>
                 </DataGrid.Columns>
                 

@@ -32,9 +32,15 @@ namespace FleetManagement.WPF.DetailWindows {
 
             if (_voertuigDetail.HeeftVoertuigBestuurder)
             {
+                string rijkregnr = _voertuigDetail.Bestuurder.RijksRegisterNummer;
+                
                 StringBuilder stringBuilder = new("Naam: " + _voertuigDetail.Bestuurder.Achternaam);
                 stringBuilder.Append(" " + _voertuigDetail.Bestuurder.Voornaam);
-                stringBuilder.AppendLine(Environment.NewLine + "Rijksregister: " + _voertuigDetail.Bestuurder.RijksRegisterNummer);
+                stringBuilder.AppendLine(Environment.NewLine + "Rijksregister: " + rijkregnr.Substring(0, 2) + "."
+                    + rijkregnr.Substring(2, 2) + "."
+                    + rijkregnr.Substring(4, 2) + "-"
+                    + rijkregnr.Substring(6, 3) + "."
+                    + rijkregnr.Substring(9, 2));
                 BestuurderDetail.Text = stringBuilder.ToString();
             }
 

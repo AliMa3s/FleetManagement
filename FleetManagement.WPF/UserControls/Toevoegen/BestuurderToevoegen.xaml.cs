@@ -195,7 +195,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             if (geslecteerd == true)
             {
                 _gekozenVoertuig = selecteerVoertuig.GekozenVoertuig;
-                GekozenVoertuigText.Text = _gekozenVoertuig.ChassisNummer;
+                GekozenVoertuigText.Text = _gekozenVoertuig.VoertuigNaam;
                 VoertuigSelecteren.Content = "Voertuig wijzigen";
             }
         }

@@ -3,9 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FleetManagement.WPF.SelecteerWindows"
+        xmlns:local="clr-namespace:FleetManagement.WPF.SelecteerWindows" xmlns:local1="clr-namespace:FleetManagement.WPF.Converters"
         mc:Ignorable="d"
         Title="SelecteerTankkaart" Height="600" Width="800">
+    <Window.Resources>
+        <local1:TankkaartActiefConverter x:Key="TankkaartActiefConverter"/>
+    </Window.Resources>
     <DockPanel Background="LightSteelBlue"  Margin="0">
         <DockPanel.Children>
 
@@ -29,7 +32,7 @@
                     <DataGridTextColumn Header=" Tankkaartnummer " Binding="{Binding TankKaartNummer}"/>
                     <DataGridTextColumn Header=" Geldigheidsdatum " Binding="{Binding GeldigheidsDatum, StringFormat= dd/MM/yyyy}"/>
                     <DataGridTextColumn Header=" Pincode " Binding="{Binding Pincode}"/>
-                    <DataGridTextColumn Header=" Actief " Binding="{Binding Actief}"/>
+                    <DataGridTextColumn Header=" Actief " Binding="{Binding Actief, Converter={StaticResource TankkaartActiefConverter}}"/>
                     <DataGridTextColumn Header=" Uitgeefdatum " Binding="{Binding UitgeefDatum, StringFormat= dd/MM/yyyy}"/>
                 </DataGrid.Columns>
 

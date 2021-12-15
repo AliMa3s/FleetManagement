@@ -20,7 +20,7 @@
     <DockPanel Background="LightBlue" Margin="-2">
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
-                <Button x:Name="SluitForm" Content="_Sluiten" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitForm_Click"/>
+                <Button x:Name="SluitForm" Content="_Sluiten" Background="LightSkyBlue" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="SluitForm_Click"/>
                 <Button x:Name="WijzigButton" Content="_Wijzigen" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="WijzigButton_Click"/>
                 <Button x:Name="VerwijderButton" Content="_Verwijder" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="20,0,0,0" Width="86" DockPanel.Dock="Left" HorizontalAlignment="Right" Click="VerwijderButton_Click"/>
 

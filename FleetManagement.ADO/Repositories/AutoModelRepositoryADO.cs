@@ -19,28 +19,26 @@ namespace FleetManagement.ADO.Repositories
                 "WHERE merknaam=@merknaam " +
                 "AND automodelnaam=@automodelnaam " + 
                 "AND autotype=@autotype";
-            
-            using (SqlCommand command = Connection.CreateCommand())
-            {
-                try
-                {
-                    Connection.Open();
-                    command.Parameters.AddWithValue("@merknaam", autoModel.Merk);
-                    command.Parameters.AddWithValue("@automodelnaam", autoModel.AutoModelNaam);
-                    command.Parameters.AddWithValue("@autotype", autoModel.AutoType.AutoTypeNaam);
 
-                    command.CommandText = query;
-                    int n = (int)command.ExecuteScalar();
-                    if (n > 0) return true; else return false;
-                }
-                catch (Exception ex)
-                {
-                    throw new AutoModelRepositoryADOException("BestaatAutoModel - gefaald!", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
+            using SqlCommand command = Connection.CreateCommand();
+            try
+            {
+                Connection.Open();
+                command.Parameters.AddWithValue("@merknaam", autoModel.Merk);
+                command.Parameters.AddWithValue("@automodelnaam", autoModel.AutoModelNaam);
+                command.Parameters.AddWithValue("@autotype", autoModel.AutoType.AutoTypeNaam);
+
+                command.CommandText = query;
+                int n = (int)command.ExecuteScalar();
+                if (n > 0) return true; else return false;
+            }
+            catch (Exception ex)
+            {
+                throw new AutoModelRepositoryADOException("BestaatAutoModel - gefaald!", ex);
+            }
+            finally
+            {
+                Connection.Close();
             }
         }
 
