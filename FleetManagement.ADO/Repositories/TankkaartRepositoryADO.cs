@@ -158,6 +158,7 @@ namespace FleetManagement.ADO.Repositories {
             }
         }
 
+#warning wordt niet gebruikt denk ik, controleer
         public bool BestaatTankkaartBrandstof(TankKaart tankkaart, BrandstofType brandstof)
         {
             string query = "SELECT count(*) FROM Tankkaart_Brandstoftype " +
@@ -188,7 +189,7 @@ namespace FleetManagement.ADO.Repositories {
                 }
             }
         }
-
+#warning wordt niet gebruikt denk ik, controleer
         public void VoegTankkaartBrandstofToe(TankKaart tankkaart, BrandstofType brandstof) 
         {
             string query = "INSERT INTO Tankkaart_Brandstoftype (tankkaartnummer, brandstoftypeid) " +
@@ -465,56 +466,47 @@ namespace FleetManagement.ADO.Repositories {
         }
 
         public void UpdateTankKaart(TankKaart tankkaart) {
-
-            string query = "UPDATE Tankkaart SET " +
-                           " bestuurderid=@bestuurderid, geldigheidsdatum=@geldigheidsdatum, pincode=@pincode, " +
-                           "actief=@actief, uitgeefdatum=@uitgeefdatum " +
-                           "WHERE tankkaartnummer=@tankkaartnummer";
-
-            using (SqlCommand command = Connection.CreateCommand()) {
-                try {
-
-                    Connection.Open();
-
-                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
-                    command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.Date));
-                    command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@actief", SqlDbType.Bit));
-                    command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Date));
-
-                    command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
-                    command.Parameters["@geldigheidsdatum"].Value = tankkaart.GeldigheidsDatum;
-                    command.Parameters["@actief"].Value = tankkaart.Actief;
-
-                    if (tankkaart.Pincode == null)
-                        command.Parameters["@pincode"].Value = DBNull.Value;
-                    else
-                        command.Parameters["@pincode"].Value = tankkaart.Pincode;
-
-                    if (tankkaart.HeeftTankKaartBestuurder)
-                        command.Parameters["@bestuurderid"].Value = tankkaart.Bestuurder.BestuurderId;
-                    else
-                        command.Parameters["@bestuurderid"].Value = DBNull.Value;
-
-                    if (tankkaart.UitgeefDatum.HasValue)
-                        command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum.Value;
-                    else
-                        command.Parameters["@uitgeefdatum"].Value = DBNull.Value;
-
-                    command.CommandText = query;
-                    command.ExecuteNonQuery();
-
-                } catch (Exception ex) {
-                    throw new TankkaartRepositoryADOException("UpdateTankkaart - gefaald", ex);
-                } finally {
-                    Connection.Close();
-                }
+            try 
+            {
+                UpdateTankKaart(tankkaart, tankkaart.TankKaartNummer);
+            } 
+            catch (Exception ex) {
+                throw new TankkaartRepositoryADOException("UpdateTankkaart - gefaald", ex);
             }
         }
 
         public TankKaart UpdateTankKaart(TankKaart tankkaart, string AnderTankkaartNummer)
         {
+            Connection.Open();
+            using (SqlTransaction transaction = Connection.BeginTransaction())
+            {
+                try
+                {
+                    TankKaart tankaartDB = UpdateTankKaart(tankkaart, AnderTankkaartNummer, Connection, transaction);
+                    VoegBrandstoffenToe(tankkaart, Connection, transaction);
+                    transaction.Commit();
+
+                    return tankaartDB;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new TankkaartRepositoryADOException("UpdateTankkaart - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
+        }
+
+        private TankKaart UpdateTankKaart(TankKaart tankkaart, string AnderTankkaartNummer, SqlConnection sqlConnection = null, SqlTransaction transaction = null)
+        {
+            if (sqlConnection != null)
+            {
+                Connection = sqlConnection;
+            }
+
             string query = "UPDATE Tankkaart SET " +
                 "tankkaartnummer=@andertankkaartnummer, bestuurderid=@bestuurderid, geldigheidsdatum=@geldigheidsdatum, pincode=@pincode, " +
                 "actief=@actief, uitgeefdatum=@uitgeefdatum " +
@@ -524,7 +516,7 @@ namespace FleetManagement.ADO.Repositories {
             {
                 try
                 {
-                    Connection.Open();
+                    if (sqlConnection is null) Connection.Close(); if (transaction != null) command.Transaction = transaction;
 
                     command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
                     command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
@@ -557,6 +549,7 @@ namespace FleetManagement.ADO.Repositories {
                     command.CommandText = query;
                     command.ExecuteNonQuery();
 
+                    tankkaart.UpdateTankkaartNummer(AnderTankkaartNummer);
                     return tankkaart;
                 }
                 catch (Exception ex)
@@ -565,7 +558,7 @@ namespace FleetManagement.ADO.Repositories {
                 }
                 finally
                 {
-                    Connection.Close();
+                    if (Connection.State != ConnectionState.Open) Connection.Open();
                 }
             }
         }
