@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <Compile Update="App.xaml.cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
 
