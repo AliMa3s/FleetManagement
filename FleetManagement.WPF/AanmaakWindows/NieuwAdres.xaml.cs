@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace FleetManagement.WPF.NieuwWindows {
+namespace FleetManagement.WPF.AanmaakWindows {
     /// <summary>
     /// Interaction logic for UpdateAdres.xaml
     /// </summary>

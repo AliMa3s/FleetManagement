@@ -879,5 +879,61 @@ namespace FleetManagement.ADO.Repositories
                 }
             }
         }
+
+        public bool HeeftBestuurderAdres(Bestuurder bestuurder)
+        {
+            string query = "SELECT count(*) FROM Bestuurder b" +
+                "JOIN Adres a ON b.adresid = a.adresid" +
+                "WHERE bestuurderid=@bestuurderid";
+
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
+                    Connection.Open();
+                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
+
+                    command.Parameters["@bestuurderid"].Value = bestuurder.BestuurderId;
+
+                    command.CommandText = query;
+                    int n = (int)command.ExecuteScalar();
+                    if (n > 0) return true; else return false;
+                }
+                catch (Exception ex)
+                {
+                    throw new AdresRepositoryADOException("HeeftBestuurderAdres - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
+        }
+
+        public void VerwijderBestuurderAdres(Bestuurder bestuurder)
+        {
+            string query = "DELETE FROM adres " +
+                "WHERE adresid=@adresid";
+
+            using (SqlCommand command = Connection.CreateCommand())
+            {
+                try
+                {
+                    Connection.Open();
+                    command.Parameters.Add(new SqlParameter("@adresid", SqlDbType.Int));
+                    command.Parameters["@adresid"].Value = bestuurder.Adres.AdresId;
+                    command.CommandText = query;
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new BestuurderRepositoryADOException("BestuurderAdresVerwijderen - gefaald", ex);
+                }
+                finally
+                {
+                    Connection.Close();
+                }
+            }
+        }
     }
 }

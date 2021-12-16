@@ -158,7 +158,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             bool? action = detailWindow.ShowDialog();
             if ((bool)action)
             {
-                //vrij iets in te doen
+                //vrij iets in te doen er werd een flexibelere manier geconfigureerd hieronder
             }
 
             if ((bool)detailWindow.Updatetet)
@@ -182,6 +182,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 {
                     BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(_filterOpNaam); 
                 }
+
+                Bestuurderweergave = detailWindow.Bestuurder;
             }
         }
     }

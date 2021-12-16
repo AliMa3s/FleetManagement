@@ -18,5 +18,7 @@ namespace FleetManagement.Interfaces {
         IReadOnlyList<Bestuurder> SelecteerBestuurdersZondertankkaart(string achterNaamEnVoornaam);
         IReadOnlyList<Bestuurder> FilterOpBestuurdersNaam(string achterNaamEnVoornaam);
         Bestuurder ZoekBestuurder(string rijksRegisterNummer);
+        bool HeeftBestuurderAdres(Bestuurder bestuurder);
+        void VerwijderBestuurderAdres(Bestuurder bestuurder);
     }
 }

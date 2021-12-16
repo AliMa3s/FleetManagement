@@ -195,5 +195,40 @@ namespace FleetManagement.Manager {
                 throw new BestuurderManagerException(ex.Message);
             }
         }
+
+        public bool HeeftBestuurderAdres(Bestuurder bestuurder)
+        {
+            try
+            {
+                if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
+
+                return _repo.HeeftBestuurderAdres(bestuurder);
+            }
+            catch (Exception ex)
+            {
+                throw new BestuurderManagerException(ex.Message);
+            }            
+        }
+
+        public void VerwijderBestuurderAdres(Bestuurder bestuurder)
+        {
+            try
+            {
+                if (bestuurder == null) throw new BestuurderManagerException("Bestuurder - Bestuurder mag niet null zijn");
+
+                if(HeeftBestuurderAdres(bestuurder))
+                {
+                    _repo.VerwijderBestuurderAdres(bestuurder);
+                }
+                else
+                {
+                    throw new BestuurderManagerException("BestuurderAdres - bestaat niet");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new BestuurderManagerException(ex.Message);
+            }
+        }
     }
 }

@@ -22,8 +22,8 @@ namespace ConsoleApplicatie
              * Of was handmatig eerst brandstoffen in koppeltabel en dan tankaart
              */
             Console.WriteLine("Test Tankkaart Repo: ");
-            string t1 = "99999999999999999999";
-            string t2 = "11111111111111111111";
+            string t1 = "99999999999999999978";
+            string t2 = "11111111111111111122";
             TankkaartRepoTest(t1, t2);
 
             Console.WriteLine("Test Voertuig Repo: ");
@@ -76,6 +76,7 @@ namespace ConsoleApplicatie
                 );
 
                 bestuurderUpdaten.Adres = new("Bloemenstraat", "16", "4445", "Vosselare");
+                bestuurderUpdaten.Adres.VoegIdToe(b.Adres.AdresId);
 
                 repo.UpdateBestuurder(bestuurderUpdaten);
 
@@ -97,6 +98,10 @@ namespace ConsoleApplicatie
 
                 //verwijder Bestuurder
                 repo.VerwijderBestuurder(b);
+
+                //Verwijder Adres
+                repo.VerwijderBestuurderAdres(b);
+                Console.WriteLine("Adres succesvol verwijderd");
 
                 //Zoek op verwijderd object in DB
                 bool metTweedeRijksnr = repo.BestaatRijksRegisterNummer("05051299971");
@@ -189,12 +194,16 @@ namespace ConsoleApplicatie
 
                         brandstofVanTankkaart.ForEach(brandstof => {
                             str.AppendLine(brandstof.BrandstofNaam);
+                            zoekInDB.VoegBrandstofToe(brandstof);
                         });
 
                         Console.WriteLine(str.ToString());
 
                         //Verwijder tankkaart is gevraagd om niet te kunnen verwijderen
                         Console.WriteLine("Tankkaart kan niet verwijderd worden want moet steeds in DB blijven staan");
+
+                        //verwijder brandstoffen
+                        repo.VerwijderBrandstoffen(zoekInDB);
                     }
                     else
                     {

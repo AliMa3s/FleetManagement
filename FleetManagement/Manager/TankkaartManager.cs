@@ -154,36 +154,6 @@ namespace FleetManagement.Manager {
             }
         }
 
-        public void VoegTankkaartBrandstofToe(TankKaart tankkaart, BrandstofType brandstof)
-        {
-            try
-            {
-                if (tankkaart == null) throw new TankKaartManagerException("TankKaart - Tankkaart mag niet null zijn");
-                if (brandstof == null) throw new TankKaartManagerException("TankKaart - Brandstof mag niet null zijn");
-
-                _repo.VoegTankkaartBrandstofToe(tankkaart, brandstof);
-            }
-            catch (Exception ex)
-            {
-                throw new TankKaartManagerException(ex.Message);
-            }
-        }
-
-        public bool BestaatTankkaartBrandstof(TankKaart tankkaart, BrandstofType brandstof)
-        {
-            try
-            {
-                if (tankkaart == null) throw new TankKaartManagerException("TankKaart - Tankkaart mag niet null zijn");
-                if (brandstof == null) throw new TankKaartManagerException("TankKaart - Brandstof mag niet null zijn");
-
-                return _repo.BestaatTankkaartBrandstof(tankkaart, brandstof);
-            }
-            catch (Exception ex)
-            {
-                throw new TankKaartManagerException(ex.Message);
-            }
-        }
-
         public TankKaart UpdateTankKaart(TankKaart tankkaart, string AnderTankkaartNummer)
         {
             try
