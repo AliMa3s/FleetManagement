@@ -230,6 +230,7 @@ namespace FleetManagement.WPF.UpdateWindows
                             UitgeefDatum = BestuurderDetail.Tankkaart.UitgeefDatum
                         };
 
+                        _gekozenTankkaart = bestaandeTankkaart;
                         updatetBestuurder.VoegTankKaartToe(bestaandeTankkaart);
                     }
                 }

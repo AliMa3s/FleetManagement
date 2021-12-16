@@ -89,7 +89,7 @@ namespace FleetManagement.WPF.SelecteerWindows
 
         private void SelecteerBestuurders(string selector)
         {
-            switch(selector)
+            switch (selector)
             {
                 case "voertuig":
                     if (TextBoxFilterOpNaam.Text != PlaceholderName)
@@ -103,6 +103,8 @@ namespace FleetManagement.WPF.SelecteerWindows
                     {
                         BestuurdersLijst.ItemsSource = _bestuurderManager.SelecteerBestuurdersZondertankkaart(TextBoxFilterOpNaam.Text);
                     }
+                    break;
+                default:
                     break;
             }
         }

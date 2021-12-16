@@ -3,82 +3,121 @@ using FleetManagement.Interfaces;
 using FleetManagement.Manager;
 using FleetManagement.Model;
 using System;
+using System.Text;
 
 namespace ConsoleApplicatie
 {
     class Program
     {
+        private static string _connectionstring = "Data Source=.\\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True; MultipleActiveResultSets=True";
+
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
 
-            //string connectionstring = @"Data Source=.\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True";
-            //BestuurderRepositoryADO bsd = new BestuurderRepositoryADO(connectionstring);
-            ////Bestuurder b = new Bestuurder(4, "Ahmeti", "Yilmaiz", "1976-03-10", "B", "1514081390", "76031010956");//teammeeting bespreken
-            ////bsd.VoegBestuurderToe(b);
-            //Console.WriteLine("Bestuurder toegevoegd!");//done 
-            //Bestuurder bu = new Bestuurder(3, "Filip", "Updated", "1976-03-31", "B", "76033101986");
-            ////bsd.UpdateBestuurder(bu);
-            //Console.WriteLine("Bestuurder Geüpdatet!");//done 
-            ////bsd.VerwijderBestuurder(b); //done
-            //if (bsd.BestaatBestuurder(3)){
-            //    Console.WriteLine("Bestuurder bestaat!");
-            //} else {
-            //    Console.WriteLine("Bestuurder bestaat niet!");
-            //}//checked
+            BestuurderRepoTest();
+        }
 
-            // AdresRepositoryADO ado = new AdresRepositoryADO(connectionstring);
-            //Adres ad = new Adres("stratenstraat", "2", "5000", "Hasselt");
-            ////ado.VoegAdresToe(ad);
-            //Console.WriteLine("Adres toegvoegd!");//done
-            //Adres upAd = new Adres("stationstraat", "5", "3500", "Hasselt");
-            //upAd.VoegIdToe(1);
-            ////ado.UpdateAdres(upAd);
-            //Console.WriteLine("Adres Geüpdatet!");//done
-            ////ado.VerwijderAdres(upAd);
-            //Console.WriteLine("Adres Geüpdatet!");//done
-            //if (ado.BestaatAdres(upAd)) {
-            //    Console.WriteLine("Adres bestaat!");
-            //} else {
-            //    Console.WriteLine("Adres bestaat niet!");
-            //}//checked
+        public static void BestuurderRepoTest()
+        {
+            //Maak repo bestuurder
+            BestuurderRepositoryADO repo = new(_connectionstring);
 
-            ////Het probleem is hier, je checkt chassis & nummerplaat niet meer in de ctor door te de class te hebben aangepast
-            ////VoertuigRepositoryADO vrt = new VoertuigRepositoryADO(connectionstring);
-            ////AutoType autotype = new AutoType("Sedan");
-            ////bool ishybride = true;
-            ////BrandstofType brandstof = new BrandstofType(1,"Benzin");
-            ////AutoModel automodel = new AutoModel(1,"BMW", "X1", autotype);
-            ////Voertuig v1 = new Voertuig(automodel, "WAUZZZ8V5KA106598","1ALI007" ,AantalDeuren.Drie, brandstof);
-            ////vrt.VoegVoertuigToe(v1);
-            ////Console.WriteLine("Voertuig toegevoegd!");
+            /* 
+             * Maak een Bestuurder aan zonder ID want dit wordt automatisch toegekend in DB
+             */
+            string rijksregisterNr = "42012363747";
+            Bestuurder nieuwBestuurder = new("Eddy", "Wally", "1942-01-23", "B, C", rijksregisterNr);  
+            Adres bestuurderAdres = new("Markt Kramerlaan","200","5032","Voicelare");
 
-            ////Kijk eens hoe het moet Ali
+            //Geef bestuurder een adres: transactie doet de post indien adres aanwezig is
+            nieuwBestuurder.Adres = bestuurderAdres;
 
-            //VoertuigRepositoryADO vrt = new VoertuigRepositoryADO(connectionstring);
+            //Na de post ontvang je bestuurder terug met het ID nummer bij
+            Bestuurder bestuurderDB = repo.VoegBestuurderToe(nieuwBestuurder);
 
-            //AutoType autotype = new AutoType("Sedan");
-            //AutoModel automodel = new AutoModel("BMW", "X1", autotype);
+            Console.WriteLine("Bestuurder toegevoegd en kreeg ID nummer: " + bestuurderDB.BestuurderId);
 
-            ////Dit ali is brandstof voor Voertuig. Er zijn één of twee brandstoffen mogelijk maar ook niet meer. Daarom deze oplossing
-            //bool ishybride = true;
-            //BrandstofVoertuig brandstof = new("Benzine", ishybride);
+            //Haal het object op via rijksregister om te controleren dat Bestuurder is gepost in DB
+            Bestuurder b = repo.ZoekBestuurder(rijksregisterNr);
 
-            ////Ali: op het einde onze brandstof class
-            //string chassisnummer = "WAUZZZ8V5KA106598";
-            //Voertuig v1 = new Voertuig(automodel, "WAUZZZ8V5KA106598", "1ALI007", brandstof);
+            if(b != null)
+            {
+                //Geef alle velden weer die in database staan
 
-            ////Altijd checken dat Voertuig bestaat, hetzelfde chassisnummer & nummerplaat gooit een exception in DB
-            ////Deze manager doet nog niet wat hij zou moeten doen: dat is toDo
-            //bool isVoertuigOK = vrt.BestaatVoertuig(v1);
+                StringBuilder str = new();
+                str.AppendLine(b.Voornaam + " " + b.Achternaam);
+                str.AppendLine(b.GeboorteDatum);
+                str.AppendLine(b.TypeRijbewijs);
+                str.AppendLine(b.RijksRegisterNummer);
+                str.AppendLine(b.Adres.Straat + " " + b.Adres.Nr + " - " + b.Adres.Postcode + " " + b.Adres.Gemeente);
 
-            //if (isVoertuigOK)
-            //    vrt.VoegVoertuigToe(v1);
+                Console.WriteLine(str.ToString());
 
-            ////Helaas test je iets wat nog niet naar behoren werkt in Manager & DB
-            ////
-            ////Voertuig haalVoertuig = vrt.GetVoertuig(chassisnummer);
-            ////verwijderVoertuig = vrt.VerwijderVoertuig(haalVoertuig);  //nu ben je zeker dat je de juiste verwijdert
+                //Update het Bestuurder en maak een nieuw object aan zoals deze binnenkomt via API/WPF
+                //Belangrijk is de ID nummer mee te geven anders wordt deze niet herkent
+
+                Bestuurder bestuurderUpdaten = new(
+                    b.BestuurderId,
+                    "Joske",
+                    "Vermeulen",
+                    "2005/05/12",
+                    "D",
+                    "05051299971"
+                );
+
+                bestuurderUpdaten.Adres = new("Bloemenstraat", "16", "4445", "Vosselare");
+
+                repo.UpdateBestuurder(bestuurderUpdaten);
+
+                Console.WriteLine("Bestuurder succesvol geüpdatet ");
+
+                //Haal nieuwe gegevens op in database
+                b = repo.ZoekBestuurder("05051299971");
+
+                //Geef alle velden weer van de update
+
+                str = new();
+                str.AppendLine(b.Voornaam + " " + b.Achternaam);
+                str.AppendLine(b.GeboorteDatum);
+                str.AppendLine(b.TypeRijbewijs);
+                str.AppendLine(b.RijksRegisterNummer);
+                str.AppendLine(b.Adres.Straat + " " + b.Adres.Nr + " - " + b.Adres.Postcode + " " + b.Adres.Gemeente);
+
+                Console.WriteLine(str.ToString());
+
+                //verwijder Bestuurder
+                repo.VerwijderBestuurder(b);
+
+                //Zoek op de twee gebruikte rijksregisternummers, die moeten verwijderd zijn
+                Bestuurder metEersteRijksnr = repo.ZoekBestuurder(rijksregisterNr);
+
+                if(metEersteRijksnr == null)
+                {
+                    Console.WriteLine("Bestuurder succesvol overschreven");
+                }
+                else
+                {
+                    Console.WriteLine($"Oeps... rijksregisternummer {rijksregisterNr} is niet verwijderd");
+                }
+
+                Bestuurder metTweedeRijksnr = repo.ZoekBestuurder("05051299971");
+
+                if (metTweedeRijksnr == null)
+                {
+                    Console.WriteLine("Bestuurder succesvol verwijderd");
+                }
+                else
+                {
+                    Console.WriteLine($"Oeps... rijksregisternummer 05051299971 is niet verwijderd");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Bestuurder op rijksregisternummer werd niet gevonden");
+            }
+
+            repo = null;
         }
     }
 }
