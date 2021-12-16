@@ -398,7 +398,7 @@ namespace FleetManagement.ADO.Repositories {
 
             string query = "UPDATE Voertuig " +
                            "SET automodelid=@automodelid, brandstoftypeid=@brandstoftypeid, hybride=@hybride, kleurnaam=kleurnaam, " +
-                           "aantal_deuren=@aantal_deuren, inboekdatum=@inboekdatum " +
+                           "aantal_deuren=@aantaldeuren, inboekdatum=@inboekdatum " +
                            "WHERE voertuigid=@voertuigid";
 
             using (SqlCommand command = Connection.CreateCommand()) {
@@ -460,7 +460,7 @@ namespace FleetManagement.ADO.Repositories {
         {
             string query = "UPDATE Voertuig " +
                            "SET automodelid=@automodelid, brandstoftypeid=@brandstoftypeid, hybride=@hybride, kleurnaam=kleurnaam, " +
-                           "chassisnummer=@chassisnummer, nummerplaat=@nummerplaat, aantal_deuren=@aantal_deuren, inboekdatum=@inboekdatum " +
+                           "chassisnummer=@chassisnummer, nummerplaat=@nummerplaat, aantal_deuren=@aantaldeuren, inboekdatum=@inboekdatum " +
                            "WHERE voertuigid=@voertuigid";
 
             using (SqlCommand command = Connection.CreateCommand())
@@ -506,7 +506,7 @@ namespace FleetManagement.ADO.Repositories {
                         command.Parameters["@inboekdatum"].Value = DBNull.Value;
                     }
 
-                    command.Parameters["@automodelid"].Value = voertuig.VoertuigId;
+                    command.Parameters["@voertuigid"].Value = voertuig.VoertuigId;
                     command.Parameters["@automodelid"].Value = voertuig.AutoModel.AutoModelId;
                     command.Parameters["@brandstoftypeid"].Value = voertuig.Brandstof.BrandstofTypeId;
                     command.Parameters["@hybride"].Value = voertuig.Brandstof.Hybride;

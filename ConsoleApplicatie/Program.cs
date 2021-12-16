@@ -3,6 +3,7 @@ using FleetManagement.Interfaces;
 using FleetManagement.Manager;
 using FleetManagement.Model;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ConsoleApplicatie
@@ -13,9 +14,14 @@ namespace ConsoleApplicatie
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
+            Console.WriteLine("Test Bestuurder Repo: ");
             BestuurderRepoTest();
+
+            Console.WriteLine("Test Tankkaart Repo: ");
+            TankkaartRepoTest();
+
+            Console.WriteLine("Test Voertuig Repo: ");
+            VoertuigRepoTest();
         }
 
         public static void BestuurderRepoTest()
@@ -34,12 +40,9 @@ namespace ConsoleApplicatie
             nieuwBestuurder.Adres = bestuurderAdres;
 
             //Na de post ontvang je bestuurder terug met het ID nummer bij
-            Bestuurder bestuurderDB = repo.VoegBestuurderToe(nieuwBestuurder);
+            Bestuurder b = repo.VoegBestuurderToe(nieuwBestuurder);
 
-            Console.WriteLine("Bestuurder toegevoegd en kreeg ID nummer: " + bestuurderDB.BestuurderId);
-
-            //Haal het object op via rijksregister om te controleren dat Bestuurder is gepost in DB
-            Bestuurder b = repo.ZoekBestuurder(rijksregisterNr);
+            Console.WriteLine("Bestuurder toegevoegd en kreeg ID nummer: " + b.BestuurderId);
 
             if(b != null)
             {
@@ -54,7 +57,7 @@ namespace ConsoleApplicatie
 
                 Console.WriteLine(str.ToString());
 
-                //Update het Bestuurder en maak een nieuw object aan zoals deze binnenkomt via API/WPF
+                //Update Bestuurder en maak een nieuw object aan zoals deze binnenkomt via API/WPF
                 //Belangrijk is de ID nummer mee te geven anders wordt deze niet herkent
 
                 Bestuurder bestuurderUpdaten = new(
@@ -89,21 +92,10 @@ namespace ConsoleApplicatie
                 //verwijder Bestuurder
                 repo.VerwijderBestuurder(b);
 
-                //Zoek op de twee gebruikte rijksregisternummers, die moeten verwijderd zijn
-                Bestuurder metEersteRijksnr = repo.ZoekBestuurder(rijksregisterNr);
+                //Zoek op verwijderd object in DB
+                bool metTweedeRijksnr = repo.BestaatRijksRegisterNummer("05051299971");
 
-                if(metEersteRijksnr == null)
-                {
-                    Console.WriteLine("Bestuurder succesvol overschreven");
-                }
-                else
-                {
-                    Console.WriteLine($"Oeps... rijksregisternummer {rijksregisterNr} is niet verwijderd");
-                }
-
-                Bestuurder metTweedeRijksnr = repo.ZoekBestuurder("05051299971");
-
-                if (metTweedeRijksnr == null)
+                if (!metTweedeRijksnr)
                 {
                     Console.WriteLine("Bestuurder succesvol verwijderd");
                 }
@@ -117,7 +109,99 @@ namespace ConsoleApplicatie
                 Console.WriteLine("Bestuurder op rijksregisternummer werd niet gevonden");
             }
 
+            Console.WriteLine("");
             repo = null;
+        }
+
+        public static void TankkaartRepoTest()
+        {
+            //Maak repo bestuurder
+            TankkaartRepositoryADO repo = new(_connectionstring);
+
+
+        }
+
+        public static void VoertuigRepoTest()
+        {
+            //Maak repo bestuurder
+            VoertuigRepositoryADO voertuigRepo = new(_connectionstring);
+            AutoModelRepositoryADO autoModelrepo = new(_connectionstring);
+            BrandstofRepositoryADO brandstofRepo = new(_connectionstring);
+
+            List<AutoModel> models = (List<AutoModel>)autoModelrepo.FilterOpAutoModelNaam("");
+            List<BrandstofType> brandstoffen = (List<BrandstofType>)brandstofRepo.GeeAlleBrandstoffen();
+
+            if(models.Count > 1 && brandstoffen.Count > 1)
+            {
+                BrandstofVoertuig brandstof = new(
+                    brandstoffen[0].BrandstofTypeId,
+                    brandstoffen[0].BrandstofNaam,
+                    false
+                );
+
+                //Maak aan en voeg toe
+                Voertuig nieuwVoertuig = new(models[0], "AAAAAAAAAA1AA1111", "1AAA111", brandstof);
+                Voertuig voertuigDB = voertuigRepo.VoegVoertuigToe(nieuwVoertuig);
+
+                Console.WriteLine("Voertuig succesvol toegevoegd en kreeg ID " + voertuigDB.VoertuigId);
+
+                //Haal het voertuig op in db via chassisnummer
+                Voertuig v = voertuigRepo.ZoekOpNummerplaatOfChassisNummer("AAAAAAAAAA1AA1111");
+
+                StringBuilder str = new();
+                str.AppendLine(v.VoertuigNaam);
+                str.AppendLine(v.NummerPlaat);
+                str.AppendLine(v.ChassisNummer);
+                str.AppendLine(v.Brandstof.BrandstofNaam);
+                str.AppendLine(v.Brandstof.Hybride.ToString());
+                Console.WriteLine(str.ToString());
+
+                //Update Voertuig: maak een nieuw instantie en injecteer ID nummer erin
+                BrandstofVoertuig brandstof2 = new(
+                    brandstoffen[1].BrandstofTypeId,
+                    brandstoffen[1].BrandstofNaam, 
+                    true
+                );
+
+                //Maak aan en voeg toe
+                Voertuig UpdateVoertuig = new(v.VoertuigId, models[1], "ZZZZZZZZZZ9ZZ9999", "2ZZZ999", brandstof2);
+                voertuigRepo.UpdateVoertuig(UpdateVoertuig, "ZZZZZZZZZZ9ZZ9999", "2ZZZ999");
+
+                Console.WriteLine("Voertuig succesvol geüpdatet ");
+
+                //Zoek updated ID opnieuw met de nieuwe nummerplaat
+                v = voertuigRepo.ZoekOpNummerplaatOfChassisNummer("2ZZZ999");
+
+                str = new();
+                str.AppendLine(v.VoertuigNaam);
+                str.AppendLine(v.NummerPlaat);
+                str.AppendLine(v.ChassisNummer);
+                str.AppendLine(v.Brandstof.BrandstofNaam);
+
+                str.AppendLine(v.Brandstof.Hybride.ToString());
+                Console.WriteLine(str.ToString());
+
+                //Verwijder het Voertuig en controleer nog eens de velden om te zien of ze weg geschreven zijn 
+                voertuigRepo.VerwijderVoertuig(v);
+
+                if (!voertuigRepo.BestaatChassisnummer("ZZZZZZZZZZ9ZZ9999") || !voertuigRepo.BestaatNummerplaat("2ZZZ999"))
+                {
+                    Console.WriteLine("Voertuig succesvol verwijderd");
+                }
+                else
+                {
+                    Console.WriteLine("Oep... voertuig mey chassisnummer ZZZZZZZZZZ9ZZ9999 en/of numerplaat 2ZZZ999 niet verwijderd");
+                }               
+            }
+            else
+            {
+                Console.WriteLine("Zorg er eerst voor dat je minstens 2 resutaten hebt om automodel & brandstof te selecteren");
+            }
+
+            Console.WriteLine("");
+            voertuigRepo = null;
+            autoModelrepo = null;
+            brandstofRepo = null;
         }
     }
 }

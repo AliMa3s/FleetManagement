@@ -53,7 +53,7 @@ namespace FleetManagement.Manager {
         public void UpdateVoertuig(Voertuig voertuig) {
             try {
                 if (voertuig == null) throw new VoertuigManagerException("Voertuig - Voertuig mag niet null zijn");
-
+                if (voertuig.VoertuigId < 1) throw new VoertuigManagerException("Voertuig - Kan voertuig met ID 0 niet updaten");
                 if (voertuig.Brandstof.BrandstofTypeId < 1) throw new VoertuigManagerException("Voertuig - brandstof is niet geslecteerd uit een lijst");
 
                 if (voertuig.AutoModel.AutoModelId > 0)
@@ -80,7 +80,9 @@ namespace FleetManagement.Manager {
             try
             {
                 if(voertuig == null) throw new VoertuigManagerException("Voertuig - Voertuig mag niet null zijn");
-                if(!CheckFormat.IsChassisNummerGeldig(anderChassisNummer)) { }
+                if(voertuig.VoertuigId > 0) throw new VoertuigManagerException("Voertuig - Kan voertuig met ID 0 niet updaten");
+
+                if (!CheckFormat.IsChassisNummerGeldig(anderChassisNummer)) { }
                 if(!CheckFormat.IsNummerplaatGeldig(anderNummerplaat)) { }
 
                 if (voertuig.Brandstof.BrandstofTypeId < 1) 
