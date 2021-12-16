@@ -882,8 +882,8 @@ namespace FleetManagement.ADO.Repositories
 
         public bool HeeftBestuurderAdres(Bestuurder bestuurder)
         {
-            string query = "SELECT count(*) FROM Bestuurder b" +
-                "JOIN Adres a ON b.adresid = a.adresid" +
+            string query = "SELECT count(*) FROM Bestuurder b " +
+                "JOIN Adres a ON b.adresid = a.adresid " +
                 "WHERE bestuurderid=@bestuurderid";
 
             using (SqlCommand command = Connection.CreateCommand())
@@ -927,7 +927,7 @@ namespace FleetManagement.ADO.Repositories
                 }
                 catch (Exception ex)
                 {
-                    throw new BestuurderRepositoryADOException("BestuurderAdresVerwijderen - gefaald", ex);
+                    throw new AdresRepositoryADOException("BestuurderAdresVerwijderen - gefaald", ex);
                 }
                 finally
                 {

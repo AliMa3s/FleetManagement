@@ -22,8 +22,8 @@ namespace ConsoleApplicatie
              * Of was handmatig eerst brandstoffen in koppeltabel en dan tankaart
              */
             Console.WriteLine("Test Tankkaart Repo: ");
-            string t1 = "99999999999999999978";
-            string t2 = "11111111111111111122";
+            string t1 = "99999999999999999968";
+            string t2 = "11111111111111111176";
             TankkaartRepoTest(t1, t2);
 
             Console.WriteLine("Test Voertuig Repo: ");

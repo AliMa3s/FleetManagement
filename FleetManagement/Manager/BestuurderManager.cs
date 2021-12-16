@@ -78,7 +78,23 @@ namespace FleetManagement.Manager {
                 }
 
                 if (BestaatBestuurder(bestuurder.BestuurderId)) {
+
+                    bool verwijderAdres = false;
+                    if(bestuurder.Adres != null && bestuurder.Adres.AdresId > 0)
+                    {
+                        if (HeeftBestuurderAdres(bestuurder))
+                        {
+                            verwijderAdres = true;
+                        }
+                    }
+
                     _repo.VerwijderBestuurder(bestuurder);
+
+                    if(verwijderAdres)
+                    {
+                        _repo.VerwijderBestuurderAdres(bestuurder);
+                    }
+
                 } else {
                     throw new BestuurderManagerException("Bestuurder - Bestuurder bestaat niet!");
                 }
