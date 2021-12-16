@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 namespace FleetManagement.Manager {
     public class TankkaartManager : ITankkaartRepository
     {
-        #warning nog geen enkele manager heeft een unit test.
         private readonly ITankkaartRepository _repo;
         public TankkaartManager(ITankkaartRepository repo) {
             this._repo = repo;

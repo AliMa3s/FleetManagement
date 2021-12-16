@@ -20,7 +20,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void Id_Nummer_Correct()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
+            Bestuurder bestuurder = new(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
             Assert.Equal(1, bestuurder.BestuurderId);
         }
         [Theory]
@@ -135,9 +135,16 @@ namespace FleetManagement.Test.ModelTest {
 
             bestuurder.VoegIdToe(1);
 
-            bestuurder.VoegVoertuigToe(_voertuigRepo.GeefVoertuig("ABCDEFGHJKLMN1234"));
+            var voertuig = _voertuigRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
+
+            bestuurder.VoegVoertuigToe(voertuig);
 
             Assert.True(bestuurder.HeeftBestuurderVoertuig);
+            Assert.True(bestuurder.Voertuig.HeeftVoertuigBestuurder); //apart
+            Assert.True(voertuig.HeeftVoertuigBestuurder);  //apart
+
+            bestuurder.VerwijderVoertuig(bestuurder.Voertuig);  //apart
+            Assert.False(voertuig.HeeftVoertuigBestuurder); //apart
         }
 
         [Fact]
