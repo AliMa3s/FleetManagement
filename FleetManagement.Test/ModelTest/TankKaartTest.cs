@@ -469,7 +469,7 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void VerwijderTankKaart_null_InValid()
+        public void VerwijderBestuurder_Null_InValid()
         {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             bool actief = true;
@@ -479,6 +479,20 @@ namespace FleetManagement.Test.ModelTest {
             
             Assert.Equal($"{nameof(Bestuurder)} mag niet null zijn", ex.Message);
         }
-       
+
+        [Fact]
+        public void VerwijderBestuurder_GeenObject_InValid()
+        {
+            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
+            bool actief = true;
+            TankKaart tankKaart = new TankKaart("1234567890123456789", actief, GeldigheidsDatum);
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
+
+            //verwijder bestuurder zonder één te hebben toegevoegd
+            var ex = Assert.Throws<TankKaartException>(() => tankKaart.VerwijderBestuurder(bestuurder));
+
+            Assert.Equal($"Er is geen {nameof(Bestuurder)} om te verwijderen", ex.Message);
+        }
+
     }
 }

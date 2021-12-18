@@ -24,8 +24,6 @@ namespace FleetManagement.Model
         public bool HeeftVoertuigBestuurder => Bestuurder != null;
         public string VoertuigNaam => AutoModel.Merk + " " + AutoModel.AutoModelNaam + "";
 
-#warning VoertuigNaam property voor WPF binding ingevoegd: nog niet getest
-
         public Voertuig(AutoModel autoModel, string chassisnummer, string nummerplaat, BrandstofVoertuig brandstof)
         {
             AutoModel = autoModel ?? throw new VoertuigException($"{nameof(AutoModel)} mag niet leeg zijn");
@@ -125,14 +123,21 @@ namespace FleetManagement.Model
                 throw new VoertuigException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if (Bestuurder.Equals(ingegevenBestuurder))
+            if(Bestuurder != null)
             {
-                Bestuurder.VerwijderVoertuig(VoertuigId, this);
-                Bestuurder = null;
+                if (Bestuurder.Equals(ingegevenBestuurder))
+                {
+                    Bestuurder.VerwijderVoertuig(VoertuigId, this);
+                    Bestuurder = null;
+                }
+                else
+                {
+                    throw new VoertuigException($"{nameof(Bestuurder)} kan niet worden verwijderd");
+                }
             }
             else
             {
-                throw new VoertuigException($"{nameof(Bestuurder)} kan niet worden verwijderd");
+                throw new VoertuigException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
         }
 
@@ -144,13 +149,20 @@ namespace FleetManagement.Model
                 throw new VoertuigException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if (Bestuurder.Equals(ingegevenBestuurder) && bestuurderId >= 0)
+            if(Bestuurder != null)
             {
-                Bestuurder = null;
+                if (Bestuurder.Equals(ingegevenBestuurder) && bestuurderId >= 0)
+                {
+                    Bestuurder = null;
+                }
+                else
+                {
+                    throw new VoertuigException($"{nameof(Bestuurder)} kan niet worden verwijderd");
+                }
             }
             else
             {
-                throw new VoertuigException($"{nameof(Bestuurder)} kan niet worden verwijderd");
+                throw new VoertuigException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
         }
 

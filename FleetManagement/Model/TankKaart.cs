@@ -215,19 +215,21 @@ namespace FleetManagement.Model {
                 throw new TankKaartException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
-            if (ingegevenBestuurder.BestuurderId < 1)
+            if(Bestuurder != null)
             {
-                throw new TankKaartException($"De {nameof(Bestuurder)} is niet geslecteerd uit lijst bestuurders");
-            }
-
-            if (Bestuurder.Equals(ingegevenBestuurder))
-            {
-                Bestuurder.VerwijderTankKaart(TankKaartNummer, this);
-                Bestuurder = null;
+                if (Bestuurder.Equals(ingegevenBestuurder))
+                {
+                    Bestuurder.VerwijderTankKaart(TankKaartNummer, this);
+                    Bestuurder = null;
+                }
+                else
+                {
+                    throw new TankKaartException($"{nameof(Bestuurder)} kan niet worden verwijderd");
+                }
             }
             else
             {
-                throw new TankKaartException($"{nameof(Bestuurder)} kan niet worden verwijderd");
+                throw new TankKaartException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
         }
 
@@ -241,13 +243,20 @@ namespace FleetManagement.Model {
                 throw new TankKaartException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
 
-            if (Bestuurder.Equals(ingegevenBestuurder) && bestuurderId > 0)
+            if (Bestuurder != null)
             {
-                Bestuurder = null;
+                if (Bestuurder.Equals(ingegevenBestuurder) && bestuurderId > 0)
+                {
+                    Bestuurder = null;
+                }
+                else
+                {
+                    throw new TankKaartException($"{nameof(Bestuurder)} kan niet verwijderd worden");
+                }
             }
             else
             {
-                throw new TankKaartException($"{nameof(Bestuurder)} kan niet verwijderd worden");
+                throw new TankKaartException($"Er is geen {nameof(Bestuurder)} om te verwijderen");
             }
         }
 

@@ -257,6 +257,17 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal("Voertuig mag niet null zijn", ex.Message);
         }
 
+        [Fact]
+        public void VerwijderVoertuig_ZonderObject_InValid()
+        {
+            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Voertuig voertuig = _voertuigNepRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
+
+            //Verwijder voertuig zonder eerst een voortuig te hebben gegeven
+            var ex = Assert.Throws<BestuurderException>(() => bestuurder.VerwijderVoertuig(voertuig));
+            Assert.Equal("Er is geen Voertuig om te verwijderen", ex.Message);
+        }
+
         /* 
          * relaties testen Bestuurder krijgt Tankkaart
          */
@@ -350,6 +361,17 @@ namespace FleetManagement.Test.ModelTest {
 
             var ex = Assert.Throws<BestuurderException>(() => bestuurder.VerwijderTankKaart(null));
             Assert.Equal("Tankkaart mag niet null zijn", ex.Message);
+        }
+
+        [Fact]
+        public void VerwijderTankKaart_ZonderObject_InValid()
+        {
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            TankKaart tankkaart = _tankKaartNepRepo.GeefTankKaart("1234567890123456789");
+
+            //verwijder tankkaart zonder eerst een tankkaart te hebben gegeven
+            var ex = Assert.Throws<BestuurderException>(() => bestuurder.VerwijderTankKaart(tankkaart));
+            Assert.Equal("Er is geen Tankkaart om te verwijderen", ex.Message);
         }
     }
 }

@@ -19,11 +19,12 @@ namespace FleetManagement.Test.ModelTest {
             bool ishybride = true;
             BrandstofVoertuig brandstof = new("Diesel", ishybride);
             
-            AutoModel autoModel = new("mercedes", "c-klasse", new AutoType("GT"));
+            AutoModel autoModel = new("Mercedes", "C-klasse", new AutoType("GT"));
 
             Voertuig voertuig = new(autoModel, "WAUZZZ8V5KA106598", "1AYB020", brandstof);
             Assert.True(voertuig.Brandstof.Hybride);
             Assert.Equal("Diesel", voertuig.Brandstof.BrandstofNaam);
+            Assert.Equal("Mercedes C-klasse", voertuig.VoertuigNaam);
         }
         [Fact]
         public void Voertuig_NoId_Valid()
@@ -305,9 +306,25 @@ namespace FleetManagement.Test.ModelTest {
 
             var ex = Assert.Throws<VoertuigException>(() =>
             {
-                voertuig.VoegBestuurderToe(null);
+                voertuig.VerwijderBestuurder(null);
             });
             Assert.Equal($"Bestuurder mag niet null zijn", ex.Message);
+        }
+
+        [Fact]
+        public void VerwijderBestuurder_ZonderObject_Invalid()
+        {
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+            BrandstofVoertuig bezine = new("diesel", false);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+
+            //verwijder bestuurder zonder een bestuurder eerst toe te voegen
+            var ex = Assert.Throws<VoertuigException>(() =>
+            {
+                voertuig.VerwijderBestuurder(bestuurder);
+            });
+            Assert.Equal($"Er is geen Bestuurder om te verwijderen", ex.Message);
         }
     }
 }
