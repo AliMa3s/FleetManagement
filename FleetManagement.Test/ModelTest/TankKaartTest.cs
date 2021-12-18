@@ -16,17 +16,6 @@ namespace FleetManagement.Test.ModelTest {
         //Selecteer een Bestuurder en Voertuig uit de repo:
         private readonly BestuurderNepRepo _bestuurderRepo = new();
         private readonly VoertuigNepRepo _voertuigRepo = new();
-        
-        
-        
-        [Fact]
-        public void BestaatTankkaart_valid()
-        {
-            DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
-            TankKaart tankKaart = new("1234567890123456789", geldigheidsDatum);
-            
-        }
-        
 
         [Fact]
         public void Verplichte_Velden_Valid()
@@ -97,7 +86,7 @@ namespace FleetManagement.Test.ModelTest {
                new TankKaart("", false, geldigheidsDatum, "52374"); 
             });
 
-            Assert.Equal($"TankKaartNummer Kan niet null of leeg zijn", e.Message);
+            Assert.Equal($"Tankkaartnummer is niet het juiste format", e.Message);
         }
 
         [Fact]
@@ -108,7 +97,7 @@ namespace FleetManagement.Test.ModelTest {
                 new TankKaart(null, false, geldigheidsDatum, "52374");
             });
 
-            Assert.Equal($"TankKaartNummer Kan niet null of leeg zijn", e.Message);
+            Assert.Equal($"Tankkaartnummer mag niet null zijn", e.Message);
         }
 
         [Fact]
@@ -392,17 +381,13 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal(GeldigheidsDatum, tankKaart.GeldigheidsDatum);
         }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData(" ")]
-        [InlineData("\n")]
-        [InlineData("")]
-        public void VoegTankKaart_KaartNummer_Invalid(string kaartNummer)
+        [Fact]
+        public void VoegTankKaart_KaartNummer_Invalid()
         {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             bool actief = true;
-            var ex = Assert.Throws<TankKaartException>(() => new TankKaart(kaartNummer, actief, GeldigheidsDatum));
-            Assert.Equal($"TankKaartNummer Kan niet null of leeg zijn", ex.Message);
+            var ex = Assert.Throws<TankKaartException>(() => new TankKaart(null, actief, GeldigheidsDatum));
+            Assert.Equal($"Tankkaartnummer mag niet null zijn", ex.Message);
         }
         [Fact]
         public void VerwijderTankKaart_Van_Bestuurder_Valid()

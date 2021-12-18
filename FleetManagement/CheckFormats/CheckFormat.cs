@@ -73,7 +73,7 @@ namespace FleetManagement.CheckFormats
 
         public static bool IsTankKaartNummerGeldig(string tankKaartNummer)
         {
-            if (tankKaartNummer == null) throw new TankKaartException("tankkaartnummer mag niet null zijn");
+            if (tankKaartNummer == null) throw new TankKaartException("Tankkaartnummer mag niet null zijn");
 
             return Regex.IsMatch(tankKaartNummer, @"^[0-9]{16,20}$")
                 ? true : throw new TankKaartException($"Tankkaartnummer is niet het juiste format");

@@ -23,11 +23,8 @@ namespace FleetManagement.Model {
         //Ctor 
         public TankKaart(string kaartnummer, bool actief, DateTime geldigheidsDatum, string pincode = null)
         {
-            if(string.IsNullOrEmpty(kaartnummer) || string.IsNullOrWhiteSpace(kaartnummer))
-            {
-                throw new TankKaartException($"{nameof(TankKaartNummer)} Kan niet null of leeg zijn");
-            }
-
+            //if(kaartnummer == null) throw new TankKaartException("TankKaartNummer kan niet leeg zijn");
+            
             //Static class die tankkaartnummer controleert
             if (CheckFormat.IsTankKaartNummerGeldig(kaartnummer))
             {
@@ -54,7 +51,7 @@ namespace FleetManagement.Model {
             }
         }
 
-        //Tweede ctor kan gebruikt worden om een kaart aan te maken. Geldigeid bij default op true
+        //Ctor
         public TankKaart(string kaartnummer, DateTime geldigheidsdatum, string pincode = null)
             : this(kaartnummer, true, geldigheidsdatum, pincode) { }
 
