@@ -21,8 +21,8 @@ namespace FleetManagement.Test.Respositories
             DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
 
             VoegTankKaartToe(new("1234567890123456789", true, geldigheidsDatum)); //1234567890123456789
-            //VoegTankKaartToe( new("1234567890123456789", geldigheidsDatum) );
-            //VoegTankKaartToe( new("1234567890123456789", geldigheidsDatum) );
+            VoegTankKaartToe( new("56231545856320589751", geldigheidsDatum) ); //56231545856320589751
+            VoegTankKaartToe( new("3695215463025897526", false, geldigheidsDatum) );  //3695215463025897526
         }
 
         //ABCDEFGHJKLMN1234

@@ -23,8 +23,8 @@ namespace FleetManagement.WPF.UpdateWindows
     {
         private readonly Managers _managers;
         private List<string> _keuzeBrandstoffen;
-        private Bestuurder GekozenBestuurder { get; set; }
 
+        private Bestuurder GekozenBestuurder { get; set; }
 
         public string DisplayFirst { get; set; } = "Selecteer";
 
@@ -45,23 +45,26 @@ namespace FleetManagement.WPF.UpdateWindows
             _managers = managers;
             _tankaart = tankkaart;
 
-            FormTankkaart.Content = "Tankkaart Updaten";
-
-
             BrandstofNamenComboBox.Items.Add(DisplayFirst);
+
             _managers.Brandstoffen.ToList().ForEach(brandstof => {
 
-                
-                if(tankkaart.Brandstoffen.Count > 0)
+                if (!_tankaart.IsBrandstofAanwezig(brandstof))
                 {
-                    if (!tankkaart.IsBrandstofAanwezig(brandstof))
-                    {
-                        BrandstofNamenComboBox.Items.Add(brandstof.BrandstofNaam);
-                    }
+                    BrandstofNamenComboBox.Items.Add(brandstof.BrandstofNaam);
                 }
             });
 
-            //PincodeUpdate.Text = _tankaart.Pincode;
+            if (TankkaartDetail.HeeftTankKaartBestuurder)
+            {
+                StringBuilder stringBuilder = new("Naam: " + TankkaartDetail.Bestuurder.Achternaam);
+                stringBuilder.Append(" " + TankkaartDetail.Bestuurder.Voornaam);
+                stringBuilder.AppendLine(Environment.NewLine + "Rijksregister: " + TankkaartDetail.Bestuurder.RijksRegisterNummer);
+                TankKaartTextBox.Text = stringBuilder.ToString();
+            }
+
+
+            DataContext = TankkaartDetail;
         }
 
         private void TankKaartUpdateButton_Click(object sender, RoutedEventArgs e)
@@ -94,7 +97,6 @@ namespace FleetManagement.WPF.UpdateWindows
         private void ResetVelden() {
             UitgeefDatumDatePicker.SelectedDate = null;
             TankKaartTextBox.Text = null;
-            GekozenBestuurderNaam.Text = string.Empty;
             GekozenBestuurder = null;
             GeldigheidsDatumDatePicker.SelectedDate = null;
             PincodeTextBox.Text = string.Empty;
@@ -125,17 +127,17 @@ namespace FleetManagement.WPF.UpdateWindows
             DialogResult = true;
         }
 
-        private void TankkaartAanmakenButton_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void KiesBestuurder_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
         private void AnnuleerBestuurder_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UitgeefDatumDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

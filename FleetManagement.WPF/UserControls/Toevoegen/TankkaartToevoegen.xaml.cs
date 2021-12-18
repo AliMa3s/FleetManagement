@@ -34,18 +34,13 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             InitializeComponent();
             _managers = managers;
-            FormTankkaart.Content = "Tankkaart ingeven";
+            FormTankkaart.Content = "Tankkaart invoegen";
 
             BrandstofNamenComboBox.Items.Add(DisplayFirst);
             _managers.Brandstoffen.ToList().ForEach(brandstof => {
 
                 BrandstofNamenComboBox.Items.Add(brandstof.BrandstofNaam);
             });
-        }
-
-        private void SluitTankkaartForm_Click(object sender, RoutedEventArgs e)
-        {
-            Window.GetWindow(this).Close();
         }
 
         private void TankkaartAanmakenButton_Click(object sender, RoutedEventArgs e)

@@ -25,9 +25,11 @@ namespace FleetManagement.WPF.DetailWindows {
         private TankKaart _tankkaartDetail;
 
         public TankkaartDetails(Managers managers, TankKaart tankkaart) {
+
             InitializeComponent();
             _managers = managers;
             _tankkaartDetail = tankkaart;
+
 
             //Checken anders wordt dat telkens bijgewerkt
             if(tankkaart.Brandstoffen.Count < 1)
@@ -38,11 +40,13 @@ namespace FleetManagement.WPF.DetailWindows {
                 {
                     brandstoffen.ForEach(brandstof => {
 
-                        if(!_tankkaartDetail.IsBrandstofAanwezig(brandstof))
-                            _tankkaartDetail.Brandstoffen.Add(brandstof);
+                        if(!tankkaart.IsBrandstofAanwezig(brandstof))
+                            tankkaart.Brandstoffen.Add(brandstof);
                     });
                 }
-            }
+            }           
+            
+            
 
             if (_tankkaartDetail.HeeftTankKaartBestuurder)
             {
@@ -85,17 +89,12 @@ namespace FleetManagement.WPF.DetailWindows {
             UpdateTankkaart updateTankkaart = new(_managers, _tankkaartDetail)
             {
                 Owner = Window.GetWindow(this),
-                TankkaartDetail = _tankkaartDetail
             };
 
             bool? updatetet = updateTankkaart.ShowDialog();
             if (updatetet == true)
             {
-               
-                _tankkaartDetail = updateTankkaart.TankkaartDetail;
-                Pincode.Text = _tankkaartDetail.Pincode;
-
-                //Changer aanspreken indien nodig
+                
             }
         }
     }
