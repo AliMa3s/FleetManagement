@@ -212,7 +212,7 @@ namespace FleetManagement.Model {
         {
             if (ingegevenBestuurder == null)
             {
-                throw new TankKaartException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
+                throw new TankKaartException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
             if (ingegevenBestuurder.BestuurderId < 1)

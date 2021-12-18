@@ -206,6 +206,17 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal("Bestuurder heeft al een Voertuig", ex.Message);
         }
 
+        //Plaats null
+        [Fact]
+        public void GeefVoertuig_null_InValid()
+        {
+            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Voertuig voertuig = _voertuigNepRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
+
+            var ex = Assert.Throws<BestuurderException>(() => bestuurder.VoegVoertuigToe(null));
+            Assert.Equal("Ingegeven Voertuig mag niet null zijn", ex.Message);
+        }
+
         //Plaats entiteit en verwijder dezelfde entiteit
         [Fact]
         public void VerwijderVoertuig_Valid()
@@ -234,6 +245,16 @@ namespace FleetManagement.Test.ModelTest {
 
             var ex = Assert.Throws<BestuurderException>(() => bestuurder.VerwijderVoertuig(anderVoertuig));
             Assert.Equal("Voertuig kan niet verwijderd worden", ex.Message);
+        }
+
+        //Plaats null
+        [Fact]
+        public void VerwijderVoertuig_null_InValid()
+        {
+            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+
+            var ex = Assert.Throws<BestuurderException>(() => bestuurder.VerwijderVoertuig(null));
+            Assert.Equal("Voertuig mag niet null zijn", ex.Message);
         }
 
         /* 
@@ -278,6 +299,17 @@ namespace FleetManagement.Test.ModelTest {
             Assert.Equal("Bestuurder heeft al een Tankkaart", ex.Message);
         }
 
+        //Plaats null
+        [Fact]
+        public void GeefTankKaart_Null_InValid()
+        {
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            TankKaart tankkaart = _tankKaartNepRepo.GeefTankKaart("1234567890123456789");
+
+            var ex = Assert.Throws<BestuurderException>(() => bestuurder.VoegTankKaartToe(null));
+            Assert.Equal("Ingegeven Tankkaart mag niet null zijn", ex.Message);
+        }
+
         //Plaats entiteit en verwijder dezelfde entiteit
         [Fact]
         public void VerwijderTankKaart_Valid()
@@ -307,6 +339,17 @@ namespace FleetManagement.Test.ModelTest {
 
             var ex = Assert.Throws<BestuurderException>(() => bestuurder.VerwijderTankKaart(anderTankkaart));
             Assert.Equal("Tankkaart kan niet verwijderd worden", ex.Message);
+        }
+
+        //Plaats null
+        [Fact]
+        public void VerwijderTankKaart_Null_InValid()
+        {
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            TankKaart tankkaart = _tankKaartNepRepo.GeefTankKaart("1234567890123456789");
+
+            var ex = Assert.Throws<BestuurderException>(() => bestuurder.VerwijderTankKaart(null));
+            Assert.Equal("Tankkaart mag niet null zijn", ex.Message);
         }
     }
 }

@@ -14,8 +14,8 @@ namespace FleetManagement.Test.ModelTest {
     public class TankKaartTest {
 
         //Selecteer een Bestuurder en Voertuig uit de repo:
-        private readonly BestuurderNepRepo _bestuurderRepo = new();
-        private readonly VoertuigNepRepo _voertuigRepo = new();
+        private readonly BestuurderNepRepo _bestuurderNepRepo = new();
+        private readonly VoertuigNepRepo _voertuigNepRepo = new();
 
         [Fact]
         public void Verplichte_Velden_Valid()
@@ -90,7 +90,7 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void BankKaart_Null_Leeg_Ongeldig()
+        public void BankKaart_Null_Ongeldig()
         {
             DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
             var e = Assert.Throws<TankKaartException>(() => {
@@ -190,22 +190,12 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void UpdatePincode_Leeg_Geldig()
+        public void VoegPincodeToe_Leeg_Null_Ongeldig()
         {
             //GeldegheidsDatum in de toekomst
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
 
-            //Pincode dat leeg is hoeft niet meegestuurd te worden als argument; krijgt default lege string
-            TankKaart t = new("1234567890123456789", GeldigheidsDatum);
-        }
-
-        //veranderen:
-        [Fact]
-        public void Pincode_Ongeldig()
-        {
-            //GeldegheidsDatum in de toekomst
-            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
-
+            //Pincode niet meegegeven
             TankKaart t = new("1234567890123456789", GeldigheidsDatum);
 
             var e = Assert.Throws<TankKaartException>(() => {
@@ -213,7 +203,6 @@ namespace FleetManagement.Test.ModelTest {
             });
 
             Assert.Equal("Ingegeven Pincode mag niet null zijn", e.Message);
-            
         }
 
         [Fact]
@@ -231,23 +220,6 @@ namespace FleetManagement.Test.ModelTest {
 
         }
         
-
-        [Fact]
-        public void VoegPincodeToe_Leeg_Null_Ongeldig()
-        {
-            //GeldegheidsDatum in de toekomst
-            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
-
-            //Pincode niet meegegeven
-            TankKaart t = new("1234567890123456789", GeldigheidsDatum);
-
-            var e = Assert.Throws<TankKaartException>(() => {
-                t.VoegPincodeToe(null);
-            });
-
-            Assert.Equal("Ingegeven Pincode mag niet null zijn", e.Message);
-        }
-
         [Fact]
         public void VoegPincodeToe_Dan_UpdatePincode() {
             DateTime vervalDatum = DateTime.Now.AddDays(512);
@@ -357,10 +329,10 @@ namespace FleetManagement.Test.ModelTest {
             Assert.False(tanKaart1.Equals(tanKaart5));
         }
 
+        //Geldigheidsdatum vandaag is nog geldig, is datum 1 seconde gisteren dan niet geldig
         [Fact]
         public void UitersteGeldigheidsDatum()
         {
-
             DateTime vandaag = DateTime.Today;
             TankKaart tanKaart1 = new("1234567890123456789", vandaag);
             Assert.False(tanKaart1.IsGeldigheidsDatumVervallen);
@@ -371,64 +343,23 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void VoegTankKaart_Valid()
-        {
-            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
-            bool actief = true;
-            TankKaart tankKaart = new TankKaart("1234567890123456789",actief,GeldigheidsDatum);
-            Assert.Equal("1234567890123456789",tankKaart.TankKaartNummer);
-            Assert.True(actief);
-            Assert.Equal(GeldigheidsDatum, tankKaart.GeldigheidsDatum);
-        }
-
-        [Fact]
-        public void VoegTankKaart_KaartNummer_Invalid()
+        public void TankKaart_KaartNummer_Null_Invalid()
         {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             bool actief = true;
             var ex = Assert.Throws<TankKaartException>(() => new TankKaart(null, actief, GeldigheidsDatum));
             Assert.Equal($"Tankkaartnummer is niet ingevuld", ex.Message);
         }
-        [Fact]
-        public void VerwijderTankKaart_Van_Bestuurder_Valid()
-        {
-           
-            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
-            bool actief = true;
-            TankKaart tankKaart = new TankKaart("1234567890123456789", actief, GeldigheidsDatum);
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
 
-            tankKaart.VoegBestuurderToe(bestuurder);
-            bestuurder.VerwijderTankKaart(tankKaart);
-
-            Assert.False(tankKaart.HeeftTankKaartBestuurder);
-            Assert.False(bestuurder.HeeftBestuurderTankKaart);
-        }
         [Fact]
-        public void VerwijderTankKaart_Van_Bestuurder_InValid()
+        public void UpdateTankKaart_Valid()
         {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
-            bool actief = true;
-            TankKaart tankKaart = new TankKaart("1234567890123456789", actief, GeldigheidsDatum);
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
-            var ex = Assert.Throws<TankKaartException>(() => tankKaart.VoegBestuurderToe(null));
-            
-            Assert.Equal($"{nameof(Bestuurder)} mag niet null zijn", ex.Message);
-        }
-        
+            TankKaart tankKaart = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            Assert.Equal("1234567890123456789", tankKaart.TankKaartNummer);
 
-
-
-        [Fact]
-        public void VerwijderBestuurder_Invalid()
-        {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
-            DateTime geldigheidsDatum = DateTime.Now.AddDays(365);
-
-            var ex =    Assert.Throws<TankKaartException>(() => new TankKaart("1234567890123456789", geldigheidsDatum)
-            .VerwijderBestuurder(null));
-            Assert.Equal($"Ingegeven {nameof(Bestuurder)} mag niet null zijn", ex.Message);
-
+            tankKaart.UpdateTankkaartNummer("98765432109874654321");
+            Assert.Equal("98765432109874654321", tankKaart.TankKaartNummer);
         }
 
         [Fact]
@@ -450,5 +381,88 @@ namespace FleetManagement.Test.ModelTest {
             Assert.True(tankKaart.UitgeefDatum.HasValue);
             Assert.Equal(toDay, tankKaart.UitgeefDatum.Value);
         }
+
+        /* 
+         * relaties testen Tankkaart krijgt Bestuurder
+         */
+
+        //Voeg bestuurder Toe 
+        [Fact]
+        public void Geef_Bestuurder_Valid() 
+        {
+            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
+            TankKaart tankKaart = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+
+            tankKaart.VoegBestuurderToe(bestuurder);
+            Assert.True(tankKaart.HeeftTankKaartBestuurder);
+        }
+
+        //Voeg bestuurder toe relatie
+        [Fact]
+        public void Geef_Bestuurder_Relatie_Valid()
+        {
+            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
+            TankKaart tankKaart = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+
+            tankKaart.VoegBestuurderToe(bestuurder);
+            Assert.True(tankKaart.Bestuurder.HeeftBestuurderTankKaart);
+        }
+
+        //geef null
+        [Fact]
+        public void Geef_Bestuurder_Null_Valid()
+        {
+            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
+            TankKaart tankKaart = new TankKaart("1234567890123456789", GeldigheidsDatum);
+
+            var ex = Assert.Throws<TankKaartException>(() => tankKaart.VerwijderBestuurder(null));
+            Assert.Equal($"{nameof(Bestuurder)} mag niet null zijn", ex.Message);
+        }
+
+        //verwijder entiteit met hetzelfde bestuurder
+        [Fact]
+        public void Verwijder_Bestuurder_Valid()
+        {
+            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
+            TankKaart tankKaart = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+
+            tankKaart.VoegBestuurderToe(bestuurder);
+            Assert.True(tankKaart.HeeftTankKaartBestuurder);
+
+            tankKaart.VerwijderBestuurder(tankKaart.Bestuurder);
+            Assert.False(bestuurder.HeeftBestuurderTankKaart);
+        }
+
+        //probeer te verwijderen met een ander Bestuurder
+        [Fact]
+        public void Verwijder_Bestuurder_InValid()
+        {
+            TankKaart tankKaart = new TankKaart("1234567890123456789", DateTime.Now.AddDays(512));
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+
+            tankKaart.VoegBestuurderToe(bestuurder);
+            Assert.True(tankKaart.HeeftTankKaartBestuurder);
+
+            Bestuurder anderBestuurder = _bestuurderNepRepo.GeefBestuurder("76003101965");
+
+            var ex = Assert.Throws<TankKaartException>(() => tankKaart.VerwijderBestuurder(anderBestuurder));
+            Assert.Equal($"{nameof(Bestuurder)} kan niet worden verwijderd", ex.Message);
+        }
+
+        [Fact]
+        public void VerwijderTankKaart_null_InValid()
+        {
+            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
+            bool actief = true;
+            TankKaart tankKaart = new TankKaart("1234567890123456789", actief, GeldigheidsDatum);
+            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "A,B", "76033101986");
+            var ex = Assert.Throws<TankKaartException>(() => tankKaart.VerwijderBestuurder(null));
+            
+            Assert.Equal($"{nameof(Bestuurder)} mag niet null zijn", ex.Message);
+        }
+       
     }
 }

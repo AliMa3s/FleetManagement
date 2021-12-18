@@ -28,8 +28,6 @@ namespace FleetManagement.Model
         public string Naam => Achternaam + " " + Voornaam;
         #endregion
 
-#warning property naam bijgezet om een volledig naam te hebben in zoekopties: moet nog gestest worden
-
         #region Ctors
         //Nieuw Bestuurder: Enkel verplichte velden
         public Bestuurder(string voornaam, string achternaam, string geboorteDatum, string typeRijbewijs, string rijksRegisterNummer)
@@ -122,7 +120,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenVoertuig == null)
             {
-                throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn.");
+                throw new BestuurderException($"{nameof(Voertuig)} mag niet null zijn");
             }
 
             if (HeeftBestuurderVoertuig)
@@ -148,7 +146,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenVoertuig == null)
             {
-                throw new BestuurderException($"Ingegeven {nameof(Voertuig)} mag niet null zijn.");
+                throw new BestuurderException($"{nameof(Voertuig)} mag niet null zijn");
             }
 
             if (HeeftBestuurderVoertuig)
@@ -175,7 +173,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenTankKaart == null)
             {
-                throw new BestuurderException($"Ingegeven {nameof(Tankkaart)} mag niet null zijn.");
+                throw new BestuurderException($"Ingegeven {nameof(Tankkaart)} mag niet null zijn");
             }
 
             if (!HeeftBestuurderTankKaart)
@@ -194,7 +192,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenTankKaart == null)
             {
-                throw new BestuurderException($"Ingegeven {nameof(Tankkaart)} mag niet null zijn.");
+                throw new BestuurderException($"Ingegeven {nameof(Tankkaart)} mag niet null zijn");
             }
 
             if (!HeeftBestuurderTankKaart)
