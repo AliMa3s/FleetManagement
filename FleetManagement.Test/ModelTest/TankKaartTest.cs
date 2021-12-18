@@ -86,7 +86,7 @@ namespace FleetManagement.Test.ModelTest {
                new TankKaart("", false, geldigheidsDatum, "52374"); 
             });
 
-            Assert.Equal($"Tankkaartnummer is niet het juiste format", e.Message);
+            Assert.Equal($"Tankkaartnummer is niet ingevuld", e.Message);
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace FleetManagement.Test.ModelTest {
                 new TankKaart(null, false, geldigheidsDatum, "52374");
             });
 
-            Assert.Equal($"Tankkaartnummer mag niet null zijn", e.Message);
+            Assert.Equal($"Tankkaartnummer is niet ingevuld", e.Message);
         }
 
         [Fact]
@@ -387,7 +387,7 @@ namespace FleetManagement.Test.ModelTest {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             bool actief = true;
             var ex = Assert.Throws<TankKaartException>(() => new TankKaart(null, actief, GeldigheidsDatum));
-            Assert.Equal($"Tankkaartnummer mag niet null zijn", ex.Message);
+            Assert.Equal($"Tankkaartnummer is niet ingevuld", ex.Message);
         }
         [Fact]
         public void VerwijderTankKaart_Van_Bestuurder_Valid()

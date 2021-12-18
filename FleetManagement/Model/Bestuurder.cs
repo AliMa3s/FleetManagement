@@ -34,9 +34,6 @@ namespace FleetManagement.Model
         //Nieuw Bestuurder: Enkel verplichte velden
         public Bestuurder(string voornaam, string achternaam, string geboorteDatum, string typeRijbewijs, string rijksRegisterNummer)
         {
-
-            
-
             if(string.IsNullOrWhiteSpace(voornaam)) throw new BestuurderException($"{nameof(Voornaam)} moet ingevuld zijn");
             if (string.IsNullOrWhiteSpace(achternaam)) throw new BestuurderException($"{nameof(Achternaam)} moet ingevuld zijn");
 
