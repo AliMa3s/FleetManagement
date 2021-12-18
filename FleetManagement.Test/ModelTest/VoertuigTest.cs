@@ -11,7 +11,7 @@ using Xunit;
 namespace FleetManagement.Test.ModelTest {
     public class VoertuigTest {
 
-       private readonly BestuurderNepRepo _bestuurderRepo = new();
+       private readonly BestuurderNepRepo _bestuurderNepRepo = new();
 
         [Fact]
         public void IsHybride_Valid()
@@ -128,57 +128,9 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void VoegBestuurder_Valid()
-        {
-            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
-            BrandstofVoertuig bezine = new("benzine", false);
-            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
-            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
-            voertuig.VoegBestuurderToe(bestuurder);
-            
-        }
-
-        [Fact]
-        public void VoegBestuurder_Invalid()
-        {
-            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("");
-            BrandstofVoertuig bezine = new("benzine", true);
-            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
-            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
-
-            var ex = Assert.Throws<VoertuigException>(() => new Voertuig(automodel,"WAUZZZ8V5KA106598", "1ABC495", bezine).VoegBestuurderToe(bestuurder));
-            Assert.Equal("Ingegeven Bestuurder mag niet null zijn",ex.Message);
-        }
-
-        [Fact]
-        public void HeeftVoertuigBestuurder_Valid()
-        {
-            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
-            BrandstofVoertuig bezine = new("diesel", false);
-            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
-            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
-            voertuig.VoegBestuurderToe(bestuurder);
-
-            Assert.True(voertuig.HeeftVoertuigBestuurder);
-        }
-        [Fact]
-        public void HeefVoertuigBestuurder_Invalid()
-        {
-            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("76033101986");
-            BrandstofVoertuig bezine = new("diesel", false);
-            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
-            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
-            
-            var ex = Assert.Throws<VoertuigException>(() =>
-            {
-                voertuig.VoegBestuurderToe(null);
-            });
-            Assert.Equal($"Ingegeven Bestuurder mag niet null zijn",ex.Message);
-        }
-        [Fact]
         public void VoegIdToe_Valid()
         {
-            Bestuurder bestuurder = _bestuurderRepo.GeefBestuurder("");
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("");
             BrandstofVoertuig bezine = new("benzine", true);
             AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
             Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
@@ -244,6 +196,118 @@ namespace FleetManagement.Test.ModelTest {
                 Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1AB", bezine);
             });
             Assert.Equal($"Nummerplaat moet format [1-9AZ][a-z][0-9] zijn", ex.Message);
+        }
+
+        /* 
+         * relaties testen Tankkaart krijgt Bestuurder
+         */
+
+        //Plaats entiteit bestuurder
+        [Fact]
+        public void GeefBestuurder_Valid()
+        {
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+            BrandstofVoertuig bezine = new("benzine", false);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+            voertuig.VoegBestuurderToe(bestuurder);
+
+            Assert.True(voertuig.HeeftVoertuigBestuurder);
+            Assert.True(bestuurder.HeeftBestuurderVoertuig); //reference type testen
+        }
+
+        //Plaats entiteit en test relatie
+        [Fact]
+        public void GeefBestuurder_Relatie_Valid()
+        {
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+            BrandstofVoertuig bezine = new("benzine", false);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+            voertuig.VoegBestuurderToe(bestuurder);
+
+            Assert.True(voertuig.Bestuurder.HeeftBestuurderVoertuig);
+        }
+
+        //Plaats entiteit en probeer nog eens een ander bestuurder toe te voegen
+        [Fact]
+        public void GeefBestuurder_InValid()
+        {
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+            BrandstofVoertuig bezine = new("benzine", false);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+
+            voertuig.VoegBestuurderToe(bestuurder);
+
+            Bestuurder anderBestuurder = _bestuurderNepRepo.GeefBestuurder("76003101965");
+
+            var ex = Assert.Throws<VoertuigException>(() => { voertuig.VoegBestuurderToe(anderBestuurder); });
+            Assert.Equal("Voertuig heeft al een Bestuurder", ex.Message);
+        }
+
+        //null ingeven
+        [Fact]
+        public void GeefBestuurder_null_Invalid()
+        {
+            BrandstofVoertuig bezine = new("benzine", true);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+
+            var ex = Assert.Throws<VoertuigException>(() => { voertuig.VoegBestuurderToe(null); });
+
+            Assert.Equal("Bestuurder mag niet null zijn", ex.Message);
+        }
+
+        [Fact]
+        public void VerwijderBestuurder_Valid()
+        {
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+            BrandstofVoertuig bezine = new("diesel", false);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+
+            voertuig.VoegBestuurderToe(bestuurder);
+            Assert.True(voertuig.HeeftVoertuigBestuurder);
+
+            voertuig.VerwijderBestuurder(bestuurder);
+            Assert.False(voertuig.HeeftVoertuigBestuurder);
+            Assert.False(bestuurder.HeeftBestuurderVoertuig); //reference type moet nu ook verijderd zijn
+        }
+
+        [Fact]
+        public void VerwijderBestuurder_InValid()
+        {
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+            BrandstofVoertuig bezine = new("diesel", false);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+
+            voertuig.VoegBestuurderToe(bestuurder);
+            Assert.True(voertuig.HeeftVoertuigBestuurder);
+
+            Bestuurder anderBestuurder = _bestuurderNepRepo.GeefBestuurder("76003101965");
+
+            var ex = Assert.Throws<VoertuigException>(() =>
+            {
+                voertuig.VerwijderBestuurder(anderBestuurder);
+            });
+            Assert.Equal("Bestuurder kan niet worden verwijderd", ex.Message);
+        }
+
+        [Fact]
+        public void VerwijderBestuurder_Null_Invalid()
+        {
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+            BrandstofVoertuig bezine = new("diesel", false);
+            AutoModel automodel = new("ferrari", "ferrari enzo", new AutoType("GT"));
+            Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1ABC495", bezine);
+
+            var ex = Assert.Throws<VoertuigException>(() =>
+            {
+                voertuig.VoegBestuurderToe(null);
+            });
+            Assert.Equal($"Bestuurder mag niet null zijn", ex.Message);
         }
     }
 }

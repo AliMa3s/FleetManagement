@@ -80,7 +80,7 @@ namespace FleetManagement.Model
         {
             if(ingegevenBestuurder == null)
             {
-                throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
+                throw new VoertuigException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
             if (!HeeftVoertuigBestuurder)
@@ -99,7 +99,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenBestuurder == null)
             {
-                throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
+                throw new VoertuigException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
             if(bestuurderId < 0)
@@ -122,7 +122,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenBestuurder == null)
             {
-                throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
+                throw new VoertuigException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
             if (Bestuurder.Equals(ingegevenBestuurder))
@@ -141,7 +141,7 @@ namespace FleetManagement.Model
         {
             if (ingegevenBestuurder == null)
             {
-                throw new VoertuigException($"Ingegeven {nameof(Bestuurder)} mag niet null zijn");
+                throw new VoertuigException($"{nameof(Bestuurder)} mag niet null zijn");
             }
 
             if (Bestuurder.Equals(ingegevenBestuurder) && bestuurderId >= 0)

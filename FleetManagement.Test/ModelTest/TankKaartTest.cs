@@ -396,6 +396,7 @@ namespace FleetManagement.Test.ModelTest {
 
             tankKaart.VoegBestuurderToe(bestuurder);
             Assert.True(tankKaart.HeeftTankKaartBestuurder);
+            Assert.True(bestuurder.HeeftBestuurderTankKaart);  //reference type testen
         }
 
         //Voeg bestuurder toe relatie
@@ -410,6 +411,20 @@ namespace FleetManagement.Test.ModelTest {
             Assert.True(tankKaart.Bestuurder.HeeftBestuurderTankKaart);
         }
 
+        [Fact]
+        public void Geef_Bestuurder_InValid() 
+        {
+            DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
+            TankKaart tankKaart = new TankKaart("1234567890123456789", GeldigheidsDatum);
+            Bestuurder bestuurder = _bestuurderNepRepo.GeefBestuurder("76033101986");
+            tankKaart.VoegBestuurderToe(bestuurder);
+
+            Bestuurder anderBestuurder = _bestuurderNepRepo.GeefBestuurder("76003101965");
+
+            var ex = Assert.Throws<TankKaartException>(() => tankKaart.VoegBestuurderToe(anderBestuurder));
+            Assert.Equal("Er is al een Bestuurder aan de TankKaart toegevoegd", ex.Message);
+        }
+
         //geef null
         [Fact]
         public void Geef_Bestuurder_Null_Valid()
@@ -417,7 +432,7 @@ namespace FleetManagement.Test.ModelTest {
             DateTime GeldigheidsDatum = DateTime.Now.AddDays(512);
             TankKaart tankKaart = new TankKaart("1234567890123456789", GeldigheidsDatum);
 
-            var ex = Assert.Throws<TankKaartException>(() => tankKaart.VerwijderBestuurder(null));
+            var ex = Assert.Throws<TankKaartException>(() => tankKaart.VoegBestuurderToe(null));
             Assert.Equal($"{nameof(Bestuurder)} mag niet null zijn", ex.Message);
         }
 
@@ -434,6 +449,7 @@ namespace FleetManagement.Test.ModelTest {
 
             tankKaart.VerwijderBestuurder(tankKaart.Bestuurder);
             Assert.False(bestuurder.HeeftBestuurderTankKaart);
+            Assert.False(tankKaart.HeeftTankKaartBestuurder); //test reference type
         }
 
         //probeer te verwijderen met een ander Bestuurder
