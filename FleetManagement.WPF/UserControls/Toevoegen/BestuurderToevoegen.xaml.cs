@@ -55,7 +55,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             if (geslecteerd == true) {
                 _gekozenTankkaart = selecteerTankkaart.Tankkaart;
                 GekozenTankkaartText.Text = _gekozenTankkaart.TankKaartNummer;
-                TankkaarSelecteren.Content = "Tankkaart wijzigen";
+                TankkaartSelecteren.Visibility = Visibility.Hidden;
+                TankkaartAnnuleren.Visibility = Visibility.Visible;
             }
         }
 
@@ -112,8 +113,11 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             GekozenTankkaartText.Text = string.Empty;
             GekozenVoertuigText.Text = string.Empty;
             AdresInvoegen.Content = "Adres ingeven";
-            TankkaarSelecteren.Content = "Tankkaart selecteren";
-            VoertuigSelecteren.Content = "Voertuig selecteren";
+
+            VoertuigSelecteren.Visibility = Visibility.Visible;
+            VoertuigAnnuleren.Visibility = Visibility.Hidden;
+            TankkaartSelecteren.Visibility = Visibility.Visible;
+            TankkaartAnnuleren.Visibility = Visibility.Hidden;
 
             _ingevoegdAdres = null;
             _gekozenTankkaart = null;
@@ -144,7 +148,6 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     nieuwBestuurder.Adres = _ingevoegdAdres;
                 }
 
-
                 //Update voertuig
                 if (_gekozenVoertuig != null)
                 {
@@ -174,8 +177,6 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     infoBestuurderMess.Text += ", tankkaart aan bestuurder gelinkt";
                 }
 
-
-
                 ResetForm();
             }
             catch (Exception ex)
@@ -198,8 +199,25 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             {
                 _gekozenVoertuig = selecteerVoertuig.GekozenVoertuig;
                 GekozenVoertuigText.Text = _gekozenVoertuig.VoertuigNaam;
-                VoertuigSelecteren.Content = "Voertuig wijzigen";
+                VoertuigSelecteren.Visibility = Visibility.Hidden;
+                VoertuigAnnuleren.Visibility = Visibility.Visible;
             }
+        }
+
+        private void TankkaartAnnuleren_Click(object sender, RoutedEventArgs e)
+        {
+            _gekozenTankkaart = null;
+            GekozenTankkaartText.Text = string.Empty;
+            TankkaartSelecteren.Visibility = Visibility.Visible;
+            TankkaartAnnuleren.Visibility = Visibility.Hidden;
+        }
+
+        private void VoertuigAnnuleren_Click(object sender, RoutedEventArgs e)
+        {
+            _gekozenVoertuig = null;
+            GekozenVoertuigText.Text = string.Empty;
+            VoertuigSelecteren.Visibility = Visibility.Visible;
+            VoertuigAnnuleren.Visibility = Visibility.Hidden;
         }
     }
 }

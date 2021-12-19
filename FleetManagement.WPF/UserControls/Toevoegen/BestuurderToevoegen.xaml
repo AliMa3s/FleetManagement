@@ -62,8 +62,12 @@
 
                 <Button x:Name="AdresInvoegen" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Content="Adres ingeven" HorizontalAlignment="left" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,0,15,0" Click="AdresInvoegen_Click" />
                 <TextBox x:Name="RijBewijs" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text=""  Height="25"/>
-                <Button x:Name="TankkaarSelecteren" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="left" Width="150" Content="Tankkaart selecteren" Background="#FFCAD5EA" Click="KiesTankkaart_Click" Height="30" Margin="5,0,15,0"/>
+                <Button x:Name="TankkaartSelecteren" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="left" Width="150" Content="Tankkaart selecteren" Background="#FFCAD5EA" Click="KiesTankkaart_Click" Height="30" Margin="5,0,15,0"/>
+                <Button x:Name="TankkaartAnnuleren" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="left" Width="150" Content="Annuleer tankkaart" Background="#FFCAD5EA" Height="30" Margin="5,0,15,0" Click="TankkaartAnnuleren_Click" Visibility="Hidden"/>
+
                 <Button x:Name="VoertuigSelecteren" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="left" Width="150" Content="Voertuig selecteren" Background="#FFCAD5EA" Height="30" Margin="5,0,15,0" Click="VoertuigSelecteren_Click"/>
+                <Button x:Name="VoertuigAnnuleren" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="left" Width="150" Content="Annuleer voertuig" Background="#FFCAD5EA" Height="30" Margin="5,0,15,0" Click="VoertuigAnnuleren_Click" Visibility="Hidden"/>
+
             </Grid>
         </DockPanel.Children>
     </DockPanel>
