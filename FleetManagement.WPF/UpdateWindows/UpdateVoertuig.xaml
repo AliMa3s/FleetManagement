@@ -50,8 +50,8 @@
 
                     <Button x:Name="KiesAutoModel" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Content="Automodel kiezen" HorizontalAlignment="Left" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,3,0,0" Click="KiesAutoModel_Click" VerticalAlignment="Top"/>
                     <TextBlock x:Name="GekozenAutoModelNaam" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
-                    <TextBox x:Name="ChassisNummer" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,0,0"  Text="" Height="25"/>
-                    <TextBox x:Name="Nummerplaat" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,0,0"  Text=""  Height="25"/>
+                    <TextBox x:Name="ChassisNummer" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,0,0" Text="" Height="25" MaxLength="17"/>
+                    <TextBox x:Name="Nummerplaat" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,0,0" Text=""  Height="25" MaxLength="7"/>
                     <RadioButton x:Name="HybrideNeen" GroupName="HybrideCheck" Content="Neen" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="5,0,0,0"/>
                     <RadioButton x:Name="HybrideJa" GroupName="HybrideCheck" Content="Ja" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="65,0,0,0"/>
                     <ComboBox Name="Brandstof" Grid.Row="6" Grid.Column="1" Grid.RowSpan="1" VerticalAlignment="Center" Height="25"  HorizontalAlignment="Stretch" Margin="5,0,0,0" SelectedIndex="0" />

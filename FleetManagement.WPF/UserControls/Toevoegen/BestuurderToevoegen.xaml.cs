@@ -127,7 +127,9 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
             try
             {
-                string geboortedatum = Geboortejaar.Text + "-" + Geboortemaand.Text + "-" + Geboortedag.Text;
+                string geboortedatum = Geboortejaar.Text.PadLeft(4, '0') + "-" 
+                    + Geboortemaand.Text.PadLeft(2, '0') + "-" 
+                    + Geboortedag.Text.PadLeft(2, '0');
 
                 Bestuurder nieuwBestuurder = new(
                     Voornaam.Text,

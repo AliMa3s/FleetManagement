@@ -144,7 +144,9 @@ namespace FleetManagement.WPF.UpdateWindows
                 }
 
                 //stap 2: object aanmaken
-                string geboortedatum = Geboortejaar.Text + "-" + Geboortemaand.Text + "-" + Geboortedag.Text;
+                string geboortedatum = Geboortejaar.Text.PadLeft(4, '0') 
+                    + "-" + Geboortemaand.Text.PadLeft(2, '0') 
+                    + "-" + Geboortedag.Text.PadLeft(2, '0');
 
                 Bestuurder updatetBestuurder = new(
                     BestuurderDetail.BestuurderId,
