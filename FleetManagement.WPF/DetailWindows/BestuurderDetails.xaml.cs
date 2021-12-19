@@ -116,12 +116,8 @@ namespace FleetManagement.WPF.DetailWindows {
             {
                 _bestuurderDetail = updateBestuurder.BestuurderDetail;
 
-                //uitzetten
-                VoornaamTextBlock.Text = _bestuurderDetail.Voornaam;
-                AchternaamTextBlock.Text = _bestuurderDetail.Achternaam;
-                GeboorteDatumTextBlock.Text = _bestuurderDetail.GeboorteDatum;
-                RijbewijsTextBlock.Text = _bestuurderDetail.TypeRijbewijs;
-                RijksRegisterTextBlock.Text = _bestuurderDetail.RijksRegisterNummer;
+                DataContext = null;
+                DataContext = _bestuurderDetail;
 
                 Updatetet = updateBestuurder.Updatetet;
 

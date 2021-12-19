@@ -76,9 +76,18 @@ namespace FleetManagement.Manager {
 
                 if (tankkaart == null) throw new TankKaartManagerException("Tankkaart - tankkaart mag niet null zijn");
 
-                if (BestaatTankkaart(tankkaart.TankKaartNummer)) {
+                if (BestaatTankkaart(tankkaart.TankKaartNummer)) 
+                {
+                    IReadOnlyList<BrandstofType> brandstoffen = BrandstoffenVoorTankaart(tankkaart);
+                    if (brandstoffen.Count > 0)
+                    {
+                        VerwijderBrandstoffen(tankkaart);
+                    }
+
                     _repo.UpdateTankKaart(tankkaart);
-                } else {
+                } 
+                else 
+                {
                     throw new TankKaartManagerException("Tankkaart - bestaat niet!");
                 }
             } catch (Exception ex) {
@@ -140,13 +149,13 @@ namespace FleetManagement.Manager {
         }
 
         //Apart verwijderen en apart toevoegen maakt het eenvoudiger voor updaten
-        public void VerwijderBrandstoffen(TankKaart tankKaart)
+        public void VerwijderBrandstoffen(TankKaart tankkaart)
         {
             try
             {
-                if (tankKaart == null) throw new TankKaartManagerException("TankKaart - Tankkaart mag niet null zijn");
+                if (tankkaart == null) throw new TankKaartManagerException("TankKaart - Tankkaart mag niet null zijn");
 
-                _repo.VerwijderBrandstoffen(tankKaart);
+                _repo.VerwijderBrandstoffen(tankkaart);
             }
             catch (Exception ex)
             {
@@ -165,10 +174,19 @@ namespace FleetManagement.Manager {
                 if (!CheckFormat.IsTankKaartNummerGeldig(AnderTankkaartNummer)) { }
 
                 if(tankkaart.TankKaartNummer == AnderTankkaartNummer) 
-                    throw new TankKaartManagerException("TankKaart - Huidige tankkaartnummer en ander tankkaartnummer moet verschillend zijn");
+                    throw new TankKaartManagerException("Huidige tankkaartnummer en ander tankkaartnummer moet verschillend zijn");
+
+                if (BestaatTankkaart(AnderTankkaartNummer))
+                    throw new TankKaartManagerException("Gewijzigd tankkaartnummer bestaat al");
 
                 if (BestaatTankkaart(tankkaart.TankKaartNummer))
                 {
+                    IReadOnlyList<BrandstofType> brandstoffen = BrandstoffenVoorTankaart(tankkaart);
+                    if(brandstoffen.Count > 0)
+                    {
+                        VerwijderBrandstoffen(tankkaart);
+                    }
+
                     return _repo.UpdateTankKaart(tankkaart, AnderTankkaartNummer);
                 }
                 else

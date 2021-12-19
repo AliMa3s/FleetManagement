@@ -11,7 +11,7 @@ namespace FleetManagement.WPF.Converters
             if (value is bool)
             {
                 bool? isActief = value as bool?;
-                return (bool)isActief ? "Actief" : "Inactief";
+                return (bool)isActief ? "Ja" : "Neen";
             }
 
             return value;

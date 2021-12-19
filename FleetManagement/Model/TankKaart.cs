@@ -83,9 +83,6 @@ namespace FleetManagement.Model {
                 throw new TankKaartException("Ingegeven Pincode mag niet null zijn");
             }
 
-            if (!Actief)
-                throw new TankKaartException("Kan Pincode niet toevoegen want de TankKaart is niet (meer) actief");
-
             if (Pincode == null)
             {
                 if (ingegevenPincode == string.Empty)
@@ -114,9 +111,6 @@ namespace FleetManagement.Model {
             if (ingegevenPincode == null) {
                 throw new TankKaartException($"Ingegeven Pincode mag niet null zijn");
             }
-
-            if (!Actief) 
-                throw new TankKaartException($"Kan Pincode niet updaten want de TankKaart is niet (meer) actief");  
 
             if (Pincode != null)
             {

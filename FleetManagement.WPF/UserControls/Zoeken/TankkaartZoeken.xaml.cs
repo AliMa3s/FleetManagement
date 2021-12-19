@@ -26,6 +26,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private readonly Managers _managers;
 
         private TankKaart _tankkaart;
+        private int _tankkaartItem;
+        private string _zoekOpTankkaartNummer;
 
         private string PlaceHolderTankkaart { get; }= "Tankkaartnummer";
         public TankKaart TankkaartWeergave
@@ -35,7 +37,6 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             {
                 _tankkaart = value;
                 ZoekweergaveTankkaart.SelectedItem = value;
-
             }
         }
   
@@ -51,7 +52,6 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
 
             TankkaartNummer.Text = PlaceHolderTankkaart;
-
         }
 
         private void ZoekWeergave_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -68,13 +68,16 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                     Owner = Window.GetWindow(this),
                 };
 
-                //Uitgezet anders geen update status mogelijk
-                //detailWindow.Show();
-
                 bool? verwijderd = detailWindow.ShowDialog();
                 if (verwijderd == true)
                 {
-                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
+                    //zelf iets flexibeler gemaakt, vrij iets in te doen
+                }
+
+                if ((bool)detailWindow.Updatetet)
+                {
+                    ZoekInFilter();
+                    TankkaartWeergave = detailWindow.Tankkaart;
                 }
             }
         }
@@ -88,21 +91,29 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                     Owner = Window.GetWindow(this),
                 };
 
-                //Uitgezet anders geen update status mogelijk
-                //detailWindow.Show();
-
                 bool? verwijderd = detailWindow.ShowDialog();
                 if (verwijderd == true)
                 {
-                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
+                    //zelf iets flexibeler gemaakt, vrij iets in te doen
+                }
+
+                if ((bool)detailWindow.Updatetet)
+                {
+                    ZoekInFilter();
+                    TankkaartWeergave = detailWindow.Tankkaart;
                 }
             }
         }
         private void ZoekTankkaartFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             infoTankkaartMess.Text = "";
+            _tankkaartItem = ZoekTankkaartFilter.SelectedIndex;
+            ZoekInFilter();
+        }
 
-            switch (ZoekTankkaartFilter.SelectedIndex)
+        private void ZoekInFilter()
+        {
+            switch (_tankkaartItem)
             {
                 case 1:
                     ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.ZoekTankKaarten(true);
@@ -121,13 +132,18 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private void ZoektankkaartNummer_Click(object sender, RoutedEventArgs e)
         {
             infoTankkaartMess.Text = "";
+            _zoekOpTankkaartNummer = TankkaartNummer.Text;
+            ZoekInTankkaartNummers();
+        }
 
-            if (!string.IsNullOrWhiteSpace(TankkaartNummer.Text))
+        private void ZoekInTankkaartNummers()
+        {
+            if (!string.IsNullOrWhiteSpace(_zoekOpTankkaartNummer))
             {
                 List<TankKaart> tankkaarten = new();
-                TankKaart tankkaart = _managers.TankkaartManager.ZoekTankKaart(TankkaartNummer.Text);
-                
-                if(tankkaart != null)
+                TankKaart tankkaart = _managers.TankkaartManager.ZoekTankKaart(_zoekOpTankkaartNummer);
+
+                if (tankkaart != null)
                 {
                     tankkaarten.Add(tankkaart);
                     ZoekweergaveTankkaart.ItemsSource = tankkaarten;

@@ -22,8 +22,8 @@ namespace ConsoleApplicatie
              * Of was handmatig eerst brandstoffen in koppeltabel en dan tankaart
              */
             Console.WriteLine("Test Tankkaart Repo: ");
-            string t1 = "99999999999999999968";
-            string t2 = "11111111111111111176";
+            string t1 = "99999999999999999828";
+            string t2 = "11111111111111111676";
             TankkaartRepoTest(t1, t2);
 
             Console.WriteLine("Test Voertuig Repo: ");
@@ -104,9 +104,10 @@ namespace ConsoleApplicatie
                 Console.WriteLine("Adres succesvol verwijderd");
 
                 //Zoek op verwijderd object in DB
+                bool metEersteRijksnr = repo.BestaatRijksRegisterNummer(rijksregisterNr);
                 bool metTweedeRijksnr = repo.BestaatRijksRegisterNummer("05051299971");
 
-                if (!metTweedeRijksnr)
+                if (!metTweedeRijksnr && !metEersteRijksnr)
                 {
                     Console.WriteLine("Bestuurder succesvol verwijderd");
                 }
@@ -287,13 +288,13 @@ namespace ConsoleApplicatie
                 //Verwijder het Voertuig en controleer nog eens de velden om te zien of ze weg geschreven zijn 
                 voertuigRepo.VerwijderVoertuig(v);
 
-                if (!voertuigRepo.BestaatChassisnummer("ZZZZZZZZZZ9ZZ9999") || !voertuigRepo.BestaatNummerplaat("2ZZZ999"))
+                if (!voertuigRepo.BestaatChassisnummer("ZZZZZZZZZZ9ZZ9999") && !voertuigRepo.BestaatNummerplaat("2ZZZ999"))
                 {
                     Console.WriteLine("Voertuig succesvol verwijderd");
                 }
                 else
                 {
-                    Console.WriteLine("Oep... voertuig mey chassisnummer ZZZZZZZZZZ9ZZ9999 en/of numerplaat 2ZZZ999 niet verwijderd");
+                    Console.WriteLine("Oep... voertuig met chassisnummer ZZZZZZZZZZ9ZZ9999 en/of numerplaat 2ZZZ999 niet verwijderd");
                 }               
             }
             else

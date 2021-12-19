@@ -167,29 +167,6 @@ namespace FleetManagement.Test.ModelTest {
         }
 
         [Fact]
-        public void VoegPincode_En_VerstrekenDatum() {
-            TankKaart t = new("1234567890123456789", new DateTime(2000, 01, 02));
-
-           var e = Assert.Throws<TankKaartException>(() => { 
-                t.VoegPincodeToe("1234");
-            });
-
-            Assert.Equal("Kan Pincode niet toevoegen want de TankKaart is niet (meer) actief", e.Message);
-        }
-
-        [Fact]
-        public void UpdatePincode_En_VerstrekenDatum()
-        {
-            TankKaart t = new("1234567890123456789", new DateTime(2000, 01, 02), "1234");
-
-            var e = Assert.Throws<TankKaartException>(() => {
-                t.UpdatePincode("4567");
-            });
-
-            Assert.Equal("Kan Pincode niet updaten want de TankKaart is niet (meer) actief", e.Message);
-        }
-
-        [Fact]
         public void VoegPincodeToe_Leeg_Null_Ongeldig()
         {
             //GeldegheidsDatum in de toekomst
