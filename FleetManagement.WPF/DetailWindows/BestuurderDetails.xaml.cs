@@ -143,7 +143,7 @@ namespace FleetManagement.WPF.DetailWindows {
                 try
                 {
                     _managers.BestuurderManager.VerwijderBestuurder(_bestuurderDetail);
-                    Updatetet = true;
+                    Updatetet = null;
                     DialogResult = true;
                 }
                 catch(Exception ex)

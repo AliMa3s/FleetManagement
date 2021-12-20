@@ -89,8 +89,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                 {
                     Voertuig nieuwVoertuig = new(
                         GekozenAutoModel,
-                        ChassisNummer.Text,
-                        Nummerplaat.Text,
+                        ChassisNummer.Text.Trim(),
+                        Nummerplaat.Text.Trim(),
                         new BrandstofVoertuig(
                             brandstofType.BrandstofTypeId,
                             Brandstof.SelectedItem.ToString(),

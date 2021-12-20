@@ -46,7 +46,7 @@
                 <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Bestuurder:</Label>
                 <TextBlock x:Name="GekozenBestuurderNaam" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="3" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
 
-                <TextBox x:Name="TankKaartTextBox"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" MaxLength="20" Height="25"/>
+                <TextBox x:Name="TankKaartNummerBox"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" MaxLength="20" Height="25"/>
                 <TextBox x:Name="PincodeTextBox" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="5,0,15,0" Text="" Height="30" Width="50" FontSize="14" MaxLength="5"/>
                 <ComboBox x:Name="BrandstofNamenComboBox" Grid.Column="1" Grid.Row="6" Margin="5,0,0,0" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="30" Width="150" FontSize="14" SelectedIndex="0" >
                 </ComboBox>

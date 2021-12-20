@@ -135,12 +135,15 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     + Geboortemaand.Text.PadLeft(2, '0') + "-" 
                     + Geboortedag.Text.PadLeft(2, '0');
 
+                string voornaam = char.ToUpper(Voornaam.Text.Trim()[0]) + Voornaam.Text.Trim().ToLower()[1..];
+                string achternaam = char.ToUpper(Achternaam.Text.Trim()[0]) + Achternaam.Text.Trim().ToLower()[1..];
+
                 Bestuurder nieuwBestuurder = new(
-                    Voornaam.Text,
-                    Achternaam.Text,
+                    voornaam,
+                    achternaam,
                     geboortedatum,
-                    RijBewijs.Text,
-                    RijksRegisterNummer.Text
+                    RijBewijs.Text.Trim().ToUpper(),
+                    RijksRegisterNummer.Text.Trim()
                 );
 
                 if (_ingevoegdAdres != null)

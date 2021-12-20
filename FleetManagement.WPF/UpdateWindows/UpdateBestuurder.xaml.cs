@@ -148,13 +148,16 @@ namespace FleetManagement.WPF.UpdateWindows
                     + "-" + Geboortemaand.Text.PadLeft(2, '0') 
                     + "-" + Geboortedag.Text.PadLeft(2, '0');
 
+                string voornaam = char.ToUpper(VoornaamText.Text.Trim()[0]) + VoornaamText.Text.Trim().ToLower()[1..];
+                string achternaam = char.ToUpper(AchternaamText.Text.Trim()[0]) + AchternaamText.Text.Trim().ToLower()[1..];
+
                 Bestuurder updatetBestuurder = new(
                     BestuurderDetail.BestuurderId,
-                    VoornaamText.Text,
-                    AchternaamText.Text,
+                    voornaam,
+                    achternaam,
                     geboortedatum,
-                    RijbewijsText.Text,
-                    RijksRegisterText.Text
+                    RijbewijsText.Text.Trim().ToUpper(),
+                    RijksRegisterText.Text.Trim()
                 );
 
                 if (_ingevoegdAdres != null)

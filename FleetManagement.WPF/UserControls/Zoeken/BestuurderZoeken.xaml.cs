@@ -161,7 +161,12 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 //vrij iets in te doen er werd een flexibelere manier geconfigureerd hieronder
             }
 
-            if ((bool)detailWindow.Updatetet)
+            if (!detailWindow.Updatetet.HasValue)
+            {
+                infoBestuurderMess.Foreground = Brushes.Green;
+                infoBestuurderMess.Text = "Bestuurder succesvol verwijderd";
+            }
+            else if ((bool)detailWindow.Updatetet)
             {
                 if(!string.IsNullOrWhiteSpace(_zoekOpRijksregister))
                 {
@@ -185,6 +190,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
                 Bestuurderweergave = detailWindow.Bestuurder;
             }
+
         }
     }
 }

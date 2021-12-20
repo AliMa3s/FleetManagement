@@ -65,10 +65,10 @@ namespace FleetManagement.WPF.AanmaakWindows {
 
 
                 AdresGegevens = new Adres(
-                    string.IsNullOrWhiteSpace(StraatTextBox.Text) ? "" : StraatTextBox.Text,
-                    string.IsNullOrWhiteSpace(NummerTextBox.Text) ? "" : NummerTextBox.Text,
-                    string.IsNullOrWhiteSpace(PostcodeTextBox.Text) ? "" : PostcodeTextBox.Text,
-                    string.IsNullOrWhiteSpace(GemeenteTextBox.Text) ? "" : GemeenteTextBox.Text
+                    string.IsNullOrWhiteSpace(StraatTextBox.Text.Trim()) ? "" : StraatTextBox.Text.Trim(),
+                    string.IsNullOrWhiteSpace(NummerTextBox.Text.Trim()) ? "" : NummerTextBox.Text.Trim(),
+                    string.IsNullOrWhiteSpace(PostcodeTextBox.Text.Trim()) ? "" : PostcodeTextBox.Text.Trim(),
+                    string.IsNullOrWhiteSpace(GemeenteTextBox.Text.Trim()) ? "" : GemeenteTextBox.Text.Trim()
                 ); ;
 
                 DialogResult = true;

@@ -77,8 +77,8 @@ namespace FleetManagement.WPF.UpdateWindows
 
                 AutoModel UpdateAutoModel = new(
                     _autoModel.AutoModelId,
-                    Merknaam.Text,
-                    AutoModelNaam.Text,
+                    Merknaam.Text.Trim(),
+                    AutoModelNaam.Text.Trim(),
                     new AutoType(selectedModel)
                 );
 

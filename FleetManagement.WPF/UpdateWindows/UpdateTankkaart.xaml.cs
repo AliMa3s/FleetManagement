@@ -145,7 +145,7 @@ namespace FleetManagement.WPF.UpdateWindows
                         TankkaartDetail.VerwijderBestuurder(VerwijderdBestuurder);                        
                     }
 
-                    TankKaart updateTankkaart = new(TankkaartDetail.TankKaartNummer,
+                    TankKaart updateTankkaart = new(TankkaartDetail.TankKaartNummer.Trim(),
                         ActiefJa.IsChecked.HasValue && (bool)ActiefJa.IsChecked,
                         geldigheidsDatum
                     )

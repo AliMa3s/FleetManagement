@@ -59,7 +59,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                         uitgeefDatum = datum;
                     }
 
-                    TankKaart tankkaart = new TankKaart(TankKaartTextBox.Text, geldigheidsDatum) { UitgeefDatum = uitgeefDatum };
+                    TankKaart tankkaart = new(TankKaartNummerBox.Text.Trim(), geldigheidsDatum) { UitgeefDatum = uitgeefDatum };
 
                     //Wanneer brandstof is ingegeven
                     if (_keuzeBrandstoffen.Count > 0)
@@ -89,7 +89,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
                     {
                         //Pincode is niet verplicht
                         if (!string.IsNullOrWhiteSpace(PincodeTextBox.Text))
-                            tankkaart.VoegPincodeToe(PincodeTextBox.Text);
+                            tankkaart.VoegPincodeToe(PincodeTextBox.Text.Trim());
 
                         if (GekozenBestuurder != null)
                         {
@@ -179,7 +179,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         private void ResetVelden()
         {
             UitgeefDatumDatePicker.SelectedDate = null;
-            TankKaartTextBox.Text = null;
+            TankKaartNummerBox.Text = null;
             GekozenBestuurderNaam.Text = string.Empty;
             GekozenBestuurder = null;
             GeldigheidsDatumDatePicker.SelectedDate = null;

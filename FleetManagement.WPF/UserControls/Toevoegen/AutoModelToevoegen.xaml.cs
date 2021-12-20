@@ -59,8 +59,8 @@ namespace FleetManagement.WPF.UserControls.Toevoegen {
                 string selectedModel = AutoTypesComboBox.SelectedItem.ToString();
 
                 AutoModel nieuweAutoModel = new(
-                    Merknaam.Text,
-                    AutoModelNaam.Text,
+                    Merknaam.Text.Trim(),
+                    AutoModelNaam.Text.Trim(),
                     new AutoType(selectedModel != DisplayFirst ? selectedModel : "")
                 );
                 _managers.AutoModelManager.VoegAutoModelToe(nieuweAutoModel);

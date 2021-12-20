@@ -12,7 +12,7 @@ namespace ConsoleApplicatie
     {
         private static readonly string _connectionstring = "Data Source=.\\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True; MultipleActiveResultSets=True";
 
-        private static void Main(string[] args)
+        private static void Main()
         {
             Console.WriteLine("Test Bestuurder Repo: ");
             BestuurderRepoTest();

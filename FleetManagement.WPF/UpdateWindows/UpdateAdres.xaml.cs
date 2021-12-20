@@ -47,10 +47,10 @@ namespace FleetManagement.WPF.UpdateWindows
 
         private void InvoegEnUpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            AdresGegevens.Straat = StraatTextBox.Text;
-            AdresGegevens.Nr = NummerTextBox.Text;
-            AdresGegevens.Postcode = PostcodeTextBox.Text;
-            AdresGegevens.Gemeente = GemeenteTextBox.Text;
+            AdresGegevens.Straat = StraatTextBox.Text.Trim();
+            AdresGegevens.Nr = NummerTextBox.Text.Trim();
+            AdresGegevens.Postcode = PostcodeTextBox.Text.Trim();
+            AdresGegevens.Gemeente = GemeenteTextBox.Text.Trim();
 
             DialogResult = true;
         }
