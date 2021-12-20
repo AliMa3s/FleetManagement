@@ -1,0 +1,171 @@
+﻿Run de queries om een snelle start te nemen: 
+Deze queries zijn getest met MSSMS en daarna getest met ConsoleApp
+
+1). Maak database in SQLEXPRESS via MSSMS, genaamd: fleetManagement
+2). Run de queries hieronderaan
+3). Je kan bij voorkeur eerst de ConsoleApp starten als test (Eventueel ConsoleApplicatie als startup project kiezen)
+4). Je kan daarna of direct FleetManagement.ADO als startup project kiezen
+5). Run de debugger en je kan aan de slag
+
+Script:
+/***********************************************************************************************************/
+CREATE TABLE [dbo].[Adres] (
+    [adresid]  INT          IDENTITY (1, 1) NOT NULL,
+    [straat]   NVARCHAR(150)   NULL,
+    [nummer]   NVARCHAR(150)   NULL,
+    [gemeente] NVARCHAR(150)   NULL,
+    [postcode] NVARCHAR(150)    NULL,
+    PRIMARY KEY CLUSTERED ([adresid] ASC),
+);
+
+CREATE TABLE [dbo].[Automodel] (
+    [automodelid]    INT            IDENTITY (1, 1) NOT NULL,
+    [merknaam]      NVARCHAR (150)  NOT NULL,
+    [automodelnaam] NVARCHAR (150) NOT NULL,
+    [autotype]       NVARCHAR (150)  NOT NULL,
+    PRIMARY KEY CLUSTERED ([automodelid] ASC)
+);
+
+CREATE TABLE [dbo].[Brandstoftype] (
+    [brandstoftypeid]   INT           IDENTITY (1, 1) NOT NULL,
+    [brandstofnaam] NVARCHAR (150) NOT NULL,
+    PRIMARY KEY CLUSTERED ([brandstoftypeid] ASC)
+);
+
+CREATE TABLE [dbo].[Kleur] (
+    [kleurid]   INT  NOT NULL IDENTITY(1,1),
+    [kleurnaam] NVARCHAR (150) NOT NULL,
+    PRIMARY KEY CLUSTERED ([kleurid] ASC)
+);
+
+CREATE TABLE [dbo].[Voertuig] (
+    [voertuigid]      INT           IDENTITY (1, 1) NOT NULL,
+    [automodelid]     INT           NOT NULL,
+    [brandstoftypeid] INT           NOT NULL,
+    [hybride]         BIT           NOT NULL,
+    [kleurnaam]       NVARCHAR (150) NULL,
+    [aantal_deuren]   NVARCHAR (25)  NULL,
+    [chassisnummer]   NVARCHAR (25) NOT NULL,
+    [nummerplaat]     NVARCHAR (25)  NOT NULL,
+    [inboekdatum]     DATE    NULL,
+    PRIMARY KEY CLUSTERED ([voertuigid] ASC),
+    UNIQUE NONCLUSTERED ([nummerplaat] ASC),
+    UNIQUE NONCLUSTERED ([chassisnummer] ASC),
+    CONSTRAINT [FK_Voertuig_automodel] FOREIGN KEY ([automodelid]) REFERENCES [dbo].[Automodel] ([automodelid]),
+    CONSTRAINT [FK_Voertuig_Brandstoftype] FOREIGN KEY ([brandstoftypeid]) REFERENCES [dbo].[Brandstoftype] ([brandstoftypeid]),
+);
+
+CREATE TABLE [dbo].[Bestuurder] (
+    [bestuurderid]        INT            IDENTITY (1, 1) NOT NULL,
+    [adresid]             INT            NULL,
+    [voornaam]            NVARCHAR (150)  NOT NULL,
+    [achternaam]          NVARCHAR (150)  NOT NULL,
+    [geboortedatum]       NVARCHAR (150)  NOT NULL,
+    [rijksregisternummer] NVARCHAR (25)  NOT NULL,
+    [rijbewijstype]       NVARCHAR (150) NOT NULL,
+    [aanmaakdatum]        DATE      NULL,
+    [voertuigid]          INT       NULL,
+    PRIMARY KEY CLUSTERED ([bestuurderid] ASC),
+    UNIQUE NONCLUSTERED ([rijksregisternummer] ASC),
+    CONSTRAINT [FK_Table_Adres] FOREIGN KEY ([adresid]) REFERENCES [dbo].[Adres] ([adresid]),
+    CONSTRAINT [FK_Bestuurder_Voertuig] FOREIGN KEY ([voertuigid]) REFERENCES [dbo].[Voertuig] ([voertuigid]), 
+);
+
+CREATE TABLE [dbo].[Tankkaart] (
+    [tankkaartnummer]  NVARCHAR (25) NOT NULL,
+    [bestuurderid]     INT           NULL,
+    [geldigheidsdatum] DATE          NOT NULL,
+    [pincode]          NVARCHAR (25)  NULL,
+    [actief]           BIT       NOT NULL,
+    [uitgeefdatum]     DATE    NULL,
+    PRIMARY KEY CLUSTERED ([tankkaartnummer] ASC),
+    CONSTRAINT [FK_Tankkaart_Bestuurder] FOREIGN KEY ([bestuurderid]) REFERENCES [dbo].[Bestuurder] ([bestuurderid])
+);
+
+CREATE TABLE [dbo].[Tankkaart_Brandstoftype] (
+    [tankkaartnummer] NVARCHAR (25) NOT NULL,
+    [brandstoftypeid] INT           NOT NULL,
+    CONSTRAINT [PK_Tankkaart_Brandstoftype] PRIMARY KEY CLUSTERED ([tankkaartnummer],[brandstoftypeid] ASC),
+    CONSTRAINT [FK_Tankkaart_Brandstoftype_tankkaart] FOREIGN KEY ([tankkaartnummer]) REFERENCES [dbo].[Tankkaart] ([tankkaartnummer]),
+    CONSTRAINT [FK_Tankkaart_Brandstoftype_brandstoftype] FOREIGN KEY ([brandstoftypeid]) REFERENCES [dbo].[Brandstoftype] ([brandstoftypeid])
+);
+
+INSERT INTO Kleur(kleurnaam) 
+OUTPUT INSERTED.kleurid VALUES ('Zwart')
+
+INSERT INTO Kleur(kleurnaam) 
+OUTPUT INSERTED.kleurid VALUES ('Wit')
+
+INSERT INTO Kleur(kleurnaam) 
+OUTPUT INSERTED.kleurid VALUES ('Beige')
+
+INSERT INTO Kleur(kleurnaam) 
+OUTPUT INSERTED.kleurid VALUES ('Bruin')
+
+INSERT INTO Kleur(kleurnaam) 
+OUTPUT INSERTED.kleurid VALUES ('Groen')
+
+INSERT INTO Kleur(kleurnaam) 
+OUTPUT INSERTED.kleurid VALUES ('Rood')
+
+INSERT INTO Kleur(kleurnaam) 
+OUTPUT INSERTED.kleurid VALUES ('Geel')
+
+INSERT INTO Kleur(kleurnaam) 
+OUTPUT INSERTED.kleurid VALUES ('Grijs')
+
+INSERT INTO Kleur(kleurnaam) 
+OUTPUT INSERTED.kleurid VALUES ('Oranje')
+
+INSERT INTO Kleur(kleurnaam) 
+OUTPUT INSERTED.kleurid VALUES ('Paars')
+
+INSERT INTO Brandstoftype(brandstofnaam) 
+OUTPUT INSERTED.brandstoftypeid VALUES ('Benzine')
+
+INSERT INTO Brandstoftype(brandstofnaam) 
+OUTPUT INSERTED.brandstoftypeid VALUES ('Diesel')
+
+INSERT INTO Brandstoftype(brandstofnaam) 
+OUTPUT INSERTED.brandstoftypeid VALUES ('Gas')
+
+INSERT INTO Brandstoftype(brandstofnaam) 
+OUTPUT INSERTED.brandstoftypeid VALUES ('Waterstof')
+
+INSERT INTO Brandstoftype(brandstofnaam) 
+OUTPUT INSERTED.brandstoftypeid VALUES ('Elektrisch')
+
+INSERT INTO Automodel(merknaam, automodelnaam, autotype) 
+OUTPUT INSERTED.automodelid VALUES ('Toyota','Celica T','Sportwagen')
+
+INSERT INTO Automodel(merknaam, automodelnaam, autotype) 
+OUTPUT INSERTED.automodelid VALUES ('Toyota','Celica S','Coupé')
+
+INSERT INTO Automodel(merknaam, automodelnaam, autotype) 
+OUTPUT INSERTED.automodelid VALUES ('BMW','iX','Coupé')
+
+INSERT INTO Automodel(merknaam, automodelnaam, autotype) 
+OUTPUT INSERTED.automodelid VALUES ('BMW','i4','Coupé')
+
+INSERT INTO Automodel(merknaam, automodelnaam, autotype) 
+OUTPUT INSERTED.automodelid VALUES ('BMW','iX3','Coupé')
+
+INSERT INTO Automodel(merknaam, automodelnaam, autotype) 
+OUTPUT INSERTED.automodelid VALUES ('Land Rover','Range Rover','Terreinwagen')
+
+INSERT INTO Automodel(merknaam, automodelnaam, autotype) 
+OUTPUT INSERTED.automodelid VALUES ('Lexus','NX','Sedan')
+
+INSERT INTO Adres (straat, nummer, postcode, gemeente)
+OUTPUT INSERTED.adresid  VALUES ('L.Schuermanstraat', '20', '9040','Sint-Amandsberg')
+
+INSERT INTO Bestuurder (adresid, voornaam, achternaam, geboortedatum, rijksregisternummer,rijbewijstype) 
+OUTPUT INSERTED.bestuurderid VALUES ('1','Filip', 'Rigoir', '1976-03-31', '76033101986', 'B')
+
+INSERT INTO Bestuurder (voornaam, achternaam, geboortedatum, rijksregisternummer,rijbewijstype) 
+OUTPUT INSERTED.bestuurderid VALUES ('Ingrid', 'Rigoir', '1976-00-31', '76003101965', 'B,C')
+
+INSERT INTO Bestuurder (voornaam, achternaam, geboortedatum, rijksregisternummer,rijbewijstype) 
+OUTPUT INSERTED.bestuurderid  VALUES ('Jos', 'Rinoir', '1976-00-00', '76000001925', 'A,B')
+
+/***********************************************************************************************************/
