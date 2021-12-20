@@ -38,6 +38,8 @@ namespace FleetManagement.WPF.UpdateWindows
             InitializeComponent();
             _managers = managers;
             _voertuig = voertuig;
+
+            DataContext = VoertuigDetail;
         }
 
         private void UpdateVoertuigButton_Click(object sender, RoutedEventArgs e)
@@ -52,7 +54,7 @@ namespace FleetManagement.WPF.UpdateWindows
 
         private void SluitVoertuigForm_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogResult = false;
         }
 
         private void KiesBestuurder_Click(object sender, RoutedEventArgs e)

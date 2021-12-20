@@ -27,7 +27,7 @@ namespace FleetManagement.WPF
         public ZoekWindow(Managers managers)
         {
             InitializeComponent();
-            Title = "FleetManagement Zoekscherm";
+            Title = "Fleet Management Zoeken & Updaten";
             _managers = managers;
 
             VoertuigZoekTab.Content = new VoertuigZoeken(_managers);  

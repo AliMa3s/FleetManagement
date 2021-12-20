@@ -115,6 +115,7 @@ namespace FleetManagement.WPF.SelecteerWindows
             {
                 TextBoxFilterOpNaam.Text = string.Empty;
                 TextBoxFilterOpNaam.Foreground = Brushes.Black;
+                BestuurdersLijst.SelectedItem = null;
             }
         }
 

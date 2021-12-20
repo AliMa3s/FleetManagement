@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF.DetailWindows"
         mc:Ignorable="d"
-        Title="TankkaartDetails" Height="600" Width="800">
+        Title="Fleet Management Tankkaartdetail" Height="600" Width="800">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="Black" />

@@ -24,6 +24,8 @@ namespace FleetManagement.WPF.SelecteerWindows
         private readonly AutoModelManager _manager;
         private AutoModel _autoModel;
 
+        public string Placeholder { get; } = "Merk + Automodel";
+
         public AutoModel AutoModel
         {
             get => _autoModel;
@@ -40,6 +42,7 @@ namespace FleetManagement.WPF.SelecteerWindows
             _manager = autoModelManager;
 
             AutoModellenLijst.ItemsSource = _manager.FilterOpAutoModelNaam("");
+            TextBoxFilterAutonaam.Text = Placeholder;
         }
 
         //Automodel bewaren telkens een Model wordt geselecteerd
@@ -64,12 +67,21 @@ namespace FleetManagement.WPF.SelecteerWindows
 
         private void TextBoxFilterOpAutoModel_GotFocus(object sender, RoutedEventArgs e)
         {
-            //placeholder
+            if (TextBoxFilterAutonaam.Text == Placeholder)
+            {
+                TextBoxFilterAutonaam.Text = string.Empty;
+                TextBoxFilterAutonaam.Foreground = Brushes.Black;
+                AutoModellenLijst.SelectedItem = null;
+            }
         }
 
         private void TextBoxFilterOpAutoModel_LostFocus(object sender, RoutedEventArgs e)
         {
-            //placeholder
+            if (string.IsNullOrWhiteSpace(TextBoxFilterAutonaam.Text))
+            {
+                TextBoxFilterAutonaam.Text = Placeholder;
+                TextBoxFilterAutonaam.Foreground = Brushes.LightSlateGray;
+            }
         }
 
         private void VoegAutomodelToe_Click(object sender, RoutedEventArgs e)
@@ -83,7 +95,10 @@ namespace FleetManagement.WPF.SelecteerWindows
 
         private void TextBoxFilterAutonaam_TextChanged(object sender, TextChangedEventArgs e)
         {
-            AutoModellenLijst.ItemsSource = _manager.FilterOpAutoModelNaam(TextBoxFilterAutonaam.Text);
+            if(TextBoxFilterAutonaam.Text != Placeholder)
+            {
+                AutoModellenLijst.ItemsSource = _manager.FilterOpAutoModelNaam(TextBoxFilterAutonaam.Text);
+            }
         }
     }
 }

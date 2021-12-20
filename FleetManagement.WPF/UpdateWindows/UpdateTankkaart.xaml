@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF.UpdateWindows"
         mc:Ignorable="d"
-        Title="Update Tankkaart" Height="600" Width="800">
+        Title="Fleet Management Tankkaart" Height="600" Width="800">
     <DockPanel Background="LightBlue" Margin="-2">
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
@@ -37,7 +37,7 @@
                     <RowDefinition Height="20*"/>
                 </Grid.RowDefinitions>
 
-                <Label x:Name="FormTankkaart" Content="Tankkaart Updaten" Grid.Row="0" Grid.ColumnSpan="5" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
+                <Label x:Name="FormTankkaart" Content="Update Tankkaart" Grid.Row="0" Grid.ColumnSpan="5" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
                 <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Uitgeefdatum:</Label>
                 <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Tankkaartnummer: *</Label>
                 <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Geldigheidsdatum: *</Label>

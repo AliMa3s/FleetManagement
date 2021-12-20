@@ -37,12 +37,12 @@ namespace FleetManagement.WPF.AanmaakWindows {
 
             if(_adres != null)
             {
-                FormAdres.Content = "Update nieuw adres";
+                FormAdres.Content = "Update Adres";
                 invoegEnUpdateButton.Content = "Updaten";
             }
             else
             {
-                FormAdres.Content = "Nieuw adres ingeven";
+                FormAdres.Content = "Nieuw Adres";
                 invoegEnUpdateButton.Content = "Aanmaken";
             }
 

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF.SelecteerWindows" xmlns:local1="clr-namespace:FleetManagement.WPF.Converters"
         mc:Ignorable="d"
-        Title="SelecteerVoertuig" Height="450" Width="800">
+        Title="Fleet Management Voertuiglijst" Height="450" Width="800">
     <Window.Resources>
         <local1:NummerplaatConverter x:Key="NummerplaatConverter"/>
         <local1:IsHybrideConverter x:Key="IsHybrideConverter"/>
@@ -16,7 +16,7 @@
             <DockPanel DockPanel.Dock="Bottom" Height="60" VerticalAlignment="Bottom" LastChildFill="False">
 
                 <Label  Height="36" VerticalAlignment="Center" FontSize="15" VerticalContentAlignment="Center" Margin="20,0,0,0" Width="85" HorizontalAlignment="Left">Voertuig:</Label>
-                <TextBox x:Name="ZoekWeergaveVoertuig"  VerticalContentAlignment="Center" Text="" Foreground="LightSlateGray" VerticalAlignment="Center" Margin="0,0,0,0" MinWidth="410" HorizontalAlignment="Stretch" Height="36" GotFocus="TextBoxFilterOpVoertuig_GotFocus" LostFocus="TextBoxFilterOpVoertuig_LostFocus" TextChanged="TextBoxFilterVoertuig_TextChanged" ></TextBox>
+                <TextBox x:Name="ZoekWeergaveVoertuig" VerticalContentAlignment="Center" Text="" Foreground="LightSlateGray" VerticalAlignment="Center" Margin="0,0,0,0" MinWidth="410" HorizontalAlignment="Stretch" Height="36" GotFocus="TextBoxFilterOpVoertuig_GotFocus" LostFocus="TextBoxFilterOpVoertuig_LostFocus" TextChanged="TextBoxFilterVoertuig_TextChanged" ></TextBox>
                 <Button x:Name="AnnuleerVoertuig" Content="Annuleer" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" Click="ButtonAnnuleer_Click" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
                 <Button x:Name="VoegVoertuigToe" Content="Kies" Background="#FFCAD5EA" VerticalAlignment="Center" Height="36" Margin="0,0,20,0" Width="86" DockPanel.Dock="Right" HorizontalAlignment="Right" Click="VoegVoertuigToe_Click"/>
             </DockPanel>
@@ -27,7 +27,7 @@
                           Background="LightBlue" 
                          DockPanel.Dock="Top">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header=" Voertuig " Binding="{Binding Voertuignaam}"/>
+                    <DataGridTextColumn Header=" Voertuig " Binding="{Binding VoertuigNaam}"/>
                     <DataGridTextColumn Header=" Autotype " Binding="{Binding AutoModel.AutoType.AutoTypeNaam}"/>
                     <DataGridTextColumn Header=" Brandstof " Binding="{Binding Brandstof.BrandstofNaam}"/>
                     <DataGridTextColumn Header=" Hybride " Binding="{Binding Brandstof.Hybride, Converter={StaticResource IsHybrideConverter}}"/>

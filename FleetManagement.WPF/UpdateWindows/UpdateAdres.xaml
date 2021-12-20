@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF.UpdateWindows"
         mc:Ignorable="d"
-        Title="UpdateNieuwAdres" Height="400" Width="450">
+        Title="Fleet Management Adres" Height="400" Width="450">
     <DockPanel Background="LightBlue" Margin="0">
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="75" VerticalAlignment="Bottom" LastChildFill="False">

@@ -29,7 +29,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private int _tankkaartItem;
         private string _zoekOpTankkaartNummer;
 
-        private string PlaceHolderTankkaart { get; }= "Tankkaartnummer";
+        private string PlaceHolderTankkaart { get; } = "Tankkaartnummer";
         public TankKaart TankkaartWeergave
         {
             get => _tankkaart;
@@ -167,6 +167,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             {
                 TankkaartNummer.Text = string.Empty;
                 TankkaartNummer.Foreground = Brushes.Black;
+                ZoekweergaveTankkaart.SelectedItem = null;
             }
         }
 

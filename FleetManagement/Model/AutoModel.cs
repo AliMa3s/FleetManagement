@@ -18,13 +18,11 @@ namespace FleetManagement.Model
         {
 #warning exceptions voor test
 
-            if(string.IsNullOrWhiteSpace(merk)) throw new AutoModelException("Merk moet ingevuld zijn");
-            if (string.IsNullOrWhiteSpace(autoModelNaam)) throw new AutoModelException("AutoModelnaam moet ingevuld zijn");
-            if (autoType == null) throw new AutoModelException("Autotype moet ingevuld zijn");
-
+            if (string.IsNullOrWhiteSpace(merk)) { throw new AutoModelException("Merk moet ingevuld zijn"); }
+            if (string.IsNullOrWhiteSpace(autoModelNaam)) { throw new AutoModelException("AutoModelnaam moet ingevuld zijn"); }
             Merk = merk;
             AutoModelNaam = autoModelNaam;
-            AutoType = autoType;
+            AutoType = autoType ?? throw new AutoModelException("Autotype moet ingevuld zijn");
         }
 
         public AutoModel(int autoModelId, string merk, string autoModelNaam, AutoType autoType) 

@@ -38,7 +38,6 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             {
                 _voertuig = value;
                 ZoekWeergaveVoertuig.SelectedItem = value;
-
             }
         }
 
@@ -75,7 +74,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             if (_voertuig != null)
             {
-                VoertuigDetails detailWindow = new VoertuigDetails(_managers, _voertuig)
+                VoertuigDetails detailWindow = new(_managers, _voertuig)
                 {
                     Owner = Window.GetWindow(this),
                 };
@@ -161,6 +160,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             {
                 AutomodelNaam.Text = string.Empty;
                 AutomodelNaam.Foreground = Brushes.Black;
+                ZoekWeergaveVoertuig.SelectedItem = null;
             }
         }
 
@@ -186,6 +186,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             }
             else
             {
+                infoVoertuigMess.Foreground = Brushes.Red;
                 infoVoertuigMess.Text = "Geen resultaten gevonden";
             }
         }
@@ -194,7 +195,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             if (_voertuig != null)
             {
-                VoertuigDetails detailWindow = new VoertuigDetails(_managers, _voertuig)
+                VoertuigDetails detailWindow = new(_managers, _voertuig)
                 {
                     Owner = Window.GetWindow(this),
                 };
@@ -203,6 +204,8 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 if (verwijderd == true)
                 {
                     FilterVoertuigDB();
+                    infoVoertuigMess.Foreground = Brushes.Green;
+                    infoVoertuigMess.Text = "Voertuig succesvol verwijderd";
                 }
             }
         }

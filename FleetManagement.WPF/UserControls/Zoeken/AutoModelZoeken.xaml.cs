@@ -26,7 +26,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private string _filterOpAutoModel = "";
 
-        public string PlaceholderModelNaam { get; } = "Merk + Model";
+        public string PlaceholderModelNaam { get; } = "Merk + Automodel";
 
         private AutoModel _autoModel;
         public AutoModel AutoModel {
@@ -81,6 +81,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             {
                 FilterOpAutoModel.Text = string.Empty;
                 FilterOpAutoModel.Foreground = Brushes.Black;
+                AutoModellenLijst.SelectedItem = null;
             }
         }
 

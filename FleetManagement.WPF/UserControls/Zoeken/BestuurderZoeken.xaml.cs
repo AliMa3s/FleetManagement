@@ -135,7 +135,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             {
                 RijksregisterBox.Text = string.Empty;
                 RijksregisterBox.Foreground = Brushes.Black;
-
+                BestuurderZoekWeergave.SelectedItem = null;
             }
         }
 

@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF.UpdateWindows"
-        mc:Ignorable="d"
-        Title="UpdateAutoModel" Height="600" Width="800">
+        mc:Ignorable="d" 
+        Title="Fleet Management Automdel"
+        Height="600" Width="800">
     <DockPanel Background="LightBlue" Margin="-2">
         <DockPanel.Children>
             <DockPanel DockPanel.Dock="Bottom" Background="LightSteelBlue" Height="100" VerticalAlignment="Bottom" LastChildFill="False">
@@ -38,8 +39,8 @@
 
                 <Label x:Name="UpdateformBestuurder" Grid.Row="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" Content="Update AutoModel" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
                 <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Merknaam: *</Label>
-                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">AutoModelNaam: *</Label>
-                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">AutoType: *</Label>
+                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Automodel: *</Label>
+                <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Autotype: *</Label>
 
                 <TextBox x:Name="Merknaam" Text="{Binding Path=Merk, Mode=OneWay}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>
                 <TextBox x:Name="AutoModelNaam" Text="{Binding Path=AutoModelNaam, Mode=OneWay}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="14" Padding="5"/>

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF.SelecteerWindows" xmlns:local1="clr-namespace:FleetManagement.WPF.Converters"
         mc:Ignorable="d"
+        Title="Fleet Management Bestuurderslijst"
         Height="600" Width="800">
     <Window.Resources>
         <local1:RijksregisterConverter x:Key="RijksregisterConverter"/>

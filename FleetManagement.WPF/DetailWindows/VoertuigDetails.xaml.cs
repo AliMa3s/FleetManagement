@@ -24,6 +24,8 @@ namespace FleetManagement.WPF.DetailWindows {
         private readonly Managers _managers;
         private Voertuig _voertuigDetail;
 
+        public bool? Updatetet { get; set; }
+
         public VoertuigDetails(Managers managers, Voertuig voertuig) {
 
             InitializeComponent();
@@ -66,7 +68,6 @@ namespace FleetManagement.WPF.DetailWindows {
             UpdateVoertuig updateVoertuig = new(_managers, _voertuigDetail)
             {
                 Owner = Window.GetWindow(this),
-                VoertuigDetail = _voertuigDetail
             };
 
             bool? updatetet = updateVoertuig.ShowDialog();
@@ -88,12 +89,17 @@ namespace FleetManagement.WPF.DetailWindows {
             bool? verwijderen = bevestigingWindow.ShowDialog();
             if (verwijderen == true)
             {
-                //_managers.VoertuigManager.VerwijderVoertuig(_voertuigDetail);
-
-                Window.GetWindow(this).Close();
-
-                //Verwijder via manager; bij succes sluit scherm
-                //+ update list en verwijder uit de lijst of vraag terug result aan manager
+                try
+                {
+                    _managers.VoertuigManager.VerwijderVoertuig(_voertuigDetail);
+                    Updatetet = true;
+                    DialogResult = true;
+                }
+                catch (Exception ex)
+                {
+                    infoVoertuigMess.Foreground = Brushes.Red;
+                    infoVoertuigMess.Text = ex.Message;
+                }
             }
         }
     }

@@ -10,7 +10,7 @@ namespace ConsoleApplicatie
 {
     class Program
     {
-        private static string _connectionstring = "Data Source=.\\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True; MultipleActiveResultSets=True";
+        private static readonly string _connectionstring = "Data Source=.\\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True; MultipleActiveResultSets=True";
 
         static void Main(string[] args)
         {
@@ -122,7 +122,6 @@ namespace ConsoleApplicatie
             }
 
             Console.WriteLine("----------------------------------------------------------------------");
-            repo = null;
         }
 
         public static void TankkaartRepoTest(string tankkaartnummerStart, string tankkaartnummerUpdate)
@@ -303,9 +302,6 @@ namespace ConsoleApplicatie
             }
 
             Console.WriteLine("----------------------------------------------------------------------");
-            voertuigRepo = null;
-            autoModelrepo = null;
-            brandstofRepo = null;
         }
     }
 }

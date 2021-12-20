@@ -120,6 +120,11 @@ namespace FleetManagement.Manager {
         public void VerwijderVoertuig(Voertuig voertuig) {
             try {
                 if (voertuig == null) throw new VoertuigManagerException("Voertuig - Voertuig mag niet null zijn");
+
+                if (voertuig.HeeftVoertuigBestuurder) {
+                    throw new BestuurderManagerException("Kan voertuig met bestuurder niet verwijderen");
+                }
+
                 if (BestaatVoertuig(voertuig)) {
                     _repo.VerwijderVoertuig(voertuig);
                 } else {

@@ -24,8 +24,7 @@ namespace FleetManagement.WPF
         public ToevoegWindow(Managers managers)
         {
             InitializeComponent();
-            Title = "FleetManagement Toevoegscherm";
-            Title = "Toevoegbeheer";
+            Title = "Fleet Management Toevoegbeheer";
 
             VoertuigToevoegTab.Content = new VoertuigToevoegen(managers);
             BestuurderToevoegTab.Content = new BestuurderToevoegen(managers);

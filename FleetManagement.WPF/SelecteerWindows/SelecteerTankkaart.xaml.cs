@@ -24,6 +24,8 @@ namespace FleetManagement.WPF.SelecteerWindows
         private readonly TankkaartManager _tankkaartManager;
         private TankKaart _tankkaart;
 
+        public string Placeholder { get; } = "Tankkaartnummer";
+
         public TankKaart Tankkaart {
             get => _tankkaart;
             set {
@@ -36,6 +38,7 @@ namespace FleetManagement.WPF.SelecteerWindows
             InitializeComponent();
             _tankkaartManager = manager;
 
+            TankkaartNummerText.Text = Placeholder;
             TankkaartLijst.ItemsSource = _tankkaartManager.TankaartenZonderBestuurder();
         }
         //tankkaart bewaren telkens een Bestuurder wordt geselecteerd
@@ -75,7 +78,6 @@ namespace FleetManagement.WPF.SelecteerWindows
 
         private void ZoekOpTankkaartNummer_Click(object sender, RoutedEventArgs e)
         {
-
             TankKaart tankkaart = _tankkaartManager.ZoekTankKaart(TankkaartNummerText.Text);
 
             if(tankkaart != null)
@@ -87,6 +89,25 @@ namespace FleetManagement.WPF.SelecteerWindows
             else
             {
                 infoTankkaartMess.Text = "Geen resultaten";
+            }
+        }
+
+        private void TankkaartNummerText_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (TankkaartNummerText.Text == Placeholder)
+            {
+                TankkaartNummerText.Text = string.Empty;
+                TankkaartNummerText.Foreground = Brushes.Black;
+                TankkaartLijst.SelectedItem = null;
+            }
+        }
+
+        private void TankkaartNummerText_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TankkaartNummerText.Text))
+            {
+                TankkaartNummerText.Text = Placeholder;
+                TankkaartNummerText.Foreground = Brushes.LightSlateGray;
             }
         }
     }

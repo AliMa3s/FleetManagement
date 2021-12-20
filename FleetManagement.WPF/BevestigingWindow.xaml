@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF"
         mc:Ignorable="d"
-        Title="Bevestiging" Height="200" Width="500">
+        Title="Fleet Management Bevestiging" Height="200" Width="500">
     <DockPanel Background="LightBlue" Margin="0">
         <DockPanel.Children>
 

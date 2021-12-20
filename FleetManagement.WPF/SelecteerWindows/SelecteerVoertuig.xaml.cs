@@ -24,6 +24,8 @@ namespace FleetManagement.WPF.SelecteerWindows
         private readonly VoertuigManager _manager;
         private Voertuig _gekozenVoertuig;
 
+        public string Placeholder { get; } = "Merk + Automodel";
+
         public Voertuig GekozenVoertuig
         {
             get => _gekozenVoertuig;
@@ -40,6 +42,7 @@ namespace FleetManagement.WPF.SelecteerWindows
             _manager = VoertuigManager;
 
             VoertuigenLijst.ItemsSource = _manager.SelecteerZonderBestuurderFilter(ZoekWeergaveVoertuig.Text);
+            ZoekWeergaveVoertuig.Text = Placeholder;
         }
 
         //Automodel bewaren telkens een Model wordt geselecteerd
@@ -68,7 +71,10 @@ namespace FleetManagement.WPF.SelecteerWindows
 
         private void TextBoxFilterVoertuig_TextChanged(object sender, TextChangedEventArgs e)
         {
-            VoertuigenLijst.ItemsSource = _manager.SelecteerZonderBestuurderFilter(ZoekWeergaveVoertuig.Text);
+            if(ZoekWeergaveVoertuig.Text != Placeholder)
+            {
+                VoertuigenLijst.ItemsSource = _manager.SelecteerZonderBestuurderFilter(ZoekWeergaveVoertuig.Text);
+            }
         }
 
         private void ButtonAnnuleer_Click(object sender, RoutedEventArgs e)
@@ -78,12 +84,21 @@ namespace FleetManagement.WPF.SelecteerWindows
 
         private void TextBoxFilterOpVoertuig_GotFocus(object sender, RoutedEventArgs e)
         {
-            //placeholder
+            if (ZoekWeergaveVoertuig.Text == Placeholder)
+            {
+                ZoekWeergaveVoertuig.Text = string.Empty;
+                ZoekWeergaveVoertuig.Foreground = Brushes.Black;
+                VoertuigenLijst.SelectedItem = null;
+            }
         }
 
         private void TextBoxFilterOpVoertuig_LostFocus(object sender, RoutedEventArgs e)
         {
-            //placeholder
+            if (string.IsNullOrWhiteSpace(ZoekWeergaveVoertuig.Text))
+            {
+                ZoekWeergaveVoertuig.Text = Placeholder;
+                ZoekWeergaveVoertuig.Foreground = Brushes.LightSlateGray;
+            }
         }
     }
 }
