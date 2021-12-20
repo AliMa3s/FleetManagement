@@ -4,7 +4,7 @@ Deze queries zijn getest met MSSMS en daarna getest met ConsoleApp
 1). Maak database in SQLEXPRESS via MSSMS, genaamd: fleetManagement
 2). Run de queries hieronderaan
 3). Je kan bij voorkeur eerst de ConsoleApp starten als test (Eventueel ConsoleApplicatie als startup project kiezen)
-4). Je kan daarna of direct FleetManagement.ADO als startup project kiezen
+4). Je kan daarna of direct FleetManagement.WPF als startup project kiezen
 5). Run de debugger en je kan aan de slag
 
 Script:
