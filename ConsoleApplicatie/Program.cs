@@ -8,11 +8,11 @@ using System.Text;
 
 namespace ConsoleApplicatie
 {
-    class Program
+    internal class Program
     {
         private static readonly string _connectionstring = "Data Source=.\\SQLEXPRESS;Initial Catalog=fleetManagement;Integrated Security=True; MultipleActiveResultSets=True";
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Console.WriteLine("Test Bestuurder Repo: ");
             BestuurderRepoTest();
@@ -22,15 +22,15 @@ namespace ConsoleApplicatie
              * Of was handmatig eerst brandstoffen in koppeltabel en dan tankaart
              */
             Console.WriteLine("Test Tankkaart Repo: ");
-            string t1 = "99999999999999999828";
-            string t2 = "11111111111111111676";
+            string t1 = "99999999999998999828";
+            string t2 = "11111111111117111676";
             TankkaartRepoTest(t1, t2);
 
             Console.WriteLine("Test Voertuig Repo: ");
             VoertuigRepoTest();
         }
 
-        public static void BestuurderRepoTest()
+        private static void BestuurderRepoTest()
         {
             //Maak repo bestuurder
             BestuurderRepositoryADO repo = new(_connectionstring);
@@ -124,7 +124,7 @@ namespace ConsoleApplicatie
             Console.WriteLine("----------------------------------------------------------------------");
         }
 
-        public static void TankkaartRepoTest(string tankkaartnummerStart, string tankkaartnummerUpdate)
+        private static void TankkaartRepoTest(string tankkaartnummerStart, string tankkaartnummerUpdate)
         {            
             //Maak repo Tankkaart
             TankkaartRepositoryADO repo = new(_connectionstring);
@@ -200,7 +200,7 @@ namespace ConsoleApplicatie
                         Console.WriteLine(str.ToString());
 
                         //Verwijder tankkaart is gevraagd om niet te kunnen verwijderen
-                        Console.WriteLine("Tankkaart kan niet verwijderd worden want moet steeds in DB blijven staan");
+                        Console.WriteLine("Tankkaart kan niet verwijderd worden (behalve brandstoffen) want moet in DB blijven staan");
 
                         //verwijder brandstoffen
                         repo.VerwijderBrandstoffen(zoekInDB);
@@ -224,7 +224,7 @@ namespace ConsoleApplicatie
             repo = null;
         }
 
-        public static void VoertuigRepoTest()
+        private static void VoertuigRepoTest()
         {
             //Maak repo Voertuig
             VoertuigRepositoryADO voertuigRepo = new(_connectionstring);

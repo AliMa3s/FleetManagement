@@ -60,7 +60,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             if (AutoModel != null)
             {
-                GetDetailWindow();
+                GetUpdateWindow();
             }
         }
 
@@ -71,7 +71,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private void KiesUpdate_Click(object sender, RoutedEventArgs e) {
             if (AutoModel != null)
             {
-                GetDetailWindow();
+                GetUpdateWindow();
             }
         }
 
@@ -99,13 +99,14 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             if (FilterOpAutoModel.Text != PlaceholderModelNaam)
             {
                 _filterOpAutoModel = FilterOpAutoModel.Text;
-
-                AutoModellenLijst.ItemsSource = _managers.AutoModelManager.FilterOpAutoModelNaam(_filterOpAutoModel);
+                FilterAutoModel();
             }
         }
 
-        private void GetDetailWindow()
+        private void GetUpdateWindow()
         {
+            infoAutoModelMess.Text = string.Empty;
+
             UpdateAutoModel detailWindow = new(_managers, AutoModel)
             {
                 Owner = Window.GetWindow(this),
@@ -114,15 +115,24 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             bool? updatet = detailWindow.ShowDialog();
             if ((bool)updatet)
             {
-                AutoModellenLijst.ItemsSource = _managers.AutoModelManager.FilterOpAutoModelNaam(_filterOpAutoModel);
+                FilterAutoModel();
+                infoAutoModelMess.Foreground = Brushes.Green;
+                infoAutoModelMess.Text = "Succesvol aangepast";
             }
         }
 
         private void ZoekOpAutoTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(ZoekOpAutoTypes.SelectedItem.ToString() != "Alles weergeven")
+            FilterAutoModel();
+        }
+
+        private void FilterAutoModel()
+        {
+            infoAutoModelMess.Text = string.Empty;
+
+            if (ZoekOpAutoTypes.SelectedItem.ToString() != "Alles weergeven")
             {
-                AutoModellenLijst.ItemsSource =_managers.AutoModelManager.ZoekOpAutoType(new(ZoekOpAutoTypes.SelectedItem.ToString()));
+                AutoModellenLijst.ItemsSource = _managers.AutoModelManager.ZoekOpAutoType(new(ZoekOpAutoTypes.SelectedItem.ToString()), _filterOpAutoModel);
             }
             else
             {

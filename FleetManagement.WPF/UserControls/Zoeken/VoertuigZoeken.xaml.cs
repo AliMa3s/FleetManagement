@@ -116,11 +116,6 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 Owner = Window.GetWindow(this),
             };
 
-            string automodelnaam = "";
-
-            if (AutomodelNaam.Text != PlaceHolderAutomodelNaam)
-                automodelnaam = AutomodelNaam.Text;
-
             bool? geslecteerd = FilterWindow.ShowDialog();
             if (geslecteerd == true)
             {

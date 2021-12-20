@@ -20,7 +20,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VerplichteVelden_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
 
             Assert.Equal("Filip", bestuurder.Voornaam);
             Assert.Equal("Rigoir", bestuurder.Achternaam);
@@ -60,7 +60,7 @@ namespace FleetManagement.Test.ModelTest {
         [InlineData("filip")]
         public void Bestuurder_voornaam_valid(string voornaam)
         {
-            Bestuurder bestuurder = new Bestuurder(voornaam, "yilmaz", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new(voornaam, "yilmaz", "1976/03/31", "B,E+1", "76033101986");
             Assert.Equal(voornaam, bestuurder.Voornaam);
         }
         [Theory]
@@ -83,7 +83,7 @@ namespace FleetManagement.Test.ModelTest {
         [InlineData("rigoir")]
         public void Bestuurder_achternaam_valid(string achternaam)
         {
-            Bestuurder bestuurder = new Bestuurder("ahmet", achternaam, "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("ahmet", achternaam, "1976/03/31", "B,E+1", "76033101986");
             Assert.Equal(achternaam, bestuurder.Achternaam);
         }
         [Theory]
@@ -103,7 +103,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void Ctor_NoId_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             Assert.Equal(0, bestuurder.BestuurderId);
             bestuurder.VoegIdToe(1);
             Assert.Equal(1, bestuurder.BestuurderId);
@@ -112,7 +112,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VoegId_HeeftID_Invalid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             var ex = Assert.Throws<BestuurderException>(() => bestuurder.VoegIdToe(1));
             Assert.Equal("BestuurderId is al aanwezig en kan niet gewijzigd worden", ex.Message);
 
@@ -121,7 +121,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void BestuurderAdres_NotNull_Ingevuld_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             bestuurder.Adres = new Adres("L.Schuermanstraat", "20", "9040", "Gent");
             Assert.NotNull(bestuurder.Adres);
         }
@@ -129,7 +129,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void BestuurderAdres_NotNull_NietIngevuld_Valid() 
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             bestuurder.Adres = new Adres("", "", "", "");
             Assert.NotNull(bestuurder.Adres);
         }
@@ -137,16 +137,16 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void InstantieVergelijking_Valid()
         {
-            Bestuurder bestuurder1 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
-            Bestuurder bestuurder2 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder1 = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder2 = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             Assert.True(bestuurder1.Equals(bestuurder2));
         }
 
         [Fact]
         public void InstantieVergelijking_InValid()
         {
-            Bestuurder bestuurder1 = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
-            Bestuurder bestuurder2 = new Bestuurder("Filip", "Rigoir", "2018-12-05", "B,E+1", "18120553401");
+            Bestuurder bestuurder1 = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder2 = new("Filip", "Rigoir", "2018-12-05", "B,E+1", "18120553401");
             Assert.False(bestuurder1.Equals(bestuurder2));
         }
 
@@ -160,7 +160,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VolledigeNaamProperty()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             Assert.Equal("Rigoir Filip", bestuurder.Naam);
         }
 
@@ -172,7 +172,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void GeefVoertuig_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             Voertuig voertuig = _voertuigNepRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
 
             bestuurder.VoegVoertuigToe(voertuig);
@@ -183,7 +183,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void GeefVoertuig_Relatie_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             Voertuig voertuig = _voertuigNepRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
 
             bestuurder.VoegVoertuigToe(voertuig);
@@ -195,7 +195,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void GeefVoertuig_InValid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             Voertuig voertuig = _voertuigNepRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
             bestuurder.VoegVoertuigToe(voertuig);
 
@@ -210,7 +210,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void GeefVoertuig_null_InValid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             Voertuig voertuig = _voertuigNepRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
 
             var ex = Assert.Throws<BestuurderException>(() => bestuurder.VoegVoertuigToe(null));
@@ -221,7 +221,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VerwijderVoertuig_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             Voertuig voertuig = _voertuigNepRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
             bestuurder.VoegVoertuigToe(voertuig);
             Assert.True(bestuurder.HeeftBestuurderVoertuig);
@@ -236,7 +236,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VerwijderVoertuig_InValid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             Voertuig voertuig = _voertuigNepRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
             bestuurder.VoegVoertuigToe(voertuig);
 
@@ -251,7 +251,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VerwijderVoertuig_null_InValid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
 
             var ex = Assert.Throws<BestuurderException>(() => bestuurder.VerwijderVoertuig(null));
             Assert.Equal("Voertuig mag niet null zijn", ex.Message);
@@ -260,7 +260,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VerwijderVoertuig_ZonderObject_InValid()
         {
-            Bestuurder bestuurder = new Bestuurder("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new("Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             Voertuig voertuig = _voertuigNepRepo.GeefVoertuig("ABCDEFGHJKLMN1234");
 
             //Verwijder voertuig zonder eerst een voortuig te hebben gegeven
@@ -276,7 +276,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void GeefTankKaart_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             TankKaart tankkaart = _tankKaartNepRepo.GeefTankKaart("1234567890123456789");
 
             bestuurder.VoegTankKaartToe(tankkaart);
@@ -288,7 +288,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void GeefTankKaart_Relatie_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             TankKaart tankkaart = _tankKaartNepRepo.GeefTankKaart("1234567890123456789");
 
             bestuurder.VoegTankKaartToe(tankkaart);
@@ -299,7 +299,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void GeefTankKaart_Relatie_InValid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             TankKaart tankkaart = _tankKaartNepRepo.GeefTankKaart("1234567890123456789");
 
             bestuurder.VoegTankKaartToe(tankkaart);
@@ -314,7 +314,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void GeefTankKaart_Null_InValid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             TankKaart tankkaart = _tankKaartNepRepo.GeefTankKaart("1234567890123456789");
 
             var ex = Assert.Throws<BestuurderException>(() => bestuurder.VoegTankKaartToe(null));
@@ -325,7 +325,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VerwijderTankKaart_Valid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             TankKaart tankkaart = _tankKaartNepRepo.GeefTankKaart("1234567890123456789");
 
             bestuurder.VoegTankKaartToe(tankkaart);
@@ -340,7 +340,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VerwijderTankKaart_InValid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             TankKaart tankkaart = _tankKaartNepRepo.GeefTankKaart("1234567890123456789");
 
             bestuurder.VoegTankKaartToe(tankkaart);
@@ -356,7 +356,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VerwijderTankKaart_Null_InValid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             TankKaart tankkaart = _tankKaartNepRepo.GeefTankKaart("1234567890123456789");
 
             var ex = Assert.Throws<BestuurderException>(() => bestuurder.VerwijderTankKaart(null));
@@ -366,7 +366,7 @@ namespace FleetManagement.Test.ModelTest {
         [Fact]
         public void VerwijderTankKaart_ZonderObject_InValid()
         {
-            Bestuurder bestuurder = new Bestuurder(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
+            Bestuurder bestuurder = new(1, "Filip", "Rigoir", "1976/03/31", "B,E+1", "76033101986");
             TankKaart tankkaart = _tankKaartNepRepo.GeefTankKaart("1234567890123456789");
 
             //verwijder tankkaart zonder eerst een tankkaart te hebben gegeven

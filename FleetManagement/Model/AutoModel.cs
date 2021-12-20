@@ -16,10 +16,9 @@ namespace FleetManagement.Model
 
         public AutoModel(string merk, string autoModelNaam, AutoType autoType) 
         {
-#warning exceptions voor test
-
             if (string.IsNullOrWhiteSpace(merk)) { throw new AutoModelException("Merk moet ingevuld zijn"); }
             if (string.IsNullOrWhiteSpace(autoModelNaam)) { throw new AutoModelException("AutoModelnaam moet ingevuld zijn"); }
+
             Merk = merk;
             AutoModelNaam = autoModelNaam;
             AutoType = autoType ?? throw new AutoModelException("Autotype moet ingevuld zijn");

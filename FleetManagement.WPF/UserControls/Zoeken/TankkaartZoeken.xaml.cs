@@ -63,7 +63,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             if (_tankkaart != null)
             {
-                TankkaartDetails detailWindow = new TankkaartDetails(_managers, _tankkaart)
+                TankkaartDetails detailWindow = new(_managers, _tankkaart)
                 {
                     Owner = Window.GetWindow(this),
                 };
@@ -86,7 +86,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             if (_tankkaart != null)
             {
-                TankkaartDetails detailWindow = new TankkaartDetails(_managers, _tankkaart)
+                TankkaartDetails detailWindow = new(_managers, _tankkaart)
                 {
                     Owner = Window.GetWindow(this),
                 };
@@ -113,20 +113,12 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void ZoekInFilter()
         {
-            switch (_tankkaartItem)
+            ZoekweergaveTankkaart.ItemsSource = _tankkaartItem switch
             {
-                case 1:
-                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.ZoekTankKaarten(true);
-                    break;
-
-                case 2:
-                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.ZoekTankKaarten(false);
-                    break;
-
-                default:
-                    ZoekweergaveTankkaart.ItemsSource = _managers.TankkaartManager.GeefAlleTankkaarten();
-                    break;
-            }
+                1 => _managers.TankkaartManager.ZoekTankKaarten(true),
+                2 => _managers.TankkaartManager.ZoekTankKaarten(false),
+                _ => _managers.TankkaartManager.GeefAlleTankkaarten(),
+            };
         }
 
         private void ZoektankkaartNummer_Click(object sender, RoutedEventArgs e)

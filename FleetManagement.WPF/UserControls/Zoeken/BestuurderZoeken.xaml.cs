@@ -150,7 +150,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void GetDetailWindow()
         {
-            BestuurderDetails detailWindow = new BestuurderDetails(_managers, Bestuurderweergave)
+            BestuurderDetails detailWindow = new(_managers, Bestuurderweergave)
             {
                 Owner = Window.GetWindow(this),
             };

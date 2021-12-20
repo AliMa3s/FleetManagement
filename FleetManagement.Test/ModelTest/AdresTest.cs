@@ -12,7 +12,7 @@ namespace FleetManagement.Test.ModelTest {
     public class AdresTest {
         [Fact]
         public void Adres_Ctor_NoId() {
-            Adres adres = new Adres("moerstraat", "16w2", "9240", "zele");
+            Adres adres = new("moerstraat", "16w2", "9240", "zele");
             Assert.Equal("moerstraat", adres.Straat);
             Assert.Equal("16w2", adres.Nr);
             Assert.Equal("9240", adres.Postcode);
@@ -32,6 +32,42 @@ namespace FleetManagement.Test.ModelTest {
             Adres adres = new("", "20", "", "Gent");
             var e = Assert.Throws<AdresException>(() => adres.VoegIdToe(-56));
             Assert.Equal("AdresId moet meer zijn dan 0", e.Message);
+        }
+
+        [Fact]
+        public void StraatNull_Invalid()
+        {
+            var e = Assert.Throws<AdresException>(() => {
+                Adres adres = new(null, "", "", "");
+            });
+            Assert.Equal("Straat mag niet null zijn", e.Message);
+        }
+
+        [Fact]
+        public void NrNull_Invalid()
+        {
+            var e = Assert.Throws<AdresException>(() => {
+                Adres adres = new("", null, "", "");
+            });
+            Assert.Equal("Nummer mag niet null zijn", e.Message);
+        }
+
+        [Fact]
+        public void PostcodeNull_Invalid()
+        {
+            var e = Assert.Throws<AdresException>(() => {
+                Adres adres = new("", "", null, "");
+            });
+            Assert.Equal("Postcode mag niet null zijn", e.Message);
+        }
+
+        [Fact]
+        public void GemeenteNull_Invalid()
+        {
+            var e = Assert.Throws<AdresException>(() => {
+                Adres adres = new("", "", "", null);
+            });
+            Assert.Equal("Gemeente mag niet null zijn", e.Message);
         }
     }
 }

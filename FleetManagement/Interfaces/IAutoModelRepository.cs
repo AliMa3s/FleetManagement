@@ -16,6 +16,6 @@ namespace FleetManagement.Interfaces
         bool BestaatAutoModelNaam(AutoModel autoModel);
         bool BestaatAutoModel(int automodelId);
         bool IsAutoModelInGebruik(AutoModel autoModel);
-        IReadOnlyList<AutoModel> ZoekOpAutoType(AutoType autoType);
+        IReadOnlyList<AutoModel> ZoekOpAutoType(AutoType autoType, string autoModelnaam);
     }
 }

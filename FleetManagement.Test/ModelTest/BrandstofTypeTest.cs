@@ -11,7 +11,7 @@ namespace FleetManagement.Test.ModelTest {
     public class BrandstofTypeTest {
         [Fact]
         public void BrandstofType_Valid() {
-            BrandstofType bstype = new BrandstofType("Gasoline");
+            BrandstofType bstype = new("Gasoline");
             Assert.Equal("Gasoline", bstype.BrandstofNaam);
         }
 
@@ -33,7 +33,7 @@ namespace FleetManagement.Test.ModelTest {
         [InlineData(10)]
         public void BrandstofType_Valid_Id(int id)
         {
-            BrandstofType bstype = new BrandstofType(id,"Gasoline");
+            BrandstofType bstype = new(id,"Gasoline");
             Assert.Equal(id, bstype.BrandstofTypeId);
         }
     }

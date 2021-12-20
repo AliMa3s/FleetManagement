@@ -21,14 +21,9 @@ namespace FleetManagement.Manager
         public bool BestaatAutoModelNaam(AutoModel autoModel) {
             try
             {
-                if (autoModel == null) throw new AutoModelManagerException("AutoModel mag niet null zijn");
-
-                if (!_repo.BestaatAutoModelNaam(autoModel)) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
+                return autoModel == null
+                    ? throw new AutoModelManagerException("AutoModel mag niet null zijn")
+                    : _repo.BestaatAutoModelNaam(autoModel);
             }
             catch (Exception ex) {
                 throw new AutoModelManagerException(ex.Message);
@@ -39,9 +34,9 @@ namespace FleetManagement.Manager
         {
             try
             {
-               if(autoModelNaam == null) throw new AutoModelManagerException("AutoModel mag niet null zijn");
-
-                return _repo.FilterOpAutoModelNaam(autoModelNaam);
+                return autoModelNaam == null
+                   ? throw new AutoModelManagerException("AutoModel mag niet null zijn")
+                   : _repo.FilterOpAutoModelNaam(autoModelNaam);
             }
             catch (Exception ex)
             {
@@ -51,7 +46,7 @@ namespace FleetManagement.Manager
 
         public void UpdateAutoModel(AutoModel autoModel) {
             try {
-                if (autoModel == null) throw new AutoModelManagerException("AutoModel - AutoModel mag niet null zijn");
+                if (autoModel == null) { throw new AutoModelManagerException("AutoModel - AutoModel mag niet null zijn"); }
                 
                 if (BestaatAutoModel(autoModel.AutoModelId)) {
 
@@ -61,11 +56,11 @@ namespace FleetManagement.Manager
                     }
                     else
                     {
-                        throw new AutoModelManagerException("Update - AutoModel bestaat al");
+                        throw new AutoModelManagerException("AutoModel bestaat al");
                     }
 
                 } else {
-                    throw new AutoModelManagerException("AutoModel - bestaat niet!");
+                    throw new AutoModelManagerException("AutoModel bestaat niet!");
                 }
             } catch (Exception ex) {
 
@@ -75,7 +70,7 @@ namespace FleetManagement.Manager
 
         public void VerwijderAutoModel(AutoModel autoModel) {
             try {
-                if (autoModel == null) throw new AutoModelManagerException("AutoModel - AutoModel mag niet null zijn");
+                if (autoModel == null) { throw new AutoModelManagerException("AutoModel - AutoModel mag niet null zijn"); }
 
                 if (BestaatAutoModel(autoModel.AutoModelId)) {
 
@@ -99,7 +94,8 @@ namespace FleetManagement.Manager
 
         public void VoegAutoModelToe(AutoModel autoModel) {
             try {
-                if (autoModel == null) throw new AutoModelManagerException("AutoModel - autoModel mag niet null zijn");
+                if (autoModel == null) { throw new AutoModelManagerException("AutoModel - autoModel mag niet null zijn"); }
+
                 if (!BestaatAutoModelNaam(autoModel)) {
                     _repo.VoegAutoModelToe(autoModel);
                 } else {
@@ -113,12 +109,11 @@ namespace FleetManagement.Manager
 
         public bool BestaatAutoModel(int automodelid) {
             try {
-                if (!_repo.BestaatAutoModel(automodelid)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            } catch (Exception ex) {
+                return automodelid < 1
+                    ? throw new AutoModelManagerException("AutoModelId moet meer zijn dan 0")
+                    : _repo.BestaatAutoModel(automodelid);
+            }
+            catch (Exception ex) {
                 throw new AutoModelManagerException(ex.Message);
             }
         }
@@ -127,9 +122,9 @@ namespace FleetManagement.Manager
         {
             try
             {
-                if (autoModel == null) throw new AutoModelManagerException("AutoModel - autoModel mag niet null zijn");
-
-                return _repo.IsAutoModelInGebruik(autoModel);
+                return autoModel == null
+                    ? throw new AutoModelManagerException("AutoModel - autoModel mag niet null zijn")
+                    : _repo.IsAutoModelInGebruik(autoModel);
             }
             catch (Exception ex)
             {
@@ -137,11 +132,14 @@ namespace FleetManagement.Manager
             }
         }
 
-        public IReadOnlyList<AutoModel> ZoekOpAutoType(AutoType autoType)
+        public IReadOnlyList<AutoModel> ZoekOpAutoType(AutoType autoType, string autoModelnaam)
         {
             if (autoType == null) throw new AutoModelManagerException("AutoType mag niet null zijn");
 
-            return _repo.ZoekOpAutoType(autoType);
+            //mag wel leeg zijn omwille van filter
+            return autoType == null
+                ? throw new AutoModelManagerException("automodel naam mag niet null zijn")
+                : _repo.ZoekOpAutoType(autoType, autoModelnaam);
         }
     }
 }

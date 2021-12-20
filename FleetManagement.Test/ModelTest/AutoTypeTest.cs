@@ -12,16 +12,16 @@ namespace FleetManagement.Test.ModelTest
     public class AutoTypeTest
     {
         [Fact]
-        public void autoTypenaam_Valid()
+        public void AutoTypenaam_Valid()
         {
-            AutoType autoType = new AutoType("porche");
+            AutoType autoType = new("porche");
             Assert.Equal("porche", autoType.AutoTypeNaam);
         }
         [Theory]
         [InlineData(null)]
         [InlineData(" ")]
         [InlineData("\n")]
-        public void autoTypenaam_Invalid(string autoTypeNaam)
+        public void AutoTypenaam_Invalid(string autoTypeNaam)
         {
             var mijnException = Assert.Throws<AutoTypeException>(() =>
             {
