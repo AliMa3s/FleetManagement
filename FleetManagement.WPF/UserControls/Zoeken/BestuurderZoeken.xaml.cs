@@ -94,6 +94,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             if (FilterOpNaam.Text != PlaceholderName)
             {
+                infoBestuurderMess.Text = string.Empty;
                 _filterOpNaam = FilterOpNaam.Text;
                 BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(_filterOpNaam); 
             }
@@ -125,6 +126,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             if (Bestuurderweergave != null)
             {
+                infoBestuurderMess.Text = string.Empty;
                 GetDetailWindow();
             }
         }

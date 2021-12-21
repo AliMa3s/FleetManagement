@@ -36,7 +36,7 @@ namespace FleetManagement.WPF.UpdateWindows
         public Voertuig VerwijderdVoertuig { get; private set; }
         public TankKaart VerwijderdTankkaart { get; private set; }
 
-        public bool? Updatetet { get; set; }
+        public bool? Updatetet { get; set; } = false;
 
         public Bestuurder BestuurderDetail
         {
@@ -391,10 +391,8 @@ namespace FleetManagement.WPF.UpdateWindows
 
         private void ResetForm()
         {
-            VoornaamText.Text = BestuurderDetail.Voornaam;
-            AchternaamText.Text = BestuurderDetail.Achternaam;
-            RijksRegisterText.Text = BestuurderDetail.RijksRegisterNummer;
-            RijbewijsText.Text = BestuurderDetail.TypeRijbewijs;
+            DataContext = null;
+            DataContext = BestuurderDetail;
             VerwijderdVoertuig = null;
             VerwijderdTankkaart = null;
             SetDefault();
@@ -402,6 +400,7 @@ namespace FleetManagement.WPF.UpdateWindows
 
         private void ResetFormulierButton_Click(object sender, RoutedEventArgs e)
         {
+            infoBestuurderMess.Text = string.Empty;
             ResetForm();
         }
 

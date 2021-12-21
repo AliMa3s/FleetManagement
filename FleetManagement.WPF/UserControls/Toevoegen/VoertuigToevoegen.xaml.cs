@@ -45,9 +45,9 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         {
             HybrideNeen.IsChecked = true;
 
-            _ = Brandstof.Items.Add(DisplayFirst);
-            _ = VoertuigKleur.Items.Add(DisplayFirst);
-            _ = Deuren.Items.Add(DisplayFirst);
+            Brandstof.Items.Add(DisplayFirst);
+            VoertuigKleur.Items.Add(DisplayFirst);
+            Deuren.Items.Add(DisplayFirst);
 
             //set dropdown Aantal Deuren
             VoertuigManager.AantalDeuren.ToList().ForEach(aantal =>
@@ -71,6 +71,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         //Wis het formulier en begin opnieuw
         private void ResetFormulierButton_Click(object sender, RoutedEventArgs e)
         {
+            InfoVoertuigMess.Text = string.Empty;
             ResetForm();
         }
 
@@ -192,7 +193,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
                 GekozenAutoModel = selecteerAutoModdel.AutoModel;
                 GekozenAutoModelNaam.Text = GekozenAutoModel.Merk + " " + GekozenAutoModel.AutoModelNaam;
-                KiesAutoModel.Content = "AutoModel wijzigen";
+                KiesAutoModel.Content = "Automodel wijzigen";
             }
         }
 

@@ -106,6 +106,8 @@ namespace FleetManagement.WPF.DetailWindows {
 
         private void WijzigButton_Click(object sender, RoutedEventArgs e) {
 
+            infoTankkaartMess.Text = string.Empty;
+
             UpdateTankkaart updateTankkaart = new(_managers, _tankkaartDetail)
             {
                 Owner = Window.GetWindow(this),

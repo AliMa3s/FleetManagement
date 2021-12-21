@@ -71,6 +71,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private void KiesUpdate_Click(object sender, RoutedEventArgs e) {
             if (AutoModel != null)
             {
+                infoAutoModelMess.Text = string.Empty;
                 GetUpdateWindow();
             }
         }
@@ -98,6 +99,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             if (FilterOpAutoModel.Text != PlaceholderModelNaam)
             {
+                infoAutoModelMess.Text = string.Empty;
                 _filterOpAutoModel = FilterOpAutoModel.Text;
                 FilterAutoModel();
             }
@@ -123,6 +125,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void ZoekOpAutoTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            infoAutoModelMess.Text = string.Empty;
             FilterAutoModel();
         }
 

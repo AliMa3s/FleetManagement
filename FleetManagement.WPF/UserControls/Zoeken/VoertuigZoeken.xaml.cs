@@ -72,19 +72,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void ZoekenMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (_voertuig != null)
-            {
-                VoertuigDetails detailWindow = new(_managers, _voertuig)
-                {
-                    Owner = Window.GetWindow(this),
-                };
-
-                bool? verwijderd = detailWindow.ShowDialog();
-                if (verwijderd == true)
-                {
-                    FilterVoertuigDB();
-                }
-            }
+            DetailVoertuig();
         }
 
         private void FilterVoertuigDB()
@@ -99,7 +87,10 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         private void FilterOpMerkEnAutomdel_Changed(object sender, TextChangedEventArgs e)
         {
             if (FilterWeergave != null)
+            {
+                infoVoertuigMess.Text = string.Empty;
                 FilterVoertuigDB();
+            }      
         }
 
         private void SluitVoertuigForm_Click(object sender, RoutedEventArgs e)
@@ -170,6 +161,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void ZoekNummerplaatOfChassisnummer_Click(object sender, RoutedEventArgs e)
         {
+            infoVoertuigMess.Text = string.Empty;
             Voertuig voertuigDB = _managers.VoertuigManager.ZoekOpNummerplaatOfChassisNummer(NummerplaatOfChassisnummer.Text);
             
             infoVoertuigMess.Text = string.Empty;
@@ -188,6 +180,12 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void KiesDetail_Click(object sender, RoutedEventArgs e)
         {
+            infoVoertuigMess.Text = string.Empty;
+            DetailVoertuig();
+        }
+
+        private void DetailVoertuig()
+        {
             if (_voertuig != null)
             {
                 VoertuigDetails detailWindow = new(_managers, _voertuig)
@@ -198,9 +196,22 @@ namespace FleetManagement.WPF.UserControls.Zoeken
                 bool? verwijderd = detailWindow.ShowDialog();
                 if (verwijderd == true)
                 {
+                    //vrij nog iets mee in te doen,
+                }
+
+                if(!detailWindow.Updatetet.HasValue)
+                {
+                    VoertuigWeergave = detailWindow.Voertuig;
                     FilterVoertuigDB();
                     infoVoertuigMess.Foreground = Brushes.Green;
                     infoVoertuigMess.Text = "Voertuig succesvol verwijderd";
+                }
+                else if ((bool)detailWindow.Updatetet)
+                {
+                    VoertuigWeergave = detailWindow.Voertuig;
+                    FilterVoertuigDB();
+                    infoVoertuigMess.Foreground = Brushes.Green;
+                    infoVoertuigMess.Text = "Voertuig succesvol geüpdatet";
                 }
             }
         }

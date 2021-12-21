@@ -24,7 +24,10 @@ namespace FleetManagement.WPF.DetailWindows {
         private readonly Managers _managers;
         private Voertuig _voertuigDetail;
 
-        public bool? Updatetet { get; set; }
+        public Voertuig Voertuig => _voertuigDetail;
+
+
+        public bool? Updatetet { get; set; } = false;
 
         public VoertuigDetails(Managers managers, Voertuig voertuig) {
 
@@ -32,10 +35,18 @@ namespace FleetManagement.WPF.DetailWindows {
             _managers = managers;
             _voertuigDetail = voertuig;
 
+            SetDefault();
+
+            //Bind voertuig
+            DataContext = _voertuigDetail;
+        }
+
+        private void SetDefault()
+        {
             if (_voertuigDetail.HeeftVoertuigBestuurder)
             {
                 string rijkregnr = _voertuigDetail.Bestuurder.RijksRegisterNummer;
-                
+
                 StringBuilder stringBuilder = new("Naam: " + _voertuigDetail.Bestuurder.Achternaam);
                 stringBuilder.Append(" " + _voertuigDetail.Bestuurder.Voornaam);
                 stringBuilder.AppendLine(Environment.NewLine + "Rijksregister: " + rijkregnr.Substring(0, 2) + "."
@@ -44,6 +55,10 @@ namespace FleetManagement.WPF.DetailWindows {
                     + rijkregnr.Substring(6, 3) + "."
                     + rijkregnr.Substring(9, 2));
                 BestuurderDetail.Text = stringBuilder.ToString();
+            }
+            else
+            {
+                BestuurderDetail.Text = "Nog geen bestuurder";
             }
 
             AutoModelGegevens.Text = _voertuigDetail.AutoModel.Merk + " "
@@ -54,16 +69,15 @@ namespace FleetManagement.WPF.DetailWindows {
             {
                 AutoModelGegevens.Text += " (" + _voertuigDetail.AantalDeuren.Value + " deurs)";
             }
-
-            //Bind voertuig
-            DataContext = _voertuigDetail;
         }
 
         private void SluitForm_Click(object sender, RoutedEventArgs e) {
-            Window.GetWindow(this).Close();
+            DialogResult = false;
         }
 
         private void WijzigButton_Click(object sender, RoutedEventArgs e) {
+
+            infoVoertuigMess.Text = string.Empty;
 
             UpdateVoertuig updateVoertuig = new(_managers, _voertuigDetail)
             {
@@ -74,13 +88,17 @@ namespace FleetManagement.WPF.DetailWindows {
             if (updatetet == true)
             {
                 _voertuigDetail = updateVoertuig.VoertuigDetail;
-
-                //Changer aanspreken indien nodig
+                Updatetet = true;
+                DataContext = null;
+                DataContext = _voertuigDetail;
+                SetDefault();
             }
         }
 
         private void VerwijderButton_Click(object sender, RoutedEventArgs e)
         {
+            infoVoertuigMess.Text = string.Empty;
+
             BevestigingWindow bevestigingWindow = new()
             {
                 Owner = Window.GetWindow(this),
@@ -92,7 +110,7 @@ namespace FleetManagement.WPF.DetailWindows {
                 try
                 {
                     _managers.VoertuigManager.VerwijderVoertuig(_voertuigDetail);
-                    Updatetet = true;
+                    Updatetet = null;
                     DialogResult = true;
                 }
                 catch (Exception ex)

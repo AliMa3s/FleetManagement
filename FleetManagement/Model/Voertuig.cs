@@ -166,15 +166,6 @@ namespace FleetManagement.Model
             }
         }
 
-        //Static check ingevoegd
-        public virtual void UpdateNummerplaat(string nummerplaat)
-        {
-           if(CheckFormat.IsNummerplaatGeldig(nummerplaat))
-            {
-                NummerPlaat = nummerplaat;
-            }
-        }
-
         //Vergelijk twee instanties van Voertuig met: ChassisNummer & NummerPlaat
         public override bool Equals(object obj)
         {

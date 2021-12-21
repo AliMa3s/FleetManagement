@@ -129,6 +129,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
 
         private void ResetVeldenButton_Click(object sender, RoutedEventArgs e)
         {
+            infoTankkaartMess.Text = string.Empty;
             ResetVelden();
         }
 

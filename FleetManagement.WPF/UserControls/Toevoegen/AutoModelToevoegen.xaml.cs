@@ -36,6 +36,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen {
         }
 
         private void ResetFormulierButton_Click(object sender, RoutedEventArgs e) {
+            infoAutoModelMess.Text = string.Empty;
             ResetForm();
         }
 

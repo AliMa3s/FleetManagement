@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FleetManagement.WPF.UpdateWindows"
         mc:Ignorable="d"
-        Title="Fleet Management Voertuig" Height="600" Width="800">
+        Title="Fleet Management Voertuig" Height="600" Width="800" FontSize="14">
     <Grid>
         <DockPanel Background="LightBlue" Margin="0">
             <DockPanel.Children>
@@ -35,7 +35,7 @@
                         <RowDefinition Height="37*"/>
                         <RowDefinition Height="37*"/>
                         <RowDefinition Height="37*"/>
-                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="20*"/>
                     </Grid.RowDefinitions>
 
                     <Label x:Name="UpdateVoertuigText" Content="Update voertuig" Grid.Row="0" Grid.ColumnSpan="5" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
@@ -48,25 +48,26 @@
 
                     <TextBox x:Name="Chassisnummer" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Margin="5,0,0,0" Text="{Binding Path=ChassisNummer, Mode=OneWay}" Height="25" MaxLength="17"/>
                     <TextBox x:Name="Nummerplaat" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Margin="5,0,0,0" Text="{Binding Path=NummerPlaat, Mode=OneWay}"  Height="25" MaxLength="7"/>
-                    <RadioButton IsChecked="true" x:Name="HybrideNeen" Width="55" HorizontalAlignment="Left" GroupName="HybrideCheck" Content="Neen" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="5,0,0,0"/>
+                    <RadioButton x:Name="HybrideNeen" IsChecked="true" Width="55" HorizontalAlignment="Left" GroupName="HybrideCheck" Content="Neen" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="5,0,0,0"/>
                     <RadioButton x:Name="HybrideJa" Width="45" IsChecked="{Binding Path=Brandstof.Hybride, Mode=OneWay}" GroupName="HybrideCheck" HorizontalAlignment="Left" Content="Ja" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="65,0,0,0"/>
                     <ComboBox Name="Brandstof" Grid.Row="5" Grid.Column="1" Grid.RowSpan="1" VerticalAlignment="Center" Height="25"  HorizontalAlignment="Stretch" Margin="5,0,0,0" SelectedIndex="0" />
                     <ComboBox Name="VoertuigKleur" Grid.Row="6" Grid.Column="1" Grid.RowSpan="1" VerticalAlignment="Center"  Height="25" HorizontalAlignment="Stretch" Margin="5,0,0,0" SelectedIndex="0"/>
                     <ComboBox Name="Deuren" Grid.Row="7" Grid.Column="1" Grid.RowSpan="1" VerticalAlignment="Center" Height="25"  HorizontalAlignment="Stretch" Margin="5,0,0,0" SelectedIndex="0"/>
-                    <Button x:Name="KiesBestuurder" Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="1" Content="Bestuurder selecteren" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="125" Background="#FFCAD5EA" Height="30" Margin="5,0,0,0" Click="KiesBestuurder_Click"/>
-                    <Button x:Name="KiesAutoModel" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="1" Content="Automodel kiezen" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="125" Background="#FFCAD5EA" Height="30" Margin="5,0,0,0" Click="KiesAutoModel_Click"/>
+                    <Button x:Name="KiesBestuurder" FontSize="13" Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="1" Content="Bestuurder selecteren" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,0,0,0" Click="KiesBestuurder_Click"/>
+                    <Button x:Name="AnnuleerBestuurder" FontSize="13" Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="1" Content="Annuleer bestuurder" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,0,0,0" Click="AnnuleerBestuurder_Click"  Visibility="Hidden"/>
+                    <Button x:Name="KiesAutoModel" FontSize="13" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="1" Content="Automodel kiezen" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,0,0,0" Click="KiesAutoModel_Click"/>
  
                     <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Automodel:</Label>
                     <Grid Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="2" Background="#FFE7E8EC">
 
-                        <TextBlock x:Name="GekozenAutoModel" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2" Text="Geen automodel"></TextBlock>
+                        <TextBlock x:Name="GekozenAutoModelNaam" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2" Text="Geen automodel"></TextBlock>
                     
                     </Grid>
 
                     <Label Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Bestuurder:</Label>
                     <Grid Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="1" Grid.RowSpan="2" Background="#FFE7E8EC">
 
-                        <TextBlock x:Name="GekozenBestuurder" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2" Text="Geen bestuurder"></TextBlock>
+                        <TextBlock x:Name="GekozenBestuurderNaam" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2" Text="Geen bestuurder"></TextBlock>
                     </Grid>
 
                 </Grid>

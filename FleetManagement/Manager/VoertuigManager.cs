@@ -80,36 +80,53 @@ namespace FleetManagement.Manager {
             try
             {
                 if(voertuig == null) throw new VoertuigManagerException("Voertuig - Voertuig mag niet null zijn");
-                if(voertuig.VoertuigId > 0) throw new VoertuigManagerException("Voertuig - Kan voertuig met ID 0 niet updaten");
+                if(voertuig.VoertuigId < 1) throw new VoertuigManagerException("Voertuig - Kan voertuig met ID 0 niet updaten");
 
-                if (!CheckFormat.IsChassisNummerGeldig(anderChassisNummer)) { }
-                if(!CheckFormat.IsNummerplaatGeldig(anderNummerplaat)) { }
-
-                if (voertuig.Brandstof.BrandstofTypeId < 1) 
+                if (voertuig.Brandstof.BrandstofTypeId < 1)
                     throw new VoertuigManagerException("Voertuig - brandstof is niet geslecteerd uit een lijst");
 
-                if (voertuig.AutoModel.AutoModelId > 0)
+                if (anderChassisNummer == null && anderNummerplaat == null)
                 {
-                    if (BestaatVoertuig(voertuig))
-                    {
-                        if (_repo.BestaatChassisnummer(anderChassisNummer))
-                            throw new VoertuigManagerException("Update: chassisnummer bestaat al");
-
-                        if (_repo.BestaatNummerplaat(anderNummerplaat))
-                            throw new VoertuigManagerException("Update: nummerplaat bestaat al");
-
-                        _repo.UpdateVoertuig(voertuig, anderChassisNummer, anderNummerplaat);
-                    }
-                    else
-                    {
-                        throw new VoertuigManagerException("Voertuig - bestaat niet!");
-                    }
+                    UpdateVoertuig(voertuig);
                 }
                 else
                 {
-                    throw new VoertuigManagerException("AutoModel is niet gelecteerd uit de lijst");
-                }
+                    if(anderChassisNummer != null)
+                    {
+                        if (CheckFormat.IsChassisNummerGeldig(anderChassisNummer) && BestaatChassisnummer(anderChassisNummer))
+                            throw new VoertuigManagerException("Chassisnummer bestaat al");
+                    }
+                    else
+                    {
+                        anderChassisNummer = voertuig.ChassisNummer;
+                    }
 
+                    if (anderNummerplaat != null)
+                    {
+                        if (CheckFormat.IsNummerplaatGeldig(anderNummerplaat) && BestaatNummerplaat(anderNummerplaat))
+                            throw new VoertuigManagerException("Nummerplaat bestaat al");
+                    }
+                    else
+                    {
+                        anderNummerplaat = voertuig.NummerPlaat;
+                    }
+
+                    if (voertuig.AutoModel.AutoModelId > 0)
+                    {
+                        if (BestaatVoertuig(voertuig))
+                        {
+                            _repo.UpdateVoertuig(voertuig, anderChassisNummer, anderNummerplaat);
+                        }
+                        else
+                        {
+                            throw new VoertuigManagerException("Voertuig - bestaat niet!");
+                        }
+                    }
+                    else
+                    {
+                        throw new VoertuigManagerException("AutoModel is niet gelecteerd uit de lijst");
+                    }
+                }
             }
             catch (Exception ex)
             {

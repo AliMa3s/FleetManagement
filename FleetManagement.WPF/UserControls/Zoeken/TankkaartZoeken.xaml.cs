@@ -86,6 +86,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         {
             if (_tankkaart != null)
             {
+                infoTankkaartMess.Text = string.Empty;
                 TankkaartDetails detailWindow = new(_managers, _tankkaart)
                 {
                     Owner = Window.GetWindow(this),
@@ -106,7 +107,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
         }
         private void ZoekTankkaartFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            infoTankkaartMess.Text = "";
+            infoTankkaartMess.Text = string.Empty;
             _tankkaartItem = ZoekTankkaartFilter.SelectedIndex;
             ZoekInFilter();
         }
@@ -123,7 +124,7 @@ namespace FleetManagement.WPF.UserControls.Zoeken
 
         private void ZoektankkaartNummer_Click(object sender, RoutedEventArgs e)
         {
-            infoTankkaartMess.Text = "";
+            infoTankkaartMess.Text = string.Empty;
             _zoekOpTankkaartNummer = TankkaartNummer.Text;
             ZoekInTankkaartNummers();
         }

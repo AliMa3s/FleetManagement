@@ -78,6 +78,8 @@ namespace FleetManagement.WPF.SelecteerWindows
 
         private void ZoekOpTankkaartNummer_Click(object sender, RoutedEventArgs e)
         {
+            infoTankkaartMess.Text = string.Empty;
+
             TankKaart tankkaart = _tankkaartManager.ZoekTankKaart(TankkaartNummerText.Text);
 
             if(tankkaart != null)

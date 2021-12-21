@@ -397,7 +397,7 @@ namespace FleetManagement.ADO.Repositories {
         public void UpdateVoertuig(Voertuig voertuig) {
 
             string query = "UPDATE Voertuig " +
-                           "SET automodelid=@automodelid, brandstoftypeid=@brandstoftypeid, hybride=@hybride, kleurnaam=kleurnaam, " +
+                           "SET automodelid=@automodelid, brandstoftypeid=@brandstoftypeid, hybride=@hybride, kleurnaam=@kleurnaam, " +
                            "aantal_deuren=@aantaldeuren, inboekdatum=@inboekdatum " +
                            "WHERE voertuigid=@voertuigid";
 
@@ -459,7 +459,7 @@ namespace FleetManagement.ADO.Repositories {
         public void UpdateVoertuig(Voertuig voertuig, string anderChassisnummer, string anderNummerplaat)
         {
             string query = "UPDATE Voertuig " +
-                           "SET automodelid=@automodelid, brandstoftypeid=@brandstoftypeid, hybride=@hybride, kleurnaam=kleurnaam, " +
+                           "SET automodelid=@automodelid, brandstoftypeid=@brandstoftypeid, hybride=@hybride, kleurnaam=@kleurnaam, " +
                            "chassisnummer=@chassisnummer, nummerplaat=@nummerplaat, aantal_deuren=@aantaldeuren, inboekdatum=@inboekdatum " +
                            "WHERE voertuigid=@voertuigid";
 

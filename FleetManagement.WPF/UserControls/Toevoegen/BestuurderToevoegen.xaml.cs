@@ -97,6 +97,7 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
         }
 
         private void ResetFormulierButton_Click(object sender, RoutedEventArgs e) {
+            infoBestuurderMess.Text = string.Empty;
             ResetForm();
         }
 

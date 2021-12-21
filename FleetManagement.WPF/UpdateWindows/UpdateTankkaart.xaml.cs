@@ -254,7 +254,9 @@ namespace FleetManagement.WPF.UpdateWindows
         private void ResetVeldenButton_Click(object sender, RoutedEventArgs e)
         {
             SetDefault();
-            if(TankkaartDetail.UitgeefDatum.HasValue)
+            infoTankkaartMess.Text = string.Empty;
+
+            if (TankkaartDetail.UitgeefDatum.HasValue)
             {
                 UitgeefDatumDatePicker.SelectedDate = TankkaartDetail.UitgeefDatum.Value;
             }
@@ -274,6 +276,18 @@ namespace FleetManagement.WPF.UpdateWindows
             {
                 KiesBestuurder.Visibility = Visibility.Visible;
                 AnnuleerBestuurder.Visibility = Visibility.Hidden;
+            }
+
+
+            if (TankkaartDetail.Actief)
+            {
+                ActiefJa.IsChecked = true;
+                ActiefNeen.IsChecked = false;
+            } 
+            else 
+            {
+                ActiefJa.IsChecked = false;
+                ActiefNeen.IsChecked = true;
             }
 
             GekozenBestuurder = null;
