@@ -18,8 +18,8 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="25*"/>
-                        <ColumnDefinition Width="40*"/>
-                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="18*"/>
                         <ColumnDefinition Width="25*"/>
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
@@ -39,10 +39,10 @@
                     </Grid.RowDefinitions>
 
                     <Label x:Name="UpdateVoertuigText" Content="Update voertuig" Grid.Row="0" Grid.ColumnSpan="5" VerticalContentAlignment="Center" Padding="15,0,0,0" FontSize="18" Foreground="DarkBlue" Background="CornflowerBlue"></Label>
-                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Chassisnummer:</Label>
-                    <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Nummerplaat:</Label>
-                    <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Hybride:</Label>
-                    <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Brandstof:</Label>
+                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Chassisnummer: *</Label>
+                    <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Nummerplaat: *</Label>
+                    <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Hybride: *</Label>
+                    <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Brandstof: *</Label>
                     <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Kleur:</Label>
                     <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Aantal deuren:</Label>
 
@@ -57,7 +57,7 @@
                     <Button x:Name="AnnuleerBestuurder" FontSize="13" Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="1" Content="Annuleer bestuurder" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,0,0,0" Click="AnnuleerBestuurder_Click"  Visibility="Hidden"/>
                     <Button x:Name="KiesAutoModel" FontSize="13" Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="1" Content="Automodel kiezen" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="150" Background="#FFCAD5EA" Height="30" Margin="5,0,0,0" Click="KiesAutoModel_Click"/>
  
-                    <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Automodel:</Label>
+                    <Label Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="1" Padding="0,0,0,0" Height="35" FontSize="15" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF82B7D7" HorizontalContentAlignment="Center" FontWeight="Bold">Automodel: *</Label>
                     <Grid Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" Grid.RowSpan="2" Background="#FFE7E8EC">
 
                         <TextBlock x:Name="GekozenAutoModelNaam" TextWrapping="Wrap" Padding="10" Grid.ColumnSpan="2" Text="Geen automodel"></TextBlock>

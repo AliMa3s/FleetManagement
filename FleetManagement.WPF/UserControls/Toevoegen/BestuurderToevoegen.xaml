@@ -16,9 +16,9 @@
             </DockPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30*"/>
-                    <ColumnDefinition Width="50*"/>
-                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="28*"/>
+                    <ColumnDefinition Width="35*"/>
+                    <ColumnDefinition Width="37*"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -44,16 +44,16 @@
                 <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Rijbewijs: *</Label>
                 <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Tankkaart:</Label>
                 <Label Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Padding="15,0,0,0" FontWeight="Bold">Voertuig:</Label>
-
-
+                
                 <TextBox x:Name="Voornaam" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1"  TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" Height="25"/>
                 <TextBox x:Name="Achternaam" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text=""  Height="25"/>
-                <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="0,0,0,0">Dag:</Label>
-                <TextBox x:Name="Geboortedag" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="37,0,0,0" Text="" Width="35" Height="25" MaxLength="2"></TextBox>
-                <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" Margin="80,0,0,0">Maand:</Label>
-                <TextBox x:Name="Geboortemaand" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="135,0,0,0" Text="" Width="35" Height="25" MaxLength="2"></TextBox>
-                <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="180,0,0,0" VerticalContentAlignment="Center">Jaar:</Label>
-                <TextBox x:Name="Geboortejaar" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="220,0,0,0" Text="" Width="40" Height="25" MaxLength="4"></TextBox>
+
+                <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" FontSize="12" Margin="0,0,0,0">Dag:</Label>
+                <TextBox x:Name="Geboortedag" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="32,0,0,0" Text="" Width="25" Height="25" MaxLength="2"></TextBox>
+                <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" FontSize="12" Margin="60,0,0,0">Maand:</Label>
+                <TextBox x:Name="Geboortemaand" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="110,0,0,0" Text="" Width="25" Height="25" MaxLength="2"></TextBox>
+                <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="140,0,0,0" FontSize="12" VerticalContentAlignment="Center">Jaar:</Label>
+                <TextBox x:Name="Geboortejaar" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="175,0,0,0" Text="" Width="35" Height="25" MaxLength="4"></TextBox>
 
                 <TextBox x:Name="RijksRegisterNummer" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" Height="25" MaxLength="11"/>
                 <TextBlock x:Name="GekozenAdresText"  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>

@@ -16,10 +16,10 @@
             </DockPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="28*"/>
-                    <ColumnDefinition Width="32*"/>
-                    <ColumnDefinition Width="8*"/>
-                    <ColumnDefinition Width="28*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="30*"/>
+                    <ColumnDefinition Width="16*"/>
+                    <ColumnDefinition Width="25*"/>
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
 
