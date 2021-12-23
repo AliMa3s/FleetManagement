@@ -26,23 +26,21 @@ namespace FleetManagement.ADO.Repositories
                 {
                     Connection.Open();
 
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    using SqlDataReader dataReader = command.ExecuteReader();
+                    if (dataReader.HasRows)
                     {
-                        if (dataReader.HasRows)
+                        while (dataReader.Read())
                         {
-                            while (dataReader.Read())
-                            {
-                                brandstoffen.Add(
-                                    new BrandstofType(
-                                        (int)dataReader["brandstoftypeid"],
-                                        (string)dataReader["brandstofnaam"]
-                                    )
-                                );
-                            }
+                            brandstoffen.Add(
+                                new BrandstofType(
+                                    (int)dataReader["brandstoftypeid"],
+                                    (string)dataReader["brandstofnaam"]
+                                )
+                            );
                         }
-
-                        return brandstoffen;
                     }
+
+                    return brandstoffen;
                 }
                 catch (Exception ex)
                 {

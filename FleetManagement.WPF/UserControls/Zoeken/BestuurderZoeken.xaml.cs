@@ -164,35 +164,41 @@ namespace FleetManagement.WPF.UserControls.Zoeken
             }
 
             if (!detailWindow.Updatetet.HasValue)
-            {
+            {              
                 infoBestuurderMess.Foreground = Brushes.Green;
                 infoBestuurderMess.Text = "Bestuurder succesvol verwijderd";
+                Filteren();
+                Bestuurderweergave = detailWindow.Bestuurder;
             }
             else if ((bool)detailWindow.Updatetet)
             {
-                if(!string.IsNullOrWhiteSpace(_zoekOpRijksregister))
-                {
-                    List<Bestuurder> bestuurders = new();
-                    Bestuurder bestuurderDB = _managers.BestuurderManager.ZoekBestuurder(_zoekOpRijksregister);
-
-                    if (bestuurderDB != null)
-                    {
-                        bestuurders.Add(bestuurderDB);
-                        BestuurderZoekWeergave.ItemsSource = bestuurders;
-                    }
-                    else
-                    {
-                        BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
-                    }
-                }
-                else
-                {
-                    BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(_filterOpNaam); 
-                }
-
+                Filteren();
                 Bestuurderweergave = detailWindow.Bestuurder;
             }
 
+        }
+
+        private void Filteren()
+        {
+            if (!string.IsNullOrWhiteSpace(_zoekOpRijksregister))
+            {
+                List<Bestuurder> bestuurders = new();
+                Bestuurder bestuurderDB = _managers.BestuurderManager.ZoekBestuurder(_zoekOpRijksregister);
+
+                if (bestuurderDB != null)
+                {
+                    bestuurders.Add(bestuurderDB);
+                    BestuurderZoekWeergave.ItemsSource = bestuurders;
+                }
+                else
+                {
+                    BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam("");
+                }
+            }
+            else
+            {
+                BestuurderZoekWeergave.ItemsSource = _managers.BestuurderManager.FilterOpBestuurdersNaam(_filterOpNaam);
+            }
         }
     }
 }
