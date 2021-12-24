@@ -20,36 +20,34 @@ namespace FleetManagement.ADO.Repositories
 
             List<BrandstofType> brandstoffen = new();
 
-            using (SqlCommand command = new(query, Connection))
+            using SqlCommand command = new(query, Connection);
+            try
             {
-                try
-                {
-                    Connection.Open();
+                Connection.Open();
 
-                    using SqlDataReader dataReader = command.ExecuteReader();
-                    if (dataReader.HasRows)
+                using SqlDataReader dataReader = command.ExecuteReader();
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
                     {
-                        while (dataReader.Read())
-                        {
-                            brandstoffen.Add(
-                                new BrandstofType(
-                                    (int)dataReader["brandstoftypeid"],
-                                    (string)dataReader["brandstofnaam"]
-                                )
-                            );
-                        }
+                        brandstoffen.Add(
+                            new BrandstofType(
+                                (int)dataReader["brandstoftypeid"],
+                                (string)dataReader["brandstofnaam"]
+                            )
+                        );
                     }
+                }
 
-                    return brandstoffen;
-                }
-                catch (Exception ex)
-                {
-                    throw new BrandstofRepositoryADOException("Brandstoffen - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
+                return brandstoffen;
+            }
+            catch (Exception ex)
+            {
+                throw new BrandstofRepositoryADOException("Brandstoffen - gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
             }
 
         }

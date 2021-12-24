@@ -20,38 +20,34 @@ namespace FleetManagement.ADO.Repositories
 
             List<Kleur> kleuren = new();
 
-            using (SqlCommand command = new(query, Connection))
+            using SqlCommand command = new(query, Connection);
+            try
             {
-                try
+                Connection.Open();
+
+                using SqlDataReader dataReader = command.ExecuteReader();
+                if (dataReader.HasRows)
                 {
-                    Connection.Open();
-
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    while (dataReader.Read())
                     {
-                        if (dataReader.HasRows)
-                        {
-                            while (dataReader.Read())
-                            {
-                                kleuren.Add(
-                                    new Kleur(
-                                        (int)dataReader["kleurid"],
-                                        (string)dataReader["kleurnaam"]
-                                    )
-                                );
-                            }
-                        }
-
-                        return kleuren;
+                        kleuren.Add(
+                            new Kleur(
+                                (int)dataReader["kleurid"],
+                                (string)dataReader["kleurnaam"]
+                            )
+                        );
                     }
                 }
-                catch (Exception ex)
-                {
-                    throw new KleurRepositoryADOException("Kleuren - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
+
+                return kleuren;
+            }
+            catch (Exception ex)
+            {
+                throw new KleurRepositoryADOException("Kleuren - gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
             }
         }
     }
