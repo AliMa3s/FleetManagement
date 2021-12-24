@@ -151,7 +151,7 @@ INSERT INTO Automodel(merknaam, automodelnaam, autotype)
 OUTPUT INSERTED.automodelid VALUES ('BMW','iX3','Coupé')
 
 INSERT INTO Automodel(merknaam, automodelnaam, autotype) 
-OUTPUT INSERTED.automodelid VALUES ('Land Rover','Range Rover','Terreinwagen')
+OUTPUT INSERTED.automodelid VALUES ('Land Rover','Defender','Terreinwagen')
 
 INSERT INTO Automodel(merknaam, automodelnaam, autotype) 
 OUTPUT INSERTED.automodelid VALUES ('Lexus','NX','Sedan')
