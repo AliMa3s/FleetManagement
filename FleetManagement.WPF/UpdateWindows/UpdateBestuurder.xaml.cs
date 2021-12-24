@@ -266,7 +266,7 @@ namespace FleetManagement.WPF.UpdateWindows
             infoBestuurderMess.Text = string.Empty;
 
             //Wanneer adres bestaat
-            if(_ingevoegdAdres != null) 
+            if(_ingevoegdAdres != null && _ingevoegdAdres.AdresId > 0) 
             {
                 Adres bestaandAdres = new(
                     _ingevoegdAdres.Straat,

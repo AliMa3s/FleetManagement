@@ -56,7 +56,7 @@
                 <TextBox x:Name="Geboortejaar" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="175,0,0,0" Text="" Width="35" Height="25" MaxLength="4"></TextBox>
 
                 <TextBox x:Name="RijksRegisterNummer" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" VerticalContentAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="5,0,15,0" Text="" Height="25" MaxLength="11"/>
-                <TextBlock x:Name="GekozenAdresText"  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,15,0" Height="40" />
+                <TextBlock x:Name="GekozenAdresText"  Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,15,0" Height="auto" />
                 <TextBlock x:Name="GekozenTankkaartText" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
                 <TextBlock x:Name="GekozenVoertuigText" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Text="" HorizontalAlignment="Stretch" TextWrapping="Wrap"  VerticalAlignment="Center" Margin="170,0,0,0"  Height="auto"/>
 
