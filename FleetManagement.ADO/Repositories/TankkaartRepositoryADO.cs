@@ -18,23 +18,21 @@ namespace FleetManagement.ADO.Repositories {
         public void VoegTankKaartToe(TankKaart tankkaart)
         {
             Connection.Open();
-            using (SqlTransaction transaction = Connection.BeginTransaction())
+            using SqlTransaction transaction = Connection.BeginTransaction();
+            try
             {
-                try
-                {
-                    VoegTankKaartToe(tankkaart, Connection, transaction);
-                    VoegBrandstoffenToe(tankkaart, Connection, transaction);
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw new TankkaartRepositoryADOException("VoegTankkaarttoe - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
+                VoegTankKaartToe(tankkaart, Connection, transaction);
+                VoegBrandstoffenToe(tankkaart, Connection, transaction);
+                transaction.Commit();
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new TankkaartRepositoryADOException("VoegTankkaarttoe - gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
             }
         }
 
@@ -50,63 +48,61 @@ namespace FleetManagement.ADO.Repositories {
             string query = "INSERT INTO Tankkaart (tankkaartnummer, bestuurderid, geldigheidsdatum, pincode, actief, uitgeefdatum) " +
                            "VALUES (@tankkaartnummer, @bestuurderid, @geldigheidsdatum, @pincode, @actief, @uitgeefdatum)";
 
-            using (SqlCommand command = Connection.CreateCommand())
+            using SqlCommand command = Connection.CreateCommand();
+            try
             {
-                try
+                if (transaction != null) command.Transaction = transaction;
+                if (Connection.State != ConnectionState.Open) Connection.Open();
+
+                command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.Date));
+                command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@actief", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Date));
+
+                command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
+                command.Parameters["@geldigheidsdatum"].Value = tankkaart.GeldigheidsDatum;
+                command.Parameters["@actief"].Value = tankkaart.Actief;
+
+                if (tankkaart.Pincode == null)
                 {
-                    if (transaction != null) command.Transaction = transaction;
-                    if (Connection.State != ConnectionState.Open) Connection.Open();
-
-                    command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
-                    command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.Date));
-                    command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@actief", SqlDbType.Bit));
-                    command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Date));
-
-                    command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
-                    command.Parameters["@geldigheidsdatum"].Value = tankkaart.GeldigheidsDatum;
-                    command.Parameters["@actief"].Value = tankkaart.Actief;
-
-                    if (tankkaart.Pincode == null)
-                    {
-                        command.Parameters["@pincode"].Value = DBNull.Value;
-                    }
-                    else
-                    {
-                        command.Parameters["@pincode"].Value = tankkaart.Pincode;
-                    }
-
-                    if(tankkaart.HeeftTankKaartBestuurder)
-                    {
-                        command.Parameters["@bestuurderid"].Value = tankkaart.Bestuurder.BestuurderId;
-                    }
-                    else
-                    {
-                        command.Parameters["@bestuurderid"].Value = DBNull.Value;
-                    }
-
-                    if (tankkaart.UitgeefDatum.HasValue)
-                    {
-                        command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum.Value;
-                    }
-                    else
-                    {
-                        command.Parameters["@uitgeefdatum"].Value = DBNull.Value;
-                    }
-
-                    command.CommandText = query;
-                    command.ExecuteNonQuery();
-
+                    command.Parameters["@pincode"].Value = DBNull.Value;
                 }
-                catch (Exception ex)
+                else
                 {
-                    throw new TankkaartRepositoryADOException("VoegTankkaarttoe - gefaald", ex);
+                    command.Parameters["@pincode"].Value = tankkaart.Pincode;
                 }
-                finally
+
+                if (tankkaart.HeeftTankKaartBestuurder)
                 {
-                    if (sqlConnection is null) Connection.Close();
+                    command.Parameters["@bestuurderid"].Value = tankkaart.Bestuurder.BestuurderId;
                 }
+                else
+                {
+                    command.Parameters["@bestuurderid"].Value = DBNull.Value;
+                }
+
+                if (tankkaart.UitgeefDatum.HasValue)
+                {
+                    command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum.Value;
+                }
+                else
+                {
+                    command.Parameters["@uitgeefdatum"].Value = DBNull.Value;
+                }
+
+                command.CommandText = query;
+                command.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw new TankkaartRepositoryADOException("VoegTankkaarttoe - gefaald", ex);
+            }
+            finally
+            {
+                if (sqlConnection is null) Connection.Close();
             }
         }
 
@@ -121,94 +117,89 @@ namespace FleetManagement.ADO.Repositories {
 
                 string query = "";
 
-                using (SqlCommand command = Connection.CreateCommand())
+                using SqlCommand command = Connection.CreateCommand();
+                try
                 {
-                    try
+                    if (transaction != null) command.Transaction = transaction;
+                    if (Connection.State != ConnectionState.Open) Connection.Open();
+
+                    int i = 1;
+                    tankkaart.Brandstoffen.ForEach(brandstof =>
                     {
-                        if (transaction != null) command.Transaction = transaction;
-                        if (Connection.State != ConnectionState.Open) Connection.Open();
 
-                        int i = 1;
-                        tankkaart.Brandstoffen.ForEach(brandstof => {
+                        query = "INSERT INTO Tankkaart_Brandstoftype (tankkaartnummer, brandstoftypeid) " +
+                            $"VALUES (@tankkaartnummer{i}, @brandstoftypeid{i}); ";
 
-                            query = "INSERT INTO Tankkaart_Brandstoftype (tankkaartnummer, brandstoftypeid) " +
-                                $"VALUES (@tankkaartnummer{i}, @brandstoftypeid{i}); ";
+                        command.Parameters.Add(new SqlParameter($"@tankkaartnummer{i}", SqlDbType.NVarChar));
+                        command.Parameters.Add(new SqlParameter($"@brandstoftypeid{i}", SqlDbType.Int));
+                        command.Parameters[$"@tankkaartnummer{i}"].Value = tankkaart.TankKaartNummer;
+                        command.Parameters[$"@brandstoftypeid{i}"].Value = brandstof.BrandstofTypeId;
 
-                            command.Parameters.Add(new SqlParameter($"@tankkaartnummer{i}", SqlDbType.NVarChar));
-                            command.Parameters.Add(new SqlParameter($"@brandstoftypeid{i}", SqlDbType.Int));
-                            command.Parameters[$"@tankkaartnummer{i}"].Value = tankkaart.TankKaartNummer;
-                            command.Parameters[$"@brandstoftypeid{i}"].Value = brandstof.BrandstofTypeId;
+                        command.CommandText += query;
 
-                            command.CommandText += query;
+                        i++;
+                    });
 
-                            i++;
-                        });
-
-                        command.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new TankkaartRepositoryADOException("Voeg brandstof toe - gefaald", ex);
-                    }
-                    finally
-                    {
-                        if (sqlConnection is null) Connection.Close();
-                    }
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new TankkaartRepositoryADOException("Voeg brandstof toe - gefaald", ex);
+                }
+                finally
+                {
+                    if (sqlConnection is null) Connection.Close();
                 }
             }
         }
 
         public void VerwijderBrandstoffen(TankKaart tankKaart)
         {
-            using (SqlCommand command = Connection.CreateCommand())
+            using SqlCommand command = Connection.CreateCommand();
+            string query = "DELETE FROM Tankkaart_Brandstoftype WHERE tankkaartnummer=@tankkaartnummer ";
+
+            Connection.Open();
+
+            try
             {
-                string query = "DELETE FROM Tankkaart_Brandstoftype WHERE tankkaartnummer=@tankkaartnummer ";
+                command.Parameters.Add(new SqlParameter($"@tankkaartnummer", SqlDbType.NVarChar));
+                command.Parameters[$"@tankkaartnummer"].Value = tankKaart.TankKaartNummer;
 
-                Connection.Open();
-
-                try
-                {
-                    command.Parameters.Add(new SqlParameter($"@tankkaartnummer", SqlDbType.NVarChar));
-                    command.Parameters[$"@tankkaartnummer"].Value = tankKaart.TankKaartNummer;
-
-                    command.CommandText = query;
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    throw new TankkaartRepositoryADOException("Verwijder brandstof - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
-            } 
+                command.CommandText = query;
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new TankkaartRepositoryADOException("Verwijder brandstof - gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
+            }
         }
 
         public bool BestaatTankkaart(string tankkaartNummer)
         {
             string query = "SELECT count(*) FROM Tankkaart WHERE tankkaartnummer=@tankkaartnummer";
-            using (SqlCommand command = Connection.CreateCommand())
+            using SqlCommand command = Connection.CreateCommand();
+            try
             {
-                try
-                {
-                    Connection.Open();
-                    command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
+                Connection.Open();
+                command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
 
-                    command.Parameters["@tankkaartnummer"].Value = tankkaartNummer;
+                command.Parameters["@tankkaartnummer"].Value = tankkaartNummer;
 
-                    command.CommandText = query;
-                    int n = (int)command.ExecuteScalar();
-                    if (n > 0) return true; else return false;
-                }
-                catch (Exception ex)
-                {
-                    throw new TankkaartRepositoryADOException("BestaatTankkaart- gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
+                command.CommandText = query;
+                int n = (int)command.ExecuteScalar();
+                if (n > 0) return true; else return false;
+            }
+            catch (Exception ex)
+            {
+                throw new TankkaartRepositoryADOException("BestaatTankkaart- gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
             }
         }
 
@@ -218,67 +209,63 @@ namespace FleetManagement.ADO.Repositories {
                 "ORDER BY tankkaartnummer ASC " +
                 "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
 
-            List<TankKaart> kaartLijst = new List<TankKaart>();
+            List<TankKaart> kaartLijst = new();
 
-            using (SqlCommand command = new(query, Connection))
+            using SqlCommand command = new(query, Connection);
+            try
             {
-                try
+                Connection.Open();
+
+                using SqlDataReader dataReader = command.ExecuteReader();
+                if (dataReader.HasRows)
                 {
-                    Connection.Open();
-
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    while (dataReader.Read())
                     {
-                        if (dataReader.HasRows)
+                        string pincode = null;
+
+                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
+
+                        TankKaart tankKaartDB = new(
+                            (string)dataReader["tankkaartnummer"],
+                            (bool)dataReader["actief"],
+                            dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
+                            pincode
+                        );
+
+                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
                         {
-                            while (dataReader.Read())
-                            {
-                                string pincode = null;
-
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
-
-                                TankKaart tankKaartDB = new TankKaart(
-                                    (string)dataReader["tankkaartnummer"],
-                                    (bool)dataReader["actief"],
-                                    dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
-                                    pincode
-                                );
-
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
-                                {
-                                    tankKaartDB.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
-                                }
-                                    
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
-                                {
-                                    Bestuurder bestuurderDB = new(
-                                         (int)dataReader["bestuurderid"],
-                                         (string)dataReader["voornaam"],
-                                         (string)dataReader["achternaam"],
-                                         (string)dataReader["geboortedatum"],
-                                         (string)dataReader["rijbewijstype"],
-                                         (string)dataReader["rijksregisternummer"]
-                                     );
-
-                                    tankKaartDB.VoegBestuurderToe(bestuurderDB);
-                                }
-
-                                kaartLijst.Add(tankKaartDB);
-                            }
+                            tankKaartDB.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
                         }
 
-                        return kaartLijst;
+                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
+                        {
+                            Bestuurder bestuurderDB = new(
+                                 (int)dataReader["bestuurderid"],
+                                 (string)dataReader["voornaam"],
+                                 (string)dataReader["achternaam"],
+                                 (string)dataReader["geboortedatum"],
+                                 (string)dataReader["rijbewijstype"],
+                                 (string)dataReader["rijksregisternummer"]
+                             );
+
+                            tankKaartDB.VoegBestuurderToe(bestuurderDB);
+                        }
+
+                        kaartLijst.Add(tankKaartDB);
                     }
                 }
-                catch (Exception ex)
-                {
-                    throw new TankkaartRepositoryADOException("Tankkaarten - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
+
+                return kaartLijst;
             }
-           
+            catch (Exception ex)
+            {
+                throw new TankkaartRepositoryADOException("Tankkaarten - gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
+            }
+
         }
 
         public IReadOnlyList<BrandstofType> BrandstoffenVoorTankaart(TankKaart tankkaart)
@@ -288,40 +275,36 @@ namespace FleetManagement.ADO.Repositories {
                 "LEFT JOIN Brandstoftype b ON t.brandstoftypeid = b.brandstoftypeid " +
                 "WHERE t.tankkaartnummer=@tankkaartnummer";
 
-            using (SqlCommand command = new(query, Connection))
+            using SqlCommand command = new(query, Connection);
+            try
             {
-                try
+                List<BrandstofType> brandstofTypesDB = new();
+
+                command.Parameters.AddWithValue("@tankkaartnummer", tankkaart.TankKaartNummer);
+                Connection.Open();
+
+                using SqlDataReader dataReader = command.ExecuteReader();
+                if (dataReader.HasRows)
                 {
-                    List<BrandstofType> brandstofTypesDB = new();
-
-                    command.Parameters.AddWithValue("@tankkaartnummer", tankkaart.TankKaartNummer);
-                    Connection.Open();
-
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    while (dataReader.Read())
                     {
-                        if (dataReader.HasRows)
-                        {
-                            while (dataReader.Read())
-                            { 
-                                BrandstofType brandstofType = new BrandstofType(
-                                    (int)dataReader["brandstoftypeid"],
-                                    (string)dataReader["brandstofnaam"]
-                                );
+                        BrandstofType brandstofType = new(
+                            (int)dataReader["brandstoftypeid"],
+                            (string)dataReader["brandstofnaam"]
+                        );
 
-                                brandstofTypesDB.Add(brandstofType);
-                            }  
-                        }
-                        return brandstofTypesDB;
+                        brandstofTypesDB.Add(brandstofType);
                     }
                 }
-                catch (Exception ex)
-                {
-                    throw new TankkaartRepositoryADOException("Geef tankkaart - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
+                return brandstofTypesDB;
+            }
+            catch (Exception ex)
+            {
+                throw new TankkaartRepositoryADOException("Geef tankkaart - gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
             }
         }
 
@@ -330,62 +313,58 @@ namespace FleetManagement.ADO.Repositories {
                 "LEFT JOIN Bestuurder b ON t.bestuurderid = b.bestuurderid " +
                 "WHERE tankkaartnummer=@tankkaartnummer";
 
-            using (SqlCommand command = new(query, Connection))
+            using SqlCommand command = new(query, Connection);
+            try
             {
-                try
-                {
-                    command.Parameters.AddWithValue("@tankkaartnummer", tankkaartNr);
-                    Connection.Open();
+                command.Parameters.AddWithValue("@tankkaartnummer", tankkaartNr);
+                Connection.Open();
 
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                using SqlDataReader dataReader = command.ExecuteReader();
+                if (dataReader.HasRows)
+                {
+                    dataReader.Read();
+
+                    string pincode = null;
+                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
+
+                    TankKaart tankkaart = new(
+                        (string)dataReader["tankkaartnummer"],
+                        (bool)dataReader["actief"],
+                        (DateTime)dataReader["geldigheidsdatum"],
+                        pincode
+                    );
+
+                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
                     {
-                        if (dataReader.HasRows)
-                        {
-                            dataReader.Read();
-
-                            string pincode = null;
-                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
-
-                            TankKaart tankkaart = new TankKaart(
-                                (string)dataReader["tankkaartnummer"],
-                                (bool)dataReader["actief"],
-                                (DateTime)dataReader["geldigheidsdatum"],
-                                pincode
-                            );
-
-                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
-                            {
-                                tankkaart.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
-                            }
-
-                            if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
-                            {
-                                Bestuurder bestuurderDB = new(
-                                     (int)dataReader["bestuurderid"],
-                                     (string)dataReader["voornaam"],
-                                     (string)dataReader["achternaam"],
-                                     (string)dataReader["geboortedatum"],
-                                     (string)dataReader["rijbewijstype"],
-                                     (string)dataReader["rijksregisternummer"]
-                                 );
-
-                                tankkaart.VoegBestuurderToe(bestuurderDB);
-                            }
-
-                            return tankkaart;
-                        }
-
-                        return null;
+                        tankkaart.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
                     }
+
+                    if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
+                    {
+                        Bestuurder bestuurderDB = new(
+                             (int)dataReader["bestuurderid"],
+                             (string)dataReader["voornaam"],
+                             (string)dataReader["achternaam"],
+                             (string)dataReader["geboortedatum"],
+                             (string)dataReader["rijbewijstype"],
+                             (string)dataReader["rijksregisternummer"]
+                         );
+
+                        tankkaart.VoegBestuurderToe(bestuurderDB);
+                    }
+
+                    return tankkaart;
                 }
-                catch (Exception ex)
-                {
-                    throw new TankkaartRepositoryADOException("Geef tankkaart - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new TankkaartRepositoryADOException("Geef tankkaart - gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
             }
         }
 
@@ -402,25 +381,23 @@ namespace FleetManagement.ADO.Repositories {
         public TankKaart UpdateTankKaart(TankKaart tankkaart, string AnderTankkaartNummer)
         {
             Connection.Open();
-            using (SqlTransaction transaction = Connection.BeginTransaction())
+            using SqlTransaction transaction = Connection.BeginTransaction();
+            try
             {
-                try
-                {
-                    TankKaart tankaartDB = UpdateTankKaart(tankkaart, AnderTankkaartNummer, Connection, transaction);
-                    VoegBrandstoffenToe(tankkaart, Connection, transaction);
-                    transaction.Commit();
+                TankKaart tankaartDB = UpdateTankKaart(tankkaart, AnderTankkaartNummer, Connection, transaction);
+                VoegBrandstoffenToe(tankkaart, Connection, transaction);
+                transaction.Commit();
 
-                    return tankaartDB;
-                }
-                catch (Exception ex)
-                {
-                    transaction.Rollback();
-                    throw new TankkaartRepositoryADOException("UpdateTankkaart - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
+                return tankaartDB;
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new TankkaartRepositoryADOException("UpdateTankkaart - gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
             }
         }
 
@@ -436,54 +413,52 @@ namespace FleetManagement.ADO.Repositories {
                 "actief=@actief, uitgeefdatum=@uitgeefdatum " +
                 "WHERE tankkaartnummer=@tankkaartnummer";
 
-            using (SqlCommand command = Connection.CreateCommand())
+            using SqlCommand command = Connection.CreateCommand();
+            try
             {
-                try
-                {
-                    if (sqlConnection is null) Connection.Close(); if (transaction != null) command.Transaction = transaction;
+                if (sqlConnection is null) Connection.Close(); if (transaction != null) command.Transaction = transaction;
 
-                    command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
-                    command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@andertankkaartnummer", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.Date));
-                    command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
-                    command.Parameters.Add(new SqlParameter("@actief", SqlDbType.Bit));
-                    command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Date));
+                command.Parameters.Add(new SqlParameter("@bestuurderid", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@tankkaartnummer", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@andertankkaartnummer", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@geldigheidsdatum", SqlDbType.Date));
+                command.Parameters.Add(new SqlParameter("@pincode", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@actief", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@uitgeefdatum", SqlDbType.Date));
 
-                    command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
-                    command.Parameters["@andertankkaartnummer"].Value = AnderTankkaartNummer;
-                    command.Parameters["@geldigheidsdatum"].Value = tankkaart.GeldigheidsDatum;
-                    command.Parameters["@actief"].Value = tankkaart.Actief;
+                command.Parameters["@tankkaartnummer"].Value = tankkaart.TankKaartNummer;
+                command.Parameters["@andertankkaartnummer"].Value = AnderTankkaartNummer;
+                command.Parameters["@geldigheidsdatum"].Value = tankkaart.GeldigheidsDatum;
+                command.Parameters["@actief"].Value = tankkaart.Actief;
 
-                    if (tankkaart.Pincode == null)
-                        command.Parameters["@pincode"].Value = DBNull.Value;
-                    else
-                        command.Parameters["@pincode"].Value = tankkaart.Pincode;
+                if (tankkaart.Pincode == null)
+                    command.Parameters["@pincode"].Value = DBNull.Value;
+                else
+                    command.Parameters["@pincode"].Value = tankkaart.Pincode;
 
-                    if (tankkaart.HeeftTankKaartBestuurder)
-                        command.Parameters["@bestuurderid"].Value = tankkaart.Bestuurder.BestuurderId;
-                    else
-                        command.Parameters["@bestuurderid"].Value = DBNull.Value;
+                if (tankkaart.HeeftTankKaartBestuurder)
+                    command.Parameters["@bestuurderid"].Value = tankkaart.Bestuurder.BestuurderId;
+                else
+                    command.Parameters["@bestuurderid"].Value = DBNull.Value;
 
-                    if (tankkaart.UitgeefDatum.HasValue)
-                        command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum.Value;
-                    else
-                        command.Parameters["@uitgeefdatum"].Value = DBNull.Value;
+                if (tankkaart.UitgeefDatum.HasValue)
+                    command.Parameters["@uitgeefdatum"].Value = tankkaart.UitgeefDatum.Value;
+                else
+                    command.Parameters["@uitgeefdatum"].Value = DBNull.Value;
 
-                    command.CommandText = query;
-                    command.ExecuteNonQuery();
+                command.CommandText = query;
+                command.ExecuteNonQuery();
 
-                    tankkaart.UpdateTankkaartNummer(AnderTankkaartNummer);
-                    return tankkaart;
-                }
-                catch (Exception ex)
-                {
-                    throw new TankkaartRepositoryADOException("UpdateTankkaart - gefaald", ex);
-                }
-                finally
-                {
-                    if (Connection.State != ConnectionState.Open) Connection.Open();
-                }
+                tankkaart.UpdateTankkaartNummer(AnderTankkaartNummer);
+                return tankkaart;
+            }
+            catch (Exception ex)
+            {
+                throw new TankkaartRepositoryADOException("UpdateTankkaart - gefaald", ex);
+            }
+            finally
+            {
+                if (Connection.State != ConnectionState.Open) Connection.Open();
             }
         }
 
@@ -496,65 +471,61 @@ namespace FleetManagement.ADO.Repositories {
                 "ORDER BY tankkaartnummer ASC " +
                 "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
 
-            List<TankKaart> kaartLijst = new List<TankKaart>();
+            List<TankKaart> kaartLijst = new();
 
-            using (SqlCommand command = new(query, Connection))
+            using SqlCommand command = new(query, Connection);
+            try
             {
-                try
+                Connection.Open();
+
+                using SqlDataReader dataReader = command.ExecuteReader();
+                if (dataReader.HasRows)
                 {
-                    Connection.Open();
-
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    while (dataReader.Read())
                     {
-                        if (dataReader.HasRows)
+                        string pincode = null;
+
+                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
+
+                        TankKaart tankKaartDB = new(
+                            (string)dataReader["tankkaartnummer"],
+                            (bool)dataReader["actief"],
+                            dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
+                            pincode
+                        );
+
+                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
                         {
-                            while (dataReader.Read())
-                            {
-                                string pincode = null;
-
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
-
-                                TankKaart tankKaartDB = new TankKaart(
-                                    (string)dataReader["tankkaartnummer"],
-                                    (bool)dataReader["actief"],
-                                    dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
-                                    pincode
-                                );
-
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
-                                {
-                                    tankKaartDB.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
-                                }
-
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
-                                {
-                                    Bestuurder bestuurderDB = new(
-                                         (int)dataReader["bestuurderid"],
-                                         (string)dataReader["voornaam"],
-                                         (string)dataReader["achternaam"],
-                                         (string)dataReader["geboortedatum"],
-                                         (string)dataReader["rijbewijstype"],
-                                         (string)dataReader["rijksregisternummer"]
-                                     );
-
-                                    tankKaartDB.VoegBestuurderToe(bestuurderDB);
-                                }
-
-                                kaartLijst.Add(tankKaartDB);
-                            }
+                            tankKaartDB.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
                         }
 
-                        return kaartLijst;
+                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
+                        {
+                            Bestuurder bestuurderDB = new(
+                                 (int)dataReader["bestuurderid"],
+                                 (string)dataReader["voornaam"],
+                                 (string)dataReader["achternaam"],
+                                 (string)dataReader["geboortedatum"],
+                                 (string)dataReader["rijbewijstype"],
+                                 (string)dataReader["rijksregisternummer"]
+                             );
+
+                            tankKaartDB.VoegBestuurderToe(bestuurderDB);
+                        }
+
+                        kaartLijst.Add(tankKaartDB);
                     }
                 }
-                catch (Exception ex)
-                {
-                    throw new TankkaartRepositoryADOException("Tankkaarten - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
+
+                return kaartLijst;
+            }
+            catch (Exception ex)
+            {
+                throw new TankkaartRepositoryADOException("Tankkaarten - gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
             }
         }
 
@@ -566,66 +537,62 @@ namespace FleetManagement.ADO.Repositories {
                 "ORDER BY tankkaartnummer ASC " +
                 "OFFSET 0 ROWS FETCH NEXT 50 ROWS ONLY";
 
-            List<TankKaart> tankaartenDB = new List<TankKaart>();
+            List<TankKaart> tankaartenDB = new();
 
-            using (SqlCommand command = new(query, Connection))
+            using SqlCommand command = new(query, Connection);
+            try
             {
-                try
+                command.Parameters.AddWithValue("@isGeldig", isTankkaartGeldig);
+                Connection.Open();
+
+                using SqlDataReader dataReader = command.ExecuteReader();
+                if (dataReader.HasRows)
                 {
-                    command.Parameters.AddWithValue("@isGeldig", isTankkaartGeldig);
-                    Connection.Open();
-
-                    using (SqlDataReader dataReader = command.ExecuteReader())
+                    while (dataReader.Read())
                     {
-                        if (dataReader.HasRows)
+                        string pincode = null;
+
+                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
+
+                        TankKaart tankKaartDB = new(
+                            (string)dataReader["tankkaartnummer"],
+                            (bool)dataReader["actief"],
+                            dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
+                            pincode
+                        );
+
+                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
                         {
-                            while (dataReader.Read())
-                            {
-                                string pincode = null;
-
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("pincode"))) pincode = (string)dataReader["pincode"];
-
-                                TankKaart tankKaartDB = new TankKaart(
-                                    (string)dataReader["tankkaartnummer"],
-                                    (bool)dataReader["actief"],
-                                    dataReader.GetDateTime(dataReader.GetOrdinal("geldigheidsdatum")),
-                                    pincode
-                                );
-
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("uitgeefdatum")))
-                                {
-                                    tankKaartDB.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
-                                }
-
-                                if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
-                                {
-                                    Bestuurder bestuurderDB = new(
-                                         (int)dataReader["bestuurderid"],
-                                         (string)dataReader["voornaam"],
-                                         (string)dataReader["achternaam"],
-                                         (string)dataReader["geboortedatum"],
-                                         (string)dataReader["rijbewijstype"],
-                                         (string)dataReader["rijksregisternummer"]
-                                     );
-
-                                    tankKaartDB.VoegBestuurderToe(bestuurderDB);
-                                }
-
-                                tankaartenDB.Add(tankKaartDB);
-                            }
+                            tankKaartDB.UitgeefDatum = dataReader.GetDateTime(dataReader.GetOrdinal("uitgeefdatum"));
                         }
 
-                        return tankaartenDB;
+                        if (!dataReader.IsDBNull(dataReader.GetOrdinal("bestuurderid")))
+                        {
+                            Bestuurder bestuurderDB = new(
+                                 (int)dataReader["bestuurderid"],
+                                 (string)dataReader["voornaam"],
+                                 (string)dataReader["achternaam"],
+                                 (string)dataReader["geboortedatum"],
+                                 (string)dataReader["rijbewijstype"],
+                                 (string)dataReader["rijksregisternummer"]
+                             );
+
+                            tankKaartDB.VoegBestuurderToe(bestuurderDB);
+                        }
+
+                        tankaartenDB.Add(tankKaartDB);
                     }
                 }
-                catch (Exception ex)
-                {
-                    throw new TankkaartRepositoryADOException("Tankkaarten - gefaald", ex);
-                }
-                finally
-                {
-                    Connection.Close();
-                }
+
+                return tankaartenDB;
+            }
+            catch (Exception ex)
+            {
+                throw new TankkaartRepositoryADOException("Tankkaarten - gefaald", ex);
+            }
+            finally
+            {
+                Connection.Close();
             }
         }
     }
