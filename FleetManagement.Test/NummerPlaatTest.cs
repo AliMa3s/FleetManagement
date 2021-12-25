@@ -24,7 +24,6 @@ namespace FleetManagement.Test
         }
 
         [Theory]
-        [InlineData(null)]
         [InlineData("")]
         [InlineData("       ")]
         [InlineData("1-AB-C495")]
@@ -36,9 +35,21 @@ namespace FleetManagement.Test
         [InlineData("tgp520")]
         public void NummerplaatInvalid(string nummerplaat)
         {
-            Assert.Throws<NummerPlaatException>(() => {
+           var ex = Assert.Throws<NummerPlaatException>(() => {
                 CheckFormat.IsNummerplaatGeldig(nummerplaat);
             });
+
+            Assert.Equal("Nummerplaat moet beginnen met 1 cijfer/letter gevolgd door 3 letters en dan 3 cijfers", ex.Message);
+        }
+
+        [Fact]
+        public void NummerplaatNullInvalid()
+        {
+            var ex = Assert.Throws<NummerPlaatException>(() => {
+                CheckFormat.IsNummerplaatGeldig(null);
+            });
+
+            Assert.Equal("Nummerplaat mag niet null zijn", ex.Message);
         }
     }
 }

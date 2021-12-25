@@ -11,7 +11,7 @@ namespace FleetManagement.CheckFormats
 
         public SplitGeboorteDatum(string geboorteDatum)
         {
-            if(geboorteDatum == null) throw new GeboorteDatumException("GeboorteDatum mag niet null zijn");
+            if(geboorteDatum == null) throw new GeboorteDatumException("Geboortedatum mag niet null zijn");
 
             if(geboorteDatum.Length == 10)
             {
@@ -24,12 +24,12 @@ namespace FleetManagement.CheckFormats
                 }
                 else
                 {
-                    throw new GeboorteDatumException("GeboorteDatum is niet het juiste formaat");
+                    throw new GeboorteDatumException("Geboortedatum is niet het juiste format");
                 }
             }
             else
             {
-                throw new GeboorteDatumException("GeboorteDatum is niet het juiste formaat");
+                throw new GeboorteDatumException("Geboortedatum is niet het juiste format");
             }
         }
     }

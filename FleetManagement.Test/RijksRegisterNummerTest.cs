@@ -39,9 +39,11 @@ namespace FleetManagement.Test
         [InlineData("", "")]
         public void RijksRegisterNummerOngeldig(string rijksRegisterNummer, string geboorteDatum)
         {
-            Assert.Throws<RijksRegisterNummerException>(() => {
+            var ex = Assert.Throws<RijksRegisterNummerException>(() => {
                 CheckFormats.CheckFormat.IsRijksRegisterGeldig(rijksRegisterNummer, geboorteDatum);
             });
+
+            Assert.Equal("Rijksregisternummer is niet het juiste format", ex.Message);
         }
 
         [Theory]
@@ -52,9 +54,11 @@ namespace FleetManagement.Test
         [InlineData("00000153447", "00000001")]
         public void RijksRegisterNummerFoutiefGeboortedatumFormat(string rijksRegisterNummer, string geboorteDatum)
         {
-            Assert.Throws<GeboorteDatumException>(() => {
+            var ex = Assert.Throws<GeboorteDatumException>(() => {
                 CheckFormats.CheckFormat.IsRijksRegisterGeldig(rijksRegisterNummer, geboorteDatum);
             });
+
+            Assert.Equal("Geboortedatum is niet het juiste format", ex.Message);
         }
     }
 }

@@ -8,32 +8,32 @@ namespace FleetManagement.CheckFormats
     {
         public static bool IsPincodeGeldig(string pincode)
         {
-            if(pincode == null) throw new PincodeException("pincode mag niet null zijn");
+            if(pincode == null) throw new PincodeException("Pincode mag niet null zijn");
 
             return Regex.IsMatch(pincode, @"^[0-9]{4,5}$")
-                ? true : throw new PincodeException("pincode moet een string zijn met 4 of 5 cijfers");
+                ? true : throw new PincodeException("Pincode moet een string zijn van 4 of 5 cijfers");
         }
 
         public static bool IsChassisNummerGeldig(string chassisNummer)
         {
-            if (chassisNummer == null) throw new ChassisNummerException("chassisnummer mag niet null zijn");
+            if (chassisNummer == null) throw new ChassisNummerException("Chassisnummer mag niet null zijn");
 
             return Regex.IsMatch(chassisNummer.ToUpper(), @"^[0-9A-HJ-NPR-Z]{17}$")
                 ? true : throw new ChassisNummerException("Chassisnummer moet string zijn van 17 cijfers/letters maar " +
-                $"letter I/i, O/o en Q/q mag er niet in voorkomen");
+                $"letter I/i, O/o en Q/q mag niet voorkomen");
         }
 
         public static bool IsNummerplaatGeldig(string nummerPlaat)
         {
-            if (nummerPlaat == null) throw new NummerPlaatException("nummerplaat mag niet null zijn");
+            if (nummerPlaat == null) throw new NummerPlaatException("Nummerplaat mag niet null zijn");
 
             return Regex.IsMatch(nummerPlaat.ToUpper(), @"^[1-9A-Z]{1}[A-Z]{3}[0-9]{3}$")
-                ? true : throw new NummerPlaatException("Nummerplaat moet format [1-9AZ][a-z][0-9] zijn");
+                ? true : throw new NummerPlaatException("Nummerplaat moet beginnen met 1 cijfer/letter gevolgd door 3 letters en dan 3 cijfers");
         }
 
         public static bool IsRijksRegisterGeldig(string rijksRegisterNummer)
         {
-            if (rijksRegisterNummer == null) throw new RijksRegisterNummerException("rijksregisternummer bestaat uit 11 digits");
+            if (rijksRegisterNummer == null) throw new RijksRegisterNummerException("Rijksregisternummer bestaat uit 11 digits");
 
             return Regex.IsMatch(rijksRegisterNummer, @"^[0-9]{11}$");
         }
@@ -63,7 +63,7 @@ namespace FleetManagement.CheckFormats
                     return true;
                 }
 
-                throw new RijksRegisterNummerException("Rijksregisternummmer en/of geboortedatum is onjuist");
+                throw new RijksRegisterNummerException("Rijksregisternummer is niet het juiste format");
             }
             else
             {

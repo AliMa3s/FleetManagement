@@ -185,6 +185,12 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             }
             catch (Exception ex)
             {
+                if (_gekozenVoertuig != null)
+                {
+                    if (_gekozenVoertuig.HeeftVoertuigBestuurder)
+                        _gekozenVoertuig.VerwijderBestuurder(_gekozenVoertuig.Bestuurder);
+                }
+
                 infoBestuurderMess.Foreground = Brushes.Red;
                 infoBestuurderMess.Text = ex.Message;
             }

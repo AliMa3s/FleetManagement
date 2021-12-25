@@ -399,7 +399,7 @@ namespace FleetManagement.Test.ModelTest {
             Bestuurder anderBestuurder = _bestuurderNepRepo.GeefBestuurder("76003101965");
 
             var ex = Assert.Throws<TankKaartException>(() => tankKaart.VoegBestuurderToe(anderBestuurder));
-            Assert.Equal("Er is al een Bestuurder aan de TankKaart toegevoegd", ex.Message);
+            Assert.Equal("Er is al een Bestuurder aan de tankkaart toegevoegd", ex.Message);
         }
 
         //geef null

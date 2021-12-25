@@ -122,6 +122,12 @@ namespace FleetManagement.WPF.UserControls.Toevoegen
             }
             catch(Exception ex)
             {
+                if (GekozenBestuurder != null)
+                {
+                    if (GekozenBestuurder.HeeftBestuurderTankKaart)
+                        GekozenBestuurder.VerwijderTankKaart(GekozenBestuurder.Tankkaart);
+                }
+
                 infoTankkaartMess.Foreground = Brushes.Red;
                 infoTankkaartMess.Text = ex.Message;
             } 

@@ -174,7 +174,7 @@ namespace FleetManagement.Model {
             }
             else
             {
-                throw new TankKaartException($"Er is al een {nameof(Bestuurder)} aan de TankKaart toegevoegd");
+                throw new TankKaartException($"Er is al een {nameof(Bestuurder)} aan de tankkaart toegevoegd");
             }
         }
 

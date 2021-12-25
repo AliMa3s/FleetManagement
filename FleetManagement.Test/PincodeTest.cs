@@ -31,7 +31,6 @@ namespace FleetManagement.Test
         [InlineData("M001")]
         [InlineData("KloP")]
         [InlineData("-1231")]
-        [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
         [InlineData("     ")]
@@ -39,9 +38,21 @@ namespace FleetManagement.Test
         [InlineData("000")]
         public void PincodeFormatNietCorrect(string pincode)
         {
-            Assert.Throws<PincodeException>(() => {
+            var ex = Assert.Throws<PincodeException>(() => {
                 CheckFormat.IsPincodeGeldig(pincode);
             });
+
+            Assert.Equal("Pincode moet een string zijn van 4 of 5 cijfers", ex.Message);
+        }
+
+       [Fact]
+        public void PincodeFormatNullNietCorrect()
+        {
+            var ex = Assert.Throws<PincodeException>(() => {
+                CheckFormat.IsPincodeGeldig(null);
+            });
+
+            Assert.Equal("Pincode mag niet null zijn", ex.Message);
         }
     }
 }

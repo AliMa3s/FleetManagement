@@ -14,7 +14,7 @@ namespace FleetManagement.CheckFormats
 
         public SplitRijksRegister(string rijksRegisterNummer)
         {
-            if (rijksRegisterNummer == null) throw new RijksRegisterNummerException("rijksRegisterNummer mag niet null zijn");
+            if (rijksRegisterNummer == null) throw new RijksRegisterNummerException("Rijksregisternummer mag niet null zijn");
 
             Maand = rijksRegisterNummer.Substring(2, 2);
             Dag = rijksRegisterNummer.Substring(4, 2);

@@ -28,7 +28,6 @@ namespace FleetManagement.Test
         [InlineData("M001")]
         [InlineData("231045698")]
         [InlineData("-1231")]
-        [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
         [InlineData("     ")]
@@ -36,9 +35,21 @@ namespace FleetManagement.Test
         [InlineData("000")]
         public void TankKaartFormatNietCorrect(string tankKaartNummer)
         {
-            Assert.Throws<TankKaartException>(() => {
+            var ex = Assert.Throws<TankKaartException>(() => {
                 CheckFormat.IsTankKaartNummerGeldig(tankKaartNummer);
             });
+
+            Assert.Equal("Tankkaartnummer is niet het juiste format", ex.Message);
+        }
+
+        [Fact]
+        public void TankKaartFormatNullNietCorrect()
+        {
+            var ex = Assert.Throws<TankKaartException>(() => {
+                CheckFormat.IsTankKaartNummerGeldig(null);
+            });
+
+            Assert.Equal("Tankkaartnummer mag niet null zijn", ex.Message);
         }
     }
 }

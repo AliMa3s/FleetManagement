@@ -111,7 +111,7 @@ namespace FleetManagement.Test.ModelTest {
                 new AutoModel("ferrari", "ferrari enzo", new AutoType("Coupé")), "WAUZZZ8V5KA10659-5", "1ABC599", new("benzine", false))
             );
             Assert.Equal($"Chassisnummer moet string zijn van 17 cijfers/letters maar letter I/i, O/o en Q/q " +
-                $"mag er niet in voorkomen",ex.Message);
+                $"mag niet voorkomen",ex.Message);
         }
 
         [Fact]
@@ -203,7 +203,7 @@ namespace FleetManagement.Test.ModelTest {
             {
                 Voertuig voertuig = new(automodel, "WAUZZZ8V5KA106598", "1AB", bezine);
             });
-            Assert.Equal($"Nummerplaat moet format [1-9AZ][a-z][0-9] zijn", ex.Message);
+            Assert.Equal($"Nummerplaat moet beginnen met 1 cijfer/letter gevolgd door 3 letters en dan 3 cijfers", ex.Message);
         }
 
         /* 
